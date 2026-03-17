@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA02 約分 【導入】</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* 約分専用：取り消し線 */
+  .strike { text-decoration: line-through; color: #94a3b8; }
+  .red-num {
+    position: relative; display: inline-block;
+  }
+  .red-num .small {
+    position: absolute; font-size: .45em; font-weight: 700;
+    color: #dc2626; right: -18px;
+  }
+  .red-num .small.top { top: -14px; }
+  .red-num .small.bot { bottom: -14px; }
+  .blue-info {
+    border: 3px solid var(--primary); background: #f0f9ff;
+    border-radius: var(--radius); padding: 20px 22px;
+    margin: 28px 0; font-size: 1em; line-height: 2;
+  }
+  .red { color: var(--accent); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MA02</div>
+  <h1>約分（やくぶん）　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- 同じ大きさの分数 -->
+  <div class="lead-text" style="text-align:center;">
+    <div style="display:flex; align-items:center; justify-content:center; gap:clamp(8px,3vw,24px); flex-wrap:wrap; font-size:clamp(.9em,2.5vw,1.1em);">
+      <span class="frac"><span class="f-num">1</span><span class="f-bar"></span><span class="f-den">2</span></span>
+      <span style="color:var(--text-sub);">＝</span>
+      <span class="frac"><span class="f-num">2</span><span class="f-bar"></span><span class="f-den">4</span></span>
+      <span style="color:var(--text-sub);">＝</span>
+      <span class="frac"><span class="f-num">3</span><span class="f-bar"></span><span class="f-den">6</span></span>
+      <span style="color:var(--text-sub); font-size:.9em;">……でしたね。</span>
+    </div>
+  </div>
+
+  <!-- 約分の図解 -->
+  <div class="problem-card" style="padding:28px 20px; text-align:center; margin-bottom:16px;">
+    <div style="font-size:.9em; color:var(--text-sub); margin-bottom:20px; font-weight:700;">
+      分子と分母を同じ数で割って小さくする
+    </div>
+    <div style="display:flex; align-items:center; justify-content:center; gap:clamp(16px,4vw,40px); flex-wrap:wrap;">
+
+      <!-- 3/6 に取り消し線 -->
+      <span class="frac" style="font-size:clamp(1.4em,4vw,2em);">
+        <span class="f-num">
+          <span class="red-num">
+            <span class="strike">3</span>
+            <span class="small top">1</span>
+          </span>
+        </span>
+        <span class="f-bar"></span>
+        <span class="f-den">
+          <span class="red-num">
+            <span class="strike">6</span>
+            <span class="small bot">2</span>
+          </span>
+        </span>
+      </span>
+
+      <span style="font-size:2em; color:var(--primary); font-weight:700;">→</span>
+
+      <!-- 結果 -->
+      <span class="frac" style="font-size:clamp(1.4em,4vw,2em);">
+        <span class="f-num" style="color:var(--accent);">1</span>
+        <span class="f-bar"></span>
+        <span class="f-den" style="color:var(--accent);">2</span>
+      </span>
+    </div>
+
+    <div class="blue-info">
+      分子と分母を共通して割れる <span class="red">3</span> でそれぞれ割ると、<br>
+      大きな分数を <span class="red">小さくする</span> ことができます。<br>
+      これを <span class="red" style="font-size:1.2em;">約分（やくぶん）</span> といいます。
+    </div>
+  </div>
+
+  <!-- ポイント -->
+  <div class="memo-box">
+    📌 <strong>ポイント：</strong>分子と分母を<strong>同じ数で割っても</strong>、分数の大きさは変わりません。<br>
+    できるだけ小さい数になるまで割り切ることを「<strong>完全に約分する</strong>」といいます。
+  </div>
+
+  <!-- まとめ -->
+  <div class="summary-box">
+    <div class="summary-title">📋 約分の手順</div>
+    <ul>
+      <li>分子と分母の<strong>共通の約数</strong>（両方割り切れる数）を見つける。</li>
+      <li>分子と分母を、その数で<strong>それぞれ割る</strong>。</li>
+      <li>これ以上割れなくなるまで<strong>繰り返す</strong>。</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-back">← 単元一覧へ</a>
+    <a href="example.html"    class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+</body>
+</html>

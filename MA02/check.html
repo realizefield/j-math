@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA02 約分 【確認テスト】</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .frac-dual { display:inline-flex; flex-direction:column; align-items:center; line-height:1.1; }
+  .frac-dual .f-bar { width:100%; height:3px; background:var(--text); border-radius:2px; margin:2px 0; }
+  .frac-dual .f-input {
+    width:clamp(48px,10vw,68px); height:clamp(40px,8vw,54px);
+    text-align:center; font-size:clamp(.9em,2.5vw,1.2em); font-weight:700;
+    font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;
+    border:2.5px solid var(--primary); border-radius:8px;
+    background:#f0f6ff; color:var(--primary); outline:none;
+    transition:border-color .2s; -moz-appearance:textfield;
+  }
+  .frac-dual .f-input::-webkit-inner-spin-button,
+  .frac-dual .f-input::-webkit-outer-spin-button { -webkit-appearance:none; }
+  .frac-dual .f-input.correct { border-color:var(--success); background:var(--success-light); color:var(--success); }
+  .frac-dual .f-input.wrong   { border-color:var(--accent);  background:var(--accent-light);  color:var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MA02</div>
+  <h1>約分　【確認テスト】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">④</span><span>確認</span></div>
+</nav>
+
+<main class="g-container">
+
+  <div class="instruction" style="border-left-color:var(--accent);">
+    <strong>【確認テスト】</strong>　分子と分母の両方を入力して「判定する」を押してください。全問正解で合格！
+  </div>
+
+  <div id="problems-area"></div>
+
+  <div style="text-align:center; margin-top:24px;">
+    <button onclick="judgeAll()" class="btn-submit">判定する</button>
+  </div>
+
+  <div id="result-area" class="score-box" style="margin-top:24px;"></div>
+
+  <div class="nav-btns" style="margin-top:20px;">
+    <a href="drill.html" class="btn-nav btn-back">← 演習にもどる</a>
+    <a id="btn-next" href="../MA03/intro.html" class="btn-nav btn-success" style="display:none;">次の単元へ →</a>
+  </div>
+
+</main>
+
+<script src="ma02_sets.js"></script>
+<script>
+  const GAS_URL  = 'https://script.google.com/macros/s/ここにURLを貼り付け/exec';
+  const setIndex = Math.floor(Math.random() * MA02_SETS.length);
+  const problems = MA02_SETS[setIndex].problems;
+  let startTime  = Date.now();
+
+  function buildProblems() {
+    const area = document.getElementById('problems-area');
+    area.innerHTML = '';
+    problems.forEach((p, i) => {
+      area.innerHTML += `
+        <div class="problem-card" id="card${i}" style="margin-bottom:14px;">
+          <div class="problem-head" style="flex-wrap:wrap; gap:12px;">
+            <span class="q-num">(${i+1})</span>
+            <div class="frac-row">
+              <span class="frac">
+                <span class="f-num">${p.n}</span>
+                <span class="f-bar"></span>
+                <span class="f-den">${p.d}</span>
+              </span>
+              <span class="eq-sign">＝</span>
+              <span class="frac-dual">
+                <input type="number" id="n${i}" class="f-input" inputmode="numeric" placeholder="?">
+                <span class="f-bar"></span>
+                <input type="number" id="d${i}" class="f-input" inputmode="numeric" placeholder="?">
+              </span>
+            </div>
+          </div>
+          <div class="ans-badge" id="expl${i}"></div>
+        </div>`;
+    });
+  }
+
+  function judgeAll() {
+    let correct = 0;
+    const total = problems.length;
+
+    problems.forEach((p, i) => {
+      const inN  = document.getElementById('n'+i);
+      const inD  = document.getElementById('d'+i);
+      const expl = document.getElementById('expl'+i);
+      const n = parseInt(inN.value,10), d = parseInt(inD.value,10);
+
+      inN.classList.remove('correct','wrong');
+      inD.classList.remove('correct','wrong');
+
+      if (n===p.ans_n && d===p.ans_d) {
+        correct++;
+        inN.classList.add('correct'); inD.classList.add('correct');
+        expl.className = 'ans-badge visible';
+        expl.style.cssText = 'background:var(--success-light);border-color:var(--success);color:var(--success);';
+        expl.innerHTML = `⭕ 正解！<div class="ans-explain">${p.hint}</div>`;
+      } else {
+        inN.classList.add('wrong'); inD.classList.add('wrong');
+        expl.className = 'ans-badge visible';
+        expl.innerHTML = `❌ 正解：分子 <strong style="color:var(--accent);font-size:1.2em;">${p.ans_n}</strong>　
+                          分母 <strong style="color:var(--accent);font-size:1.2em;">${p.ans_d}</strong>
+                          <div class="ans-explain">${p.hint}</div>`;
+      }
+    });
+
+    const isPassed = correct === total;
+    const ratio    = correct / total;
+    const msg = isPassed ? '完璧！次の単元へ進もう 🚀'
+              : ratio >= 0.8 ? '惜しい！もう一息です！'
+              : ratio >= 0.6 ? 'よくできました！もう一度確認しよう。'
+              : 'もう一度チャレンジしてみよう！';
+
+    const resultArea = document.getElementById('result-area');
+    resultArea.classList.add('visible');
+    resultArea.innerHTML = `
+      <div class="score-label">合計点</div>
+      <div class="score-num">${correct} / ${total} 正解</div>
+      <div class="score-msg">${msg}</div>
+      ${isPassed ? '<div style="margin-top:10px;color:var(--success);font-weight:700;">✅ 合格！</div>' : ''}`;
+
+    if (isPassed) {
+      document.getElementById('btn-next').style.display = 'inline-block';
+    // 進捗をlocalStorageに保存
+    localStorage.setItem('gamba_prog_MA02', 'pass');
+      sendToGAS(correct, total);
+    }
+
+    resultArea.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+
+  function sendToGAS(correct, total) {
+    const mins = Math.round((Date.now() - startTime) / 60000);
+    fetch(GAS_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        student_id:    localStorage.getItem('studentId')   || 'guest',
+        student_name:  localStorage.getItem('studentName') || 'ゲスト',
+        unit_code:     'MA02',
+        unit_name:     '約分',
+        correct_count: correct,
+        total_count:   total,
+        is_passed:     true,
+        study_minutes: mins
+      })
+    }).catch(err => console.log('GAS送信:', err));
+  }
+
+  buildProblems();
+</script>
+</body>
+</html>
