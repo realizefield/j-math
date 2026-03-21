@@ -1,196 +1,301 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MB02 正負の数の計算② 【確認テスト】</title>
-<style>
-:root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#3b82f6;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
-.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
-.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
-.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
-.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
-.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
-.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
-.step-item a{color:inherit;text-decoration:none;}
-.step-item.active{color:var(--primary);font-weight:700;}
-.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
-.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
-.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
-.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:24px;font-size:.95em;color:var(--primary);line-height:1.7;}
-.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
-.problem-head{display:flex;align-items:center;padding:18px 20px;gap:12px;flex-wrap:wrap;}
-.q-num{font-size:.85em;font-weight:700;color:var(--primary);background:var(--primary-light);border-radius:8px;padding:4px 10px;white-space:nowrap;}
-.score-box{display:none;background:var(--card);border:3px solid var(--primary);border-radius:var(--radius);padding:20px 24px;text-align:center;}
-.score-box.visible{display:block;}
-.score-label{font-size:.9em;color:var(--text-sub);margin-bottom:6px;}
-.score-num{font-size:clamp(1.8em,5vw,2.6em);font-weight:700;color:var(--primary);}
-.score-msg{margin-top:8px;font-size:.9em;color:var(--text-sub);}
-.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
-.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
-.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
-.btn-back{background:#f1f5f9;color:var(--text-sub);}
-.btn-success{background:var(--success);color:#fff;}
-.btn-submit{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--primary);color:#fff;font-size:clamp(1em,3vw,1.15em);font-weight:700;padding:14px clamp(36px,10vw,80px);border:none;border-radius:50px;cursor:pointer;box-shadow:0 4px 14px rgba(26,86,160,.3);transition:transform .15s,box-shadow .15s;letter-spacing:.05em;}
-.btn-submit:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,86,160,.35);}
-.num-input{width:clamp(72px,16vw,100px);height:clamp(44px,9vw,56px);text-align:center;font-size:clamp(1em,3vw,1.4em);font-weight:700;font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;border:2.5px solid var(--primary);border-radius:10px;background:#f0f6ff;color:var(--primary);outline:none;transition:border-color .2s;-moz-appearance:textfield;}
-.num-input::-webkit-inner-spin-button,.num-input::-webkit-outer-spin-button{-webkit-appearance:none;}
-.num-input.correct{border-color:var(--success);background:var(--success-light);color:var(--success);}
-.num-input.wrong{border-color:var(--accent);background:var(--accent-light);color:var(--accent);}
-.loss-badge{display:inline-block;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:3px 10px;font-weight:700;color:var(--accent);font-size:.88em;}
-.gain-badge{display:inline-block;background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:3px 10px;font-weight:700;color:var(--success);font-size:.88em;}
-.loss-gain-bar{display:flex;align-items:stretch;border-radius:8px;overflow:hidden;margin:8px 0;height:36px;font-weight:700;font-size:.88em;}
-.loss-bar{background:#e8372d;color:#fff;display:flex;align-items:center;justify-content:center;}
-.gain-bar{background:#16a34a;color:#fff;display:flex;align-items:center;justify-content:center;}
-</style>
-</head>
-<body>
+/**
+ * gamba_support.js
+ * 全ページ共通：AIサポート＋LINE連絡＋音声読み上げ フローティングボタン
+ *
+ * ★ AIチャットはClaude.aiへのリンク方式（APIキー不要・無料）
+ *
+ * 設定：LINE_URL を先生のLINE IDに変更してください
+ *   例: 'https://line.me/R/ti/p/@abc1234'
+ */
 
-<div class="page-header">
-  <div class="unit-code">MB02</div>
-  <h1>正負の数の計算②　【確認テスト】</h1>
-</div>
+(function() {
 
-<nav class="step-nav">
-  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item active"><span class="step-circle">④</span><span>確認</span></div>
-</nav>
+  /* ══════════════════════════════════
+     ★ 設定（ここだけ変更）
+     ══════════════════════════════════ */
+  const LINE_URL = 'https://line.me/R/ti/p/ここに先生のLINE_IDを入れる';
 
-<main class="g-container">
-  <div class="instruction" style="border-left-color:var(--accent);">
-    <strong>【確認テスト】</strong>　全問正解で合格！符号（＋か−か）に気をつけよう。
-  </div>
-
-  <div id="problems-area"></div>
-
-  <div style="text-align:center;margin-top:28px;">
-    <button onclick="judgeAll()" class="btn-submit">判定する</button>
-  </div>
-
-  <div id="result-area" class="score-box" style="margin-top:24px;"></div>
-
-  <div class="nav-btns" style="margin-top:20px;">
-    <a href="drill.html" class="btn-nav btn-back">← 演習にもどる</a>
-    <a id="btn-next" href="../MB03/intro.html" class="btn-nav btn-success" style="display:none;">次の単元へ →</a>
-  </div>
-</main>
-
-<script src="mb02_sets.js"></script>
-<script>
-const GAS_URL  = 'https://script.google.com/macros/s/ここにURLを貼り付け/exec';
-const setIndex = Math.floor(Math.random() * MB02_CHECK_SETS.length);
-const problems = MB02_CHECK_SETS[setIndex].problems;
-let startTime  = Date.now();
-
-function barWidths(loss, gain) {
-  const t = loss + gain;
-  return { lw: Math.round(loss/t*100), gw: Math.round(gain/t*100) };
-}
-
-function buildProblems() {
-  const area = document.getElementById('problems-area');
-  area.innerHTML = '';
-  problems.forEach((p, i) => {
-    const isTypeA = p.type === 'A';
-    const dispHTML = isTypeA
-      ? `<span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">${p.a}</span>
-         <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">−</span>
-         <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--accent);">${p.b}</span>`
-      : `<span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--accent);">(${p.a})</span>
-         <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">＋</span>
-         <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">${p.b}</span>`;
-    area.innerHTML += `
-      <div class="problem-card" id="card${i}">
-        <div class="problem-head" style="flex-wrap:wrap;gap:14px;">
-          <div style="display:flex;align-items:center;gap:clamp(8px,2vw,14px);flex-wrap:wrap;">
-            ${dispHTML}
-            <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">=</span>
-            <input type="number" id="inp${i}" class="num-input" placeholder="?">
-          </div>
-        </div>
-        <div id="expl${i}" style="display:none;padding:0 16px 16px;"></div>
-      </div>`;
-  });
-}
-
-function judgeAll() {
-  let correct = 0;
-  const total = problems.length;
-  problems.forEach((p, i) => {
-    const inp  = document.getElementById('inp'+i);
-    const expl = document.getElementById('expl'+i);
-    const val  = parseInt(inp.value);
-    const isOk = val === p.ans;
-    inp.classList.remove('correct','wrong');
-    inp.classList.add(isOk ? 'correct' : 'wrong');
-    if (isOk) correct++;
-
-    const isTypeA = p.type === 'A';
-    const loss = isTypeA ? p.lossA : p.lossB;
-    const gain = isTypeA ? p.gainA : p.gainB;
-    const gainMore = p.ans > 0;
-    const { lw, gw } = barWidths(loss, gain);
-
-    let html = isOk
-      ? `<div style="background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:8px 14px;margin-bottom:10px;font-weight:700;color:var(--success);">⭕ 正解！　<strong>${p.ans}</strong></div>`
-      : `<div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:8px 14px;margin-bottom:10px;font-weight:700;color:var(--accent);">❌ 正解は <strong style="font-size:1.2em;">${p.ans}</strong></div>`;
-    html += `
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
-        <span class="gain-badge">儲け ${gain}円</span>
-        <span class="loss-badge">損 ${loss}円</span>
-      </div>
-      <div class="loss-gain-bar">
-        <div class="${gainMore?'gain-bar':'loss-bar'}" style="width:${gainMore?gw:lw}%;">${gainMore?'儲け '+gain:'損 '+loss}</div>
-        <div class="${gainMore?'loss-bar':'gain-bar'}" style="width:${gainMore?lw:gw}%;">${gainMore?'損 '+loss:'儲け '+gain}</div>
-      </div>
-      <p style="font-size:.92em;margin-top:4px;">
-        ${gainMore
-          ? `儲け <strong>${gain}</strong> − 損 <strong>${loss}</strong> ＝ <strong style="color:var(--success);">${p.ans}</strong>`
-          : `損 <strong>${loss}</strong> − 儲け <strong>${gain}</strong> ＝ <strong style="color:var(--accent);">${p.ans}</strong>`}
-      </p>`;
-    expl.innerHTML = html;
-    expl.style.display = 'block';
-  });
-
-  const isPassed = correct === total;
-  const resultArea = document.getElementById('result-area');
-  resultArea.classList.add('visible');
-  const msg = isPassed
-    ? '完璧！正負の数②マスターです 🎉'
-    : correct >= total * 0.75
-      ? 'あと少し！損と儲けの考え方をもう一度確認しよう。'
-      : '解説をよく読んで、符号の決め方を復習しよう！';
-  resultArea.innerHTML = `
-    <div class="score-label">合計点</div>
-    <div class="score-num">${correct} / ${total} 正解</div>
-    <div class="score-msg">${msg}</div>
-    ${isPassed ? '<div style="margin-top:12px;font-size:.95em;color:#16a34a;font-weight:700;">✅ 合格！次の単元に進めます。</div>' : ''}`;
-
-  if (isPassed) {
-    document.getElementById('btn-next').style.display = 'inline-block';
-    // 進捗をlocalStorageに保存
-    localStorage.setItem('gamba_prog_MB02', 'pass');
-    const studyMins = Math.round((Date.now()-startTime)/60000);
-    fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({student_id:localStorage.getItem('studentId')||'guest',
-        student_name:localStorage.getItem('studentName')||'ゲスト',
-        unit_code:'MB02',unit_name:'正負の数の計算②',
-        correct_count:correct,total_count:total,is_passed:true,study_minutes:studyMins})
-    }).catch(e=>console.log('GAS:',e));
+  /* ── 科目判定 ── */
+  function detectSubject() {
+    const p = window.location.pathname;
+    if (p.includes('/english/') || p.includes('EA')) return 'english';
+    if (p.includes('/math/')    || p.includes('MA') || p.includes('MB')) return 'math';
+    return 'both';
   }
-  resultArea.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
+  const subject = detectSubject();
 
-buildProblems();
-</script>
-<script src="../gamba_support.js"></script>
-</body>
-</html>
+  /* ── ページタイトル取得 ── */
+  function getPageTitle() {
+    return document.title
+      .replace('【導入】','').replace('【例題】','').replace('【演習】','')
+      .replace('【確認テスト】','').replace('爆速英文法｜','').trim();
+  }
+
+  /* ── Claude.ai 用プロンプト生成 ── */
+  function buildClaudePrompt() {
+    const title = getPageTitle();
+    const name  = localStorage.getItem('studentName') || '';
+    const nameStr = name ? `（${name}さんの質問）` : '';
+
+    const base = subject === 'english'
+      ? `高校認定試験（高認）の英文法${nameStr}について質問があります。\n今学習中の単元：「${title}」\n\n`
+      : `高校認定試験（高認）の数学${nameStr}について質問があります。\n今学習中の単元：「${title}」\n\n`;
+
+    const prompt = base +
+      `この単元でわからないことを教えてください。\n` +
+      `中学生にもわかるようにやさしく日本語で説明してください。\n\n` +
+      `【質問】\n（ここに質問を入力してください）`;
+
+    return encodeURIComponent(prompt);
+  }
+
+  /* ── Claude.aiを開く ── */
+  window.gambaAIOpen = function() {
+    const prompt = buildClaudePrompt();
+    // Claude.aiの新規チャットにプロンプトを渡す
+    const url = `https://claude.ai/new?q=${prompt}`;
+    window.open(url, '_blank');
+  };
+
+  /* ── LINE連絡 ── */
+  window.gambaLineOpen = function() {
+    window.open(LINE_URL, '_blank');
+  };
+
+  /* ══════════════════════════════════
+     スタイル
+     ══════════════════════════════════ */
+  const style = document.createElement('style');
+  style.textContent = `
+    #gamba-float-wrap {
+      position: fixed; bottom: 24px; right: 16px;
+      z-index: 9999;
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 10px;
+    }
+
+    .gamba-fab {
+      width: 52px; height: 52px; border-radius: 50%;
+      border: none; cursor: pointer; font-size: 1.45em;
+      box-shadow: 0 4px 16px rgba(0,0,0,.22);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .18s, box-shadow .18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .gamba-fab:hover  { transform: scale(1.1); box-shadow: 0 6px 22px rgba(0,0,0,.3); }
+    .gamba-fab:active { transform: scale(.95); }
+
+    #fab-main  { background: #1a56a0; color: #fff; }
+    #fab-ai    { background: #7c3aed; color: #fff; }
+    #fab-line  { background: #06c755; color: #fff; }
+    #fab-voice { background: #d97706; color: #fff; }
+
+    .fab-row {
+      display: flex; align-items: center; gap: 8px;
+      transition: opacity .2s, transform .2s;
+    }
+    .fab-row.hidden { opacity: 0; pointer-events: none; transform: translateY(8px); }
+
+    .fab-label {
+      background: rgba(20,20,20,.82); color: #fff;
+      font-size: .75em; font-weight: 700;
+      padding: 5px 11px; border-radius: 8px;
+      white-space: nowrap;
+      font-family: 'BIZ UDPGothic','Meiryo',sans-serif;
+      pointer-events: none;
+    }
+
+    /* ── ヒントポップアップ ── */
+    #gamba-hint-popup {
+      display: none;
+      position: fixed; bottom: 88px; right: 16px;
+      width: min(300px, calc(100vw - 40px));
+      background: #fff;
+      border: 2px solid #7c3aed;
+      border-radius: 14px;
+      box-shadow: 0 6px 28px rgba(0,0,0,.18);
+      z-index: 10000;
+      font-family: 'BIZ UDPGothic','Meiryo',sans-serif;
+      overflow: hidden;
+    }
+    #gamba-hint-popup.open { display: block; }
+
+    .hint-header {
+      background: #7c3aed; color: #fff;
+      padding: 11px 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hint-header-title { flex: 1; font-weight: 700; font-size: .88em; }
+    .hint-close {
+      background: rgba(255,255,255,.2); border: none; color: #fff;
+      border-radius: 50%; width: 24px; height: 24px;
+      cursor: pointer; font-size: .85em;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .hint-body { padding: 14px 16px; }
+    .hint-body p { font-size: .85em; color: #334155; line-height: 1.7; margin-bottom: 12px; }
+    .hint-body strong { color: #7c3aed; }
+
+    .btn-claude {
+      display: block; width: 100%;
+      background: #7c3aed; color: #fff;
+      border: none; border-radius: 10px;
+      padding: 12px; font-size: .9em; font-weight: 700;
+      font-family: inherit; cursor: pointer;
+      text-align: center; text-decoration: none;
+      transition: background .18s;
+      margin-bottom: 8px;
+    }
+    .btn-claude:hover { background: #6d28d9; }
+
+    .hint-note {
+      font-size: .75em; color: #94a3b8;
+      text-align: center; line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 400px) {
+      .gamba-fab { width: 48px; height: 48px; font-size: 1.3em; }
+    }
+  `;
+  document.head.appendChild(style);
+
+  /* ══════════════════════════════════
+     HTML生成
+     ══════════════════════════════════ */
+
+  /* フローティングボタン群 */
+  const floatWrap = document.createElement('div');
+  floatWrap.id = 'gamba-float-wrap';
+  floatWrap.innerHTML = `
+    <div class="fab-row hidden" id="fab-row-ai">
+      <span class="fab-label">🤖 AIに質問する</span>
+      <button class="gamba-fab" id="fab-ai" onclick="gambaHintOpen()" title="AIに質問">🤖</button>
+    </div>
+    <div class="fab-row hidden" id="fab-row-line">
+      <span class="fab-label">💬 講師に連絡する</span>
+      <button class="gamba-fab" id="fab-line" onclick="gambaLineOpen()" title="講師に連絡">💬</button>
+    </div>
+    <div class="fab-row hidden" id="fab-row-voice">
+      <span class="fab-label">🔊 音声で読み上げ</span>
+      <button class="gamba-fab" id="fab-voice" onclick="gambaVoiceToggle()" title="音声読み上げ">🔊</button>
+    </div>
+    <button class="gamba-fab" id="fab-main" onclick="gambaToggleMenu()" title="サポートメニュー">🆘</button>
+  `;
+
+  /* AI案内ポップアップ */
+  const hintPopup = document.createElement('div');
+  hintPopup.id = 'gamba-hint-popup';
+  const subLabel = subject === 'english' ? '英文法' : subject === 'math' ? '数学' : '数学・英文法';
+  const pageTitle = document.title.replace('【導入】','').replace('【例題】','')
+    .replace('【演習】','').replace('【確認テスト】','').replace('爆速英文法｜','').trim();
+
+  hintPopup.innerHTML = `
+    <div class="hint-header">
+      <span style="font-size:1.2em;">🤖</span>
+      <div class="hint-header-title">AI先生に質問する</div>
+      <button class="hint-close" onclick="gambaHintClose()">✕</button>
+    </div>
+    <div class="hint-body">
+      <p>
+        <strong>Claude AI</strong> が${subLabel}の質問に答えます。<br>
+        ボタンを押すと <strong>Claude.ai</strong> が開き、<br>
+        今学習中の単元「<strong>${pageTitle}</strong>」の質問が自動で入力されます。
+      </p>
+      <p style="font-size:.8em; color:#64748b;">
+        ※ Claude.aiのアカウント（無料）が必要です。<br>
+        　 質問を書き換えて送信してください。
+      </p>
+      <button class="btn-claude" onclick="gambaAIOpen()">
+        🤖 Claude.aiで質問する →
+      </button>
+      <div class="hint-note">
+        無料アカウントで使えます<br>
+        <a href="https://claude.ai" target="_blank" style="color:#7c3aed;">claude.ai でアカウント作成</a>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(floatWrap);
+  document.body.appendChild(hintPopup);
+
+  /* ══════════════════════════════════
+     メニュー開閉
+     ══════════════════════════════════ */
+  let menuOpen = false;
+
+  window.gambaToggleMenu = function() {
+    menuOpen = !menuOpen;
+    ['ai','line','voice'].forEach(id => {
+      document.getElementById('fab-row-' + id).classList.toggle('hidden', !menuOpen);
+    });
+    const main = document.getElementById('fab-main');
+    main.textContent = menuOpen ? '✕' : '🆘';
+    main.style.background = menuOpen ? '#64748b' : '#1a56a0';
+    if (!menuOpen) gambaHintClose();
+  };
+
+  window.gambaHintOpen  = function() { document.getElementById('gamba-hint-popup').classList.add('open'); };
+  window.gambaHintClose = function() { document.getElementById('gamba-hint-popup').classList.remove('open'); };
+
+  /* ══════════════════════════════════
+     音声読み上げ
+     ══════════════════════════════════ */
+  let voiceActive = false;
+
+  window.gambaVoiceToggle = function() {
+    if (voiceActive) {
+      speechSynthesis.cancel();
+      voiceActive = false;
+      const btn = document.getElementById('fab-voice');
+      btn.textContent = '🔊';
+      btn.style.background = '#d97706';
+      return;
+    }
+
+    // ページのメインテキストを収集
+    const selectors = [
+      'h1','h2','h3',
+      '.section-title','.instruction','.lead-text',
+      '.memo-box','.summary-box',
+      '.sblock p','.section p',
+      '.hint-body p'  // 爆速英文法用
+    ];
+    const seen = new Set();
+    let texts = [];
+    selectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => {
+        // フローティング要素やナビは除外
+        if (el.closest('#gamba-float-wrap') || el.closest('#gamba-hint-popup')) return;
+        const t = el.innerText.replace(/\s+/g,' ').trim();
+        if (t && t.length > 4 && !seen.has(t)) {
+          seen.add(t);
+          texts.push(t);
+        }
+      });
+    });
+
+    if (texts.length === 0) {
+      alert('読み上げるテキストが見つかりませんでした。');
+      return;
+    }
+
+    voiceActive = true;
+    const btn = document.getElementById('fab-voice');
+    btn.textContent = '⏹';
+    btn.style.background = '#dc2626';
+
+    const uttr = new SpeechSynthesisUtterance(texts.join('。'));
+    uttr.lang  = 'ja-JP';
+    uttr.rate  = 0.92;
+    uttr.pitch = 1.05;
+    uttr.onend = () => {
+      voiceActive = false;
+      btn.textContent = '🔊';
+      btn.style.background = '#d97706';
+    };
+    speechSynthesis.speak(uttr);
+  };
+
+})();
