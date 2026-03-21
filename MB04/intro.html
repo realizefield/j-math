@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB04 正負の数の計算④ 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#3b82f6;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);text-decoration:underline;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;margin-top:28px;}
+.section-title:first-of-type{margin-top:0;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;font-size:.97em;line-height:2;}
+.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
+.summary-box ul{margin:0;padding-left:20px;}
+.summary-box li{margin-bottom:4px;}
+.summary-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.quiz-btn{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:none;border:2px solid var(--primary);border-radius:8px;padding:8px 18px;font-size:.95em;font-weight:700;color:var(--primary);cursor:pointer;margin:4px;transition:all .18s;}
+.quiz-btn:hover{background:var(--primary-light);}
+.quiz-btn.correct-btn{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.quiz-btn.wrong-btn{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.9em;font-weight:700;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--success-light);color:var(--success);}
+.quiz-feedback.ng{background:var(--accent-light);color:var(--accent);}
+
+/* ── 逆の表 ── */
+.gyaku-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.gyaku-cell{border-radius:10px;padding:14px 16px;text-align:center;}
+.gyaku-cell.blue{background:var(--primary-light);border:2px solid var(--primary);}
+.gyaku-cell.green{background:var(--success-light);border:2px solid var(--success);}
+.gyaku-cell.yellow{background:var(--warn-light);border:2px solid var(--warn);}
+.gyaku-cell.red{background:var(--accent-light);border:2px solid var(--accent);}
+.gyaku-cell .cell-title{font-size:.78em;font-weight:700;margin-bottom:8px;}
+.gyaku-cell.blue .cell-title{color:var(--primary);}
+.gyaku-cell.green .cell-title{color:var(--success);}
+.gyaku-cell.yellow .cell-title{color:var(--warn);}
+.gyaku-cell.red .cell-title{color:var(--accent);}
+.gyaku-cell .plus{font-size:.95em;color:var(--text);}
+.gyaku-cell .arrow{font-size:.9em;font-weight:700;color:var(--accent);margin:4px 0;}
+.gyaku-cell .minus{font-size:.95em;color:var(--accent);font-weight:700;}
+
+/* ── 変換テーブル ── */
+.henko-table{width:100%;border-collapse:collapse;font-size:.9em;margin:10px 0;}
+.henko-table th{background:var(--primary);color:#fff;padding:9px 12px;text-align:center;font-weight:700;}
+.henko-table td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:center;vertical-align:middle;}
+.henko-table tr:last-child td{border-bottom:none;}
+.henko-table tr:nth-child(even) td{background:var(--primary-light);}
+
+/* ── 重要公式 ── */
+.formula-box{background:linear-gradient(135deg,#fef3c7,#fffbeb);border:3px solid var(--warn);border-radius:16px;padding:22px 24px;margin:20px 0;text-align:center;}
+.formula-box .f-title{font-size:.88em;font-weight:700;color:var(--warn);margin-bottom:12px;}
+.formula-main{font-size:clamp(1.3em,4vw,1.9em);font-weight:700;color:var(--accent);letter-spacing:.05em;margin-bottom:8px;}
+.formula-sub{font-size:.9em;color:var(--text-sub);}
+.formula-example{margin-top:14px;padding:12px;background:white;border-radius:10px;font-size:.92em;line-height:1.9;}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MB04</div>
+  <h1>正負の数の計算④　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- ══════ パート1：逆の表 ══════ -->
+  <div class="section-title">① 「逆」で考えてみよう</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.95em;line-height:1.9;margin-bottom:16px;">
+      マイナスには <strong>「逆にする」</strong> という意味があります。<br>
+      −（マイナス）をつけると、意味が<strong style="color:var(--accent);">反対</strong>になります。
+    </p>
+
+    <!-- 4つの逆の表（画像と同じ構成） -->
+    <div class="gyaku-grid">
+      <div class="gyaku-cell blue">
+        <div class="cell-title">方向</div>
+        <div class="plus">東に＋2km 行く</div>
+        <div class="arrow">↓　↓<br>逆になる</div>
+        <div class="minus">西に＋2km 行く</div>
+      </div>
+      <div class="gyaku-cell green">
+        <div class="cell-title">お金</div>
+        <div class="plus">−10円の 損</div>
+        <div class="arrow">↓　↓<br>逆になる</div>
+        <div class="minus">＋10円の 儲け</div>
+      </div>
+      <div class="gyaku-cell yellow">
+        <div class="cell-title">高さ</div>
+        <div class="plus">上に −3m あがる</div>
+        <div class="arrow">↓　↓<br>逆になる</div>
+        <div class="minus">下に ＋3m 降りる</div>
+      </div>
+      <div class="gyaku-cell red">
+        <div class="cell-title">計算</div>
+        <div class="plus">−5 を　ひく</div>
+        <div class="arrow">↓　↓<br>逆になる</div>
+        <div class="minus">＋5 を　たす</div>
+      </div>
+    </div>
+
+    <div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:10px;padding:14px 16px;">
+      <div style="font-size:.82em;font-weight:700;color:var(--accent);margin-bottom:6px;">⭐ ポイント</div>
+      <p style="font-size:.93em;line-height:1.9;">
+        「ひく」の逆は「たす」<br>
+        だから… <strong style="color:var(--accent);">−5をひく</strong> の逆は <strong style="color:var(--success);">＋5をたす</strong>！
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════ パート2：変換のルール ══════ -->
+  <div class="section-title">② マイナスのマイナスは プラスになる</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.95em;line-height:1.9;margin-bottom:14px;">
+      「−(−5)」は <strong>マイナスが2つ重なっている</strong> 状態です。<br>
+      2つのマイナスが打ち消し合って <strong style="color:var(--success);">プラス</strong> になります。
+    </p>
+
+    <!-- 変換テーブル -->
+    <div style="overflow-x:auto;margin-bottom:16px;">
+      <table class="henko-table">
+        <tr>
+          <th>もとの式</th>
+          <th>変換後</th>
+          <th>考え方</th>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent);">−(−5)</strong></td>
+          <td><strong style="color:var(--success);">＋5</strong></td>
+          <td>マイナス×マイナス＝プラス</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent);">−(−10)</strong></td>
+          <td><strong style="color:var(--success);">＋10</strong></td>
+          <td>マイナス×マイナス＝プラス</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent);">−(−3)</strong></td>
+          <td><strong style="color:var(--success);">＋3</strong></td>
+          <td>マイナス×マイナス＝プラス</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:14px 16px;">
+      <div style="font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:8px;">💡 計算の手順</div>
+      <div style="display:flex;flex-direction:column;gap:8px;font-size:.92em;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="background:var(--accent);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82em;flex-shrink:0;">1</span>
+          <span><strong style="color:var(--accent);">−(−△)</strong> を <strong style="color:var(--success);">＋△</strong> に書き換える</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="background:var(--primary);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82em;flex-shrink:0;">2</span>
+          <span>MB01〜03で学んだ <strong>「損と儲け」</strong> で計算する</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ パート3：重要公式（暗記） ══════ -->
+  <div class="section-title">③ 公式を暗記しよう！</div>
+
+  <div class="formula-box">
+    <div class="f-title">⭐ 重要公式　【必ず覚えよう！】</div>
+    <div class="formula-main">○ − (−△) ＝ ○ ＋ △</div>
+    <div class="formula-sub">マイナス・マイナスはプラスになる</div>
+    <div class="formula-example">
+      <strong>例1）</strong>　7 − (−5) ＝ 7 <strong style="color:var(--success);">＋ 5</strong> ＝ <strong style="color:var(--success);">12</strong><br>
+      <strong>例2）</strong>　−7 − (−5) ＝ −7 <strong style="color:var(--success);">＋ 5</strong> ＝ <strong style="color:var(--accent);">−2</strong><br>
+      <strong>例3）</strong>　−8 − (−9) ＝ −8 <strong style="color:var(--success);">＋ 9</strong> ＝ <strong style="color:var(--success);">1</strong>
+    </div>
+  </div>
+
+  <!-- ══════ 確認クイズ ══════ -->
+  <div style="background:#f8faff;border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px;">
+    <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:12px;">🧠 確認クイズ</div>
+
+    <div style="margin-bottom:16px;">
+      <p style="font-size:.95em;margin-bottom:8px;font-weight:700;">① −(−8) を変換すると？</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">−8</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',true)">＋8</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">−16</button>
+      <div id="q1-feedback" class="quiz-feedback"></div>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <p style="font-size:.95em;margin-bottom:8px;font-weight:700;">② −9 − (−13) ＝ ?</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)">−22</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)">−4</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',true)">4</button>
+      <div id="q2-feedback" class="quiz-feedback"></div>
+    </div>
+
+    <div>
+      <p style="font-size:.95em;margin-bottom:8px;font-weight:700;">③ −32 − (−18) ＝ ?</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',false)">−50</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',true)">−14</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',false)">14</button>
+      <div id="q3-feedback" class="quiz-feedback"></div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul>
+      <li><strong>○ − (−△) ＝ ○ ＋ △</strong>　← これを暗記！</li>
+      <li>まず <strong>変換</strong>（マイナスのマイナスをプラスに）してから計算</li>
+      <li>変換後は「損と儲け」（MB01〜03）で計算する</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+<script>
+function quizAnswer(btn, id, isCorrect) {
+  const feedback = document.getElementById(id+'-feedback');
+  btn.parentElement.querySelectorAll('.quiz-btn').forEach(b=>{b.classList.remove('correct-btn','wrong-btn');b.disabled=true;});
+  const msgs = {
+    q1:{ok:'⭕ 正解！　−(−8)＝＋8　マイナス×マイナス＝プラス！',
+        ng:'❌ −(−8)はマイナスのマイナス → ＋8 です。'},
+    q2:{ok:'⭕ 正解！　−9−(−13)＝−9＋13＝4　儲け13−損9＝4',
+        ng:'❌ まず変換！ −9−(−13)＝−9＋13 → 儲け13−損9＝4 です。'},
+    q3:{ok:'⭕ 正解！　−32−(−18)＝−32＋18 → 損32−儲け18＝−14',
+        ng:'❌ まず変換！ −32−(−18)＝−32＋18 → 損32−儲け18＝−14 です。'}
+  };
+  if(isCorrect){btn.classList.add('correct-btn');feedback.textContent=msgs[id].ok;feedback.className='quiz-feedback show ok';}
+  else{btn.classList.add('wrong-btn');feedback.textContent=msgs[id].ng;feedback.className='quiz-feedback show ng';}
+}
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

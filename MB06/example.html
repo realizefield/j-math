@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB06 混合計算 【例題】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#3b82f6;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:20px;font-size:.95em;color:var(--primary);line-height:1.7;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.problem-head{display:flex;align-items:center;padding:16px 20px;gap:10px;flex-wrap:wrap;}
+.q-num{font-size:.85em;font-weight:700;color:var(--primary);background:var(--primary-light);border-radius:8px;padding:4px 10px;white-space:nowrap;}
+.answer-box{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:0 16px 14px;}
+.answer-summary{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--primary-light);cursor:pointer;user-select:none;list-style:none;font-weight:700;color:var(--primary);font-size:.9em;}
+.answer-summary::-webkit-details-marker{display:none;}
+.answer-summary .toggle-icon{margin-left:auto;transition:transform .2s;}
+details[open] .answer-summary .toggle-icon{transform:rotate(90deg);}
+.answer-body{padding:14px 18px;border-top:1px solid var(--border);}
+.answer-final{margin-top:10px;padding:12px 16px;background:var(--warn-light);border:2px solid var(--warn);border-radius:8px;text-align:center;font-size:1.05em;}
+.answer-final strong{color:var(--accent);font-size:1.4em;}
+.memo-box{background:var(--success-light);border-left:4px solid var(--success);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:20px;font-size:.9em;color:#15803d;line-height:1.75;}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.btn-submit{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--primary);color:#fff;font-size:clamp(1em,3vw,1.1em);font-weight:700;padding:12px clamp(28px,8vw,60px);border:none;border-radius:50px;cursor:pointer;box-shadow:0 4px 14px rgba(26,86,160,.3);transition:transform .15s;letter-spacing:.05em;}
+.num-input{width:clamp(72px,16vw,96px);height:clamp(44px,9vw,54px);text-align:center;font-size:clamp(1em,3vw,1.3em);font-weight:700;font-family:'BIZ UDPGothic',sans-serif;border:2.5px solid var(--primary);border-radius:10px;background:#f0f6ff;color:var(--primary);outline:none;transition:border-color .2s;-moz-appearance:textfield;}
+.num-input::-webkit-inner-spin-button,.num-input::-webkit-outer-spin-button{-webkit-appearance:none;}
+.num-input.correct{border-color:var(--success);background:var(--success-light);color:var(--success);}
+.num-input.wrong{border-color:var(--accent);background:var(--accent-light);color:var(--accent);}
+.plus-num{color:var(--success);font-weight:700;}
+.minus-num{color:var(--accent);font-weight:700;}
+.calc-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;padding:8px 12px;border-radius:8px;margin-bottom:6px;font-size:.9em;font-weight:700;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.7em;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;flex-shrink:0;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.b{background:var(--primary);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+/* 式の表示 */
+.expr{font-size:clamp(1.1em,3.5vw,1.5em);font-weight:700;letter-spacing:.02em;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">MB06</div>
+  <h1>混合計算　【例題】</h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+  <div class="instruction">
+    <strong>【例題】</strong>　① カッコをはずす　② まとめる　③ 計算　の3ステップで！
+  </div>
+
+  <!-- 早見 -->
+  <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:.88em;line-height:1.9;">
+    <strong style="color:var(--primary);">手順</strong>　① カッコをはずす（<span class="minus-num">−(−△)→＋△</span>）　
+    ② <span class="plus-num">プラス合計</span>と<span class="minus-num">マイナス合計</span>を出す　
+    ③ 差を計算
+  </div>
+
+  <!-- (1) -7 - 4 + 3 = -8 -->
+  <div class="problem-card">
+    <div class="problem-head">
+      <span class="q-num">(1)</span>
+      <span class="expr"><span class="minus-num">−7</span> − 4 <span class="plus-num">＋ 3</span></span>
+      <span style="font-size:1.3em;font-weight:700;color:var(--text-sub);">＝</span>
+      <input type="number" id="ex1" class="num-input" placeholder="?">
+      <button onclick="checkEx(1,-8)" class="btn-submit">判定</button>
+      <span id="res1" style="font-size:1.5em;font-weight:700;"></span>
+    </div>
+    <div class="answer-box">
+      <details>
+        <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <div class="calc-row y"><span class="clbl y">① カッコなし</span>そのままでOK</div>
+          <div class="calc-row b">
+            <span class="clbl b">② まとめる</span>
+            <span class="plus-num">＋3</span>
+            <span style="color:var(--text-sub);margin:0 6px;">／</span>
+            <span class="minus-num">−7 − 4 ＝ −11</span>
+          </div>
+          <div class="calc-row g"><span class="clbl g">③ 計算</span> 3 − 11 ＝ <strong class="minus-num">−8</strong></div>
+          <div class="answer-final">答え：<strong>−8</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- (2) -11 - (-8) - 7 = -10 -->
+  <div class="problem-card">
+    <div class="problem-head">
+      <span class="q-num">(2)</span>
+      <span class="expr"><span class="minus-num">−11</span> − (<span class="minus-num">−8</span>) − 7</span>
+      <span style="font-size:1.3em;font-weight:700;color:var(--text-sub);">＝</span>
+      <input type="number" id="ex2" class="num-input" placeholder="?">
+      <button onclick="checkEx(2,-10)" class="btn-submit">判定</button>
+      <span id="res2" style="font-size:1.5em;font-weight:700;"></span>
+    </div>
+    <div class="answer-box">
+      <details>
+        <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <div class="calc-row y">
+            <span class="clbl y">① カッコをはずす</span>
+            <span class="minus-num">−(−8)</span> ＝ <span class="plus-num">＋8</span>
+            →　<span class="minus-num">−11</span> <span class="plus-num">＋8</span> <span class="minus-num">−7</span>
+          </div>
+          <div class="calc-row b">
+            <span class="clbl b">② まとめる</span>
+            <span class="plus-num">＋8</span>
+            <span style="color:var(--text-sub);margin:0 6px;">／</span>
+            <span class="minus-num">−11 − 7 ＝ −18</span>
+          </div>
+          <div class="calc-row g"><span class="clbl g">③ 計算</span> 8 − 18 ＝ <strong class="minus-num">−10</strong></div>
+          <div class="answer-final">答え：<strong>−10</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- (3) -21 - 6 - (-9) = -18 -->
+  <div class="problem-card">
+    <div class="problem-head">
+      <span class="q-num">(3)</span>
+      <span class="expr"><span class="minus-num">−21</span> − 6 − (<span class="minus-num">−9</span>)</span>
+      <span style="font-size:1.3em;font-weight:700;color:var(--text-sub);">＝</span>
+      <input type="number" id="ex3" class="num-input" placeholder="?">
+      <button onclick="checkEx(3,-18)" class="btn-submit">判定</button>
+      <span id="res3" style="font-size:1.5em;font-weight:700;"></span>
+    </div>
+    <div class="answer-box">
+      <details>
+        <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <div class="calc-row y">
+            <span class="clbl y">① カッコをはずす</span>
+            <span class="minus-num">−(−9)</span> ＝ <span class="plus-num">＋9</span>
+            →　<span class="minus-num">−21</span> <span class="minus-num">−6</span> <span class="plus-num">＋9</span>
+          </div>
+          <div class="calc-row b">
+            <span class="clbl b">② まとめる</span>
+            <span class="plus-num">＋9</span>
+            <span style="color:var(--text-sub);margin:0 6px;">／</span>
+            <span class="minus-num">−21 − 6 ＝ −27</span>
+          </div>
+          <div class="calc-row g"><span class="clbl g">③ 計算</span> 9 − 27 ＝ <strong class="minus-num">−18</strong></div>
+          <div class="answer-final">答え：<strong>−18</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- (4) 32 - (-15) - 15 = 32 -->
+  <div class="problem-card">
+    <div class="problem-head">
+      <span class="q-num">(4)</span>
+      <span class="expr">32 − (<span class="minus-num">−15</span>) − 15</span>
+      <span style="font-size:1.3em;font-weight:700;color:var(--text-sub);">＝</span>
+      <input type="number" id="ex4" class="num-input" placeholder="?">
+      <button onclick="checkEx(4,32)" class="btn-submit">判定</button>
+      <span id="res4" style="font-size:1.5em;font-weight:700;"></span>
+    </div>
+    <div class="answer-box">
+      <details>
+        <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <div class="calc-row y">
+            <span class="clbl y">① カッコをはずす</span>
+            <span class="minus-num">−(−15)</span> ＝ <span class="plus-num">＋15</span>
+            →　<span class="plus-num">32</span> <span class="plus-num">＋15</span> <span class="minus-num">−15</span>
+          </div>
+          <div class="calc-row b">
+            <span class="clbl b">② まとめる</span>
+            <span class="plus-num">＋32 ＋ 15 ＝ ＋47</span>
+            <span style="color:var(--text-sub);margin:0 6px;">／</span>
+            <span class="minus-num">−15</span>
+          </div>
+          <div class="calc-row g"><span class="clbl g">③ 計算</span> 47 − 15 ＝ <strong class="plus-num">32</strong></div>
+          <div class="answer-final">答え：<strong>32</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- (5) 24 - 6 - 7 - (-12) = 23 -->
+  <div class="problem-card">
+    <div class="problem-head">
+      <span class="q-num">(5)</span>
+      <span class="expr">24 − 6 − 7 − (<span class="minus-num">−12</span>)</span>
+      <span style="font-size:1.3em;font-weight:700;color:var(--text-sub);">＝</span>
+      <input type="number" id="ex5" class="num-input" placeholder="?">
+      <button onclick="checkEx(5,23)" class="btn-submit">判定</button>
+      <span id="res5" style="font-size:1.5em;font-weight:700;"></span>
+    </div>
+    <div class="answer-box">
+      <details>
+        <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <div class="calc-row y">
+            <span class="clbl y">① カッコをはずす</span>
+            <span class="minus-num">−(−12)</span> ＝ <span class="plus-num">＋12</span>
+            →　<span class="plus-num">24</span> <span class="minus-num">−6</span> <span class="minus-num">−7</span> <span class="plus-num">＋12</span>
+          </div>
+          <div class="calc-row b">
+            <span class="clbl b">② まとめる</span>
+            <span class="plus-num">＋24 ＋ 12 ＝ ＋36</span>
+            <span style="color:var(--text-sub);margin:0 6px;">／</span>
+            <span class="minus-num">−6 − 7 ＝ −13</span>
+          </div>
+          <div class="calc-row g"><span class="clbl g">③ 計算</span> 36 − 13 ＝ <strong class="plus-num">23</strong></div>
+          <div class="answer-final">答え：<strong>23</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="memo-box">
+    📌 <strong>コツ</strong>：プラス・マイナスをそれぞれ別の列に書き出すと間違えにくい！<br>
+    プラス：　　　　マイナス：　　　と分けてメモしよう。
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="intro.html" class="btn-nav btn-back">← 導入にもどる</a>
+    <a href="drill.html" class="btn-nav btn-forward">③ 演習へ →</a>
+  </div>
+</main>
+<script>
+function checkEx(num, ans) {
+  const inp = document.getElementById('ex'+num);
+  const res = document.getElementById('res'+num);
+  inp.classList.remove('correct','wrong');
+  if (parseInt(inp.value) === ans) {
+    res.textContent='⭕'; res.style.color='var(--success)'; inp.classList.add('correct');
+  } else {
+    res.textContent='❌'; res.style.color='var(--accent)'; inp.classList.add('wrong');
+  }
+}
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

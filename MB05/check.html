@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB05 分数の正負の計算 【確認テスト】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#3b82f6;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:20px;font-size:.95em;color:var(--primary);line-height:1.7;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.problem-head{display:flex;align-items:center;padding:16px 20px;gap:10px;flex-wrap:wrap;}
+.score-box{display:none;background:var(--card);border:3px solid var(--primary);border-radius:var(--radius);padding:20px 24px;text-align:center;}
+.score-box.visible{display:block;}
+.score-label{font-size:.9em;color:var(--text-sub);margin-bottom:6px;}
+.score-num{font-size:clamp(1.8em,5vw,2.6em);font-weight:700;color:var(--primary);}
+.score-msg{margin-top:8px;font-size:.9em;color:var(--text-sub);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-success{background:var(--success);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.btn-submit{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--primary);color:#fff;font-size:clamp(1em,3vw,1.15em);font-weight:700;padding:14px clamp(36px,10vw,80px);border:none;border-radius:50px;cursor:pointer;box-shadow:0 4px 14px rgba(26,86,160,.3);transition:transform .15s;letter-spacing:.05em;}
+.btn-submit:hover{transform:translateY(-2px);}
+.frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1.1;vertical-align:middle;margin:0 2px;}
+.frac .fn,.frac .fd{font-size:clamp(.95em,2.5vw,1.25em);font-weight:700;padding:1px 5px;min-width:22px;text-align:center;}
+.frac .fb{width:100%;height:2.5px;background:var(--text);border-radius:2px;margin:2px 0;}
+.frac.sm .fn,.frac.sm .fd{font-size:.82em;padding:0 3px;min-width:16px;}
+.frac-input{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;}
+.frac-input input{width:clamp(42px,8vw,56px);height:clamp(34px,6vw,44px);text-align:center;font-size:clamp(.88em,2vw,1.1em);font-weight:700;font-family:'BIZ UDPGothic',sans-serif;border:2.5px solid var(--primary);border-radius:8px;background:#f0f6ff;color:var(--primary);outline:none;-moz-appearance:textfield;}
+.frac-input input::-webkit-inner-spin-button,.frac-input input::-webkit-outer-spin-button{-webkit-appearance:none;}
+.frac-input input.correct{border-color:var(--success);background:var(--success-light);color:var(--success);}
+.frac-input input.wrong{border-color:var(--accent);background:var(--accent-light);color:var(--accent);}
+.frac-input .fb{width:100%;height:2.5px;background:var(--text);border-radius:2px;margin:2px 0;}
+.op{font-size:clamp(1em,2.5vw,1.4em);font-weight:700;color:var(--text-sub);margin:0 3px;}
+.eq{font-size:clamp(1em,2.5vw,1.4em);font-weight:700;color:var(--text-sub);margin:0 4px;}
+.step-row{display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:7px 10px;border-radius:8px;margin-bottom:5px;font-size:.88em;font-weight:700;}
+.step-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.step-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.step-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.tag{font-size:.7em;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;flex-shrink:0;}
+.tag.y{background:var(--warn);color:#fff;}
+.tag.b{background:var(--primary);color:#fff;}
+.tag.g{background:var(--success);color:#fff;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">MB05</div>
+  <h1>分数の正負の計算　【確認テスト】</h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">④</span><span>確認</span></div>
+</nav>
+<main class="g-container">
+  <div class="instruction" style="border-left-color:var(--accent);">
+    <strong>【確認テスト】</strong>　全問正解で合格！分子・分母を別々に入力してください。
+  </div>
+  <div id="problems-area"></div>
+  <div style="text-align:center;margin-top:28px;">
+    <button onclick="judgeAll()" class="btn-submit">判定する</button>
+  </div>
+  <div id="result-area" class="score-box" style="margin-top:24px;"></div>
+  <div class="nav-btns" style="margin-top:20px;">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="drill.html" class="btn-nav btn-back">← 演習にもどる</a>
+    <a id="btn-next" href="../index.html" class="btn-nav btn-success" style="display:none;">単元一覧へ →</a>
+  </div>
+</main>
+<script src="mb05_sets.js"></script>
+<script>
+const GAS_URL  = 'https://script.google.com/macros/s/ここにURLを貼り付け/exec';
+const setIndex = Math.floor(Math.random() * MB05_CHECK_SETS.length);
+const problems = MB05_CHECK_SETS[setIndex].problems;
+let startTime  = Date.now();
+
+function fracHTML(neg, n, d, color=''){
+  const c = color || (neg ? 'var(--accent)' : 'var(--text)');
+  return `${neg?`<span style="font-size:clamp(1em,2.5vw,1.4em);font-weight:700;color:${c};">−</span>`:''}
+    <span class="frac"><span class="fn" style="color:${c};">${n}</span><span class="fb"></span><span class="fd">${d}</span></span>`;
+}
+
+function buildProblems() {
+  const area = document.getElementById('problems-area');
+  area.innerHTML = '';
+  problems.forEach((p, i) => {
+    let qHTML = '';
+    if (p.type === 'A') {
+      qHTML = `${fracHTML(true,p.a_n,p.a_d)} <span class="op">＋</span> ${fracHTML(false,p.b_n,p.b_d)}`;
+    } else if (p.type === 'B') {
+      qHTML = `${fracHTML(true,p.a_n,p.a_d)} <span class="op">−</span> ${fracHTML(false,p.b_n,p.b_d)}`;
+    } else {
+      qHTML = `${fracHTML(true,p.a_n,p.a_d)} <span class="op">−</span> <span style="font-size:clamp(1em,2.5vw,1.4em);">（</span>${fracHTML(true,p.b_n,p.b_d)}<span style="font-size:clamp(1em,2.5vw,1.4em);">）</span>`;
+    }
+    area.innerHTML += `
+      <div class="problem-card" id="card${i}">
+        <div class="problem-head">
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;">
+            ${qHTML}
+            <span class="eq">＝</span>
+            <div class="frac-input">
+              <input type="number" id="inp${i}n" placeholder="分子">
+              <div class="fb"></div>
+              <input type="number" id="inp${i}d" placeholder="分母">
+            </div>
+          </div>
+        </div>
+        <div id="expl${i}" style="display:none;padding:0 14px 14px;"></div>
+      </div>`;
+  });
+}
+
+function judgeAll() {
+  let correct = 0;
+  const total = problems.length;
+  problems.forEach((p, i) => {
+    const inpN = document.getElementById('inp'+i+'n');
+    const inpD = document.getElementById('inp'+i+'d');
+    const expl = document.getElementById('expl'+i);
+    const n = parseInt(inpN.value);
+    const d = parseInt(inpD.value);
+    const correctN = p.ans_neg ? -p.ans_n : p.ans_n;
+    const isOk = !isNaN(n) && !isNaN(d) && d !== 0 &&
+                 n * p.ans_d === correctN * d &&
+                 Math.sign(n) === Math.sign(correctN);
+    inpN.classList.remove('correct','wrong');
+    inpD.classList.remove('correct','wrong');
+    const cls = isOk ? 'correct' : 'wrong';
+    inpN.classList.add(cls); inpD.classList.add(cls);
+    if (isOk) correct++;
+
+    let html = isOk
+      ? `<div style="background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-weight:700;color:var(--success);">⭕ 正解！</div>`
+      : `<div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-weight:700;color:var(--accent);">❌ 正解は \${p.ans_neg?'−':''}<span class="frac" style="display:inline-flex;vertical-align:middle;margin:0 2px;"><span class="fn" style="color:var(--accent);">\${p.ans_n}</span><span class="fb"></span><span class="fd">\${p.ans_d}</span></span></div>`;
+    if (p.type === 'C') {
+      html += `<div class="step-row y"><span class="tag y">変換</span>
+      <span style="font-weight:700;">−（−<span class="frac" style="display:inline-flex;vertical-align:middle;"><span class="fn" style="color:var(--accent);">${p.b_n}</span><span class="fb"></span><span class="fd">${p.b_d}</span></span>）＝
+      <span style="color:var(--success);">＋</span><span class="frac" style="display:inline-flex;vertical-align:middle;"><span class="fn" style="color:var(--success);">${p.b_n}</span><span class="fb"></span><span class="fd">${p.b_d}</span></span></span>
+    </div>`;
+    }
+    html += `
+      <div class="step-row y"><span class="tag y">通分</span> 最小公倍数 → <strong style="color:var(--warn);">${p.lcm}</strong></div>
+      <div class="step-row b"><span class="tag b">計算</span> ${p.a_num} ${p.type==='B'?'−':'＋'} ${p.type==='B'?p.b_num:Math.abs(p.b_num)} ＝ <strong>${p.a_num+(p.type==='B'?-p.b_num:p.b_num)}</strong></div>
+      <div class="step-row g"><span class="tag g">答え</span>
+        \${p.ans_neg
+          ? `<span style="color:var(--accent);font-weight:700;font-size:1.1em;">−</span><span class="frac" style="display:inline-flex;"><span class="fn" style="color:var(--accent);">\${p.ans_n}</span><span class="fb"></span><span class="fd">\${p.ans_d}</span></span>`
+          : `<span class="frac" style="display:inline-flex;"><span class="fn" style="color:var(--success);">\${p.ans_n}</span><span class="fb"></span><span class="fd">\${p.ans_d}</span></span>`
+        }
+      </div>`;
+    expl.innerHTML = html;
+    expl.style.display = 'block';
+  });
+
+  const isPassed = correct === total;
+  const resultArea = document.getElementById('result-area');
+  resultArea.classList.add('visible');
+  const msg = isPassed ? '完璧！分数の正負マスターです 🎉'
+    : correct >= total * 0.75 ? 'あと少し！通分と変換の手順を確認しよう。'
+    : '解説を見て「変換→通分→計算」の手順を復習しよう！';
+  resultArea.innerHTML = `
+    <div class="score-label">合計点</div>
+    <div class="score-num">${correct} / ${total} 正解</div>
+    <div class="score-msg">${msg}</div>
+    ${isPassed ? '<div style="margin-top:12px;font-size:.95em;color:#16a34a;font-weight:700;">✅ 合格！</div>' : ''}`;
+
+  if (isPassed) {
+    document.getElementById('btn-next').style.display = 'inline-block';
+    localStorage.setItem('gamba_prog_MB05', 'pass');
+    const studyMins = Math.round((Date.now()-startTime)/60000);
+    fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({student_id:localStorage.getItem('studentId')||'guest',
+        student_name:localStorage.getItem('studentName')||'ゲスト',
+        unit_code:'MB05',unit_name:'分数の正負の計算',
+        correct_count:correct,total_count:total,is_passed:true,study_minutes:studyMins})
+    }).catch(e=>console.log('GAS:',e));
+  }
+  resultArea.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+buildProblems();
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

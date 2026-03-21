@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB05 分数の正負の計算 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#3b82f6;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);text-decoration:underline;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;margin-top:28px;}
+.section-title:first-of-type{margin-top:0;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.memo-box{background:var(--success-light);border-left:4px solid var(--success);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:20px;font-size:.92em;color:#15803d;line-height:1.8;}
+.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;font-size:.97em;line-height:2;}
+.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
+.summary-box ul{margin:0;padding-left:20px;}
+.summary-box li{margin-bottom:4px;}
+.summary-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.sblock{border-radius:12px;padding:16px 20px;margin-bottom:12px;}
+.sblock.y{background:var(--warn-light);border:2px solid var(--warn);}
+.sblock.b{background:var(--primary-light);border:2px solid var(--primary);}
+.sblock.g{background:var(--success-light);border:2px solid var(--success);}
+.sblock.r{background:var(--accent-light);border:2px solid var(--accent);}
+.slbl{font-size:.82em;font-weight:700;margin-bottom:8px;}
+.sblock.y .slbl{color:var(--warn);}
+.sblock.b .slbl{color:var(--primary);}
+.sblock.g .slbl{color:var(--success);}
+.sblock.r .slbl{color:var(--accent);}
+/* 分数表示 */
+.frac{display:inline-flex;flex-direction:column;align-items:center;line-height:1.1;vertical-align:middle;margin:0 2px;}
+.frac .fn,.frac .fd{font-size:clamp(1em,2.5vw,1.3em);font-weight:700;padding:1px 6px;min-width:24px;text-align:center;}
+.frac .fb{width:100%;height:2.5px;background:var(--text);border-radius:2px;margin:2px 0;}
+.frac.sm .fn,.frac.sm .fd{font-size:.9em;padding:0 4px;}
+.frac.lg .fn,.frac.lg .fd{font-size:clamp(1.2em,3vw,1.6em);}
+/* 計算ステップ */
+.calc-step{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:10px 14px;border-radius:10px;margin-bottom:8px;font-weight:700;}
+.calc-step.yellow{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-step.blue{background:var(--primary-light);border:1.5px solid var(--primary);}
+.calc-step.green{background:var(--success-light);border:1.5px solid var(--success);}
+.step-label{font-size:.75em;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap;flex-shrink:0;}
+.step-label.y{background:var(--warn);color:#fff;}
+.step-label.b{background:var(--primary);color:#fff;}
+.step-label.g{background:var(--success);color:#fff;}
+.op{font-size:clamp(1.1em,3vw,1.5em);font-weight:700;color:var(--text-sub);margin:0 4px;}
+.eq{font-size:clamp(1.1em,3vw,1.5em);font-weight:700;color:var(--text-sub);margin:0 6px;}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MB05</div>
+  <h1>分数の正負の計算　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- 復習バナー -->
+  <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:12px;padding:14px 18px;margin-bottom:24px;font-size:.88em;color:var(--primary);line-height:1.8;">
+    💡 <strong>この単元で使う知識</strong><br>
+    MA03〜04：通分してたし算・ひき算<br>
+    MB04：○ − (−△) ＝ ○ ＋ △（マイナスのマイナスはプラス）
+  </div>
+
+  <!-- ══════ パターン1：負の分数＋正の分数 ══════ -->
+  <div class="section-title">① 負の分数 ＋ 正の分数</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <div style="font-size:.92em;text-align:center;font-weight:700;color:var(--primary);margin-bottom:16px;">
+      例）
+      <span style="color:var(--accent);">−</span>
+      <span class="frac lg"><span class="fn" style="color:var(--accent);">2</span><span class="fb"></span><span class="fd">5</span></span>
+      <span class="op">＋</span>
+      <span class="frac lg"><span class="fn">1</span><span class="fb"></span><span class="fd">3</span></span>
+      を計算しなさい
+    </div>
+
+    <div class="calc-step yellow">
+      <span class="step-label y">① 通分</span>
+      <span style="font-size:.9em;color:var(--text-sub);">分母 5 と 3 の最小公倍数は</span>
+      <span style="color:var(--warn);font-size:1.1em;font-weight:700;">15</span>
+    </div>
+
+    <div class="calc-step blue">
+      <span class="step-label b">② 分子を計算</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac sm"><span class="fn" style="color:var(--accent);">2</span><span class="fb"></span><span class="fd">5</span></span>
+      <span style="font-size:.85em;color:var(--text-sub);">＝</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac sm"><span class="fn" style="color:var(--accent);">6</span><span class="fb"></span><span class="fd">15</span></span>
+      <span style="font-size:.85em;color:var(--text-sub);">、</span>
+      <span class="frac sm"><span class="fn">1</span><span class="fb"></span><span class="fd">3</span></span>
+      <span style="font-size:.85em;color:var(--text-sub);">＝</span>
+      <span class="frac sm"><span class="fn">5</span><span class="fb"></span><span class="fd">15</span></span>
+    </div>
+
+    <div class="calc-step blue">
+      <span class="step-label b">③ 計算</span>
+      <span style="color:var(--accent);">−6</span>
+      <span class="op">＋</span>
+      <span>5</span>
+      <span class="eq">＝</span>
+      <span style="color:var(--accent);">−1</span>
+      <span style="font-size:.85em;color:var(--text-sub);">（分子）</span>
+    </div>
+
+    <div class="calc-step green">
+      <span class="step-label g">④ 答え</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac"><span class="fn" style="color:var(--accent);">2</span><span class="fb"></span><span class="fd">5</span></span>
+      <span class="op">＋</span>
+      <span class="frac"><span class="fn">1</span><span class="fb"></span><span class="fd">3</span></span>
+      <span class="eq">＝</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac"><span class="fn" style="color:var(--accent);">1</span><span class="fb"></span><span class="fd">15</span></span>
+    </div>
+  </div>
+
+  <!-- ══════ パターン2：負の分数−正の分数 ══════ -->
+  <div class="section-title">② 負の分数 − 正の分数（損が2つ！）</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <div style="font-size:.92em;text-align:center;font-weight:700;color:var(--primary);margin-bottom:16px;">
+      例）
+      <span style="color:var(--accent);">−</span>
+      <span class="frac lg"><span class="fn" style="color:var(--accent);">3</span><span class="fb"></span><span class="fd">4</span></span>
+      <span class="op">−</span>
+      <span class="frac lg"><span class="fn">1</span><span class="fb"></span><span class="fd">3</span></span>
+      を計算しなさい
+    </div>
+
+    <div class="sblock r" style="margin-bottom:12px;">
+      <div class="slbl">⚠️ ここはMB03と同じ「損＋損」のパターン！</div>
+      <p style="font-size:.9em;line-height:1.8;">
+        マイナスの分数から、さらに正の分数を引く → <strong style="color:var(--accent);">損がどんどん増える</strong><br>
+        通分してから分子どうしを「−」で計算する
+      </p>
+    </div>
+
+    <div class="calc-step yellow">
+      <span class="step-label y">① 通分</span>
+      <span style="font-size:.9em;color:var(--text-sub);">分母 4 と 3 の最小公倍数は</span>
+      <span style="color:var(--warn);font-size:1.1em;font-weight:700;">12</span>
+    </div>
+
+    <div class="calc-step blue">
+      <span class="step-label b">② 変換</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac sm"><span class="fn" style="color:var(--accent);">3</span><span class="fb"></span><span class="fd">4</span></span>
+      <span style="font-size:.85em;color:var(--text-sub);">＝</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac sm"><span class="fn" style="color:var(--accent);">9</span><span class="fb"></span><span class="fd">12</span></span>
+      <span style="font-size:.85em;color:var(--text-sub);">、</span>
+      <span class="frac sm"><span class="fn">1</span><span class="fb"></span><span class="fd">3</span></span>
+      <span style="font-size:.85em;color:var(--text-sub);">＝</span>
+      <span class="frac sm"><span class="fn">4</span><span class="fb"></span><span class="fd">12</span></span>
+    </div>
+
+    <div class="calc-step blue">
+      <span class="step-label b">③ 計算</span>
+      <span style="color:var(--accent);">−9</span>
+      <span class="op">−</span>
+      <span>4</span>
+      <span class="eq">＝</span>
+      <span style="color:var(--accent);">−13</span>
+      <span style="font-size:.85em;color:var(--text-sub);">（分子）</span>
+    </div>
+
+    <div class="calc-step green">
+      <span class="step-label g">④ 答え</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac"><span class="fn" style="color:var(--accent);">3</span><span class="fb"></span><span class="fd">4</span></span>
+      <span class="op">−</span>
+      <span class="frac"><span class="fn">1</span><span class="fb"></span><span class="fd">3</span></span>
+      <span class="eq">＝</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac"><span class="fn" style="color:var(--accent);">13</span><span class="fb"></span><span class="fd">12</span></span>
+    </div>
+  </div>
+
+  <!-- ══════ パターン3：負の分数−(負の分数) ══════ -->
+  <div class="section-title">③ 負の分数 − (負の分数)　← 一番難しい！</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <div style="font-size:.92em;text-align:center;font-weight:700;color:var(--primary);margin-bottom:16px;">
+      例）
+      <span style="color:var(--accent);">−</span>
+      <span class="frac lg"><span class="fn" style="color:var(--accent);">5</span><span class="fb"></span><span class="fd">6</span></span>
+      <span class="op">−</span>
+      <span style="font-size:clamp(1.1em,3vw,1.5em);">（</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac lg"><span class="fn" style="color:var(--accent);">3</span><span class="fb"></span><span class="fd">4</span></span>
+      <span style="font-size:clamp(1.1em,3vw,1.5em);">）</span>
+      を計算しなさい
+    </div>
+
+    <!-- MB04の復習ボックス -->
+    <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:2px solid var(--warn);border-radius:10px;padding:12px 16px;margin-bottom:14px;text-align:center;">
+      <div style="font-size:.8em;font-weight:700;color:var(--warn);margin-bottom:6px;">MB04の公式を使う！</div>
+      <div style="font-size:1.05em;font-weight:700;color:var(--accent);">○ − (−△) ＝ ○ ＋ △</div>
+    </div>
+
+    <div class="calc-step yellow">
+      <span class="step-label y">① まず変換（MB04）</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac sm"><span class="fn" style="color:var(--accent);">5</span><span class="fb"></span><span class="fd">6</span></span>
+      <span class="op" style="color:var(--accent);">−</span>
+      <span style="font-size:.95em;">（</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac sm"><span class="fn" style="color:var(--accent);">3</span><span class="fb"></span><span class="fd">4</span></span>
+      <span style="font-size:.95em;">）</span>
+      <span class="eq">＝</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac sm"><span class="fn" style="color:var(--accent);">5</span><span class="fb"></span><span class="fd">6</span></span>
+      <span class="op" style="color:var(--success);">＋</span>
+      <span class="frac sm"><span class="fn" style="color:var(--success);">3</span><span class="fb"></span><span class="fd">4</span></span>
+    </div>
+
+    <div class="calc-step blue">
+      <span class="step-label b">② 通分</span>
+      <span style="font-size:.9em;color:var(--text-sub);">分母 6 と 4 の最小公倍数は</span>
+      <span style="color:var(--warn);font-size:1.1em;font-weight:700;">12</span>
+    </div>
+
+    <div class="calc-step blue">
+      <span class="step-label b">③ 変換</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac sm"><span class="fn" style="color:var(--accent);">5</span><span class="fb"></span><span class="fd">6</span></span>
+      <span style="font-size:.85em;color:var(--text-sub);">＝</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac sm"><span class="fn" style="color:var(--accent);">10</span><span class="fb"></span><span class="fd">12</span></span>
+      <span style="font-size:.85em;color:var(--text-sub);">、</span>
+      <span class="frac sm"><span class="fn" style="color:var(--success);">3</span><span class="fb"></span><span class="fd">4</span></span>
+      <span style="font-size:.85em;color:var(--text-sub);">＝</span>
+      <span class="frac sm"><span class="fn" style="color:var(--success);">9</span><span class="fb"></span><span class="fd">12</span></span>
+    </div>
+
+    <div class="calc-step blue">
+      <span class="step-label b">④ 計算</span>
+      <span style="color:var(--accent);">−10</span>
+      <span class="op">＋</span>
+      <span style="color:var(--success);">9</span>
+      <span class="eq">＝</span>
+      <span style="color:var(--accent);">−1</span>
+      <span style="font-size:.85em;color:var(--text-sub);">（分子）</span>
+    </div>
+
+    <div class="calc-step green">
+      <span class="step-label g">⑤ 答え</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac"><span class="fn" style="color:var(--accent);">5</span><span class="fb"></span><span class="fd">6</span></span>
+      <span class="op">−</span>
+      <span style="font-size:.95em;">（</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac"><span class="fn" style="color:var(--accent);">3</span><span class="fb"></span><span class="fd">4</span></span>
+      <span style="font-size:.95em;">）</span>
+      <span class="eq">＝</span>
+      <span style="color:var(--accent);">−</span>
+      <span class="frac"><span class="fn" style="color:var(--accent);">1</span><span class="fb"></span><span class="fd">12</span></span>
+    </div>
+  </div>
+
+  <!-- ══════ 3パターンまとめ ══════ -->
+  <div class="section-title">④ 3つのパターンをまとめよう</div>
+
+  <div style="overflow-x:auto;margin-bottom:20px;">
+    <table style="width:100%;border-collapse:collapse;font-size:.88em;min-width:300px;">
+      <tr style="background:var(--primary);color:#fff;">
+        <th style="padding:10px 12px;text-align:left;font-weight:700;">パターン</th>
+        <th style="padding:10px 12px;text-align:center;font-weight:700;">手順</th>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border);">
+        <td style="padding:10px 12px;font-weight:700;color:var(--primary);">① 負＋正</td>
+        <td style="padding:10px 12px;">通分 → 分子を計算（マイナスとプラスの差）</td>
+      </tr>
+      <tr style="background:var(--accent-light);border-bottom:1px solid var(--border);">
+        <td style="padding:10px 12px;font-weight:700;color:var(--accent);">② 負−正</td>
+        <td style="padding:10px 12px;">通分 → 分子を計算（マイナスをさらに引く）</td>
+      </tr>
+      <tr style="background:var(--warn-light);">
+        <td style="padding:10px 12px;font-weight:700;color:var(--warn);">③ 負−(負)</td>
+        <td style="padding:10px 12px;"><strong style="color:var(--accent);">まず変換！</strong>　−(−△)→＋△　→　通分 → 計算</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul>
+      <li><strong>−(−△) があったら まず ＋△ に変換</strong>（MB04）</li>
+      <li>変換したら <strong>通分</strong>（MA03〜04）</li>
+      <li>分母をそろえて <strong>分子だけ計算</strong> する</li>
+      <li>答えの符号は <strong>分子の符号</strong> が決める</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+<script src="../gamba_support.js"></script>
+</body>
+</html>
