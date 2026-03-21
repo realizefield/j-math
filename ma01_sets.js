@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA01 分数の性質・通分 【例題】</title>
+<style>
+/* ══════════════════════════════════════════
+   GAMBA 共通スタイル　style.css
+   BIZ UDPGothic 統一・全単元共通
+   ══════════════════════════════════════════ */
+
+:root {
+  --primary:       #1a56a0;
+  --primary-light: #dbeafe;
+  --primary-mid:   #3b82f6;
+  --accent:        #e8372d;
+  --accent-light:  #fff1f0;
+  --success:       #16a34a;
+  --success-light: #dcfce7;
+  --warn:          #d97706;
+  --warn-light:    #fffbeb;
+  --bg:            #f0f6ff;
+  --card:          #ffffff;
+  --border:        #c7d9f5;
+  --text:          #1e293b;
+  --text-sub:      #64748b;
+  --radius:        12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'BIZ UDPGothic', 'BIZ UDP Gothic', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ── コンテナ ── */
+.g-container { max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; }
+
+/* ── ページヘッダー ── */
+.page-header { background: var(--primary); color: #fff; padding: 18px 24px 14px; text-align: center; box-shadow: 0 3px 10px rgba(26,86,160,.25); }
+.page-header .unit-code { font-size: .82em; opacity: .8; letter-spacing: .1em; margin-bottom: 4px; }
+.page-header h1 { font-size: clamp(1.1em,3vw,1.55em); font-weight: 700; margin: 0; }
+
+/* ── ステップナビ ── */
+.step-nav { display: flex; align-items: center; justify-content: center; padding: 14px 12px; background: var(--card); border-bottom: 1px solid var(--border); flex-wrap: nowrap; overflow-x: auto; position: sticky; top: 0; z-index: 10; }
+.step-item { display: flex; align-items: center; gap: 6px; font-size: clamp(.75em,2vw,.88em); color: #94a3b8; white-space: nowrap; padding: 4px 6px; }
+.step-item a { color: inherit; text-decoration: none; }
+.step-item a:hover { color: var(--primary); text-decoration: underline; }
+.step-item.active { color: var(--primary); font-weight: 700; }
+.step-circle { width: 22px; height: 22px; border-radius: 50%; font-size: .76em; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-item.active .step-circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 3px var(--primary-light); }
+.step-item:not(.active) .step-circle { background: #94a3b8; color: #fff; }
+.step-arrow { color: #cbd5e1; font-size: 1.1em; padding: 0 2px; user-select: none; }
+
+/* ── テキスト ── */
+.section-title { font-size: 1.05em; font-weight: 700; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 12px; margin-bottom: 16px; }
+.instruction { background: var(--primary-light); border-left: 4px solid var(--primary); border-radius: 0 var(--radius) var(--radius) 0; padding: 13px 16px; margin-bottom: 24px; font-size: .95em; color: var(--primary); line-height: 1.7; }
+.lead-text { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 24px; font-size: .97em; line-height: 1.95; }
+.lead-text strong { color: var(--primary); }
+
+/* ── 問題カード ── */
+.problem-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; transition: box-shadow .2s; }
+.problem-card:focus-within { box-shadow: 0 0 0 3px rgba(26,86,160,.18); }
+.problem-head { display: flex; align-items: center; padding: 18px 20px; gap: 12px; flex-wrap: wrap; }
+.q-num { font-size: .85em; font-weight: 700; color: var(--primary); background: var(--primary-light); border-radius: 8px; padding: 4px 10px; white-space: nowrap; }
+
+/* ── 分数 ── */
+.frac-row { display: flex; align-items: center; gap: clamp(8px,2vw,16px); flex-wrap: wrap; }
+.frac { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.1; vertical-align: middle; }
+.frac .f-num, .frac .f-den { font-size: clamp(1.3em,4vw,1.9em); font-weight: 700; padding: 2px 8px; min-width: 32px; text-align: center; }
+.frac .f-bar { width: 100%; height: 3px; background: var(--text); border-radius: 2px; margin: 2px 0; }
+.frac-sm { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; vertical-align: middle; font-weight: 700; }
+.frac-sm .f-num, .frac-sm .f-den { font-size: 1em; padding: 0 5px; min-width: 22px; text-align: center; }
+.frac-sm .f-bar { width: 100%; height: 2px; background: var(--text); margin: 2px 0; border-radius: 1px; }
+
+/* ── 入力欄 ── */
+.frac .f-num input {
+  width: clamp(50px,11vw,74px); height: clamp(42px,9vw,56px);
+  text-align: center; font-size: clamp(.95em,2.5vw,1.3em); font-weight: 700;
+  font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;
+  border: 2.5px solid var(--primary); border-radius: 8px;
+  background: #f0f6ff; color: var(--primary); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  -moz-appearance: textfield;
+}
+.frac .f-num input::-webkit-inner-spin-button,
+.frac .f-num input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.frac .f-num input:focus { border-color: var(--primary-mid); background: #eff6ff; box-shadow: 0 0 0 3px rgba(59,130,246,.2); }
+.frac .f-num input.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+.frac .f-num input.wrong   { border-color: var(--accent);  background: var(--accent-light);  color: var(--accent); }
+.eq-sign { font-size: clamp(1.4em,4vw,2em); font-weight: 700; color: var(--text-sub); padding: 0 4px; }
+
+/* ── 答・解説 ── */
+.ans-toggle { margin-left: auto; background: none; border: 1.5px solid #94a3b8; border-radius: 20px; padding: 6px 14px; font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; font-size: .82em; color: var(--text-sub); cursor: pointer; transition: all .18s; white-space: nowrap; }
+.ans-toggle:hover { background: #f1f5f9; border-color: #64748b; color: var(--text); }
+.ans-badge { display: none; margin: 0 20px 14px; padding: 10px 16px; background: var(--accent-light); border: 2px solid var(--accent); border-radius: 8px; font-size: .9em; font-weight: 700; color: var(--accent); }
+.ans-badge.visible { display: block; }
+.ans-badge .ans-explain { margin-top: 6px; font-size: .88em; font-weight: 400; color: var(--text-sub); }
+.answer-box { background: var(--card); border: 2px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
+.answer-summary { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--primary-light); cursor: pointer; user-select: none; list-style: none; font-weight: 700; color: var(--primary); font-size: .95em; }
+.answer-summary::-webkit-details-marker { display: none; }
+.answer-summary .toggle-icon { margin-left: auto; transition: transform .2s; }
+details[open] .answer-summary .toggle-icon { transform: rotate(90deg); }
+.answer-body { padding: 20px 24px; border-top: 1px solid var(--border); line-height: 2; font-size: .97em; }
+.answer-final { margin-top: 16px; padding: 14px 20px; background: var(--warn-light); border: 2px solid var(--warn); border-radius: 8px; text-align: center; font-size: 1.05em; }
+.answer-final strong { color: var(--accent); font-size: 1.4em; }
+
+/* ── メモ・まとめ ── */
+.memo-box { background: var(--success-light); border-left: 4px solid var(--success); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 24px; font-size: .92em; color: #15803d; line-height: 1.75; }
+.summary-box { background: var(--warn-light); border: 2px solid var(--warn); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 28px; font-size: .97em; line-height: 2; }
+.summary-box .summary-title { font-weight: 700; color: var(--warn); font-size: 1.05em; margin-bottom: 8px; }
+.summary-box ul { margin: 0; padding-left: 20px; }
+.summary-box li { margin-bottom: 4px; }
+.summary-box strong { color: var(--primary); }
+
+/* ── スコア ── */
+.score-box { display: none; background: var(--card); border: 3px solid var(--primary); border-radius: var(--radius); padding: 20px 24px; text-align: center; }
+.score-box.visible { display: block; }
+.score-label { font-size: .9em; color: var(--text-sub); margin-bottom: 6px; }
+.score-num { font-size: clamp(1.8em,5vw,2.6em); font-weight: 700; color: var(--primary); }
+.score-msg { margin-top: 8px; font-size: .9em; color: var(--text-sub); }
+
+/* ── ボタン ── */
+.nav-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; margin-top: 28px; }
+.btn-nav { font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; font-size: .95em; font-weight: 700; padding: 12px 28px; border-radius: 50px; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: transform .15s, box-shadow .15s; }
+.btn-nav:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+.btn-back    { background: #f1f5f9; color: var(--text-sub); }
+.btn-forward { background: var(--primary); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-submit { font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; background: var(--primary); color: #fff; font-size: clamp(1em,3vw,1.15em); font-weight: 700; padding: 14px clamp(36px,10vw,80px); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 14px rgba(26,86,160,.3); transition: transform .15s, box-shadow .15s; letter-spacing: .05em; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,86,160,.35); }
+
+/* ── テーブル ── */
+.unit-table-wrap { background: var(--card); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+.unit-table { width: 100%; border-collapse: collapse; font-size: .9em; }
+.unit-table th { background: var(--primary); color: #fff; font-weight: 700; padding: 10px 12px; text-align: center; }
+.unit-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.unit-table tr:last-child td { border-bottom: none; }
+.unit-table tr:nth-child(even) td { background: var(--primary-light); }
+
+/* ── レスポンシブ ── */
+@media (max-width: 480px) {
+  .problem-head { padding: 14px; gap: 8px; }
+  .frac-row { gap: 6px; }
+  .nav-btns { justify-content: center; }
+  .btn-nav { padding: 11px 22px; font-size: .9em; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MA01</div>
+  <h1>分数の性質・通分　【例題】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <div class="section-title">【例題】次の □ にあてはまる数を答えなさい。</div>
+
+  <!-- 問題カード -->
+  <div class="problem-card" style="margin-bottom:20px;">
+    <div class="problem-head" style="justify-content:center; padding:28px 20px;">
+      <div class="frac-row" style="justify-content:center;">
+        <span class="frac"><span class="f-num">2</span><span class="f-bar"></span><span class="f-den">3</span></span>
+        <span class="eq-sign">＝</span>
+        <span class="frac">
+          <span class="f-num"><input type="number" id="ex1" inputmode="numeric" placeholder="?"></span>
+          <span class="f-bar"></span>
+          <span class="f-den">12</span>
+        </span>
+        <button onclick="checkAnswer()" class="btn-submit" style="padding:12px 28px; font-size:.95em; margin-left:8px;">判定する</button>
+      </div>
+    </div>
+    <div id="result-area" style="display:none; padding:0 20px 20px; text-align:center;">
+      <div id="result-correct" style="display:none;" class="memo-box">⭕ <strong>正解です！</strong>　2 × 4 ＝ <strong style="color:#1a56a0; font-size:1.2em;">8</strong></div>
+      <div id="result-wrong"   style="display:none;" class="ans-badge visible">❌ <strong>もう一度！</strong>　分母が 3→12 で何倍か考えてみよう。</div>
+    </div>
+  </div>
+
+  <!-- 解説 -->
+  <div class="answer-box" style="margin-bottom:28px;">
+    <details>
+      <summary class="answer-summary">
+        💡 解説を見る（クリックで開く）<span class="toggle-icon">›</span>
+      </summary>
+      <div class="answer-body">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <span style="background:#1a56a0;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.78em;font-weight:700;flex-shrink:0;">1</span>
+          <span>分母を確認します：<strong style="color:#1a56a0;">3 → 12</strong> へ何倍？</span>
+        </div>
+        <div style="padding-left:30px;margin-bottom:16px;">12 ÷ 3 ＝ <strong style="color:#1a56a0;">4倍</strong></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+          <span style="background:#1a56a0;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.78em;font-weight:700;flex-shrink:0;">2</span>
+          <span>分子も同じく <strong style="color:#1a56a0;">4倍</strong> します：</span>
+        </div>
+        <div style="padding-left:30px;margin-bottom:8px;">2 × 4 ＝ <strong style="color:#1a56a0;">8</strong></div>
+        <div class="answer-final">答え：<strong>8</strong></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="memo-box">
+    📌 <strong>ポイント：</strong>分母が何倍になっているかを確認し、分子も同じ倍数をかけます。
+  </div>
+
+  <div class="nav-btns">
+    <a href="intro.html" class="btn-nav btn-back">← 導入にもどる</a>
+    <a href="drill.html" class="btn-nav btn-forward">③ 演習へ →</a>
+  </div>
+
+</main>
+
+<script>
+function checkAnswer() {
+  const val   = parseInt(document.getElementById('ex1').value, 10);
+  const input = document.getElementById('ex1');
+  const area  = document.getElementById('result-area');
+  const ok    = document.getElementById('result-correct');
+  const ng    = document.getElementById('result-wrong');
+  area.style.display = 'block';
+  input.classList.remove('correct','wrong');
+  if (val === 8) {
+    ok.style.display = 'block'; ng.style.display = 'none'; input.classList.add('correct');
+  } else {
+    ok.style.display = 'none';  ng.style.display = 'block'; input.classList.add('wrong');
+  }
+}
+document.getElementById('ex1').addEventListener('keydown', e => { if(e.key==='Enter') checkAnswer(); });
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

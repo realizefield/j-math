@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA14 小数のたし算・ひき算 【例題】</title>
+<style>
+/* ══════════════════════════════════════════
+   GAMBA 共通スタイル　style.css
+   BIZ UDPGothic 統一・全単元共通
+   ══════════════════════════════════════════ */
+
+:root {
+  --primary:       #1a56a0;
+  --primary-light: #dbeafe;
+  --primary-mid:   #3b82f6;
+  --accent:        #e8372d;
+  --accent-light:  #fff1f0;
+  --success:       #16a34a;
+  --success-light: #dcfce7;
+  --warn:          #d97706;
+  --warn-light:    #fffbeb;
+  --bg:            #f0f6ff;
+  --card:          #ffffff;
+  --border:        #c7d9f5;
+  --text:          #1e293b;
+  --text-sub:      #64748b;
+  --radius:        12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'BIZ UDPGothic', 'BIZ UDP Gothic', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ── コンテナ ── */
+.g-container { max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; }
+
+/* ── ページヘッダー ── */
+.page-header { background: var(--primary); color: #fff; padding: 18px 24px 14px; text-align: center; box-shadow: 0 3px 10px rgba(26,86,160,.25); }
+.page-header .unit-code { font-size: .82em; opacity: .8; letter-spacing: .1em; margin-bottom: 4px; }
+.page-header h1 { font-size: clamp(1.1em,3vw,1.55em); font-weight: 700; margin: 0; }
+
+/* ── ステップナビ ── */
+.step-nav { display: flex; align-items: center; justify-content: center; padding: 14px 12px; background: var(--card); border-bottom: 1px solid var(--border); flex-wrap: nowrap; overflow-x: auto; position: sticky; top: 0; z-index: 10; }
+.step-item { display: flex; align-items: center; gap: 6px; font-size: clamp(.75em,2vw,.88em); color: #94a3b8; white-space: nowrap; padding: 4px 6px; }
+.step-item a { color: inherit; text-decoration: none; }
+.step-item a:hover { color: var(--primary); text-decoration: underline; }
+.step-item.active { color: var(--primary); font-weight: 700; }
+.step-circle { width: 22px; height: 22px; border-radius: 50%; font-size: .76em; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-item.active .step-circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 3px var(--primary-light); }
+.step-item:not(.active) .step-circle { background: #94a3b8; color: #fff; }
+.step-arrow { color: #cbd5e1; font-size: 1.1em; padding: 0 2px; user-select: none; }
+
+/* ── テキスト ── */
+.section-title { font-size: 1.05em; font-weight: 700; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 12px; margin-bottom: 16px; }
+.instruction { background: var(--primary-light); border-left: 4px solid var(--primary); border-radius: 0 var(--radius) var(--radius) 0; padding: 13px 16px; margin-bottom: 24px; font-size: .95em; color: var(--primary); line-height: 1.7; }
+.lead-text { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 24px; font-size: .97em; line-height: 1.95; }
+.lead-text strong { color: var(--primary); }
+
+/* ── 問題カード ── */
+.problem-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; transition: box-shadow .2s; }
+.problem-card:focus-within { box-shadow: 0 0 0 3px rgba(26,86,160,.18); }
+.problem-head { display: flex; align-items: center; padding: 18px 20px; gap: 12px; flex-wrap: wrap; }
+.q-num { font-size: .85em; font-weight: 700; color: var(--primary); background: var(--primary-light); border-radius: 8px; padding: 4px 10px; white-space: nowrap; }
+
+/* ── 分数 ── */
+.frac-row { display: flex; align-items: center; gap: clamp(8px,2vw,16px); flex-wrap: wrap; }
+.frac { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.1; vertical-align: middle; }
+.frac .f-num, .frac .f-den { font-size: clamp(1.3em,4vw,1.9em); font-weight: 700; padding: 2px 8px; min-width: 32px; text-align: center; }
+.frac .f-bar { width: 100%; height: 3px; background: var(--text); border-radius: 2px; margin: 2px 0; }
+.frac-sm { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; vertical-align: middle; font-weight: 700; }
+.frac-sm .f-num, .frac-sm .f-den { font-size: 1em; padding: 0 5px; min-width: 22px; text-align: center; }
+.frac-sm .f-bar { width: 100%; height: 2px; background: var(--text); margin: 2px 0; border-radius: 1px; }
+
+/* ── 入力欄 ── */
+.frac .f-num input {
+  width: clamp(50px,11vw,74px); height: clamp(42px,9vw,56px);
+  text-align: center; font-size: clamp(.95em,2.5vw,1.3em); font-weight: 700;
+  font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;
+  border: 2.5px solid var(--primary); border-radius: 8px;
+  background: #f0f6ff; color: var(--primary); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  -moz-appearance: textfield;
+}
+.frac .f-num input::-webkit-inner-spin-button,
+.frac .f-num input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.frac .f-num input:focus { border-color: var(--primary-mid); background: #eff6ff; box-shadow: 0 0 0 3px rgba(59,130,246,.2); }
+.frac .f-num input.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+.frac .f-num input.wrong   { border-color: var(--accent);  background: var(--accent-light);  color: var(--accent); }
+.eq-sign { font-size: clamp(1.4em,4vw,2em); font-weight: 700; color: var(--text-sub); padding: 0 4px; }
+
+/* ── 答・解説 ── */
+.ans-toggle { margin-left: auto; background: none; border: 1.5px solid #94a3b8; border-radius: 20px; padding: 6px 14px; font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; font-size: .82em; color: var(--text-sub); cursor: pointer; transition: all .18s; white-space: nowrap; }
+.ans-toggle:hover { background: #f1f5f9; border-color: #64748b; color: var(--text); }
+.ans-badge { display: none; margin: 0 20px 14px; padding: 10px 16px; background: var(--accent-light); border: 2px solid var(--accent); border-radius: 8px; font-size: .9em; font-weight: 700; color: var(--accent); }
+.ans-badge.visible { display: block; }
+.ans-badge .ans-explain { margin-top: 6px; font-size: .88em; font-weight: 400; color: var(--text-sub); }
+.answer-box { background: var(--card); border: 2px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
+.answer-summary { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--primary-light); cursor: pointer; user-select: none; list-style: none; font-weight: 700; color: var(--primary); font-size: .95em; }
+.answer-summary::-webkit-details-marker { display: none; }
+.answer-summary .toggle-icon { margin-left: auto; transition: transform .2s; }
+details[open] .answer-summary .toggle-icon { transform: rotate(90deg); }
+.answer-body { padding: 20px 24px; border-top: 1px solid var(--border); line-height: 2; font-size: .97em; }
+.answer-final { margin-top: 16px; padding: 14px 20px; background: var(--warn-light); border: 2px solid var(--warn); border-radius: 8px; text-align: center; font-size: 1.05em; }
+.answer-final strong { color: var(--accent); font-size: 1.4em; }
+
+/* ── メモ・まとめ ── */
+.memo-box { background: var(--success-light); border-left: 4px solid var(--success); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 24px; font-size: .92em; color: #15803d; line-height: 1.75; }
+.summary-box { background: var(--warn-light); border: 2px solid var(--warn); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 28px; font-size: .97em; line-height: 2; }
+.summary-box .summary-title { font-weight: 700; color: var(--warn); font-size: 1.05em; margin-bottom: 8px; }
+.summary-box ul { margin: 0; padding-left: 20px; }
+.summary-box li { margin-bottom: 4px; }
+.summary-box strong { color: var(--primary); }
+
+/* ── スコア ── */
+.score-box { display: none; background: var(--card); border: 3px solid var(--primary); border-radius: var(--radius); padding: 20px 24px; text-align: center; }
+.score-box.visible { display: block; }
+.score-label { font-size: .9em; color: var(--text-sub); margin-bottom: 6px; }
+.score-num { font-size: clamp(1.8em,5vw,2.6em); font-weight: 700; color: var(--primary); }
+.score-msg { margin-top: 8px; font-size: .9em; color: var(--text-sub); }
+
+/* ── ボタン ── */
+.nav-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; margin-top: 28px; }
+.btn-nav { font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; font-size: .95em; font-weight: 700; padding: 12px 28px; border-radius: 50px; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: transform .15s, box-shadow .15s; }
+.btn-nav:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+.btn-back    { background: #f1f5f9; color: var(--text-sub); }
+.btn-forward { background: var(--primary); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-submit { font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; background: var(--primary); color: #fff; font-size: clamp(1em,3vw,1.15em); font-weight: 700; padding: 14px clamp(36px,10vw,80px); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 14px rgba(26,86,160,.3); transition: transform .15s, box-shadow .15s; letter-spacing: .05em; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,86,160,.35); }
+
+/* ── テーブル ── */
+.unit-table-wrap { background: var(--card); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+.unit-table { width: 100%; border-collapse: collapse; font-size: .9em; }
+.unit-table th { background: var(--primary); color: #fff; font-weight: 700; padding: 10px 12px; text-align: center; }
+.unit-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.unit-table tr:last-child td { border-bottom: none; }
+.unit-table tr:nth-child(even) td { background: var(--primary-light); }
+
+/* ── レスポンシブ ── */
+@media (max-width: 480px) {
+  .problem-head { padding: 14px; gap: 8px; }
+  .frac-row { gap: 6px; }
+  .nav-btns { justify-content: center; }
+  .btn-nav { padding: 11px 22px; font-size: .9em; }
+}
+
+</style>
+<style>
+  .hissanWrap {
+    display:inline-flex; flex-direction:column; align-items:flex-end;
+    font-family:'BIZ UDPGothic','BIZ UDP Gothic',monospace;
+    font-size:clamp(1.2em,3.5vw,1.6em); font-weight:700; line-height:1.7;
+    background:white; border-radius:12px; padding:12px 18px;
+    border:2px solid var(--border);
+  }
+  .hissanWrap .row { display:flex; align-items:center; justify-content:flex-end; }
+  .hissanWrap .op  { margin-right:8px; min-width:1em; text-align:center; }
+  .hissanWrap .dot { color:var(--accent); }
+  .hissanWrap .pad { color:var(--success); }
+  .hissanWrap .line { width:100%; height:3px; background:var(--text); border-radius:2px; margin:3px 0; }
+  .hissanWrap .ans  { color:var(--accent); }
+
+  .ans-input {
+    width:clamp(100px,25vw,160px); height:clamp(40px,8vw,52px);
+    text-align:center; font-size:clamp(1em,3vw,1.3em); font-weight:700;
+    font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;
+    border:2.5px solid var(--primary); border-radius:8px;
+    background:#f0f6ff; color:var(--primary); outline:none;
+  }
+  .ans-input.correct { border-color:var(--success); background:var(--success-light); color:var(--success); }
+  .ans-input.wrong   { border-color:var(--accent);  background:var(--accent-light);  color:var(--accent); }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MA14</div>
+  <h1>小数のたし算・ひき算　【例題】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <div class="instruction">
+    <strong>【例題】</strong>　筆算を使って計算しましょう。小数点に注意！
+  </div>
+
+  <!-- (1) 2.3 + 1.45 = 3.75 -->
+  <div style="font-size:.82em;font-weight:700;color:var(--warn);background:var(--warn-light);border-radius:8px;padding:4px 12px;display:inline-block;margin-bottom:8px;">たし算（桁違い）</div>
+  <div class="problem-card" style="margin-bottom:16px;">
+    <div class="problem-head" style="flex-wrap:wrap; gap:20px; align-items:flex-start;">
+      <span class="q-num">(1)</span>
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <span style="font-size:clamp(1.1em,3vw,1.4em); font-weight:700;">2.3 ＋ 1.45 ＝</span>
+        <input type="text" id="ex1" class="ans-input" placeholder="？" inputmode="decimal">
+        <button onclick="checkExD(1,'3.75')" class="btn-submit" style="padding:10px 20px;font-size:.9em;">判定</button>
+        <span id="res1" style="font-size:1.5em;font-weight:700;"></span>
+      </div>
+    </div>
+    <div class="answer-box" style="margin:0 20px 16px;">
+      <details>
+        <summary class="answer-summary">💡 筆算で確認<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <div style="display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:10px;">
+            <div class="hissanWrap">
+              <div class="row"><span class="op"></span><span>2<span class="dot">.</span>3<span class="pad">0</span></span></div>
+              <div class="row"><span class="op" style="color:var(--primary);">＋</span><span>1<span class="dot">.</span>45</span></div>
+              <div class="line"></div>
+              <div class="row"><span class="op"></span><span class="ans">3<span class="dot">.</span>75</span></div>
+            </div>
+            <div style="font-size:.9em; line-height:2;">
+              <div>① 2.3 → <span style="font-weight:700; color:var(--success);">2.30</span> と書く（0を補う）</div>
+              <div>② 小数点を縦に揃える</div>
+              <div>③ 0＋5＝5 / 3＋4＝7 / 2＋1＝3</div>
+              <div>④ 答え：<strong style="color:var(--accent);">3.75</strong></div>
+            </div>
+          </div>
+          <div class="answer-final">答え：<strong>3.75</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- (2) 1.87 + 0.6 = 2.47 -->
+  <div style="font-size:.82em;font-weight:700;color:var(--primary);background:var(--primary-light);border-radius:8px;padding:4px 12px;display:inline-block;margin-bottom:8px;">たし算（くり上がりあり）</div>
+  <div class="problem-card" style="margin-bottom:16px;">
+    <div class="problem-head" style="flex-wrap:wrap; gap:20px; align-items:flex-start;">
+      <span class="q-num">(2)</span>
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <span style="font-size:clamp(1.1em,3vw,1.4em); font-weight:700;">1.87 ＋ 0.6 ＝</span>
+        <input type="text" id="ex2" class="ans-input" placeholder="？" inputmode="decimal">
+        <button onclick="checkExD(2,'2.47')" class="btn-submit" style="padding:10px 20px;font-size:.9em;">判定</button>
+        <span id="res2" style="font-size:1.5em;font-weight:700;"></span>
+      </div>
+    </div>
+    <div class="answer-box" style="margin:0 20px 16px;">
+      <details>
+        <summary class="answer-summary">💡 筆算で確認<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <div style="display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:10px;">
+            <div class="hissanWrap">
+              <div class="row" style="font-size:.6em; color:var(--accent); margin-bottom:-2px; margin-right:2px;"><span>1</span></div>
+              <div class="row"><span class="op"></span><span>1<span class="dot">.</span>87</span></div>
+              <div class="row"><span class="op" style="color:var(--primary);">＋</span><span>0<span class="dot">.</span>6<span class="pad">0</span></span></div>
+              <div class="line"></div>
+              <div class="row"><span class="op"></span><span class="ans">2<span class="dot">.</span>47</span></div>
+            </div>
+            <div style="font-size:.9em; line-height:2;">
+              <div>① 0.6 → <span style="font-weight:700; color:var(--success);">0.60</span> と書く</div>
+              <div>② 7＋0＝7 / 8＋6＝14 → 4残して1くり上がり</div>
+              <div>③ 1＋0＋1（くり上がり）＝2</div>
+              <div>④ 答え：<strong style="color:var(--accent);">2.47</strong></div>
+            </div>
+          </div>
+          <div class="answer-final">答え：<strong>2.47</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- (3) 3.5 - 1.28 = 2.22 -->
+  <div style="font-size:.82em;font-weight:700;color:var(--warn);background:var(--warn-light);border-radius:8px;padding:4px 12px;display:inline-block;margin-bottom:8px;">ひき算（桁違い・くり下がり）</div>
+  <div class="problem-card" style="margin-bottom:16px;">
+    <div class="problem-head" style="flex-wrap:wrap; gap:20px; align-items:flex-start;">
+      <span class="q-num">(3)</span>
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <span style="font-size:clamp(1.1em,3vw,1.4em); font-weight:700;">3.5 − 1.28 ＝</span>
+        <input type="text" id="ex3" class="ans-input" placeholder="？" inputmode="decimal">
+        <button onclick="checkExD(3,'2.22')" class="btn-submit" style="padding:10px 20px;font-size:.9em;">判定</button>
+        <span id="res3" style="font-size:1.5em;font-weight:700;"></span>
+      </div>
+    </div>
+    <div class="answer-box" style="margin:0 20px 16px;">
+      <details>
+        <summary class="answer-summary">💡 筆算で確認<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <div style="display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:10px;">
+            <div class="hissanWrap">
+              <div class="row"><span class="op"></span><span>3<span class="dot">.</span>5<span class="pad">0</span></span></div>
+              <div class="row"><span class="op" style="color:var(--accent);">−</span><span>1<span class="dot">.</span>28</span></div>
+              <div class="line"></div>
+              <div class="row"><span class="op"></span><span class="ans">2<span class="dot">.</span>22</span></div>
+            </div>
+            <div style="font-size:.9em; line-height:2;">
+              <div>① 3.5 → <span style="font-weight:700; color:var(--success);">3.50</span> と書く</div>
+              <div>② 0−8 → くり下がり → 10−8＝2</div>
+              <div>③ (5−1)−2 ＝ 2（小数第1位）</div>
+              <div>④ 3−1＝2（整数の位）</div>
+              <div>⑤ 答え：<strong style="color:var(--accent);">2.22</strong></div>
+            </div>
+          </div>
+          <div class="answer-final">答え：<strong>2.22</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- (4) 5.0 - 2.34 = 2.66 -->
+  <div style="font-size:.82em;font-weight:700;color:var(--text-sub);background:var(--primary-light);border-radius:8px;padding:4px 12px;display:inline-block;margin-bottom:8px;">ひき算（整数に近い数）</div>
+  <div class="problem-card" style="margin-bottom:28px;">
+    <div class="problem-head" style="flex-wrap:wrap; gap:20px; align-items:flex-start;">
+      <span class="q-num">(4)</span>
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <span style="font-size:clamp(1.1em,3vw,1.4em); font-weight:700;">5.0 − 2.34 ＝</span>
+        <input type="text" id="ex4" class="ans-input" placeholder="？" inputmode="decimal">
+        <button onclick="checkExD(4,'2.66')" class="btn-submit" style="padding:10px 20px;font-size:.9em;">判定</button>
+        <span id="res4" style="font-size:1.5em;font-weight:700;"></span>
+      </div>
+    </div>
+    <div class="answer-box" style="margin:0 20px 16px;">
+      <details>
+        <summary class="answer-summary">💡 筆算で確認<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <div style="display:flex; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:10px;">
+            <div class="hissanWrap">
+              <div class="row"><span class="op"></span><span>5<span class="dot">.</span><span class="pad">00</span></span></div>
+              <div class="row"><span class="op" style="color:var(--accent);">−</span><span>2<span class="dot">.</span>34</span></div>
+              <div class="line"></div>
+              <div class="row"><span class="op"></span><span class="ans">2<span class="dot">.</span>66</span></div>
+            </div>
+            <div style="font-size:.9em; line-height:2;">
+              <div>① 5.0 → <span style="font-weight:700; color:var(--success);">5.00</span> と書く</div>
+              <div>② 0−4 → くり下がり → 10−4＝6</div>
+              <div>③ 0（くり下がり後）−3 → くり下がり → 10−3＝6（修正→9−3）※要筆算</div>
+              <div>④ 答え：<strong style="color:var(--accent);">2.66</strong></div>
+            </div>
+          </div>
+          <div class="answer-final">答え：<strong>2.66</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="memo-box">
+    📌 答えを入力するときは <strong>小数点（.）も入力</strong> してください。例：3.75
+  </div>
+
+  <div class="nav-btns">
+    <a href="intro.html" class="btn-nav btn-back">← 導入にもどる</a>
+    <a href="drill.html" class="btn-nav btn-forward">③ 演習へ →</a>
+  </div>
+
+</main>
+
+<script>
+function checkExD(num, ans) {
+  const inp = document.getElementById('ex'+num);
+  const res = document.getElementById('res'+num);
+  const val = inp.value.trim();
+  inp.classList.remove('correct','wrong');
+  // 数値として比較（浮動小数点誤差対策）
+  if (parseFloat(val) === parseFloat(ans)) {
+    res.textContent='⭕'; res.style.color='var(--success)';
+    inp.classList.add('correct');
+  } else {
+    res.textContent='❌'; res.style.color='var(--accent)';
+    inp.classList.add('wrong');
+  }
+}
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

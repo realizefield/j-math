@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB02 正負の数の計算② 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#3b82f6;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);text-decoration:underline;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;margin-top:28px;}
+.section-title:first-of-type{margin-top:0;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.memo-box{background:var(--success-light);border-left:4px solid var(--success);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:20px;font-size:.92em;color:#15803d;line-height:1.8;}
+.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;font-size:.97em;line-height:2;}
+.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
+.summary-box ul{margin:0;padding-left:20px;}
+.summary-box li{margin-bottom:4px;}
+.summary-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-forward{background:var(--primary);color:#fff;}
+.sblock{border-radius:12px;padding:16px 20px;margin-bottom:12px;}
+.sblock.y{background:var(--warn-light);border:2px solid var(--warn);}
+.sblock.b{background:var(--primary-light);border:2px solid var(--primary);}
+.sblock.g{background:var(--success-light);border:2px solid var(--success);}
+.sblock.r{background:var(--accent-light);border:2px solid var(--accent);}
+.slbl{font-size:.82em;font-weight:700;margin-bottom:8px;}
+.sblock.y .slbl{color:var(--warn);}
+.sblock.b .slbl{color:var(--primary);}
+.sblock.g .slbl{color:var(--success);}
+.sblock.r .slbl{color:var(--accent);}
+.quiz-btn{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:none;border:2px solid var(--primary);border-radius:8px;padding:8px 18px;font-size:.95em;font-weight:700;color:var(--primary);cursor:pointer;margin:4px;transition:all .18s;}
+.quiz-btn:hover{background:var(--primary-light);}
+.quiz-btn.correct-btn{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.quiz-btn.wrong-btn{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.9em;font-weight:700;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--success-light);color:var(--success);}
+.quiz-feedback.ng{background:var(--accent-light);color:var(--accent);}
+.loss-gain-bar{display:flex;align-items:stretch;border-radius:10px;overflow:hidden;margin:10px 0;height:44px;font-weight:700;font-size:.93em;}
+.loss-bar{background:#e8372d;color:#fff;display:flex;align-items:center;justify-content:center;}
+.gain-bar{background:#16a34a;color:#fff;display:flex;align-items:center;justify-content:center;}
+.big{font-size:clamp(1.4em,4vw,2em);font-weight:700;}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MB02</div>
+  <h1>正負の数の計算②　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- MB01 復習バナー -->
+  <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:12px;padding:14px 18px;margin-bottom:24px;font-size:.9em;color:var(--primary);">
+    💡 <strong>MB01の復習</strong>　(−5)＋7　→　<span style="color:var(--accent);">損 5円</span>、<span style="color:var(--success);">儲け 7円</span>　→　儲けが多いので <strong>＋2</strong>
+  </div>
+
+  <!-- ══════ パート1：正−正 ══════ -->
+  <div class="section-title">① 正の数 − 正の数　→　答えがマイナスになる！</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.95em;line-height:1.9;margin-bottom:16px;">
+      「5 − 7」のように、<strong>引く数の方が大きい</strong>と答えはマイナスになります。<br>
+      「損と儲け」で考えると…
+    </p>
+
+    <!-- 5 − 7 の例 -->
+    <div style="background:var(--primary-light);border:2.5px solid var(--primary);border-radius:14px;padding:18px;margin-bottom:16px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:14px;text-align:center;">例）5 − 7 を計算しなさい</div>
+
+      <div class="sblock y">
+        <div class="slbl">💡 考え方：2つに分けて「損と儲け」に置き換える</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:10px;">
+          <div style="text-align:center;">
+            <div style="font-size:1.5em;font-weight:700;color:var(--success);">5</div>
+            <div style="font-size:.85em;font-weight:700;color:var(--success);border:2px solid var(--success);border-radius:8px;padding:3px 10px;margin-top:4px;">5円の儲け</div>
+          </div>
+          <span style="font-size:1.5em;font-weight:700;color:var(--text-sub);">−</span>
+          <div style="text-align:center;">
+            <div style="font-size:1.5em;font-weight:700;color:var(--accent);">7</div>
+            <div style="font-size:.85em;font-weight:700;color:var(--accent);border:2px solid var(--accent);border-radius:8px;padding:3px 10px;margin-top:4px;">7円の損</div>
+          </div>
+        </div>
+        <div style="font-size:.85em;color:var(--text-sub);text-align:center;">「−7」は「7円の損」と考える！</div>
+      </div>
+
+      <div class="loss-gain-bar">
+        <div class="gain-bar" style="width:42%;">儲け 5</div>
+        <div class="loss-bar" style="width:58%;">損 7</div>
+      </div>
+      <div style="font-size:.82em;color:var(--text-sub);text-align:right;margin-bottom:10px;">損が多い！</div>
+
+      <div style="text-align:center;padding:12px;background:white;border-radius:10px;">
+        <p style="font-size:.9em;color:var(--text-sub);margin-bottom:8px;">
+          損 <strong style="color:var(--accent);">7</strong> − 儲け <strong style="color:var(--success);">5</strong> ＝ 差は <strong>2</strong>　→　損が多い → <strong style="color:var(--accent);">マイナス</strong>
+        </p>
+        <div style="font-size:1.5em;font-weight:700;">5 − 7 ＝ <span style="color:var(--accent);font-size:1.2em;">−2</span></div>
+      </div>
+    </div>
+
+    <!-- 数直線での確認 -->
+    <div class="sblock b">
+      <div class="slbl">📐 数直線で確認：5から左に7つ進む</div>
+      <svg viewBox="0 0 440 72" width="100%" style="max-width:420px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="arrL3" markerWidth="7" markerHeight="7" refX="2" refY="3.5" orient="auto">
+            <path d="M7,0 L0,3.5 L7,7 Z" fill="#e8372d"/>
+          </marker>
+        </defs>
+        <line x1="20" y1="40" x2="420" y2="40" stroke="#94a3b8" stroke-width="1.5"/>
+        <!-- 目盛り -4〜6 -->
+        <line x1="20"  y1="34" x2="20"  y2="46" stroke="#e8372d" stroke-width="2"/>
+        <text x="20"  y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#e8372d">−2</text>
+        <line x1="60"  y1="34" x2="60"  y2="46" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="60"  y="58" text-anchor="middle" font-size="11" fill="#94a3b8">−1</text>
+        <line x1="100" y1="33" x2="100" y2="47" stroke="#1e293b" stroke-width="2"/>
+        <text x="100" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#1e293b">0</text>
+        <line x1="140" y1="34" x2="140" y2="46" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="140" y="58" text-anchor="middle" font-size="11" fill="#94a3b8">1</text>
+        <line x1="180" y1="34" x2="180" y2="46" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="180" y="58" text-anchor="middle" font-size="11" fill="#94a3b8">2</text>
+        <line x1="220" y1="34" x2="220" y2="46" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="220" y="58" text-anchor="middle" font-size="11" fill="#94a3b8">3</text>
+        <line x1="260" y1="34" x2="260" y2="46" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="260" y="58" text-anchor="middle" font-size="11" fill="#94a3b8">4</text>
+        <line x1="300" y1="34" x2="300" y2="46" stroke="#1a56a0" stroke-width="2"/>
+        <text x="300" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#1a56a0">5</text>
+        <line x1="340" y1="34" x2="340" y2="46" stroke="#cbd5e1" stroke-width="1"/>
+        <text x="340" y="58" text-anchor="middle" font-size="11" fill="#94a3b8">6</text>
+        <!-- スタート5 -->
+        <circle cx="300" cy="40" r="7" fill="#1a56a0"/>
+        <!-- ゴール -2 -->
+        <circle cx="20" cy="40" r="7" fill="#e8372d"/>
+        <!-- 矢印：左に7つ -->
+        <path d="M 295,26 Q 160,10 25,26" stroke="#e8372d" stroke-width="2.5" fill="none" marker-end="url(#arrL3)"/>
+        <text x="160" y="10" text-anchor="middle" font-size="12" font-weight="700" fill="#e8372d">−7（左に7つ）</text>
+      </svg>
+      <p style="text-align:center;font-size:.88em;color:var(--text-sub);margin-top:8px;">
+        <span style="color:var(--primary);">5</span> から左に <strong style="color:var(--accent);">7</strong> 進むと <strong style="color:var(--accent);">−2</strong> に到着！
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════ パート2：−の数 ＋ 正の数（MB01復習＆発展） ══════ -->
+  <div class="section-title">② 負の数 ＋ 正の数　（MB01の復習と発展）</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.95em;line-height:1.9;margin-bottom:14px;">
+      MB01で学んだ「負の数 ＋ 正の数」の応用です。<br>
+      数が大きくなっても考え方はまったく同じ！
+    </p>
+
+    <div style="background:var(--primary-light);border:2.5px solid var(--primary);border-radius:14px;padding:18px;margin-bottom:14px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:14px;text-align:center;">例）−7 ＋ 8 を計算しなさい</div>
+
+      <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:14px;">
+        <div style="text-align:center;">
+          <div class="big" style="color:var(--accent);">(−7)</div>
+          <div style="font-size:.85em;font-weight:700;color:var(--accent);border:2px solid var(--accent);border-radius:8px;padding:3px 10px;margin-top:4px;">7円の損</div>
+        </div>
+        <span class="big" style="color:var(--text-sub);">＋</span>
+        <div style="text-align:center;">
+          <div class="big" style="color:var(--success);">8</div>
+          <div style="font-size:.85em;font-weight:700;color:var(--success);border:2px solid var(--success);border-radius:8px;padding:3px 10px;margin-top:4px;">8円の儲け</div>
+        </div>
+      </div>
+
+      <div class="loss-gain-bar">
+        <div class="loss-bar" style="width:47%;">損 7</div>
+        <div class="gain-bar" style="width:53%;">儲け 8</div>
+      </div>
+
+      <div style="text-align:center;padding:12px;background:white;border-radius:10px;margin-top:10px;">
+        <p style="font-size:.9em;color:var(--text-sub);margin-bottom:8px;">
+          儲け <strong>8</strong> − 損 <strong>7</strong> ＝ <strong>1</strong>　→　儲けが多い → <strong style="color:var(--success);">プラス</strong>
+        </p>
+        <div style="font-size:1.5em;font-weight:700;">(−7) ＋ 8 ＝ <span style="color:var(--success);font-size:1.2em;">1</span></div>
+      </div>
+    </div>
+
+    <!-- 符号の決め方まとめ -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="background:var(--success-light);border:2px solid var(--success);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:.8em;font-weight:700;color:var(--success);margin-bottom:6px;">儲けが多い</div>
+        <div style="font-size:1.05em;font-weight:700;color:var(--success);">答えは ＋</div>
+        <div style="font-size:.82em;color:var(--text-sub);margin-top:6px;">−7＋8 = <strong>＋1</strong></div>
+      </div>
+      <div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:10px;padding:12px;text-align:center;">
+        <div style="font-size:.8em;font-weight:700;color:var(--accent);margin-bottom:6px;">損が多い</div>
+        <div style="font-size:1.05em;font-weight:700;color:var(--accent);">答えは −</div>
+        <div style="font-size:.82em;color:var(--text-sub);margin-top:6px;">−8＋3 = <strong>−5</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ パート3：2つのパターンを比べよう ══════ -->
+  <div class="section-title">③ 2つのパターンを整理しよう</div>
+
+  <div class="problem-card" style="padding:20px;margin-bottom:16px;">
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:.88em;min-width:280px;">
+        <tr style="background:var(--primary);color:#fff;">
+          <th style="padding:10px 12px;text-align:left;font-weight:700;">パターン</th>
+          <th style="padding:10px 12px;text-align:center;font-weight:700;">考え方</th>
+          <th style="padding:10px 12px;text-align:center;font-weight:700;">例</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:10px 12px;font-weight:700;">正 − 正</td>
+          <td style="padding:10px 12px;text-align:center;">前の数＝儲け<br>引く数＝損</td>
+          <td style="padding:10px 12px;text-align:center;">5−7<br>→ 儲け5、損7<br>→ <strong style="color:var(--accent);">−2</strong></td>
+        </tr>
+        <tr style="background:var(--primary-light);border-bottom:1px solid var(--border);">
+          <td style="padding:10px 12px;font-weight:700;">負 ＋ 正</td>
+          <td style="padding:10px 12px;text-align:center;">マイナスの数＝損<br>プラスの数＝儲け</td>
+          <td style="padding:10px 12px;text-align:center;">−7＋8<br>→ 損7、儲け8<br>→ <strong style="color:var(--success);">＋1</strong></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 確認クイズ -->
+    <div style="background:#f8faff;border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-top:14px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:12px;">🧠 確認クイズ　答えの符号は？</div>
+
+      <div style="margin-bottom:16px;">
+        <p style="font-size:.95em;margin-bottom:8px;font-weight:700;">① 8 − 9 の答えは？</p>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">＋1</button>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q1',true)">−1</button>
+        <div id="q1-feedback" class="quiz-feedback"></div>
+      </div>
+
+      <div>
+        <p style="font-size:.95em;margin-bottom:8px;font-weight:700;">② −35 ＋ 26 の答えは？</p>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)">＋9</button>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q2',true)">−9</button>
+        <div id="q2-feedback" class="quiz-feedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul>
+      <li><strong>正 − 正</strong>：引く数＝損、引かれる数＝儲けで考える</li>
+      <li><strong>負 ＋ 正</strong>：マイナスの数＝損、プラスの数＝儲けで考える</li>
+      <li>どちらのパターンも <strong>差の数字に「多かった方の符号」</strong> をつける</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../MB01/intro.html" class="btn-nav btn-back">← MB01にもどる</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+
+<script>
+function quizAnswer(btn, id, isCorrect) {
+  const feedback = document.getElementById(id+'-feedback');
+  btn.parentElement.querySelectorAll('.quiz-btn').forEach(b => { b.classList.remove('correct-btn','wrong-btn'); b.disabled = true; });
+  if (isCorrect) {
+    btn.classList.add('correct-btn');
+    const msgs = { q1:'⭕ 正解！　儲け8、損9 → 損が多いので −1 です。', q2:'⭕ 正解！　損35、儲け26 → 損が多いので −9 です。' };
+    feedback.textContent = msgs[id];
+    feedback.className = 'quiz-feedback show ok';
+  } else {
+    btn.classList.add('wrong-btn');
+    const msgs = { q1:'❌ 儲け8、損9 → 損の方が多いのでマイナスです。', q2:'❌ 損35、儲け26 → 損の方が多いのでマイナスです。' };
+    feedback.textContent = msgs[id];
+    feedback.className = 'quiz-feedback show ng';
+  }
+}
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

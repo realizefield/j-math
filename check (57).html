@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA02 約分 【例題】</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  /* 約分：分子・分母を両方入力 */
+  .frac-dual { display:inline-flex; flex-direction:column; align-items:center; line-height:1.1; }
+  .frac-dual .f-bar { width:100%; height:3px; background:var(--text); border-radius:2px; margin:2px 0; }
+  .frac-dual .f-input {
+    width: clamp(48px,10vw,68px); height: clamp(40px,8vw,54px);
+    text-align:center; font-size:clamp(.9em,2.5vw,1.2em); font-weight:700;
+    font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;
+    border:2.5px solid var(--primary); border-radius:8px;
+    background:#f0f6ff; color:var(--primary); outline:none;
+    transition:border-color .2s, box-shadow .2s;
+    -moz-appearance:textfield;
+  }
+  .frac-dual .f-input::-webkit-inner-spin-button,
+  .frac-dual .f-input::-webkit-outer-spin-button { -webkit-appearance:none; }
+  .frac-dual .f-input:focus { border-color:var(--primary-mid); box-shadow:0 0 0 3px rgba(59,130,246,.2); }
+  .frac-dual .f-input.correct { border-color:var(--success); background:var(--success-light); color:var(--success); }
+  .frac-dual .f-input.wrong   { border-color:var(--accent);  background:var(--accent-light);  color:var(--accent); }
+  .strike { text-decoration:line-through; color:#94a3b8; }
+  .btn-judge {
+    font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;
+    font-size:.88em; font-weight:700; padding:9px 20px;
+    border-radius:20px; border:none; background:var(--primary);
+    color:#fff; cursor:pointer; white-space:nowrap;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn-judge:hover { transform:translateY(-1px); box-shadow:0 3px 10px rgba(26,86,160,.25); }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MA02</div>
+  <h1>約分　【例題】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <div class="section-title">〈例題〉次の分数を約分しなさい。</div>
+
+  <!-- 問題(1)：3/12 -->
+  <div class="problem-card" style="margin-bottom:16px;">
+    <div class="problem-head" style="flex-wrap:wrap; gap:14px;">
+      <span class="q-num">(1)</span>
+      <div class="frac-row">
+        <span class="frac"><span class="f-num">3</span><span class="f-bar"></span><span class="f-den">12</span></span>
+        <span class="eq-sign">＝</span>
+        <span class="frac-dual">
+          <input type="number" id="ex1_n" class="f-input" inputmode="numeric" placeholder="?">
+          <span class="f-bar"></span>
+          <input type="number" id="ex1_d" class="f-input" inputmode="numeric" placeholder="?">
+        </span>
+      </div>
+      <button class="btn-judge" onclick="checkAnswer('ex1',1,4)">判定する</button>
+      <span id="ex1_res" style="font-size:1.4em; font-weight:700;"></span>
+    </div>
+    <div class="answer-box" style="margin:0 16px 16px;">
+      <details>
+        <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <p>3と12は、どちらも <strong style="color:var(--primary);">3</strong> で割ることができます。</p>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0;">
+            <span>3 ÷ 3 ＝ <strong style="color:var(--primary);">1</strong></span>
+            <span style="color:var(--text-sub);">／</span>
+            <span>12 ÷ 3 ＝ <strong style="color:var(--primary);">4</strong></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span class="frac" style="font-size:1.3em;">
+              <span class="f-num strike">3</span><span class="f-bar"></span><span class="f-den strike">12</span>
+            </span>
+            <span class="eq-sign" style="font-size:1.2em;">＝</span>
+            <span class="frac" style="font-size:1.3em;">
+              <span class="f-num" style="color:var(--primary);">1</span><span class="f-bar"></span>
+              <span class="f-den" style="color:var(--primary);">4</span>
+            </span>
+          </div>
+          <div class="answer-final">答え：分子 <strong>1</strong>　分母 <strong>4</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 問題(2)：10/15 -->
+  <div class="problem-card" style="margin-bottom:28px;">
+    <div class="problem-head" style="flex-wrap:wrap; gap:14px;">
+      <span class="q-num">(2)</span>
+      <div class="frac-row">
+        <span class="frac"><span class="f-num">10</span><span class="f-bar"></span><span class="f-den">15</span></span>
+        <span class="eq-sign">＝</span>
+        <span class="frac-dual">
+          <input type="number" id="ex2_n" class="f-input" inputmode="numeric" placeholder="?">
+          <span class="f-bar"></span>
+          <input type="number" id="ex2_d" class="f-input" inputmode="numeric" placeholder="?">
+        </span>
+      </div>
+      <button class="btn-judge" onclick="checkAnswer('ex2',2,3)">判定する</button>
+      <span id="ex2_res" style="font-size:1.4em; font-weight:700;"></span>
+    </div>
+    <div class="answer-box" style="margin:0 16px 16px;">
+      <details>
+        <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
+        <div class="answer-body">
+          <p>10と15は、どちらも <strong style="color:var(--primary);">5</strong> で割ることができます。</p>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0;">
+            <span>10 ÷ 5 ＝ <strong style="color:var(--primary);">2</strong></span>
+            <span style="color:var(--text-sub);">／</span>
+            <span>15 ÷ 5 ＝ <strong style="color:var(--primary);">3</strong></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span class="frac" style="font-size:1.3em;">
+              <span class="f-num strike">10</span><span class="f-bar"></span><span class="f-den strike">15</span>
+            </span>
+            <span class="eq-sign" style="font-size:1.2em;">＝</span>
+            <span class="frac" style="font-size:1.3em;">
+              <span class="f-num" style="color:var(--primary);">2</span><span class="f-bar"></span>
+              <span class="f-den" style="color:var(--primary);">3</span>
+            </span>
+          </div>
+          <div class="answer-final">答え：分子 <strong>2</strong>　分母 <strong>3</strong></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="memo-box">
+    📌 <strong>ポイント：</strong>分子と分母を同じ数で割っても、分数の大きさは変わりません。<br>
+    これ以上割れなくなるまで続けましょう。
+  </div>
+
+  <div class="nav-btns">
+    <a href="intro.html"   class="btn-nav btn-back">← 導入にもどる</a>
+    <a href="drill.html"   class="btn-nav btn-forward">③ 演習へ →</a>
+  </div>
+
+</main>
+
+<script>
+function checkAnswer(id, ansN, ansD) {
+  const inN = document.getElementById(id+'_n');
+  const inD = document.getElementById(id+'_d');
+  const res = document.getElementById(id+'_res');
+  const n = parseInt(inN.value,10), d = parseInt(inD.value,10);
+  inN.classList.remove('correct','wrong');
+  inD.classList.remove('correct','wrong');
+  if (n===ansN && d===ansD) {
+    res.textContent='⭕'; res.style.color='var(--success)';
+    inN.classList.add('correct'); inD.classList.add('correct');
+  } else {
+    res.textContent='❌'; res.style.color='var(--accent)';
+    inN.classList.add('wrong'); inD.classList.add('wrong');
+  }
+}
+document.querySelectorAll('.f-input').forEach(inp => {
+  inp.addEventListener('keydown', e => {
+    if (e.key==='Enter') inp.closest('.problem-head').querySelector('.btn-judge').click();
+  });
+});
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

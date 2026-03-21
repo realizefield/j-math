@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA15 小数のかけ算 【導入】</title>
+<style>
+/* ══════════════════════════════════════════
+   GAMBA 共通スタイル　style.css
+   BIZ UDPGothic 統一・全単元共通
+   ══════════════════════════════════════════ */
+
+:root {
+  --primary:       #1a56a0;
+  --primary-light: #dbeafe;
+  --primary-mid:   #3b82f6;
+  --accent:        #e8372d;
+  --accent-light:  #fff1f0;
+  --success:       #16a34a;
+  --success-light: #dcfce7;
+  --warn:          #d97706;
+  --warn-light:    #fffbeb;
+  --bg:            #f0f6ff;
+  --card:          #ffffff;
+  --border:        #c7d9f5;
+  --text:          #1e293b;
+  --text-sub:      #64748b;
+  --radius:        12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'BIZ UDPGothic', 'BIZ UDP Gothic', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ── コンテナ ── */
+.g-container { max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; }
+
+/* ── ページヘッダー ── */
+.page-header { background: var(--primary); color: #fff; padding: 18px 24px 14px; text-align: center; box-shadow: 0 3px 10px rgba(26,86,160,.25); }
+.page-header .unit-code { font-size: .82em; opacity: .8; letter-spacing: .1em; margin-bottom: 4px; }
+.page-header h1 { font-size: clamp(1.1em,3vw,1.55em); font-weight: 700; margin: 0; }
+
+/* ── ステップナビ ── */
+.step-nav { display: flex; align-items: center; justify-content: center; padding: 14px 12px; background: var(--card); border-bottom: 1px solid var(--border); flex-wrap: nowrap; overflow-x: auto; position: sticky; top: 0; z-index: 10; }
+.step-item { display: flex; align-items: center; gap: 6px; font-size: clamp(.75em,2vw,.88em); color: #94a3b8; white-space: nowrap; padding: 4px 6px; }
+.step-item a { color: inherit; text-decoration: none; }
+.step-item a:hover { color: var(--primary); text-decoration: underline; }
+.step-item.active { color: var(--primary); font-weight: 700; }
+.step-circle { width: 22px; height: 22px; border-radius: 50%; font-size: .76em; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-item.active .step-circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 3px var(--primary-light); }
+.step-item:not(.active) .step-circle { background: #94a3b8; color: #fff; }
+.step-arrow { color: #cbd5e1; font-size: 1.1em; padding: 0 2px; user-select: none; }
+
+/* ── テキスト ── */
+.section-title { font-size: 1.05em; font-weight: 700; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 12px; margin-bottom: 16px; }
+.instruction { background: var(--primary-light); border-left: 4px solid var(--primary); border-radius: 0 var(--radius) var(--radius) 0; padding: 13px 16px; margin-bottom: 24px; font-size: .95em; color: var(--primary); line-height: 1.7; }
+.lead-text { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 24px; font-size: .97em; line-height: 1.95; }
+.lead-text strong { color: var(--primary); }
+
+/* ── 問題カード ── */
+.problem-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; transition: box-shadow .2s; }
+.problem-card:focus-within { box-shadow: 0 0 0 3px rgba(26,86,160,.18); }
+.problem-head { display: flex; align-items: center; padding: 18px 20px; gap: 12px; flex-wrap: wrap; }
+.q-num { font-size: .85em; font-weight: 700; color: var(--primary); background: var(--primary-light); border-radius: 8px; padding: 4px 10px; white-space: nowrap; }
+
+/* ── 分数 ── */
+.frac-row { display: flex; align-items: center; gap: clamp(8px,2vw,16px); flex-wrap: wrap; }
+.frac { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.1; vertical-align: middle; }
+.frac .f-num, .frac .f-den { font-size: clamp(1.3em,4vw,1.9em); font-weight: 700; padding: 2px 8px; min-width: 32px; text-align: center; }
+.frac .f-bar { width: 100%; height: 3px; background: var(--text); border-radius: 2px; margin: 2px 0; }
+.frac-sm { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; vertical-align: middle; font-weight: 700; }
+.frac-sm .f-num, .frac-sm .f-den { font-size: 1em; padding: 0 5px; min-width: 22px; text-align: center; }
+.frac-sm .f-bar { width: 100%; height: 2px; background: var(--text); margin: 2px 0; border-radius: 1px; }
+
+/* ── 入力欄 ── */
+.frac .f-num input {
+  width: clamp(50px,11vw,74px); height: clamp(42px,9vw,56px);
+  text-align: center; font-size: clamp(.95em,2.5vw,1.3em); font-weight: 700;
+  font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;
+  border: 2.5px solid var(--primary); border-radius: 8px;
+  background: #f0f6ff; color: var(--primary); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  -moz-appearance: textfield;
+}
+.frac .f-num input::-webkit-inner-spin-button,
+.frac .f-num input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.frac .f-num input:focus { border-color: var(--primary-mid); background: #eff6ff; box-shadow: 0 0 0 3px rgba(59,130,246,.2); }
+.frac .f-num input.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+.frac .f-num input.wrong   { border-color: var(--accent);  background: var(--accent-light);  color: var(--accent); }
+.eq-sign { font-size: clamp(1.4em,4vw,2em); font-weight: 700; color: var(--text-sub); padding: 0 4px; }
+
+/* ── 答・解説 ── */
+.ans-toggle { margin-left: auto; background: none; border: 1.5px solid #94a3b8; border-radius: 20px; padding: 6px 14px; font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; font-size: .82em; color: var(--text-sub); cursor: pointer; transition: all .18s; white-space: nowrap; }
+.ans-toggle:hover { background: #f1f5f9; border-color: #64748b; color: var(--text); }
+.ans-badge { display: none; margin: 0 20px 14px; padding: 10px 16px; background: var(--accent-light); border: 2px solid var(--accent); border-radius: 8px; font-size: .9em; font-weight: 700; color: var(--accent); }
+.ans-badge.visible { display: block; }
+.ans-badge .ans-explain { margin-top: 6px; font-size: .88em; font-weight: 400; color: var(--text-sub); }
+.answer-box { background: var(--card); border: 2px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
+.answer-summary { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--primary-light); cursor: pointer; user-select: none; list-style: none; font-weight: 700; color: var(--primary); font-size: .95em; }
+.answer-summary::-webkit-details-marker { display: none; }
+.answer-summary .toggle-icon { margin-left: auto; transition: transform .2s; }
+details[open] .answer-summary .toggle-icon { transform: rotate(90deg); }
+.answer-body { padding: 20px 24px; border-top: 1px solid var(--border); line-height: 2; font-size: .97em; }
+.answer-final { margin-top: 16px; padding: 14px 20px; background: var(--warn-light); border: 2px solid var(--warn); border-radius: 8px; text-align: center; font-size: 1.05em; }
+.answer-final strong { color: var(--accent); font-size: 1.4em; }
+
+/* ── メモ・まとめ ── */
+.memo-box { background: var(--success-light); border-left: 4px solid var(--success); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 24px; font-size: .92em; color: #15803d; line-height: 1.75; }
+.summary-box { background: var(--warn-light); border: 2px solid var(--warn); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 28px; font-size: .97em; line-height: 2; }
+.summary-box .summary-title { font-weight: 700; color: var(--warn); font-size: 1.05em; margin-bottom: 8px; }
+.summary-box ul { margin: 0; padding-left: 20px; }
+.summary-box li { margin-bottom: 4px; }
+.summary-box strong { color: var(--primary); }
+
+/* ── スコア ── */
+.score-box { display: none; background: var(--card); border: 3px solid var(--primary); border-radius: var(--radius); padding: 20px 24px; text-align: center; }
+.score-box.visible { display: block; }
+.score-label { font-size: .9em; color: var(--text-sub); margin-bottom: 6px; }
+.score-num { font-size: clamp(1.8em,5vw,2.6em); font-weight: 700; color: var(--primary); }
+.score-msg { margin-top: 8px; font-size: .9em; color: var(--text-sub); }
+
+/* ── ボタン ── */
+.nav-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; margin-top: 28px; }
+.btn-nav { font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; font-size: .95em; font-weight: 700; padding: 12px 28px; border-radius: 50px; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: transform .15s, box-shadow .15s; }
+.btn-nav:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+.btn-back    { background: #f1f5f9; color: var(--text-sub); }
+.btn-forward { background: var(--primary); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-submit { font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; background: var(--primary); color: #fff; font-size: clamp(1em,3vw,1.15em); font-weight: 700; padding: 14px clamp(36px,10vw,80px); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 14px rgba(26,86,160,.3); transition: transform .15s, box-shadow .15s; letter-spacing: .05em; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,86,160,.35); }
+
+/* ── テーブル ── */
+.unit-table-wrap { background: var(--card); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+.unit-table { width: 100%; border-collapse: collapse; font-size: .9em; }
+.unit-table th { background: var(--primary); color: #fff; font-weight: 700; padding: 10px 12px; text-align: center; }
+.unit-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.unit-table tr:last-child td { border-bottom: none; }
+.unit-table tr:nth-child(even) td { background: var(--primary-light); }
+
+/* ── レスポンシブ ── */
+@media (max-width: 480px) {
+  .problem-head { padding: 14px; gap: 8px; }
+  .frac-row { gap: 6px; }
+  .nav-btns { justify-content: center; }
+  .btn-nav { padding: 11px 22px; font-size: .9em; }
+}
+
+</style>
+<style>
+  .step-block {
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+  }
+  .step-block.yellow { background: var(--warn-light);  border: 2px solid var(--warn); }
+  .step-block.blue   { background: var(--primary-light); border: 2px solid var(--primary); }
+  .step-block.green  { background: var(--success-light); border: 2px solid var(--success); }
+  .step-label {
+    font-size: .8em; font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .step-block.yellow .step-label { color: var(--warn); }
+  .step-block.blue   .step-label { color: var(--primary); }
+  .step-block.green  .step-label { color: var(--success); }
+  .big-num {
+    font-size: clamp(1.5em, 4vw, 2.2em);
+    font-weight: 700;
+    letter-spacing: .05em;
+  }
+  .arrow-down {
+    text-align: center;
+    font-size: 1.8em;
+    color: var(--text-sub);
+    line-height: 1;
+    margin: 4px 0;
+  }
+  .dot-highlight {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 4px;
+    padding: 0 4px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MA15</div>
+  <h1>小数のかけ算　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- ① 導入 -->
+  <div class="section-title">小数って何だっけ？</div>
+  <div class="problem-card" style="padding:20px; margin-bottom:16px;">
+    <p style="font-size:.95em; line-height:1.9; margin-bottom:14px;">
+      <strong>0.1</strong> は <strong>1 を 10等分</strong> したうちの1つ分です。<br>
+      つまり <strong style="color:var(--primary);">0.1 ＝ 1 の
+      <span style="display:inline-block; vertical-align:middle; font-size:.85em; text-align:center; line-height:1.2;">
+        <span style="display:block; border-bottom:2px solid var(--primary); padding:0 4px;">1</span>
+        <span style="display:block; padding:0 4px;">10</span>
+      </span>
+      </strong>
+    </p>
+
+    <!-- 数直線SVG -->
+    <svg viewBox="0 0 460 72" width="100%" style="max-width:440px; display:block; margin:0 auto 14px;">
+      <!-- 軸 -->
+      <line x1="20" y1="36" x2="440" y2="36" stroke="#94a3b8" stroke-width="2"/>
+      <line x1="440" y1="30" x2="450" y2="36" stroke="#94a3b8" stroke-width="2"/>
+      <line x1="440" y1="42" x2="450" y2="36" stroke="#94a3b8" stroke-width="2"/>
+      <!-- 0 の目盛り -->
+      <line x1="20" y1="28" x2="20" y2="44" stroke="#1e293b" stroke-width="2"/>
+      <text x="20" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">0</text>
+      <!-- 1 の目盛り -->
+      <line x1="240" y1="28" x2="240" y2="44" stroke="#1e293b" stroke-width="2"/>
+      <text x="240" y="58" text-anchor="middle" font-size="14" font-weight="700" fill="#1e293b">1</text>
+      <!-- 2 の目盛り -->
+      <line x1="440" y1="28" x2="440" y2="44" stroke="#94a3b8" stroke-width="1.5"/>
+      <text x="440" y="58" text-anchor="middle" font-size="13" fill="#94a3b8">2</text>
+      <!-- 0〜1 を10等分 -->
+      <line x1="48"  y1="32" x2="48"  y2="40" stroke="#3b82f6" stroke-width="1.2"/>
+      <line x1="76"  y1="32" x2="76"  y2="40" stroke="#3b82f6" stroke-width="1.2"/>
+      <line x1="104" y1="32" x2="104" y2="40" stroke="#3b82f6" stroke-width="1.2"/>
+      <line x1="132" y1="32" x2="132" y2="40" stroke="#3b82f6" stroke-width="1.2"/>
+      <line x1="160" y1="32" x2="160" y2="40" stroke="#3b82f6" stroke-width="1.2"/>
+      <line x1="188" y1="32" x2="188" y2="40" stroke="#3b82f6" stroke-width="1.2"/>
+      <line x1="216" y1="32" x2="216" y2="40" stroke="#3b82f6" stroke-width="1.2"/>
+      <!-- 0.3 の位置を強調 -->
+      <line x1="104" y1="22" x2="104" y2="44" stroke="#e8372d" stroke-width="2.5"/>
+      <text x="104" y="16" text-anchor="middle" font-size="13" font-weight="700" fill="#e8372d">0.3</text>
+      <!-- 0.1 の幅の矢印 -->
+      <line x1="20" y1="68" x2="48" y2="68" stroke="#3b82f6" stroke-width="1.5"/>
+      <line x1="20" y1="65" x2="20" y2="71" stroke="#3b82f6" stroke-width="1.5"/>
+      <line x1="48" y1="65" x2="48" y2="71" stroke="#3b82f6" stroke-width="1.5"/>
+      <text x="34" y="80" text-anchor="middle" font-size="11" fill="#3b82f6">0.1</text>
+    </svg>
+
+    <div class="memo-box" style="margin-bottom:0;">
+      0.3 ＝ 0.1 が <strong>3個分</strong>　／　0.5 ＝ 0.1 が <strong>5個分</strong>
+    </div>
+  </div>
+
+  <!-- ② 小数×整数 -->
+  <div class="section-title">小数 × 整数 を考えよう</div>
+  <div class="problem-card" style="padding:20px; margin-bottom:16px;">
+    <p style="font-size:.95em; margin-bottom:14px;">
+      <strong>0.3 × 4</strong> はどう計算すればよいでしょうか？
+    </p>
+
+    <div class="step-block yellow">
+      <div class="step-label">🔑 アイデア：整数に直してから計算する</div>
+      <p style="font-size:.9em; margin:0 0 10px;">
+        0.3 は <strong>3 の <sup>1</sup>/<sub>10</sub></strong> です。だから…
+      </p>
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <div style="text-align:center;">
+          <div class="big-num" style="color:var(--primary);">0.3</div>
+          <div style="font-size:.8em; color:var(--text-sub);">← 3の <sup>1</sup>/<sub>10</sub></div>
+        </div>
+        <span class="big-num" style="color:var(--text-sub);">×</span>
+        <div style="text-align:center;">
+          <div class="big-num">4</div>
+          <div style="font-size:.8em; color:var(--text-sub);">　</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-block blue">
+      <div class="step-label">STEP 1　小数点を無視して整数で計算</div>
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:center;">
+        <div class="big-num" style="color:var(--primary);">3</div>
+        <span class="big-num" style="color:var(--text-sub);">×</span>
+        <div class="big-num">4</div>
+        <span class="big-num" style="color:var(--text-sub);">=</span>
+        <div class="big-num" style="color:var(--accent);">12</div>
+      </div>
+    </div>
+
+    <div class="step-block green">
+      <div class="step-label">STEP 2　小数点を元に戻す（左に1つ移動）</div>
+      <p style="font-size:.88em; color:var(--text-sub); margin:0 0 8px;">
+        0.3 は「3 を 10 で割ったもの」なので、答えも 10 で割る = 小数点を左へ1つ
+      </p>
+
+      <!-- 小数点移動アニメーション図 -->
+      <div style="text-align:center; margin:8px 0;">
+        <svg viewBox="0 0 200 60" width="180" height="60" style="display:inline-block; overflow:visible;">
+          <!-- 12 -->
+          <text x="50" y="38" font-size="36" font-weight="700" fill="#e8372d" text-anchor="middle">1</text>
+          <text x="90" y="38" font-size="36" font-weight="700" fill="#e8372d" text-anchor="middle">2</text>
+          <!-- 小数点（元の位置、薄く） -->
+          <circle cx="110" cy="40" r="4" fill="#cbd5e1"/>
+          <!-- 矢印（小数点が左へ） -->
+          <path d="M 108,52 Q 85,62 68,52" stroke="#e8372d" stroke-width="2" fill="none" marker-end="url(#a15)"/>
+          <text x="88" y="72" text-anchor="middle" font-size="11" fill="#e8372d" font-weight="700">左に1つ</text>
+          <!-- 小数点（新しい位置） -->
+          <circle cx="68" cy="40" r="5" fill="#e8372d"/>
+          <defs>
+            <marker id="a15" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#e8372d"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+
+      <div style="text-align:center; font-size:1.1em; font-weight:700; color:var(--success);">
+        12 → <span style="font-size:1.3em;">1.2</span>　✅
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 小数×小数 -->
+  <div class="section-title">小数 × 小数 も同じ考え方！</div>
+  <div class="problem-card" style="padding:20px; margin-bottom:16px;">
+    <p style="font-size:.95em; margin-bottom:14px;"><strong>0.4 × 0.3</strong> の場合</p>
+
+    <!-- 図：両方を10倍して計算 -->
+    <div style="overflow-x:auto;">
+      <table style="width:100%; max-width:420px; margin:0 auto 14px; border-collapse:collapse; font-size:.9em;">
+        <tr>
+          <td style="padding:8px 10px; background:var(--primary-light); border-radius:8px 0 0 0; text-align:center; font-weight:700;">
+            0.4 を <span style="color:var(--primary);">10倍</span><br>
+            <span style="font-size:1.3em; color:var(--primary);">→ 4</span>
+          </td>
+          <td style="padding:8px 4px; text-align:center; font-size:1.4em; font-weight:700; color:var(--text-sub);">×</td>
+          <td style="padding:8px 10px; background:var(--warn-light); border-radius:0 8px 8px 0; text-align:center; font-weight:700;">
+            0.3 を <span style="color:var(--warn);">10倍</span><br>
+            <span style="font-size:1.3em; color:var(--warn);">→ 3</span>
+          </td>
+          <td style="padding:8px 4px; text-align:center; font-size:1.4em; font-weight:700; color:var(--text-sub);">=</td>
+          <td style="padding:8px 10px; background:var(--success-light); border-radius:8px; text-align:center; font-weight:700;">
+            <span style="font-size:1.3em; color:var(--accent);">12</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="arrow-down">↓</div>
+    <p style="text-align:center; font-size:.9em; color:var(--text-sub); margin:4px 0 12px;">
+      両方を10倍したので、答えは <strong style="color:var(--accent);">100で割る</strong>（小数点を左に <strong>2つ</strong> 移動）
+    </p>
+
+    <div style="background:var(--success-light); border:2px solid var(--success); border-radius:10px; padding:14px; text-align:center;">
+      <span style="font-size:.9em; color:var(--text-sub);">12 → 小数点を左に2つ →</span>
+      <span style="font-size:1.6em; font-weight:700; color:var(--success); margin-left:8px;">0.12</span>
+    </div>
+  </div>
+
+  <!-- ④ ポイントまとめ（ルール） -->
+  <div class="section-title">計算のポイント</div>
+  <div style="background:var(--primary-light); border:2.5px solid var(--primary); border-radius:14px; padding:20px; margin-bottom:20px;">
+    <div style="font-size:.88em; font-weight:700; color:var(--primary); margin-bottom:14px; text-align:center;">〈重要〉小数のかけ算の手順</div>
+
+    <!-- 手順ボックス -->
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <div style="background:var(--primary); color:#fff; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.9em; flex-shrink:0;">1</div>
+        <div style="font-size:.95em; line-height:1.7;">
+          <strong>小数点を取り除いて</strong>整数にする<br>
+          <span style="color:var(--text-sub); font-size:.88em;">（それぞれ何桁移動したか数えておく）</span>
+        </div>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <div style="background:var(--primary); color:#fff; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.9em; flex-shrink:0;">2</div>
+        <div style="font-size:.95em; line-height:1.7;">
+          <strong>整数どうしのかけ算</strong>をする
+        </div>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <div style="background:var(--accent); color:#fff; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.9em; flex-shrink:0;">3</div>
+        <div style="font-size:.95em; line-height:1.7;">
+          <strong>移動した桁数の合計</strong>だけ<strong>小数点を左に移動</strong>する<br>
+          <span style="color:var(--text-sub); font-size:.88em;">（末尾の 0 は消す）</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 例 -->
+    <div style="margin-top:16px; padding:12px 16px; background:white; border-radius:10px; font-size:.9em;">
+      <div style="font-weight:700; color:var(--text-sub); margin-bottom:8px;">例）2.5 × 1.2</div>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; line-height:1.9;">
+        <span>①</span>
+        <span style="color:var(--primary); font-weight:700;">25</span>
+        <span style="color:var(--text-sub);">×</span>
+        <span style="color:var(--warn); font-weight:700;">12</span>
+        <span style="color:var(--text-sub);">＝</span>
+        <span style="color:var(--accent); font-weight:700;">300</span>
+        <span style="color:var(--text-sub); font-size:.88em;">（各1桁ずらした）</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; line-height:1.9;">
+        <span>②</span>
+        <span>合計 <strong style="color:var(--accent);">2</strong> 桁ずらし → 300 の小数点を左に2つ</span>
+        <span style="font-size:1.1em; font-weight:700; color:var(--success);">→ <strong>3.00 → 3</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul style="margin:0; padding-left:1.3em; line-height:2;">
+      <li>小数点を外して<strong>整数に直して</strong>かけ算する</li>
+      <li>答えに小数点を戻す：<strong>ずらした桁数の合計</strong>だけ左へ移動</li>
+      <li>末尾の <strong>0 は消す</strong>（3.00 → 3）</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-back">← 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

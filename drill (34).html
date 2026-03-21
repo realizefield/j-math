@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA16 小数のわり算 【導入】</title>
+<style>
+/* ══════════════════════════════════════════
+   GAMBA 共通スタイル　style.css
+   ══════════════════════════════════════════ */
+:root {
+  --primary:#1a56a0; --primary-light:#dbeafe; --primary-mid:#3b82f6;
+  --accent:#e8372d;  --accent-light:#fff1f0;
+  --success:#16a34a; --success-light:#dcfce7;
+  --warn:#d97706;    --warn-light:#fffbeb;
+  --bg:#f0f6ff; --card:#ffffff; --border:#c7d9f5;
+  --text:#1e293b; --text-sub:#64748b; --radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);text-decoration:underline;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:24px;font-size:.95em;color:var(--primary);line-height:1.7;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;transition:box-shadow .2s;}
+.memo-box{background:var(--success-light);border-left:4px solid var(--success);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:24px;font-size:.92em;color:#15803d;line-height:1.75;}
+.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;font-size:.97em;line-height:2;}
+.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
+.summary-box ul{margin:0;padding-left:20px;}
+.summary-box li{margin-bottom:4px;}
+.summary-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-forward{background:var(--primary);color:#fff;}
+/* ローカル追加スタイル */
+.sblock{border-radius:12px;padding:16px 20px;margin-bottom:12px;}
+.sblock.y{background:var(--warn-light);border:2px solid var(--warn);}
+.sblock.b{background:var(--primary-light);border:2px solid var(--primary);}
+.sblock.g{background:var(--success-light);border:2px solid var(--success);}
+.sblock.r{background:var(--accent-light);border:2px solid var(--accent);}
+.slbl{font-size:.8em;font-weight:700;margin-bottom:8px;}
+.sblock.y .slbl{color:var(--warn);}
+.sblock.b .slbl{color:var(--primary);}
+.sblock.g .slbl{color:var(--success);}
+.sblock.r .slbl{color:var(--accent);}
+.big{font-size:clamp(1.4em,4vw,2em);font-weight:700;}
+.compare-table{width:100%;border-collapse:collapse;font-size:.9em;margin:10px 0;}
+.compare-table th{padding:8px 12px;text-align:center;font-weight:700;}
+.compare-table td{padding:8px 12px;text-align:center;border:1.5px solid var(--border);}
+.compare-table .th-mul{background:var(--primary-light);color:var(--primary);}
+.compare-table .th-div{background:var(--accent-light);color:var(--accent);}
+.compare-table .row-mul td{background:#f8faff;}
+.compare-table .row-div td{background:var(--accent-light);}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MA16</div>
+  <h1>小数のわり算　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- ① かけ算との比較 -->
+  <div class="section-title">かけ算と比べてみよう</div>
+  <div class="problem-card" style="padding:20px; margin-bottom:16px;">
+    <p style="font-size:.95em; line-height:1.9; margin-bottom:14px;">
+      MA15でかけ算を学びました。わり算は<strong style="color:var(--accent);">逆の操作</strong>です。
+      小数点の移動方向が逆になります。
+    </p>
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <tr>
+          <th class="th-mul" style="border:1.5px solid var(--border);">かけ算（MA15）</th>
+          <th class="th-div" style="border:1.5px solid var(--border);">わり算（MA16）</th>
+        </tr>
+        <tr class="row-mul">
+          <td>整数にして <strong>かける</strong></td>
+          <td>整数にして <strong>わる</strong></td>
+        </tr>
+        <tr>
+          <td>小数点を <strong style="color:var(--primary);">左</strong> に移動</td>
+          <td>小数点を <strong style="color:var(--accent);">右</strong> に移動（÷の数だけ）</td>
+        </tr>
+        <tr class="row-mul">
+          <td>桁数を <strong>合計</strong> する</td>
+          <td>桁数を <strong>引き算</strong> する</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ② 小数÷整数の考え方 -->
+  <div class="section-title">① 小数 ÷ 整数 を考えよう</div>
+  <div class="problem-card" style="padding:20px; margin-bottom:16px;">
+    <p style="font-size:.95em; margin-bottom:14px;"><strong>1.2 ÷ 4</strong> はどう計算すればよいか？</p>
+
+    <div class="sblock y">
+      <div class="slbl">🔑 アイデア：10倍して整数÷整数にする</div>
+      <p style="font-size:.9em; line-height:1.8; margin-bottom:10px;">
+        1.2 を <strong style="color:var(--primary);">10倍</strong> すると <strong style="color:var(--primary);">12</strong>。<br>
+        整数になったので普通にわり算できる！
+      </p>
+      <div style="display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
+        <span class="big" style="color:var(--primary);">12</span>
+        <span class="big" style="color:var(--text-sub);">÷</span>
+        <span class="big">4</span>
+        <span class="big" style="color:var(--text-sub);">=</span>
+        <span class="big" style="color:var(--accent);">3</span>
+      </div>
+    </div>
+
+    <div class="sblock b">
+      <div class="slbl">⚠️ 10倍した分だけ答えも10倍になっているので…</div>
+      <p style="font-size:.9em; line-height:1.8; margin-bottom:10px;">
+        1.2 を 10倍して計算したので、答えを <strong style="color:var(--accent);">10で割る</strong>（小数点を左に1つ）
+      </p>
+      <div style="display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap;">
+        <span class="big" style="color:var(--accent);">3</span>
+        <span style="color:var(--text-sub);">→ 10で割る →</span>
+        <span class="big" style="color:var(--success);">0.3</span>
+      </div>
+    </div>
+
+    <!-- 数直線で確認 -->
+    <div class="sblock g">
+      <div class="slbl">📐 数直線で確認</div>
+      <svg viewBox="0 0 440 68" width="100%" style="max-width:420px; display:block; margin:0 auto;">
+        <line x1="20" y1="34" x2="410" y2="34" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="408" y1="28" x2="418" y2="34" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="408" y1="40" x2="418" y2="34" stroke="#94a3b8" stroke-width="2"/>
+        <!-- 0 -->
+        <line x1="20" y1="26" x2="20" y2="42" stroke="#1e293b" stroke-width="2"/>
+        <text x="20" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="#1e293b">0</text>
+        <!-- 0.3 -->
+        <line x1="113" y1="28" x2="113" y2="40" stroke="#e8372d" stroke-width="2.5"/>
+        <text x="113" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#e8372d">0.3</text>
+        <!-- 0.6 -->
+        <line x1="206" y1="28" x2="206" y2="40" stroke="#3b82f6" stroke-width="1.5"/>
+        <text x="206" y="22" text-anchor="middle" font-size="11" fill="#3b82f6">0.6</text>
+        <!-- 0.9 -->
+        <line x1="299" y1="28" x2="299" y2="40" stroke="#3b82f6" stroke-width="1.5"/>
+        <text x="299" y="22" text-anchor="middle" font-size="11" fill="#3b82f6">0.9</text>
+        <!-- 1.2 -->
+        <line x1="392" y1="26" x2="392" y2="42" stroke="#1a56a0" stroke-width="2.5"/>
+        <text x="392" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="#1a56a0">1.2</text>
+        <!-- ブレース: 0.3ずつ4つ分 -->
+        <line x1="20" y1="62" x2="392" y2="62" stroke="#16a34a" stroke-width="1.5"/>
+        <line x1="20"  y1="59" x2="20"  y2="65" stroke="#16a34a" stroke-width="1.5"/>
+        <line x1="392" y1="59" x2="392" y2="65" stroke="#16a34a" stroke-width="1.5"/>
+        <text x="206" y="80" text-anchor="middle" font-size="11" font-weight="700" fill="#16a34a">0.3 × 4 = 1.2</text>
+      </svg>
+      <p style="font-size:.85em; text-align:center; color:var(--text-sub); margin-top:6px;">
+        1.2 を 4等分すると 1つ分は <strong style="color:var(--accent);">0.3</strong>
+      </p>
+    </div>
+  </div>
+
+  <!-- ③ 小数÷小数の考え方 -->
+  <div class="section-title">② 小数 ÷ 小数 を考えよう</div>
+  <div class="problem-card" style="padding:20px; margin-bottom:16px;">
+    <p style="font-size:.95em; margin-bottom:14px;"><strong>3.6 ÷ 0.4</strong> の場合</p>
+
+    <div class="sblock r">
+      <div class="slbl">⚠️ わる数（0.4）が小数のままではわり算できない！</div>
+      <p style="font-size:.9em; line-height:1.8;">
+        わり算は <strong>わる数を整数</strong> にする必要があります。<br>
+        0.4 を <strong style="color:var(--accent);">10倍</strong> して <strong style="color:var(--accent);">4</strong> にします。
+      </p>
+    </div>
+
+    <div class="sblock y">
+      <div class="slbl">🔑 ポイント：両方を同じ倍数にする</div>
+      <p style="font-size:.9em; line-height:1.8; margin-bottom:12px;">
+        わる数を10倍したら、<strong>割られる数も同じく10倍</strong>しないと答えが変わってしまいます。
+      </p>
+      <!-- 両方10倍の図 -->
+      <div style="display:flex; align-items:center; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+        <div style="text-align:center;">
+          <div style="font-size:.78em; color:var(--primary); font-weight:700; margin-bottom:2px;">10倍↓</div>
+          <div class="big" style="color:var(--primary); border:2px dashed var(--primary); border-radius:8px; padding:4px 12px;">3.6 → 36</div>
+        </div>
+        <span class="big" style="color:var(--text-sub); padding:0 4px;">÷</span>
+        <div style="text-align:center;">
+          <div style="font-size:.78em; color:var(--accent); font-weight:700; margin-bottom:2px;">10倍↓</div>
+          <div class="big" style="color:var(--accent); border:2px dashed var(--accent); border-radius:8px; padding:4px 12px;">0.4 → 4</div>
+        </div>
+        <span class="big" style="color:var(--text-sub);">=</span>
+        <div style="text-align:center;">
+          <div style="font-size:.78em; color:var(--success); font-weight:700; margin-bottom:2px;">答え</div>
+          <div class="big" style="color:var(--success); background:var(--success-light); border-radius:8px; padding:4px 12px;">9</div>
+        </div>
+      </div>
+      <div class="memo-box" style="margin-bottom:0;">
+        両方を同じ倍数にしても <strong>答えは変わらない</strong>！<br>
+        （例：6÷2 と 60÷20 は同じ 3）
+      </div>
+    </div>
+
+    <div class="sblock b">
+      <div class="slbl">STEP まとめ：3.6 ÷ 0.4 の計算手順</div>
+      <div style="display:flex; flex-direction:column; gap:8px; font-size:.93em; line-height:1.8;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="background:var(--primary);color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;">1</span>
+          <span>わる数の小数点以下の桁数を確認 → 0.4 は <strong style="color:var(--accent);">1桁</strong></span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="background:var(--primary);color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;">2</span>
+          <span>両方を <strong style="color:var(--accent);">10倍</strong>（1桁分）→ 36 ÷ 4</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span style="background:var(--accent);color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;">3</span>
+          <span>整数でわり算 → 36 ÷ 4 ＝ <strong style="color:var(--success);">9</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 小数点の移動まとめ -->
+  <div class="section-title">小数点の移動ルール</div>
+  <div style="background:var(--primary-light); border:2.5px solid var(--primary); border-radius:14px; padding:20px; margin-bottom:20px;">
+    <div style="font-size:.88em; font-weight:700; color:var(--primary); margin-bottom:16px; text-align:center;">〈重要〉わり算の小数点の扱い</div>
+
+    <div style="overflow-x:auto; margin-bottom:14px;">
+      <table style="width:100%; border-collapse:collapse; font-size:.88em; min-width:280px;">
+        <tr style="background:var(--primary); color:#fff;">
+          <th style="padding:8px 10px; text-align:left; font-weight:700;">パターン</th>
+          <th style="padding:8px 10px; text-align:center; font-weight:700;">操作</th>
+          <th style="padding:8px 10px; text-align:center; font-weight:700;">例</th>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:9px 10px; font-weight:700;">小数 ÷ 整数</td>
+          <td style="padding:9px 10px; text-align:center;">割られる数の桁数分だけ<br><strong style="color:var(--primary);">答えの小数点を左へ</strong></td>
+          <td style="padding:9px 10px; text-align:center; color:var(--primary);">1.2÷4<br>→ 12÷4=3 → <strong>0.3</strong></td>
+        </tr>
+        <tr style="background:var(--accent-light); border-bottom:1px solid var(--border);">
+          <td style="padding:9px 10px; font-weight:700;">小数 ÷ 小数<br><span style="font-size:.85em;">(桁数が同じ)</span></td>
+          <td style="padding:9px 10px; text-align:center;">両方を整数にする<br><strong style="color:var(--accent);">小数点の移動なし</strong></td>
+          <td style="padding:9px 10px; text-align:center; color:var(--accent);">3.6÷0.4<br>→ 36÷4=<strong>9</strong></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 視覚的な小数点移動の対比 -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+      <div style="background:white; border-radius:10px; padding:12px; text-align:center;">
+        <div style="font-size:.78em; font-weight:700; color:var(--primary); margin-bottom:8px;">小数 ÷ 整数</div>
+        <svg viewBox="0 0 120 50" width="100%" style="max-width:140px;">
+          <text x="20" y="30" font-size="22" font-weight="700" fill="#1a56a0">1</text>
+          <circle cx="33" cy="34" r="3" fill="#1a56a0"/>
+          <text x="36" y="30" font-size="22" font-weight="700" fill="#1a56a0">2</text>
+          <text x="62" y="30" font-size="18" fill="#64748b">÷4＝</text>
+          <text x="96" y="30" font-size="22" font-weight="700" fill="#16a34a">3</text>
+          <!-- 答えの小数点 -->
+          <text x="8" y="46" font-size="10" fill="#e8372d">答え：0.3</text>
+          <text x="72" y="46" font-size="10" fill="#e8372d">←小数点を左1つ</text>
+        </svg>
+      </div>
+      <div style="background:white; border-radius:10px; padding:12px; text-align:center;">
+        <div style="font-size:.78em; font-weight:700; color:var(--accent); margin-bottom:8px;">小数 ÷ 小数（同桁）</div>
+        <svg viewBox="0 0 120 50" width="100%" style="max-width:140px;">
+          <text x="4" y="30" font-size="18" font-weight="700" fill="#1a56a0">3.6÷0.4</text>
+          <text x="4" y="46" font-size="11" fill="#e8372d">↓両方×10</text>
+          <text x="60" y="46" font-size="14" font-weight="700" fill="#16a34a">36÷4=9</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul>
+      <li><strong>わる数が整数</strong>になるように両方を同じ倍数にする</li>
+      <li><strong>小数 ÷ 整数</strong>：割られる数の桁数分だけ <strong>答えの小数点を左へ</strong></li>
+      <li><strong>小数 ÷ 小数（同桁）</strong>：両方整数にすれば <strong>小数点の移動なし</strong></li>
+      <li>末尾の <strong>0 は消す</strong>（3.0 → 3）</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-back">← 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

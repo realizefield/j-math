@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA14 小数のたし算・ひき算 【導入】</title>
+<style>
+/* ══════════════════════════════════════════
+   GAMBA 共通スタイル　style.css
+   BIZ UDPGothic 統一・全単元共通
+   ══════════════════════════════════════════ */
+
+:root {
+  --primary:       #1a56a0;
+  --primary-light: #dbeafe;
+  --primary-mid:   #3b82f6;
+  --accent:        #e8372d;
+  --accent-light:  #fff1f0;
+  --success:       #16a34a;
+  --success-light: #dcfce7;
+  --warn:          #d97706;
+  --warn-light:    #fffbeb;
+  --bg:            #f0f6ff;
+  --card:          #ffffff;
+  --border:        #c7d9f5;
+  --text:          #1e293b;
+  --text-sub:      #64748b;
+  --radius:        12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'BIZ UDPGothic', 'BIZ UDP Gothic', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ── コンテナ ── */
+.g-container { max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; }
+
+/* ── ページヘッダー ── */
+.page-header { background: var(--primary); color: #fff; padding: 18px 24px 14px; text-align: center; box-shadow: 0 3px 10px rgba(26,86,160,.25); }
+.page-header .unit-code { font-size: .82em; opacity: .8; letter-spacing: .1em; margin-bottom: 4px; }
+.page-header h1 { font-size: clamp(1.1em,3vw,1.55em); font-weight: 700; margin: 0; }
+
+/* ── ステップナビ ── */
+.step-nav { display: flex; align-items: center; justify-content: center; padding: 14px 12px; background: var(--card); border-bottom: 1px solid var(--border); flex-wrap: nowrap; overflow-x: auto; position: sticky; top: 0; z-index: 10; }
+.step-item { display: flex; align-items: center; gap: 6px; font-size: clamp(.75em,2vw,.88em); color: #94a3b8; white-space: nowrap; padding: 4px 6px; }
+.step-item a { color: inherit; text-decoration: none; }
+.step-item a:hover { color: var(--primary); text-decoration: underline; }
+.step-item.active { color: var(--primary); font-weight: 700; }
+.step-circle { width: 22px; height: 22px; border-radius: 50%; font-size: .76em; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-item.active .step-circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 3px var(--primary-light); }
+.step-item:not(.active) .step-circle { background: #94a3b8; color: #fff; }
+.step-arrow { color: #cbd5e1; font-size: 1.1em; padding: 0 2px; user-select: none; }
+
+/* ── テキスト ── */
+.section-title { font-size: 1.05em; font-weight: 700; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 12px; margin-bottom: 16px; }
+.instruction { background: var(--primary-light); border-left: 4px solid var(--primary); border-radius: 0 var(--radius) var(--radius) 0; padding: 13px 16px; margin-bottom: 24px; font-size: .95em; color: var(--primary); line-height: 1.7; }
+.lead-text { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 24px; font-size: .97em; line-height: 1.95; }
+.lead-text strong { color: var(--primary); }
+
+/* ── 問題カード ── */
+.problem-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; transition: box-shadow .2s; }
+.problem-card:focus-within { box-shadow: 0 0 0 3px rgba(26,86,160,.18); }
+.problem-head { display: flex; align-items: center; padding: 18px 20px; gap: 12px; flex-wrap: wrap; }
+.q-num { font-size: .85em; font-weight: 700; color: var(--primary); background: var(--primary-light); border-radius: 8px; padding: 4px 10px; white-space: nowrap; }
+
+/* ── 分数 ── */
+.frac-row { display: flex; align-items: center; gap: clamp(8px,2vw,16px); flex-wrap: wrap; }
+.frac { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.1; vertical-align: middle; }
+.frac .f-num, .frac .f-den { font-size: clamp(1.3em,4vw,1.9em); font-weight: 700; padding: 2px 8px; min-width: 32px; text-align: center; }
+.frac .f-bar { width: 100%; height: 3px; background: var(--text); border-radius: 2px; margin: 2px 0; }
+.frac-sm { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; vertical-align: middle; font-weight: 700; }
+.frac-sm .f-num, .frac-sm .f-den { font-size: 1em; padding: 0 5px; min-width: 22px; text-align: center; }
+.frac-sm .f-bar { width: 100%; height: 2px; background: var(--text); margin: 2px 0; border-radius: 1px; }
+
+/* ── 入力欄 ── */
+.frac .f-num input {
+  width: clamp(50px,11vw,74px); height: clamp(42px,9vw,56px);
+  text-align: center; font-size: clamp(.95em,2.5vw,1.3em); font-weight: 700;
+  font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;
+  border: 2.5px solid var(--primary); border-radius: 8px;
+  background: #f0f6ff; color: var(--primary); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  -moz-appearance: textfield;
+}
+.frac .f-num input::-webkit-inner-spin-button,
+.frac .f-num input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.frac .f-num input:focus { border-color: var(--primary-mid); background: #eff6ff; box-shadow: 0 0 0 3px rgba(59,130,246,.2); }
+.frac .f-num input.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+.frac .f-num input.wrong   { border-color: var(--accent);  background: var(--accent-light);  color: var(--accent); }
+.eq-sign { font-size: clamp(1.4em,4vw,2em); font-weight: 700; color: var(--text-sub); padding: 0 4px; }
+
+/* ── 答・解説 ── */
+.ans-toggle { margin-left: auto; background: none; border: 1.5px solid #94a3b8; border-radius: 20px; padding: 6px 14px; font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; font-size: .82em; color: var(--text-sub); cursor: pointer; transition: all .18s; white-space: nowrap; }
+.ans-toggle:hover { background: #f1f5f9; border-color: #64748b; color: var(--text); }
+.ans-badge { display: none; margin: 0 20px 14px; padding: 10px 16px; background: var(--accent-light); border: 2px solid var(--accent); border-radius: 8px; font-size: .9em; font-weight: 700; color: var(--accent); }
+.ans-badge.visible { display: block; }
+.ans-badge .ans-explain { margin-top: 6px; font-size: .88em; font-weight: 400; color: var(--text-sub); }
+.answer-box { background: var(--card); border: 2px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
+.answer-summary { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--primary-light); cursor: pointer; user-select: none; list-style: none; font-weight: 700; color: var(--primary); font-size: .95em; }
+.answer-summary::-webkit-details-marker { display: none; }
+.answer-summary .toggle-icon { margin-left: auto; transition: transform .2s; }
+details[open] .answer-summary .toggle-icon { transform: rotate(90deg); }
+.answer-body { padding: 20px 24px; border-top: 1px solid var(--border); line-height: 2; font-size: .97em; }
+.answer-final { margin-top: 16px; padding: 14px 20px; background: var(--warn-light); border: 2px solid var(--warn); border-radius: 8px; text-align: center; font-size: 1.05em; }
+.answer-final strong { color: var(--accent); font-size: 1.4em; }
+
+/* ── メモ・まとめ ── */
+.memo-box { background: var(--success-light); border-left: 4px solid var(--success); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 24px; font-size: .92em; color: #15803d; line-height: 1.75; }
+.summary-box { background: var(--warn-light); border: 2px solid var(--warn); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 28px; font-size: .97em; line-height: 2; }
+.summary-box .summary-title { font-weight: 700; color: var(--warn); font-size: 1.05em; margin-bottom: 8px; }
+.summary-box ul { margin: 0; padding-left: 20px; }
+.summary-box li { margin-bottom: 4px; }
+.summary-box strong { color: var(--primary); }
+
+/* ── スコア ── */
+.score-box { display: none; background: var(--card); border: 3px solid var(--primary); border-radius: var(--radius); padding: 20px 24px; text-align: center; }
+.score-box.visible { display: block; }
+.score-label { font-size: .9em; color: var(--text-sub); margin-bottom: 6px; }
+.score-num { font-size: clamp(1.8em,5vw,2.6em); font-weight: 700; color: var(--primary); }
+.score-msg { margin-top: 8px; font-size: .9em; color: var(--text-sub); }
+
+/* ── ボタン ── */
+.nav-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; margin-top: 28px; }
+.btn-nav { font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; font-size: .95em; font-weight: 700; padding: 12px 28px; border-radius: 50px; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: transform .15s, box-shadow .15s; }
+.btn-nav:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+.btn-back    { background: #f1f5f9; color: var(--text-sub); }
+.btn-forward { background: var(--primary); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-submit { font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; background: var(--primary); color: #fff; font-size: clamp(1em,3vw,1.15em); font-weight: 700; padding: 14px clamp(36px,10vw,80px); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 14px rgba(26,86,160,.3); transition: transform .15s, box-shadow .15s; letter-spacing: .05em; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,86,160,.35); }
+
+/* ── テーブル ── */
+.unit-table-wrap { background: var(--card); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+.unit-table { width: 100%; border-collapse: collapse; font-size: .9em; }
+.unit-table th { background: var(--primary); color: #fff; font-weight: 700; padding: 10px 12px; text-align: center; }
+.unit-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.unit-table tr:last-child td { border-bottom: none; }
+.unit-table tr:nth-child(even) td { background: var(--primary-light); }
+
+/* ── レスポンシブ ── */
+@media (max-width: 480px) {
+  .problem-head { padding: 14px; gap: 8px; }
+  .frac-row { gap: 6px; }
+  .nav-btns { justify-content: center; }
+  .btn-nav { padding: 11px 22px; font-size: .9em; }
+}
+
+</style>
+<style>
+  /* 筆算ブロック */
+  .hissanWrap {
+    display:inline-flex; flex-direction:column; align-items:flex-end;
+    font-family:'BIZ UDPGothic','BIZ UDP Gothic',monospace;
+    font-size:clamp(1.2em,4vw,1.8em); font-weight:700; line-height:1.6;
+    background:white; border-radius:12px; padding:14px 20px;
+    border:2px solid var(--border); min-width:160px;
+  }
+  .hissanWrap .row { display:flex; align-items:center; justify-content:flex-end; gap:0; }
+  .hissanWrap .op  { margin-right:8px; color:var(--primary); min-width:1em; text-align:center; }
+  .hissanWrap .num { letter-spacing:.05em; }
+  .hissanWrap .dot { color:var(--accent); font-weight:900; }
+  .hissanWrap .pad { color:var(--success); }  /* 補った0 */
+  .hissanWrap .line { width:100%; height:3px; background:var(--text); border-radius:2px; margin:4px 0; }
+  .hissanWrap .ans  { color:var(--accent); }
+
+  /* NG/OK比較 */
+  .compare-box { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:14px; }
+  .compare-card { flex:1; min-width:160px; border-radius:12px; padding:14px 16px; }
+  .compare-card.ng { background:#fff1f0; border:2px solid var(--accent); }
+  .compare-card.ok { background:var(--success-light); border:2px solid var(--success); }
+  .compare-label { font-size:.78em; font-weight:700; margin-bottom:10px; }
+  .ng .compare-label { color:var(--accent); }
+  .ok .compare-label { color:var(--success); }
+
+  /* カラーマーカー */
+  .mark-dp { color:var(--accent); font-weight:900; font-size:1.1em; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MA14</div>
+  <h1>小数のたし算・ひき算　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- ① 問題提起 -->
+  <div class="section-title">こんな計算、どうやる？</div>
+  <div class="problem-card" style="padding:20px; margin-bottom:16px;">
+    <p style="font-size:1em; line-height:1.9; margin-bottom:12px;">
+      <strong>2.3 ＋ 1.45</strong> を計算してみましょう。
+    </p>
+    <div class="compare-box">
+      <!-- NG例 -->
+      <div class="compare-card ng">
+        <div class="compare-label">❌ まちがい　— 右端を揃えた場合</div>
+        <div class="hissanWrap" style="font-size:clamp(1.1em,3.5vw,1.5em);">
+          <div class="row"><span class="op"></span><span class="num">2<span class="mark-dp">.</span>3<span style="color:#fca5a5;">_</span></span></div>
+          <div class="row"><span class="op">+</span><span class="num">1<span class="mark-dp">.</span>45</span></div>
+          <div class="line"></div>
+          <div class="row"><span class="op"></span><span class="num ans" style="color:#ef4444;">3<span class="mark-dp">.</span>??</span></div>
+        </div>
+        <p style="font-size:.82em; color:var(--accent); margin-top:8px; margin-bottom:0;">
+          小数点の位置がズレると正しく計算できない！
+        </p>
+      </div>
+      <!-- OK例 -->
+      <div class="compare-card ok">
+        <div class="compare-label">⭕ 正しい　— 小数点を縦に揃える</div>
+        <div class="hissanWrap" style="font-size:clamp(1.1em,3.5vw,1.5em);">
+          <div class="row"><span class="op"></span><span class="num">2<span class="mark-dp">.</span>3<span class="pad">0</span></span></div>
+          <div class="row"><span class="op">+</span><span class="num">1<span class="mark-dp">.</span>45</span></div>
+          <div class="line"></div>
+          <div class="row"><span class="op"></span><span class="num ans">3<span class="mark-dp">.</span>75</span></div>
+        </div>
+        <p style="font-size:.82em; color:var(--success); margin-top:8px; margin-bottom:0;">
+          2.3 を <strong>2.3<span style="color:var(--success);">0</span></strong> と考えて桁を揃える！
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② ポイント解説 -->
+  <div class="section-title">小数点を揃えるコツ</div>
+  <div class="problem-card" style="padding:20px; margin-bottom:16px;">
+
+    <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:14px;">
+
+      <div style="background:var(--warn-light); border-left:4px solid var(--warn); padding:10px 14px; border-radius:0 8px 8px 0;">
+        <div style="font-size:.8em; font-weight:700; color:var(--warn); margin-bottom:6px;">STEP 1　小数点を縦にピタッと揃える</div>
+        <p style="font-size:.9em; margin:0;">筆算を書くとき、<strong style="color:var(--accent);">小数点の位置を必ず縦に揃える</strong>。整数部・小数部がずれないようにする。</p>
+      </div>
+
+      <div style="background:var(--primary-light); border-left:4px solid var(--primary); padding:10px 14px; border-radius:0 8px 8px 0;">
+        <div style="font-size:.8em; font-weight:700; color:var(--primary); margin-bottom:6px;">STEP 2　桁が足りない部分は 0 で補う</div>
+        <p style="font-size:.9em; margin:0;">
+          2.3 と 1.45 を筆算にするとき、2.3 の小数第2位がないので
+          <strong style="color:var(--success);">2.30</strong> として考える。<br>
+          ※ 0 を補っても数の大きさは変わらない！
+        </p>
+      </div>
+
+      <div style="background:var(--success-light); border-left:4px solid var(--success); padding:10px 14px; border-radius:0 8px 8px 0;">
+        <div style="font-size:.8em; font-weight:700; color:var(--success); margin-bottom:6px;">STEP 3　整数のたし算・ひき算と同じように計算し、小数点をそのまま下ろす</div>
+        <p style="font-size:.9em; margin:0;">筆算で計算して、<strong>答えの小数点は揃えた位置からまっすぐ下ろす</strong>。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ たし算の例 -->
+  <div class="section-title">たし算の筆算　例）2.3 ＋ 1.45</div>
+  <div class="problem-card" style="padding:20px; margin-bottom:16px;">
+    <div style="display:flex; align-items:flex-start; gap:24px; flex-wrap:wrap;">
+      <div class="hissanWrap">
+        <div class="row" style="font-size:.65em; color:var(--text-sub); margin-bottom:-6px; margin-right:2px;">くり上がり</div>
+        <div class="row" style="font-size:.65em; color:var(--accent); margin-bottom:-2px;">
+          <span style="margin-right:10px;"></span><span>1</span><span style="margin:0 4px;"></span>
+        </div>
+        <div class="row"><span class="op"></span><span class="num">2<span class="mark-dp">.</span>3<span class="pad">0</span></span></div>
+        <div class="row"><span class="op">+</span><span class="num">1<span class="mark-dp">.</span>45</span></div>
+        <div class="line"></div>
+        <div class="row"><span class="op"></span><span class="num ans">3<span class="mark-dp">.</span>75</span></div>
+      </div>
+      <div style="flex:1; min-width:140px;">
+        <ol style="font-size:.9em; line-height:2; padding-left:1.4em; margin:0;">
+          <li>2.3 → <strong style="color:var(--success);">2.30</strong> と書く</li>
+          <li>小数点を縦に揃える</li>
+          <li>0＋5＝5（小数第2位）</li>
+          <li>3＋4＝7（小数第1位）</li>
+          <li>2＋1＝3（整数の位）</li>
+          <li>答え：<strong style="color:var(--accent);">3.75</strong></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ ひき算の例 -->
+  <div class="section-title">ひき算の筆算　例）3.5 − 1.28</div>
+  <div class="problem-card" style="padding:20px; margin-bottom:16px;">
+    <div style="display:flex; align-items:flex-start; gap:24px; flex-wrap:wrap;">
+      <div class="hissanWrap">
+        <div class="row"><span class="op"></span><span class="num">3<span class="mark-dp">.</span>5<span class="pad">0</span></span></div>
+        <div class="row"><span class="op" style="color:var(--accent);">−</span><span class="num">1<span class="mark-dp">.</span>28</span></div>
+        <div class="line"></div>
+        <div class="row"><span class="op"></span><span class="num ans">2<span class="mark-dp">.</span>22</span></div>
+      </div>
+      <div style="flex:1; min-width:140px;">
+        <ol style="font-size:.9em; line-height:2; padding-left:1.4em; margin:0;">
+          <li>3.5 → <strong style="color:var(--success);">3.50</strong> と書く</li>
+          <li>小数点を縦に揃える</li>
+          <li>0−8 は借りてきて 10−8＝2</li>
+          <li>4（借りた後）−2＝2（小数第1位）</li>
+          <li>3−1＝2（整数の位）</li>
+          <li>答え：<strong style="color:var(--accent);">2.22</strong></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ まとめ -->
+  <div style="background:var(--primary-light); border:2.5px solid var(--primary); border-radius:12px; padding:16px 20px; margin-bottom:20px; text-align:center;">
+    <div style="font-size:.85em; font-weight:700; color:var(--primary); margin-bottom:10px;">〈重要〉小数の計算ルール</div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+      <div style="background:white; border-radius:8px; padding:8px 14px; font-size:.9em; font-weight:700; color:var(--accent);">① 小数点を縦に揃える</div>
+      <div style="background:white; border-radius:8px; padding:8px 14px; font-size:.9em; font-weight:700; color:var(--success);">② 空いた桁を 0 で補う</div>
+      <div style="background:white; border-radius:8px; padding:8px 14px; font-size:.9em; font-weight:700; color:var(--primary);">③ 整数と同じように計算</div>
+    </div>
+    <p style="font-size:.88em; color:var(--primary); font-weight:700; margin:10px 0 0;">答えの小数点は揃えた位置からまっすぐ下ろす！</p>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul>
+      <li>筆算では <strong>小数点を縦にピタッと揃える</strong></li>
+      <li>桁が足りない部分は <strong>0 を補って</strong> 考える（2.3 → 2.30）</li>
+      <li>計算は整数と同じ。答えの小数点は <strong>そのまま真下に下ろす</strong></li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-back">← 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

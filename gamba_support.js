@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MB02 正負の数の計算② 【演習】</title>
+<title>MB02 正負の数の計算② 【確認テスト】</title>
 <style>
 :root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#3b82f6;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -24,20 +24,25 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
 .problem-head{display:flex;align-items:center;padding:18px 20px;gap:12px;flex-wrap:wrap;}
 .q-num{font-size:.85em;font-weight:700;color:var(--primary);background:var(--primary-light);border-radius:8px;padding:4px 10px;white-space:nowrap;}
-.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:6px 14px;font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.82em;color:var(--text-sub);cursor:pointer;transition:all .18s;white-space:nowrap;}
-.ans-toggle:hover{background:#f1f5f9;border-color:#64748b;color:var(--text);}
+.score-box{display:none;background:var(--card);border:3px solid var(--primary);border-radius:var(--radius);padding:20px 24px;text-align:center;}
+.score-box.visible{display:block;}
+.score-label{font-size:.9em;color:var(--text-sub);margin-bottom:6px;}
+.score-num{font-size:clamp(1.8em,5vw,2.6em);font-weight:700;color:var(--primary);}
+.score-msg{margin-top:8px;font-size:.9em;color:var(--text-sub);}
 .nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
 .btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
 .btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
 .btn-back{background:#f1f5f9;color:var(--text-sub);}
-.btn-forward{background:var(--primary);color:#fff;}
+.btn-success{background:var(--success);color:#fff;}
+.btn-submit{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--primary);color:#fff;font-size:clamp(1em,3vw,1.15em);font-weight:700;padding:14px clamp(36px,10vw,80px);border:none;border-radius:50px;cursor:pointer;box-shadow:0 4px 14px rgba(26,86,160,.3);transition:transform .15s,box-shadow .15s;letter-spacing:.05em;}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,86,160,.35);}
 .num-input{width:clamp(72px,16vw,100px);height:clamp(44px,9vw,56px);text-align:center;font-size:clamp(1em,3vw,1.4em);font-weight:700;font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;border:2.5px solid var(--primary);border-radius:10px;background:#f0f6ff;color:var(--primary);outline:none;transition:border-color .2s;-moz-appearance:textfield;}
 .num-input::-webkit-inner-spin-button,.num-input::-webkit-outer-spin-button{-webkit-appearance:none;}
 .num-input.correct{border-color:var(--success);background:var(--success-light);color:var(--success);}
 .num-input.wrong{border-color:var(--accent);background:var(--accent-light);color:var(--accent);}
 .loss-badge{display:inline-block;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:3px 10px;font-weight:700;color:var(--accent);font-size:.88em;}
 .gain-badge{display:inline-block;background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:3px 10px;font-weight:700;color:var(--success);font-size:.88em;}
-.loss-gain-bar{display:flex;align-items:stretch;border-radius:8px;overflow:hidden;margin:8px 0;height:38px;font-weight:700;font-size:.88em;}
+.loss-gain-bar{display:flex;align-items:stretch;border-radius:8px;overflow:hidden;margin:8px 0;height:36px;font-weight:700;font-size:.88em;}
 .loss-bar{background:#e8372d;color:#fff;display:flex;align-items:center;justify-content:center;}
 .gain-bar{background:#16a34a;color:#fff;display:flex;align-items:center;justify-content:center;}
 </style>
@@ -46,7 +51,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
 <div class="page-header">
   <div class="unit-code">MB02</div>
-  <h1>正負の数の計算②　【演習】</h1>
+  <h1>正負の数の計算②　【確認テスト】</h1>
 </div>
 
 <nav class="step-nav">
@@ -54,26 +59,36 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <span class="step-arrow">›</span>
   <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item active"><span class="step-circle">③</span><span>演習</span></div>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+  <div class="step-item active"><span class="step-circle">④</span><span>確認</span></div>
 </nav>
 
 <main class="g-container">
-  <div class="instruction">
-    <strong>【演習】</strong>　答えを入れてから「答を見る」で確認できます。符号に気をつけよう！
+  <div class="instruction" style="border-left-color:var(--accent);">
+    <strong>【確認テスト】</strong>　全問正解で合格！符号（＋か−か）に気をつけよう。
   </div>
+
   <div id="problems-area"></div>
-  <div class="nav-btns">
-    <a href="example.html" class="btn-nav btn-back">← 例題にもどる</a>
-    <a href="check.html" class="btn-nav btn-forward">④ 確認テストへ →</a>
+
+  <div style="text-align:center;margin-top:28px;">
+    <button onclick="judgeAll()" class="btn-submit">判定する</button>
+  </div>
+
+  <div id="result-area" class="score-box" style="margin-top:24px;"></div>
+
+  <div class="nav-btns" style="margin-top:20px;">
+    <a href="drill.html" class="btn-nav btn-back">← 演習にもどる</a>
+    <a id="btn-next" href="../MB03/intro.html" class="btn-nav btn-success" style="display:none;">次の単元へ →</a>
   </div>
 </main>
 
 <script src="mb02_sets.js"></script>
 <script>
-const setIndex = Math.floor(Math.random() * MB02_DRILL_SETS.length);
-const problems = MB02_DRILL_SETS[setIndex].problems;
+const GAS_URL  = 'https://script.google.com/macros/s/ここにURLを貼り付け/exec';
+const setIndex = Math.floor(Math.random() * MB02_CHECK_SETS.length);
+const problems = MB02_CHECK_SETS[setIndex].problems;
+let startTime  = Date.now();
 
 function barWidths(loss, gain) {
   const t = loss + gain;
@@ -85,7 +100,6 @@ function buildProblems() {
   area.innerHTML = '';
   problems.forEach((p, i) => {
     const isTypeA = p.type === 'A';
-    // 表示：typeA = "前の数(緑) − 引く数(赤)"、typeB = "(−a)(赤) ＋ b(緑)"
     const dispHTML = isTypeA
       ? `<span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">${p.a}</span>
          <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">−</span>
@@ -101,64 +115,78 @@ function buildProblems() {
             <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">=</span>
             <input type="number" id="inp${i}" class="num-input" placeholder="?">
           </div>
-          <button class="ans-toggle" onclick="toggleExplain(${i})">答を見る</button>
         </div>
         <div id="expl${i}" style="display:none;padding:0 16px 16px;"></div>
       </div>`;
   });
 }
 
-function explainHTML(p, isOk, hasInput) {
-  const isTypeA = p.type === 'A';
-  const loss  = isTypeA ? p.lossA : p.lossB;
-  const gain  = isTypeA ? p.gainA : p.gainB;
-  const gainMore = p.ans > 0;
-  const { lw, gw } = barWidths(loss, gain);
+function judgeAll() {
+  let correct = 0;
+  const total = problems.length;
+  problems.forEach((p, i) => {
+    const inp  = document.getElementById('inp'+i);
+    const expl = document.getElementById('expl'+i);
+    const val  = parseInt(inp.value);
+    const isOk = val === p.ans;
+    inp.classList.remove('correct','wrong');
+    inp.classList.add(isOk ? 'correct' : 'wrong');
+    if (isOk) correct++;
 
-  let html = '';
-  if (hasInput) {
-    html += isOk
+    const isTypeA = p.type === 'A';
+    const loss = isTypeA ? p.lossA : p.lossB;
+    const gain = isTypeA ? p.gainA : p.gainB;
+    const gainMore = p.ans > 0;
+    const { lw, gw } = barWidths(loss, gain);
+
+    let html = isOk
       ? `<div style="background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:8px 14px;margin-bottom:10px;font-weight:700;color:var(--success);">⭕ 正解！　<strong>${p.ans}</strong></div>`
       : `<div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:8px 14px;margin-bottom:10px;font-weight:700;color:var(--accent);">❌ 正解は <strong style="font-size:1.2em;">${p.ans}</strong></div>`;
-  } else {
-    html += `<div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:8px 14px;margin-bottom:10px;font-weight:700;color:var(--primary);">正解：<strong>${p.ans}</strong></div>`;
-  }
+    html += `
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+        <span class="gain-badge">儲け ${gain}円</span>
+        <span class="loss-badge">損 ${loss}円</span>
+      </div>
+      <div class="loss-gain-bar">
+        <div class="${gainMore?'gain-bar':'loss-bar'}" style="width:${gainMore?gw:lw}%;">${gainMore?'儲け '+gain:'損 '+loss}</div>
+        <div class="${gainMore?'loss-bar':'gain-bar'}" style="width:${gainMore?lw:gw}%;">${gainMore?'損 '+loss:'儲け '+gain}</div>
+      </div>
+      <p style="font-size:.92em;margin-top:4px;">
+        ${gainMore
+          ? `儲け <strong>${gain}</strong> − 損 <strong>${loss}</strong> ＝ <strong style="color:var(--success);">${p.ans}</strong>`
+          : `損 <strong>${loss}</strong> − 儲け <strong>${gain}</strong> ＝ <strong style="color:var(--accent);">${p.ans}</strong>`}
+      </p>`;
+    expl.innerHTML = html;
+    expl.style.display = 'block';
+  });
 
-  const lossLabel  = isTypeA ? `損 ${loss}` : `損 ${loss}`;
-  const gainLabel  = isTypeA ? `儲け ${gain}` : `儲け ${gain}`;
-  html += `
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
-      <span class="gain-badge">${isTypeA ? '儲け '+gain+'円' : '儲け '+gain+'円'}</span>
-      <span class="loss-badge">${isTypeA ? '損 '+loss+'円' : '損 '+loss+'円'}</span>
-    </div>
-    <div class="loss-gain-bar">
-      <div class="${gainMore ? 'gain-bar' : 'loss-bar'}" style="width:${gainMore ? gw : lw}%;">${gainMore ? '儲け '+gain : '損 '+loss}</div>
-      <div class="${gainMore ? 'loss-bar' : 'gain-bar'}" style="width:${gainMore ? lw : gw}%;">${gainMore ? '損 '+loss : '儲け '+gain}</div>
-    </div>
-    <p style="font-size:.92em;margin-top:4px;">
-      ${gainMore
-        ? `儲け <strong>${gain}</strong> − 損 <strong>${loss}</strong> ＝ <strong style="color:var(--success);">${p.ans}</strong>`
-        : `損 <strong>${loss}</strong> − 儲け <strong>${gain}</strong> ＝ <strong style="color:var(--accent);">${p.ans}</strong>`}
-    </p>`;
-  return html;
-}
+  const isPassed = correct === total;
+  const resultArea = document.getElementById('result-area');
+  resultArea.classList.add('visible');
+  const msg = isPassed
+    ? '完璧！正負の数②マスターです 🎉'
+    : correct >= total * 0.75
+      ? 'あと少し！損と儲けの考え方をもう一度確認しよう。'
+      : '解説をよく読んで、符号の決め方を復習しよう！';
+  resultArea.innerHTML = `
+    <div class="score-label">合計点</div>
+    <div class="score-num">${correct} / ${total} 正解</div>
+    <div class="score-msg">${msg}</div>
+    ${isPassed ? '<div style="margin-top:12px;font-size:.95em;color:#16a34a;font-weight:700;">✅ 合格！次の単元に進めます。</div>' : ''}`;
 
-function toggleExplain(i) {
-  const p    = problems[i];
-  const expl = document.getElementById('expl'+i);
-  const btn  = document.querySelector('#card'+i+' .ans-toggle');
-  const inp  = document.getElementById('inp'+i);
-  if (expl.style.display === 'block') {
-    expl.style.display = 'none'; btn.textContent = '答を見る'; return;
+  if (isPassed) {
+    document.getElementById('btn-next').style.display = 'inline-block';
+    // 進捗をlocalStorageに保存
+    localStorage.setItem('gamba_prog_MB02', 'pass');
+    const studyMins = Math.round((Date.now()-startTime)/60000);
+    fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({student_id:localStorage.getItem('studentId')||'guest',
+        student_name:localStorage.getItem('studentName')||'ゲスト',
+        unit_code:'MB02',unit_name:'正負の数の計算②',
+        correct_count:correct,total_count:total,is_passed:true,study_minutes:studyMins})
+    }).catch(e=>console.log('GAS:',e));
   }
-  const val = parseInt(inp.value);
-  const hasInput = !isNaN(val);
-  const isOk = hasInput && val === p.ans;
-  inp.classList.remove('correct','wrong');
-  if (hasInput) inp.classList.add(isOk ? 'correct' : 'wrong');
-  expl.innerHTML = explainHTML(p, isOk, hasInput);
-  expl.style.display = 'block';
-  btn.textContent = '答を隠す';
+  resultArea.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 buildProblems();

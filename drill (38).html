@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MB02 正負の数の計算② 【例題】</title>
+<title>MB01 正負の数 【例題】</title>
 <style>
 :root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#3b82f6;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -30,7 +30,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .answer-summary .toggle-icon{margin-left:auto;transition:transform .2s;}
 details[open] .answer-summary .toggle-icon{transform:rotate(90deg);}
 .answer-body{padding:20px 24px;border-top:1px solid var(--border);line-height:2;}
-.answer-final{margin-top:14px;padding:14px 20px;background:var(--warn-light);border:2px solid var(--warn);border-radius:8px;text-align:center;font-size:1.05em;}
+.answer-final{margin-top:16px;padding:14px 20px;background:var(--warn-light);border:2px solid var(--warn);border-radius:8px;text-align:center;font-size:1.05em;}
 .answer-final strong{color:var(--accent);font-size:1.4em;}
 .memo-box{background:var(--success-light);border-left:4px solid var(--success);border-radius:0 var(--radius) var(--radius) 0;padding:12px 16px;margin-bottom:24px;font-size:.92em;color:#15803d;line-height:1.75;}
 .nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
@@ -40,25 +40,23 @@ details[open] .answer-summary .toggle-icon{transform:rotate(90deg);}
 .btn-forward{background:var(--primary);color:#fff;}
 .btn-submit{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--primary);color:#fff;font-size:clamp(1em,3vw,1.15em);font-weight:700;padding:14px clamp(36px,10vw,80px);border:none;border-radius:50px;cursor:pointer;box-shadow:0 4px 14px rgba(26,86,160,.3);transition:transform .15s,box-shadow .15s;letter-spacing:.05em;}
 .btn-submit:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,86,160,.35);}
+/* ローカル */
 .num-input{width:clamp(72px,16vw,100px);height:clamp(44px,9vw,56px);text-align:center;font-size:clamp(1em,3vw,1.4em);font-weight:700;font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;border:2.5px solid var(--primary);border-radius:10px;background:#f0f6ff;color:var(--primary);outline:none;transition:border-color .2s;-moz-appearance:textfield;}
 .num-input::-webkit-inner-spin-button,.num-input::-webkit-outer-spin-button{-webkit-appearance:none;}
 .num-input.correct{border-color:var(--success);background:var(--success-light);color:var(--success);}
 .num-input.wrong{border-color:var(--accent);background:var(--accent-light);color:var(--accent);}
-.loss-badge{display:inline-block;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:3px 10px;font-weight:700;color:var(--accent);font-size:.88em;}
-.gain-badge{display:inline-block;background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:3px 10px;font-weight:700;color:var(--success);font-size:.88em;}
+.loss-badge{display:inline-block;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:4px 12px;font-weight:700;color:var(--accent);font-size:.9em;}
+.gain-badge{display:inline-block;background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:4px 12px;font-weight:700;color:var(--success);font-size:.9em;}
 .loss-gain-bar{display:flex;align-items:stretch;border-radius:10px;overflow:hidden;margin:10px 0;height:44px;font-weight:700;font-size:.9em;}
 .loss-bar{background:#e8372d;color:#fff;display:flex;align-items:center;justify-content:center;}
 .gain-bar{background:#16a34a;color:#fff;display:flex;align-items:center;justify-content:center;}
-.tag{font-size:.82em;font-weight:700;border-radius:8px;padding:4px 12px;display:inline-block;margin-bottom:8px;}
-.tag-plus{background:var(--success-light);color:var(--success);}
-.tag-minus{background:var(--accent-light);color:var(--accent);}
 </style>
 </head>
 <body>
 
 <div class="page-header">
-  <div class="unit-code">MB02</div>
-  <h1>正負の数の計算②　【例題】</h1>
+  <div class="unit-code">MB01</div>
+  <h1>正負の数の計算　【例題】</h1>
 </div>
 
 <nav class="step-nav">
@@ -77,34 +75,26 @@ details[open] .answer-summary .toggle-icon{transform:rotate(90deg);}
   </div>
 
   <!-- 早見カード -->
-  <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:12px;padding:14px 18px;margin-bottom:20px;">
-    <div style="font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:8px;">計算の手順</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.88em;">
-      <div>
-        <span style="font-weight:700;">正 − 正 のとき</span><br>
-        前の数 → <span class="gain-badge">儲け</span><br>
-        引く数 → <span class="loss-badge">損</span>
-      </div>
-      <div>
-        <span style="font-weight:700;">負 ＋ 正 のとき</span><br>
-        マイナスの数 → <span class="loss-badge">損</span><br>
-        プラスの数 → <span class="gain-badge">儲け</span>
-      </div>
+  <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;gap:16px;flex-wrap:wrap;align-items:center;justify-content:center;">
+    <div style="font-size:.82em;font-weight:700;color:var(--primary);">計算の手順</div>
+    <div style="font-size:.88em;display:flex;flex-direction:column;gap:4px;">
+      <span>① マイナスの数 → <span class="loss-badge">損</span></span>
+      <span>② プラスの数 → <span class="gain-badge">儲け</span></span>
+      <span>③ 儲け − 損 = 差　→　多い方の符号が答えの符号</span>
     </div>
   </div>
 
-  <!-- (1) 8 − 9 = −1  正−正・マイナス -->
-  <div class="tag tag-minus">正 − 正　→　損が多い → マイナス</div>
+  <!-- (1) (-8) + 9 = 1 -->
   <div class="problem-card">
     <div class="problem-head" style="flex-wrap:wrap;gap:14px;">
       <span class="q-num">(1)</span>
       <div style="display:flex;align-items:center;gap:clamp(8px,2vw,14px);flex-wrap:wrap;">
-        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">8</span>
-        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">−</span>
-        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--accent);">9</span>
+        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--accent);">(−8)</span>
+        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">＋</span>
+        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">9</span>
         <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">=</span>
         <input type="number" id="ex1" class="num-input" placeholder="?">
-        <button onclick="checkEx(1,-1)" class="btn-submit" style="padding:10px 22px;font-size:.9em;">判定</button>
+        <button onclick="checkEx(1,1)" class="btn-submit" style="padding:10px 22px;font-size:.9em;">判定</button>
         <span id="res1" style="font-size:1.5em;font-weight:700;"></span>
       </div>
     </div>
@@ -112,33 +102,35 @@ details[open] .answer-summary .toggle-icon{transform:rotate(90deg);}
       <details>
         <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
         <div class="answer-body">
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;">
-            <span class="gain-badge">儲け 8円</span><span style="align-self:center;">−</span><span class="loss-badge">損 9円</span>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+            <span class="loss-badge">損 8円</span>
+            <span style="align-self:center;">＋</span>
+            <span class="gain-badge">儲け 9円</span>
           </div>
           <div class="loss-gain-bar">
-            <div class="gain-bar" style="width:47%;">儲け 8</div>
-            <div class="loss-bar" style="width:53%;">損 9</div>
+            <div class="loss-bar" style="width:47%;">損 8</div>
+            <div class="gain-bar" style="width:53%;">儲け 9</div>
           </div>
-          <p style="font-size:.9em;color:var(--accent);font-weight:700;margin-bottom:6px;">損の方が多い → 答えは <strong>マイナス</strong></p>
-          <p style="font-size:.95em;">損 <strong>9</strong> − 儲け <strong>8</strong> ＝ 差は <strong>1</strong> → <strong style="color:var(--accent);">−1</strong></p>
-          <div class="answer-final">答え：<strong>−1</strong></div>
+          <p style="font-size:.92em;color:var(--text-sub);margin-bottom:8px;">儲けが多い → 答えは <strong style="color:var(--success);">プラス</strong></p>
+          <p style="font-size:.95em;">儲け <strong>9</strong> − 損 <strong>8</strong> ＝ <strong style="color:var(--success);font-size:1.2em;">1</strong></p>
+          <div class="answer-final">答え：<strong>1</strong></div>
         </div>
       </details>
     </div>
   </div>
 
-  <!-- (2) −8 + 10 = 2  負+正・プラス -->
-  <div class="tag tag-plus">負 ＋ 正　→　儲けが多い → プラス</div>
+  <!-- (2) (-12) + 5 = -7  損が多い -->
+  <div style="font-size:.82em;font-weight:700;color:var(--accent);background:var(--accent-light);border-radius:8px;padding:4px 12px;display:inline-block;margin-bottom:8px;">損が多い → 答えはマイナス</div>
   <div class="problem-card">
     <div class="problem-head" style="flex-wrap:wrap;gap:14px;">
       <span class="q-num">(2)</span>
       <div style="display:flex;align-items:center;gap:clamp(8px,2vw,14px);flex-wrap:wrap;">
-        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--accent);">(−8)</span>
+        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--accent);">(−12)</span>
         <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">＋</span>
-        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">10</span>
+        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">5</span>
         <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">=</span>
         <input type="number" id="ex2" class="num-input" placeholder="?">
-        <button onclick="checkEx(2,2)" class="btn-submit" style="padding:10px 22px;font-size:.9em;">判定</button>
+        <button onclick="checkEx(2,-7)" class="btn-submit" style="padding:10px 22px;font-size:.9em;">判定</button>
         <span id="res2" style="font-size:1.5em;font-weight:700;"></span>
       </div>
     </div>
@@ -146,33 +138,33 @@ details[open] .answer-summary .toggle-icon{transform:rotate(90deg);}
       <details>
         <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
         <div class="answer-body">
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;">
-            <span class="loss-badge">損 8円</span><span style="align-self:center;">＋</span><span class="gain-badge">儲け 10円</span>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+            <span class="loss-badge">損 12円</span><span style="align-self:center;">＋</span><span class="gain-badge">儲け 5円</span>
           </div>
           <div class="loss-gain-bar">
-            <div class="loss-bar" style="width:44%;">損 8</div>
-            <div class="gain-bar" style="width:56%;">儲け 10</div>
+            <div class="loss-bar" style="width:71%;">損 12</div>
+            <div class="gain-bar" style="width:29%;">儲け 5</div>
           </div>
-          <p style="font-size:.9em;color:var(--success);font-weight:700;margin-bottom:6px;">儲けの方が多い → 答えは <strong>プラス</strong></p>
-          <p style="font-size:.95em;">儲け <strong>10</strong> − 損 <strong>8</strong> ＝ 差は <strong>2</strong> → <strong style="color:var(--success);">＋2</strong></p>
-          <div class="answer-final">答え：<strong>2</strong></div>
+          <p style="font-size:.9em;color:var(--accent);font-weight:700;margin-bottom:8px;">損の方が多い → 答えは <strong>マイナス</strong>！</p>
+          <p style="font-size:.95em;">損 <strong>12</strong> − 儲け <strong>5</strong> ＝ 差は <strong>7</strong>　→ <strong style="color:var(--accent);font-size:1.2em;">−7</strong></p>
+          <div class="answer-final">答え：<strong>−7</strong></div>
         </div>
       </details>
     </div>
   </div>
 
-  <!-- (3) −35 + 21 = −14  負+正・マイナス -->
-  <div class="tag tag-minus">負 ＋ 正　→　損が多い → マイナス</div>
+  <!-- (3) (-10) + 15 = 5  儲けが多い -->
+  <div style="font-size:.82em;font-weight:700;color:var(--success);background:var(--success-light);border-radius:8px;padding:4px 12px;display:inline-block;margin-bottom:8px;">儲けが多い → 答えはプラス</div>
   <div class="problem-card">
     <div class="problem-head" style="flex-wrap:wrap;gap:14px;">
       <span class="q-num">(3)</span>
       <div style="display:flex;align-items:center;gap:clamp(8px,2vw,14px);flex-wrap:wrap;">
-        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--accent);">(−35)</span>
+        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--accent);">(−10)</span>
         <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">＋</span>
-        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">21</span>
+        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">15</span>
         <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">=</span>
         <input type="number" id="ex3" class="num-input" placeholder="?">
-        <button onclick="checkEx(3,-14)" class="btn-submit" style="padding:10px 22px;font-size:.9em;">判定</button>
+        <button onclick="checkEx(3,5)" class="btn-submit" style="padding:10px 22px;font-size:.9em;">判定</button>
         <span id="res3" style="font-size:1.5em;font-weight:700;"></span>
       </div>
     </div>
@@ -180,33 +172,32 @@ details[open] .answer-summary .toggle-icon{transform:rotate(90deg);}
       <details>
         <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
         <div class="answer-body">
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;">
-            <span class="loss-badge">損 35円</span><span style="align-self:center;">＋</span><span class="gain-badge">儲け 21円</span>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+            <span class="loss-badge">損 10円</span><span style="align-self:center;">＋</span><span class="gain-badge">儲け 15円</span>
           </div>
           <div class="loss-gain-bar">
-            <div class="loss-bar" style="width:63%;">損 35</div>
-            <div class="gain-bar" style="width:37%;">儲け 21</div>
+            <div class="loss-bar" style="width:40%;">損 10</div>
+            <div class="gain-bar" style="width:60%;">儲け 15</div>
           </div>
-          <p style="font-size:.9em;color:var(--accent);font-weight:700;margin-bottom:6px;">損の方が多い → 答えは <strong>マイナス</strong></p>
-          <p style="font-size:.95em;">損 <strong>35</strong> − 儲け <strong>21</strong> ＝ 差は <strong>14</strong> → <strong style="color:var(--accent);">−14</strong></p>
-          <div class="answer-final">答え：<strong>−14</strong></div>
+          <p style="font-size:.95em;">儲け <strong>15</strong> − 損 <strong>10</strong> ＝ <strong style="color:var(--success);font-size:1.2em;">5</strong></p>
+          <div class="answer-final">答え：<strong>5</strong></div>
         </div>
       </details>
     </div>
   </div>
 
-  <!-- (4) 36 − 43 = −7  正−正・プラス -->
-  <div class="tag tag-plus">正 − 正　→　儲けが多い → プラス ※大きい数でも同じ！</div>
+  <!-- (4) (-5) + 3 = -2  損が多いパターン -->
+  <div style="font-size:.82em;font-weight:700;color:var(--accent);background:var(--accent-light);border-radius:8px;padding:4px 12px;display:inline-block;margin-bottom:8px;">損が多い → 答えはマイナス</div>
   <div class="problem-card">
     <div class="problem-head" style="flex-wrap:wrap;gap:14px;">
       <span class="q-num">(4)</span>
       <div style="display:flex;align-items:center;gap:clamp(8px,2vw,14px);flex-wrap:wrap;">
-        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">36</span>
-        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">−</span>
-        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--accent);">43</span>
+        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--accent);">(−5)</span>
+        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">＋</span>
+        <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--success);">3</span>
         <span style="font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;color:var(--text-sub);">=</span>
         <input type="number" id="ex4" class="num-input" placeholder="?">
-        <button onclick="checkEx(4,-7)" class="btn-submit" style="padding:10px 22px;font-size:.9em;">判定</button>
+        <button onclick="checkEx(4,-2)" class="btn-submit" style="padding:10px 22px;font-size:.9em;">判定</button>
         <span id="res4" style="font-size:1.5em;font-weight:700;"></span>
       </div>
     </div>
@@ -214,23 +205,23 @@ details[open] .answer-summary .toggle-icon{transform:rotate(90deg);}
       <details>
         <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
         <div class="answer-body">
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px;">
-            <span class="gain-badge">儲け 36円</span><span style="align-self:center;">−</span><span class="loss-badge">損 43円</span>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+            <span class="loss-badge">損 5円</span><span style="align-self:center;">＋</span><span class="gain-badge">儲け 3円</span>
           </div>
           <div class="loss-gain-bar">
-            <div class="gain-bar" style="width:46%;">儲け 36</div>
-            <div class="loss-bar" style="width:54%;">損 43</div>
+            <div class="loss-bar" style="width:63%;">損 5</div>
+            <div class="gain-bar" style="width:37%;">儲け 3</div>
           </div>
-          <p style="font-size:.9em;color:var(--accent);font-weight:700;margin-bottom:6px;">損の方が多い → 答えは <strong>マイナス</strong></p>
-          <p style="font-size:.95em;">損 <strong>43</strong> − 儲け <strong>36</strong> ＝ 差は <strong>7</strong> → <strong style="color:var(--accent);">−7</strong></p>
-          <div class="answer-final">答え：<strong>−7</strong></div>
+          <p style="font-size:.9em;color:var(--accent);font-weight:700;margin-bottom:8px;">損の方が多い → 答えは <strong>マイナス</strong>！</p>
+          <p style="font-size:.95em;">損 <strong>5</strong> − 儲け <strong>3</strong> ＝ 差は <strong>2</strong>　→ <strong style="color:var(--accent);font-size:1.2em;">−2</strong></p>
+          <div class="answer-final">答え：<strong>−2</strong></div>
         </div>
       </details>
     </div>
   </div>
 
   <div class="memo-box">
-    📌 数が大きくなっても考え方は同じ！「損と儲けの差」を出して、多かった方の符号をつける。
+    📌 答えの符号は「多い方」が決める。差の数字に多かった方の符号をつける！
   </div>
 
   <div class="nav-btns">

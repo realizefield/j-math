@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA16 小数のわり算 【演習】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#3b82f6;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);text-decoration:underline;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;user-select:none;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:24px;font-size:.95em;color:var(--primary);line-height:1.7;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;transition:box-shadow .2s;}
+.problem-card:focus-within{box-shadow:0 0 0 3px rgba(26,86,160,.18);}
+.problem-head{display:flex;align-items:center;padding:18px 20px;gap:12px;flex-wrap:wrap;}
+.q-num{font-size:.85em;font-weight:700;color:var(--primary);background:var(--primary-light);border-radius:8px;padding:4px 10px;white-space:nowrap;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:6px 14px;font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.82em;color:var(--text-sub);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.ans-toggle:hover{background:#f1f5f9;border-color:#64748b;color:var(--text);}
+.ans-badge{display:none;margin:0 20px 14px;padding:10px 16px;background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;font-size:.9em;font-weight:700;color:var(--accent);}
+.ans-badge.visible{display:block;}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-forward{background:var(--primary);color:#fff;}
+/* ローカル */
+.dec-input{width:clamp(72px,16vw,100px);height:clamp(44px,9vw,56px);text-align:center;font-size:clamp(1em,3vw,1.4em);font-weight:700;font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;border:2.5px solid var(--primary);border-radius:10px;background:#f0f6ff;color:var(--primary);outline:none;transition:border-color .2s;}
+.dec-input.correct{border-color:var(--success);background:var(--success-light);color:var(--success);}
+.dec-input.wrong{border-color:var(--accent);background:var(--accent-light);color:var(--accent);}
+.big{font-size:clamp(1.3em,3.5vw,1.9em);font-weight:700;}
+.sblock{border-radius:10px;padding:10px 14px;margin-bottom:8px;}
+.sblock.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sblock.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sblock.g{background:var(--success-light);border:1.5px solid var(--success);}
+.slbl{font-size:.78em;font-weight:700;margin-bottom:4px;}
+.sblock.y .slbl{color:var(--warn);}
+.sblock.b .slbl{color:var(--primary);}
+.sblock.g .slbl{color:var(--success);}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MA16</div>
+  <h1>小数のわり算　【演習】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">③</span><span>演習</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+  <div class="instruction">
+    <strong>【演習】</strong>　答えを入力してから「答を見る」で手順を確認できます。
+  </div>
+  <div id="problems-area"></div>
+  <div class="nav-btns">
+    <a href="example.html" class="btn-nav btn-back">← 例題にもどる</a>
+    <a href="check.html" class="btn-nav btn-forward">④ 確認テストへ →</a>
+  </div>
+</main>
+
+<script src="ma16_sets.js"></script>
+<script>
+const setIndex = Math.floor(Math.random() * MA16_SETS.length);
+const problems = MA16_SETS[setIndex].problems;
+
+function buildProblems() {
+  const area = document.getElementById('problems-area');
+  area.innerHTML = '';
+  problems.forEach((p, i) => {
+    const bColor = p.b_shift > 0 ? 'var(--warn)' : 'var(--text)';
+    area.innerHTML += `
+      <div class="problem-card" id="card${i}">
+        <div class="problem-head" style="flex-wrap:wrap; gap:14px;">
+          <span class="q-num">(${i+1})</span>
+          <div style="display:flex;align-items:center;gap:clamp(8px,2vw,14px);flex-wrap:wrap;">
+            <span class="big" style="color:var(--primary);">${p.a}</span>
+            <span class="big" style="color:var(--text-sub);">÷</span>
+            <span class="big" style="color:${bColor};">${p.b}</span>
+            <span class="big" style="color:var(--text-sub);">=</span>
+            <input type="text" id="inp${i}" class="dec-input" placeholder="?">
+          </div>
+          <button class="ans-toggle" onclick="toggleExplain(${i})">答を見る</button>
+        </div>
+        <div id="expl${i}" style="display:none; padding:0 16px 16px;"></div>
+      </div>`;
+  });
+}
+
+function explainHTML(p, isOk, hasInput) {
+  let html = '';
+  if (hasInput) {
+    html += isOk
+      ? `<div class="ans-badge visible" style="background:var(--success-light);border-color:var(--success);color:var(--success);margin-bottom:10px;">⭕ 正解！　<strong>${p.ans}</strong></div>`
+      : `<div class="ans-badge visible" style="margin-bottom:10px;">❌ 正解は <strong style="color:var(--accent);font-size:1.2em;">${p.ans}</strong></div>`;
+  } else {
+    html += `<div class="ans-badge visible" style="background:var(--primary-light);border-color:var(--primary);color:var(--primary);margin-bottom:10px;">正解：<strong>${p.ans}</strong></div>`;
+  }
+
+  if (p.b_shift > 0) {
+    // 小数÷小数
+    html += `
+      <div class="sblock y">
+        <div class="slbl">① わる数 ${p.b} の桁数 → ${p.b_shift}桁 → 両方を${Math.pow(10,p.b_shift)}倍</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:.95em;">
+          <span style="color:var(--primary);font-weight:700;">${p.a} → ${p.a_int}</span>
+          <span style="color:var(--warn);font-weight:700;">${p.b} → ${p.b_int}</span>
+        </div>
+      </div>
+      <div class="sblock b">
+        <div class="slbl">② 整数でわり算</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="font-weight:700;color:var(--primary);">${p.a_int}</span>
+          <span style="color:var(--text-sub);">÷</span>
+          <span style="font-weight:700;color:var(--warn);">${p.b_int}</span>
+          <span style="color:var(--text-sub);">＝</span>
+          <span style="font-weight:700;color:var(--accent);">${p.a_int / p.b_int}</span>
+        </div>
+      </div>
+      <div class="sblock g">
+        <div class="slbl">③ 桁数が同じなので小数点移動なし → <strong style="color:var(--success);">${p.ans}</strong></div>
+      </div>`;
+  } else {
+    // 小数÷整数
+    html += `
+      <div class="sblock y">
+        <div class="slbl">① 割られる数 ${p.a} を${Math.pow(10,p.a_shift)}倍 → ${p.a_int}</div>
+      </div>
+      <div class="sblock b">
+        <div class="slbl">② 整数でわり算</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="font-weight:700;color:var(--primary);">${p.a_int}</span>
+          <span style="color:var(--text-sub);">÷</span>
+          <span style="font-weight:700;">${p.b_int}</span>
+          <span style="color:var(--text-sub);">＝</span>
+          <span style="font-weight:700;color:var(--accent);">${p.a_int / p.b_int}</span>
+        </div>
+      </div>
+      <div class="sblock g">
+        <div class="slbl">③ 小数点を左に${p.a_shift}つ移動 → <strong style="color:var(--success);">${p.ans}</strong></div>
+      </div>`;
+  }
+  return html;
+}
+
+function toggleExplain(i) {
+  const p    = problems[i];
+  const expl = document.getElementById('expl'+i);
+  const btn  = document.querySelector('#card'+i+' .ans-toggle');
+  const inp  = document.getElementById('inp'+i);
+  if (expl.style.display === 'block') {
+    expl.style.display = 'none'; btn.textContent = '答を見る'; return;
+  }
+  const val  = parseFloat(inp.value);
+  const ans  = parseFloat(p.ans);
+  const hasInput = !isNaN(val);
+  const isOk = hasInput && Math.abs(val - ans) < 0.0001;
+  inp.classList.remove('correct','wrong');
+  if (hasInput) inp.classList.add(isOk ? 'correct' : 'wrong');
+  expl.innerHTML = explainHTML(p, isOk, hasInput);
+  expl.style.display = 'block';
+  btn.textContent = '答を隠す';
+}
+
+buildProblems();
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

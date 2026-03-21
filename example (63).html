@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MA03 分数をたす・ひく 【導入】</title>
+<style>
+/* ══════════════════════════════════════════
+   GAMBA 共通スタイル　style.css
+   BIZ UDPGothic 統一・全単元共通
+   ══════════════════════════════════════════ */
+
+:root {
+  --primary:       #1a56a0;
+  --primary-light: #dbeafe;
+  --primary-mid:   #3b82f6;
+  --accent:        #e8372d;
+  --accent-light:  #fff1f0;
+  --success:       #16a34a;
+  --success-light: #dcfce7;
+  --warn:          #d97706;
+  --warn-light:    #fffbeb;
+  --bg:            #f0f6ff;
+  --card:          #ffffff;
+  --border:        #c7d9f5;
+  --text:          #1e293b;
+  --text-sub:      #64748b;
+  --radius:        12px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'BIZ UDPGothic', 'BIZ UDP Gothic', 'Meiryo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ── コンテナ ── */
+.g-container { max-width: 760px; margin: 0 auto; padding: 24px 16px 60px; }
+
+/* ── ページヘッダー ── */
+.page-header { background: var(--primary); color: #fff; padding: 18px 24px 14px; text-align: center; box-shadow: 0 3px 10px rgba(26,86,160,.25); }
+.page-header .unit-code { font-size: .82em; opacity: .8; letter-spacing: .1em; margin-bottom: 4px; }
+.page-header h1 { font-size: clamp(1.1em,3vw,1.55em); font-weight: 700; margin: 0; }
+
+/* ── ステップナビ ── */
+.step-nav { display: flex; align-items: center; justify-content: center; padding: 14px 12px; background: var(--card); border-bottom: 1px solid var(--border); flex-wrap: nowrap; overflow-x: auto; position: sticky; top: 0; z-index: 10; }
+.step-item { display: flex; align-items: center; gap: 6px; font-size: clamp(.75em,2vw,.88em); color: #94a3b8; white-space: nowrap; padding: 4px 6px; }
+.step-item a { color: inherit; text-decoration: none; }
+.step-item a:hover { color: var(--primary); text-decoration: underline; }
+.step-item.active { color: var(--primary); font-weight: 700; }
+.step-circle { width: 22px; height: 22px; border-radius: 50%; font-size: .76em; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-item.active .step-circle { background: var(--primary); color: #fff; box-shadow: 0 0 0 3px var(--primary-light); }
+.step-item:not(.active) .step-circle { background: #94a3b8; color: #fff; }
+.step-arrow { color: #cbd5e1; font-size: 1.1em; padding: 0 2px; user-select: none; }
+
+/* ── テキスト ── */
+.section-title { font-size: 1.05em; font-weight: 700; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 12px; margin-bottom: 16px; }
+.instruction { background: var(--primary-light); border-left: 4px solid var(--primary); border-radius: 0 var(--radius) var(--radius) 0; padding: 13px 16px; margin-bottom: 24px; font-size: .95em; color: var(--primary); line-height: 1.7; }
+.lead-text { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 24px; font-size: .97em; line-height: 1.95; }
+.lead-text strong { color: var(--primary); }
+
+/* ── 問題カード ── */
+.problem-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; transition: box-shadow .2s; }
+.problem-card:focus-within { box-shadow: 0 0 0 3px rgba(26,86,160,.18); }
+.problem-head { display: flex; align-items: center; padding: 18px 20px; gap: 12px; flex-wrap: wrap; }
+.q-num { font-size: .85em; font-weight: 700; color: var(--primary); background: var(--primary-light); border-radius: 8px; padding: 4px 10px; white-space: nowrap; }
+
+/* ── 分数 ── */
+.frac-row { display: flex; align-items: center; gap: clamp(8px,2vw,16px); flex-wrap: wrap; }
+.frac { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.1; vertical-align: middle; }
+.frac .f-num, .frac .f-den { font-size: clamp(1.3em,4vw,1.9em); font-weight: 700; padding: 2px 8px; min-width: 32px; text-align: center; }
+.frac .f-bar { width: 100%; height: 3px; background: var(--text); border-radius: 2px; margin: 2px 0; }
+.frac-sm { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; vertical-align: middle; font-weight: 700; }
+.frac-sm .f-num, .frac-sm .f-den { font-size: 1em; padding: 0 5px; min-width: 22px; text-align: center; }
+.frac-sm .f-bar { width: 100%; height: 2px; background: var(--text); margin: 2px 0; border-radius: 1px; }
+
+/* ── 入力欄 ── */
+.frac .f-num input {
+  width: clamp(50px,11vw,74px); height: clamp(42px,9vw,56px);
+  text-align: center; font-size: clamp(.95em,2.5vw,1.3em); font-weight: 700;
+  font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;
+  border: 2.5px solid var(--primary); border-radius: 8px;
+  background: #f0f6ff; color: var(--primary); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  -moz-appearance: textfield;
+}
+.frac .f-num input::-webkit-inner-spin-button,
+.frac .f-num input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.frac .f-num input:focus { border-color: var(--primary-mid); background: #eff6ff; box-shadow: 0 0 0 3px rgba(59,130,246,.2); }
+.frac .f-num input.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+.frac .f-num input.wrong   { border-color: var(--accent);  background: var(--accent-light);  color: var(--accent); }
+.eq-sign { font-size: clamp(1.4em,4vw,2em); font-weight: 700; color: var(--text-sub); padding: 0 4px; }
+
+/* ── 答・解説 ── */
+.ans-toggle { margin-left: auto; background: none; border: 1.5px solid #94a3b8; border-radius: 20px; padding: 6px 14px; font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; font-size: .82em; color: var(--text-sub); cursor: pointer; transition: all .18s; white-space: nowrap; }
+.ans-toggle:hover { background: #f1f5f9; border-color: #64748b; color: var(--text); }
+.ans-badge { display: none; margin: 0 20px 14px; padding: 10px 16px; background: var(--accent-light); border: 2px solid var(--accent); border-radius: 8px; font-size: .9em; font-weight: 700; color: var(--accent); }
+.ans-badge.visible { display: block; }
+.ans-badge .ans-explain { margin-top: 6px; font-size: .88em; font-weight: 400; color: var(--text-sub); }
+.answer-box { background: var(--card); border: 2px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }
+.answer-summary { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--primary-light); cursor: pointer; user-select: none; list-style: none; font-weight: 700; color: var(--primary); font-size: .95em; }
+.answer-summary::-webkit-details-marker { display: none; }
+.answer-summary .toggle-icon { margin-left: auto; transition: transform .2s; }
+details[open] .answer-summary .toggle-icon { transform: rotate(90deg); }
+.answer-body { padding: 20px 24px; border-top: 1px solid var(--border); line-height: 2; font-size: .97em; }
+.answer-final { margin-top: 16px; padding: 14px 20px; background: var(--warn-light); border: 2px solid var(--warn); border-radius: 8px; text-align: center; font-size: 1.05em; }
+.answer-final strong { color: var(--accent); font-size: 1.4em; }
+
+/* ── メモ・まとめ ── */
+.memo-box { background: var(--success-light); border-left: 4px solid var(--success); border-radius: 0 var(--radius) var(--radius) 0; padding: 12px 16px; margin-bottom: 24px; font-size: .92em; color: #15803d; line-height: 1.75; }
+.summary-box { background: var(--warn-light); border: 2px solid var(--warn); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 28px; font-size: .97em; line-height: 2; }
+.summary-box .summary-title { font-weight: 700; color: var(--warn); font-size: 1.05em; margin-bottom: 8px; }
+.summary-box ul { margin: 0; padding-left: 20px; }
+.summary-box li { margin-bottom: 4px; }
+.summary-box strong { color: var(--primary); }
+
+/* ── スコア ── */
+.score-box { display: none; background: var(--card); border: 3px solid var(--primary); border-radius: var(--radius); padding: 20px 24px; text-align: center; }
+.score-box.visible { display: block; }
+.score-label { font-size: .9em; color: var(--text-sub); margin-bottom: 6px; }
+.score-num { font-size: clamp(1.8em,5vw,2.6em); font-weight: 700; color: var(--primary); }
+.score-msg { margin-top: 8px; font-size: .9em; color: var(--text-sub); }
+
+/* ── ボタン ── */
+.nav-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; margin-top: 28px; }
+.btn-nav { font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; font-size: .95em; font-weight: 700; padding: 12px 28px; border-radius: 50px; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: transform .15s, box-shadow .15s; }
+.btn-nav:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+.btn-back    { background: #f1f5f9; color: var(--text-sub); }
+.btn-forward { background: var(--primary); color: #fff; }
+.btn-success { background: var(--success); color: #fff; }
+.btn-submit { font-family: 'BIZ UDPGothic','BIZ UDP Gothic',sans-serif; background: var(--primary); color: #fff; font-size: clamp(1em,3vw,1.15em); font-weight: 700; padding: 14px clamp(36px,10vw,80px); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 14px rgba(26,86,160,.3); transition: transform .15s, box-shadow .15s; letter-spacing: .05em; }
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,86,160,.35); }
+
+/* ── テーブル ── */
+.unit-table-wrap { background: var(--card); border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; margin-bottom: 20px; }
+.unit-table { width: 100%; border-collapse: collapse; font-size: .9em; }
+.unit-table th { background: var(--primary); color: #fff; font-weight: 700; padding: 10px 12px; text-align: center; }
+.unit-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.unit-table tr:last-child td { border-bottom: none; }
+.unit-table tr:nth-child(even) td { background: var(--primary-light); }
+
+/* ── レスポンシブ ── */
+@media (max-width: 480px) {
+  .problem-head { padding: 14px; gap: 8px; }
+  .frac-row { gap: 6px; }
+  .nav-btns { justify-content: center; }
+  .btn-nav { padding: 11px 22px; font-size: .9em; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MA03</div>
+  <h1>分数をたす・ひく　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <div class="section-title">分母が同じときの計算ルール</div>
+
+  <!-- ケーキの図解 -->
+  <div class="lead-text">
+    はじめにケーキを
+    <span class="frac" style="font-size:1.3em; vertical-align:middle;">
+      <span class="f-num">1</span><span class="f-bar"></span><span class="f-den">3</span>
+    </span>
+    食べ、さらに
+    <span class="frac" style="font-size:1.3em; vertical-align:middle;">
+      <span class="f-num">1</span><span class="f-bar"></span><span class="f-den">3</span>
+    </span>
+    食べると、全部で
+    <span class="frac" style="font-size:1.3em; vertical-align:middle;">
+      <span class="f-num">2</span><span class="f-bar"></span><span class="f-den">3</span>
+    </span>
+    食べたことになります。
+  </div>
+
+  <!-- ルール強調ボックス -->
+  <div class="summary-box">
+    <div class="summary-title">📌 大事なルール</div>
+    <p style="font-size:1.1em; text-align:center; color:var(--accent); font-weight:700;">
+      分母が同じときは、「分子どうし」をたす・ひくだけでOK！
+    </p>
+    <p style="text-align:center; font-size:.95em; color:var(--text-sub);">
+      分母はそのまま書く。分子だけ計算する。
+    </p>
+  </div>
+
+  <!-- 計算の仕組み図 -->
+  <div class="section-title">たし算の仕組み</div>
+  <div class="problem-card" style="padding:24px 20px; text-align:center; margin-bottom:20px;">
+    <div style="display:flex; align-items:center; justify-content:center; gap:clamp(8px,2vw,20px); flex-wrap:wrap; font-size:clamp(1.1em,3vw,1.5em);">
+      <span class="frac">
+        <span class="f-num">1</span><span class="f-bar"></span><span class="f-den">3</span>
+      </span>
+      <span class="eq-sign">＋</span>
+      <span class="frac">
+        <span class="f-num">1</span><span class="f-bar"></span><span class="f-den">3</span>
+      </span>
+      <span class="eq-sign">＝</span>
+      <span class="frac">
+        <span class="f-num" style="color:var(--accent);">1 ＋ 1</span>
+        <span class="f-bar"></span>
+        <span class="f-den">3</span>
+      </span>
+      <span class="eq-sign">＝</span>
+      <span class="frac">
+        <span class="f-num" style="color:var(--primary);">2</span>
+        <span class="f-bar"></span>
+        <span class="f-den">3</span>
+      </span>
+    </div>
+    <div class="memo-box" style="margin-top:16px; margin-bottom:0;">
+      ✅ 分母の <strong>3</strong> はそのまま。分子の <strong>1＋1＝2</strong> だけ計算します！
+    </div>
+  </div>
+
+  <!-- ひき算の仕組み図 -->
+  <div class="section-title">ひき算の仕組み</div>
+  <div class="problem-card" style="padding:24px 20px; text-align:center; margin-bottom:20px;">
+    <div style="display:flex; align-items:center; justify-content:center; gap:clamp(8px,2vw,20px); flex-wrap:wrap; font-size:clamp(1.1em,3vw,1.5em);">
+      <span class="frac">
+        <span class="f-num">4</span><span class="f-bar"></span><span class="f-den">7</span>
+      </span>
+      <span class="eq-sign">－</span>
+      <span class="frac">
+        <span class="f-num">1</span><span class="f-bar"></span><span class="f-den">7</span>
+      </span>
+      <span class="eq-sign">＝</span>
+      <span class="frac">
+        <span class="f-num" style="color:var(--accent);">4 － 1</span>
+        <span class="f-bar"></span>
+        <span class="f-den">7</span>
+      </span>
+      <span class="eq-sign">＝</span>
+      <span class="frac">
+        <span class="f-num" style="color:var(--primary);">3</span>
+        <span class="f-bar"></span>
+        <span class="f-den">7</span>
+      </span>
+    </div>
+    <div class="memo-box" style="margin-top:16px; margin-bottom:0;">
+      ✅ 分母の <strong>7</strong> はそのまま。分子の <strong>4－1＝3</strong> だけ計算します！
+    </div>
+  </div>
+
+  <!-- まとめ -->
+  <div class="summary-box">
+    <div class="summary-title">📝 まとめ</div>
+    <ul>
+      <li><strong>分母が同じ</strong>ときは、分母はそのまま書く。</li>
+      <li>分子どうしを <strong>たす・ひく</strong> だけ！</li>
+      <li>分母を計算してはいけない！</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-back">← 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+<script src="../gamba_support.js"></script>
+</body>
+</html>
