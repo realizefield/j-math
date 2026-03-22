@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB12 指数・カッコを含む計算 【例題】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;}
+.page-header .unit-code{font-size:.82em;opacity:.8;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.0em,3vw,1.45em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:20px;font-size:.95em;color:var(--primary);line-height:1.7;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.problem-head{display:flex;align-items:center;padding:16px 20px;gap:10px;flex-wrap:wrap;}
+.q-num{font-size:.85em;font-weight:700;color:var(--primary);background:var(--primary-light);border-radius:8px;padding:4px 10px;white-space:nowrap;}
+.answer-box{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:0 16px 14px;}
+.answer-summary{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--primary-light);cursor:pointer;user-select:none;list-style:none;font-weight:700;color:var(--primary);font-size:.9em;}
+.answer-summary::-webkit-details-marker{display:none;}
+.toggle-icon{margin-left:auto;transition:transform .2s;}
+details[open] .toggle-icon{transform:rotate(90deg);}
+.answer-body{padding:14px 18px;border-top:1px solid var(--border);}
+.answer-final{margin-top:10px;padding:12px 16px;background:var(--warn-light);border:2px solid var(--warn);border-radius:8px;text-align:center;font-size:1.05em;}
+.answer-final strong{color:var(--accent);font-size:1.4em;}
+.calc-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;padding:8px 12px;border-radius:8px;margin-bottom:6px;font-size:.9em;font-weight:700;}
+.calc-row.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.calc-row.o{background:#fff7ed;border:1.5px solid #f97316;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.7em;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;flex-shrink:0;}
+.clbl.r{background:var(--accent);color:#fff;}
+.clbl.o{background:#f97316;color:#fff;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.b{background:var(--primary);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+.expr{font-size:clamp(1.0em,3vw,1.25em);font-weight:700;}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.btn-submit{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--primary);color:#fff;font-size:clamp(1em,3vw,1.1em);font-weight:700;padding:12px clamp(28px,8vw,60px);border:none;border-radius:50px;cursor:pointer;}
+.num-input{width:clamp(72px,16vw,96px);height:clamp(44px,9vw,54px);text-align:center;font-size:clamp(1em,3vw,1.3em);font-weight:700;font-family:'BIZ UDPGothic',sans-serif;border:2.5px solid var(--primary);border-radius:10px;background:#f0f6ff;color:var(--primary);outline:none;-moz-appearance:textfield;}
+.num-input::-webkit-inner-spin-button,.num-input::-webkit-outer-spin-button{-webkit-appearance:none;}
+.num-input.correct{border-color:var(--success);background:var(--success-light);color:var(--success);}
+.num-input.wrong{border-color:var(--accent);background:var(--accent-light);color:var(--accent);}
+sup{font-size:.65em;vertical-align:super;font-weight:700;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">MB12</div>
+  <h1>指数・カッコを含む計算　【例題】</h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+  <div class="instruction">
+    <strong>【例題16】</strong>　順番：① 指数　② ( )の中→×÷　③ { }の中→×÷　④ ＋−
+  </div>
+
+  <!-- 早見カード -->
+  <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:2px solid var(--warn);border-radius:12px;padding:10px 14px;margin-bottom:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;font-size:.78em;font-weight:700;text-align:center;">
+    <div style="background:var(--accent-light);border-radius:6px;padding:6px;color:var(--accent);">① 指数</div>
+    <div style="background:#fff7ed;border-radius:6px;padding:6px;color:#f97316;">② ( )内</div>
+    <div style="background:var(--primary-light);border-radius:6px;padding:6px;color:var(--primary);">③ ×÷</div>
+    <div style="background:var(--success-light);border-radius:6px;padding:6px;color:var(--success);">④ ＋−</div>
+  </div>
+
+  <!-- (1) (−3)²−2³−7 = −6 -->
+  <div class="problem-card">
+    <div class="problem-head">
+      <span class="q-num">(1)</span>
+      <span class="expr">(−3)<sup>2</sup>−2<sup>3</sup>−7</span>
+      <span style="font-size:1.2em;color:var(--text-sub);margin:0 6px;">＝</span>
+      <input type="number" id="ex1" class="num-input" placeholder="?">
+      <button onclick="checkEx(1,-6)" class="btn-submit">判定</button>
+      <span id="res1" style="font-size:1.5em;font-weight:700;"></span>
+    </div>
+    <div class="answer-box"><details>
+      <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
+      <div class="answer-body">
+        <div class="calc-row r"><span class="clbl r">① 指数</span> (−3)<sup>2</sup>＝9　　2<sup>3</sup>＝8</div>
+        <div class="calc-row g"><span class="clbl g">② 計算</span> 9−8−7＝1−7＝<strong style="color:var(--accent);">−6</strong></div>
+        <div class="answer-final">答え：<strong>−6</strong></div>
+      </div>
+    </details></div>
+  </div>
+
+  <!-- (2) −6²−(−3)² = −45 -->
+  <div class="problem-card">
+    <div class="problem-head">
+      <span class="q-num">(2)</span>
+      <span class="expr">−6<sup>2</sup>−(−3)<sup>2</sup></span>
+      <span style="font-size:1.2em;color:var(--text-sub);margin:0 6px;">＝</span>
+      <input type="number" id="ex2" class="num-input" placeholder="?">
+      <button onclick="checkEx(2,-45)" class="btn-submit">判定</button>
+      <span id="res2" style="font-size:1.5em;font-weight:700;"></span>
+    </div>
+    <div class="answer-box"><details>
+      <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
+      <div class="answer-body">
+        <div class="calc-row r"><span class="clbl r">① 指数</span> −6<sup>2</sup>＝<strong style="color:var(--accent);">−36</strong>（カッコなし→数字だけ）　(−3)<sup>2</sup>＝<strong style="color:var(--primary);">9</strong></div>
+        <div class="calc-row g"><span class="clbl g">② 計算</span> −36−9＝<strong style="color:var(--accent);">−45</strong></div>
+        <div class="answer-final">答え：<strong>−45</strong></div>
+      </div>
+    </details></div>
+  </div>
+
+  <!-- (3) (−3)²−{6−(2×3−7)} = 2 -->
+  <div class="problem-card">
+    <div class="problem-head">
+      <span class="q-num">(3)</span>
+      <span class="expr">(−3)<sup>2</sup>−{6−(2×3−7)}</span>
+      <span style="font-size:1.2em;color:var(--text-sub);margin:0 6px;">＝</span>
+      <input type="number" id="ex3" class="num-input" placeholder="?">
+      <button onclick="checkEx(3,2)" class="btn-submit">判定</button>
+      <span id="res3" style="font-size:1.5em;font-weight:700;"></span>
+    </div>
+    <div class="answer-box"><details>
+      <summary class="answer-summary">💡 解き方を見る<span class="toggle-icon">›</span></summary>
+      <div class="answer-body">
+        <div class="calc-row r"><span class="clbl r">① 指数</span> (−3)<sup>2</sup>＝9</div>
+        <div class="calc-row o"><span class="clbl o">② ( )内</span> 2×3＝6　→　6−7＝<strong style="color:var(--accent);">−1</strong></div>
+        <div class="calc-row y"><span class="clbl y">③ { }内</span> 6−（−1）＝6＋1＝<strong style="color:var(--warn);">7</strong></div>
+        <div class="calc-row g"><span class="clbl g">④ 計算</span> 9−7＝<strong style="color:var(--primary);">2</strong></div>
+        <div class="answer-final">答え：<strong>2</strong></div>
+      </div>
+    </details></div>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="intro.html" class="btn-nav btn-back">← 導入にもどる</a>
+    <a href="drill.html" class="btn-nav btn-forward">③ 演習へ →</a>
+  </div>
+</main>
+<script>
+function checkEx(num, ans) {
+  const inp = document.getElementById('ex'+num);
+  const res = document.getElementById('res'+num);
+  inp.classList.remove('correct','wrong');
+  if (parseInt(inp.value) === ans) {
+    res.textContent='⭕'; res.style.color='var(--success)'; inp.classList.add('correct');
+  } else {
+    res.textContent='❌'; res.style.color='var(--accent)'; inp.classList.add('wrong');
+  }
+}
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB12 指数・カッコを含む計算 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.0em,3vw,1.45em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
+.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;margin-top:28px;}
+.section-title:first-of-type{margin-top:0;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;}
+.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
+.summary-box ul{margin:0;padding-left:20px;line-height:2;}
+.summary-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.quiz-btn{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:none;border:2px solid var(--primary);border-radius:8px;padding:8px 18px;font-size:.95em;font-weight:700;color:var(--primary);cursor:pointer;margin:4px;}
+.quiz-btn.correct-btn{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.quiz-btn.wrong-btn{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.9em;font-weight:700;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--success-light);color:var(--success);}
+.quiz-feedback.ng{background:var(--accent-light);color:var(--accent);}
+.step-row{display:flex;align-items:flex-start;gap:12px;border-radius:10px;padding:12px 16px;margin-bottom:8px;}
+.step-num{border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;margin-top:2px;color:#fff;}
+.expr-lg{font-size:clamp(1.0em,3vw,1.25em);font-weight:700;line-height:1.9;}
+sup{font-size:.65em;vertical-align:super;font-weight:700;}
+.order-badge{display:inline-block;background:var(--accent);color:#fff;border-radius:50%;width:20px;height:20px;font-size:.72em;font-weight:700;text-align:center;line-height:20px;margin:0 2px;}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MB12</div>
+  <h1>指数・カッコを含む計算　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- ══════ パート1：計算の優先順位まとめ ══════ -->
+  <div class="section-title">① 計算の順番（全部のまとめ）</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.93em;line-height:1.9;margin-bottom:14px;">
+      今まで学んだ計算の優先順位を整理しましょう。
+    </p>
+
+    <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:3px solid var(--warn);border-radius:14px;padding:16px 20px;margin-bottom:16px;">
+      <div style="font-size:.88em;font-weight:700;color:var(--warn);margin-bottom:12px;">📏 計算の優先順位（高い順）</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;background:var(--accent-light);border:2px solid var(--accent);border-radius:10px;padding:10px 14px;">
+          <span style="background:var(--accent);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9em;flex-shrink:0;">1</span>
+          <div>
+            <div style="font-weight:700;color:var(--accent);">指数（累乗）</div>
+            <div style="font-size:.82em;color:var(--text-sub);">(−3)²、2³ などを最初に計算</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:#fff7ed;border:2px solid #f97316;border-radius:10px;padding:10px 14px;">
+          <span style="background:#f97316;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9em;flex-shrink:0;">2</span>
+          <div>
+            <div style="font-weight:700;color:#f97316;">カッコの中　( ) → { }</div>
+            <div style="font-size:.82em;color:var(--text-sub);">内側の( )から順に計算</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:10px 14px;">
+          <span style="background:var(--primary);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9em;flex-shrink:0;">3</span>
+          <div>
+            <div style="font-weight:700;color:var(--primary);">× と ÷</div>
+            <div style="font-size:.82em;color:var(--text-sub);">＋−より先に計算</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:var(--success-light);border:2px solid var(--success);border-radius:10px;padding:10px 14px;">
+          <span style="background:var(--success);color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9em;flex-shrink:0;">4</span>
+          <div>
+            <div style="font-weight:700;color:var(--success);">＋ と −</div>
+            <div style="font-size:.82em;color:var(--text-sub);">最後に計算</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ パート2：指数を含む計算 ══════ -->
+  <div class="section-title">② 指数を先に計算する</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <div style="font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:10px;">例） (−3)² − 2³ − 7</div>
+    <div class="step-row" style="background:var(--accent-light);border:1.5px solid var(--accent);">
+      <div class="step-num" style="background:var(--accent);">1</div>
+      <div>
+        <div style="font-size:.8em;color:var(--accent);font-weight:700;margin-bottom:4px;">指数を先に計算</div>
+        <div class="expr-lg">(−3)<sup>2</sup>＝9　　2<sup>3</sup>＝8</div>
+      </div>
+    </div>
+    <div class="step-row" style="background:var(--primary-light);border:1.5px solid var(--primary);">
+      <div class="step-num">2</div>
+      <div>
+        <div style="font-size:.8em;color:var(--primary);font-weight:700;margin-bottom:4px;">代入して計算</div>
+        <div class="expr-lg">9 − 8 − 7 ＝ <strong style="color:var(--accent);">−6</strong></div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;background:#f8faff;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;">
+      <div style="font-size:.82em;font-weight:700;color:var(--accent);margin-bottom:8px;">⚠️ 注意！ −6² と (−6)² は違う</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.9em;font-weight:700;text-align:center;">
+        <div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:8px;">
+          <div style="color:var(--accent);">−6<sup>2</sup></div>
+          <div style="font-size:.82em;color:var(--text-sub);">＝ −(6×6) ＝ −36</div>
+        </div>
+        <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:8px;">
+          <div style="color:var(--primary);">(−6)<sup>2</sup></div>
+          <div style="font-size:.82em;color:var(--text-sub);">＝ (−6)×(−6) ＝ ＋36</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ パート3：中カッコ ══════ -->
+  <div class="section-title">③ 中カッコ { } の計算</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.93em;line-height:1.9;margin-bottom:12px;">
+      中カッコ { } は、<strong style="color:var(--accent);">内側の ( ) を先に計算</strong>してから { } を計算します。
+    </p>
+
+    <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:12px;padding:12px 16px;margin-bottom:14px;font-size:.9em;font-weight:700;text-align:center;">
+      計算順：（　）の中 → ×÷ → ＋− → {　} → 全体
+    </div>
+
+    <div style="font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:10px;">例） (−3)² − {6 − (2×3 − 7)}</div>
+    <div class="step-row" style="background:var(--accent-light);border:1.5px solid var(--accent);">
+      <div class="step-num" style="background:var(--accent);">1</div>
+      <div>
+        <div style="font-size:.8em;color:var(--accent);font-weight:700;margin-bottom:4px;">指数を計算</div>
+        <div class="expr-lg">(−3)<sup>2</sup> ＝ 9</div>
+      </div>
+    </div>
+    <div class="step-row" style="background:#fff7ed;border:1.5px solid #f97316;">
+      <div class="step-num" style="background:#f97316;">2</div>
+      <div>
+        <div style="font-size:.8em;color:#f97316;font-weight:700;margin-bottom:4px;">( )の中を先に：2×3−7</div>
+        <div class="expr-lg">2×3 ＝ 6　→　6−7 ＝ <strong style="color:var(--accent);">−1</strong></div>
+      </div>
+    </div>
+    <div class="step-row" style="background:var(--warn-light);border:1.5px solid var(--warn);">
+      <div class="step-num" style="background:var(--warn);">3</div>
+      <div>
+        <div style="font-size:.8em;color:var(--warn);font-weight:700;margin-bottom:4px;">{ }の中を計算：6−(−1)</div>
+        <div class="expr-lg">6 − （−1） ＝ 6 <strong style="color:var(--success);">＋ 1</strong> ＝ <strong style="color:var(--warn);">7</strong></div>
+      </div>
+    </div>
+    <div class="step-row" style="background:var(--primary-light);border:1.5px solid var(--primary);">
+      <div class="step-num">4</div>
+      <div>
+        <div style="font-size:.8em;color:var(--primary);font-weight:700;margin-bottom:4px;">全体を計算</div>
+        <div class="expr-lg">9 − 7 ＝ <strong style="color:var(--primary);">2</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ 確認クイズ ══════ -->
+  <div class="section-title">④ 確認クイズ</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:14px;">🧠 計算してみよう</div>
+
+    <div style="margin-bottom:14px;">
+      <p style="font-size:.95em;margin-bottom:4px;font-weight:700;">① (−3)² − 2³ − 7</p>
+      <p style="font-size:.82em;color:var(--text-sub);margin-bottom:8px;">(−3)²＝9、2³＝8 → 9−8−7＝?</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">6</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',true)">−6</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">−20</button>
+      <div id="q1-feedback" class="quiz-feedback"></div>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <p style="font-size:.95em;margin-bottom:4px;font-weight:700;">② −6² − (−3)²</p>
+      <p style="font-size:.82em;color:var(--text-sub);margin-bottom:8px;">−6²＝−36、(−3)²＝9 → −36−9＝?</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)">45</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)">−27</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',true)">−45</button>
+      <div id="q2-feedback" class="quiz-feedback"></div>
+    </div>
+
+    <div>
+      <p style="font-size:.95em;margin-bottom:4px;font-weight:700;">③ (−3)² − {6 − (2×3−7)} の答えは？</p>
+      <p style="font-size:.82em;color:var(--text-sub);margin-bottom:8px;">( )の中→{ }の中→全体の順で計算</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',false)">−2</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',true)">2</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',false)">16</button>
+      <div id="q3-feedback" class="quiz-feedback"></div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ（計算の優先順位）</div>
+    <ul>
+      <li><strong>① 指数</strong>を最初に計算（カッコあり・なしに注意）</li>
+      <li><strong>② ( ) の中</strong>、次に <strong>{ } の中</strong>（内側から）</li>
+      <li><strong>③ × と ÷</strong>　→　<strong>④ ＋ と −</strong> の順で計算</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+<script>
+function quizAnswer(btn, id, isCorrect) {
+  const feedback = document.getElementById(id+'-feedback');
+  btn.parentElement.querySelectorAll('.quiz-btn').forEach(b=>{b.classList.remove('correct-btn','wrong-btn');b.disabled=true;});
+  const msgs = {
+    q1:{ok:'⭕ 正解！　9−8−7＝1−7＝−6',ng:'❌ (−3)²＝9、2³＝8 → 9−8−7＝−6 です。'},
+    q2:{ok:'⭕ 正解！　−6²＝−36、(−3)²＝9 → −36−9＝−45',ng:'❌ −6²＝−36（カッコなし）、(−3)²＝9 → −36−9＝−45 です。'},
+    q3:{ok:'⭕ 正解！　(−3)²＝9、2×3−7＝−1、6−(−1)＝7、9−7＝2',ng:'❌ ①(−3)²＝9 ②2×3−7＝−1 ③6−(−1)＝7 ④9−7＝2 です。'}
+  };
+  if(isCorrect){btn.classList.add('correct-btn');feedback.textContent=msgs[id].ok;feedback.className='quiz-feedback show ok';}
+  else{btn.classList.add('wrong-btn');feedback.textContent=msgs[id].ng;feedback.className='quiz-feedback show ng';}
+}
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>
