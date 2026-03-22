@@ -56,7 +56,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .sign-table .result-plus{color:var(--primary);font-size:1.3em;}
 .sign-table .result-minus{color:var(--accent);font-size:1.3em;}
 /* ケーブルカー説明 */
-.cable-card{border-radius:14px;padding:16px 18px;margin-bottom:10px;}
+.cable-card{border-radius:14px;padding:16px 18px;margin-bottom:10px;overflow:hidden;}
 .cable-card.up{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid var(--primary);}
 .cable-card.down{background:linear-gradient(135deg,#fff1f0,#fee2e2);border:2px solid var(--accent);}
 </style>
@@ -260,9 +260,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <!-- ① +×+ -->
     <div class="cable-card up" style="margin-bottom:10px;">
       <div style="font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:6px;">🚋 ① ＋2m/秒で上る　＋5秒後の位置</div>
-      <details>
-        <summary style="font-size:.8em;font-weight:700;color:var(--primary);cursor:pointer;margin-bottom:6px;">🔍 図を見る（タップ）</summary>
-        <img src="./mb07-1.png" style="width:100%;border-radius:8px;margin-top:6px;" alt="ケーブルカー①上り">
+      <details style="width:100%;overflow:hidden;">
+        <summary style="font-size:.8em;font-weight:700;color:var(--primary);cursor:pointer;padding:4px 0;user-select:none;">🔍 図を見る（タップ）</summary>
+        <div style="width:100%;overflow:hidden;margin-top:6px;"><img src="./mb07-1.png" style="width:100%;border-radius:8px;display:block;" alt="ケーブルカー①上り"></div>
       </details>
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--primary);font-weight:700;">(＋2) × (＋5) ＝ ＋10</span>　→　＋10mの位置<br>
@@ -280,9 +280,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <!-- ② +×- -->
     <div class="cable-card up" style="margin-bottom:10px;">
       <div style="font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:6px;">🚋 ② ＋2m/秒で上る　−5秒後（5秒前）の位置</div>
-      <details>
-        <summary style="font-size:.8em;font-weight:700;color:var(--primary);cursor:pointer;margin-bottom:6px;">🔍 図を見る（タップ）</summary>
-        <img src="./mb07-1.png" style="width:100%;border-radius:8px;margin-top:6px;" alt="ケーブルカー②上り過去">
+      <details style="width:100%;overflow:hidden;">
+        <summary style="font-size:.8em;font-weight:700;color:var(--primary);cursor:pointer;padding:4px 0;user-select:none;">🔍 図を見る（タップ）</summary>
+        <div style="width:100%;overflow:hidden;margin-top:6px;"><img src="./mb07-1.png" style="width:100%;border-radius:8px;display:block;" alt="ケーブルカー②上り過去"></div>
       </details>
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--accent);font-weight:700;">(＋2) × (−5) ＝ −10</span>　→　−10mの位置<br>
@@ -300,9 +300,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <!-- ③ -×+ -->
     <div class="cable-card down" style="margin-bottom:10px;">
       <div style="font-size:.82em;font-weight:700;color:var(--accent);margin-bottom:6px;">🚋 ③ −2m/秒で下る　＋5秒後の位置</div>
-      <details>
-        <summary style="font-size:.8em;font-weight:700;color:var(--accent);cursor:pointer;margin-bottom:6px;">🔍 図を見る（タップ）</summary>
-        <img src="./mb07-2.png" style="width:100%;border-radius:8px;margin-top:6px;" alt="ケーブルカー③下り">
+      <details style="width:100%;overflow:hidden;">
+        <summary style="font-size:.8em;font-weight:700;color:var(--accent);cursor:pointer;padding:4px 0;user-select:none;">🔍 図を見る（タップ）</summary>
+        <div style="width:100%;overflow:hidden;margin-top:6px;"><img src="./mb07-2.png" style="width:100%;border-radius:8px;display:block;" alt="ケーブルカー③下り"></div>
       </details>
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--accent);font-weight:700;">(−2) × (＋5) ＝ −10</span>　→　−10mの位置<br>
@@ -320,9 +320,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <!-- ④ -×- -->
     <div class="cable-card down">
       <div style="font-size:.82em;font-weight:700;color:var(--accent);margin-bottom:6px;">🚋 ④ −2m/秒で下る　−5秒後（5秒前）の位置</div>
-      <details>
-        <summary style="font-size:.8em;font-weight:700;color:var(--accent);cursor:pointer;margin-bottom:6px;">🔍 図を見る（タップ）</summary>
-        <img src="./mb07-2.png" style="width:100%;border-radius:8px;margin-top:6px;" alt="ケーブルカー④下り過去">
+      <details style="width:100%;overflow:hidden;">
+        <summary style="font-size:.8em;font-weight:700;color:var(--accent);cursor:pointer;padding:4px 0;user-select:none;">🔍 図を見る（タップ）</summary>
+        <div style="width:100%;overflow:hidden;margin-top:6px;"><img src="./mb07-2.png" style="width:100%;border-radius:8px;display:block;" alt="ケーブルカー④下り過去"></div>
       </details>
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--primary);font-weight:700;">(−2) × (−5) ＝ ＋10</span>　→　＋10mの位置<br>
