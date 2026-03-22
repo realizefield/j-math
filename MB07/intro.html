@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MB07 正負の数のかけ算・わり算 【導入】</title>
+<title>MB07 正負の数のかけ算・わり算 【導入】v5</title>
 <style>
 :root{--primary:#1a56a0;--primary-light:#dbeafe;--primary-mid:#3b82f6;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -81,30 +81,22 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 <main class="g-container">
 
   <!-- ポップアップオーバーレイ（シンプル版） -->
-  <div id="svg-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:99999;">
-    <div style="position:absolute;top:10%;left:50%;transform:translateX(-50%);background:#fff;border-radius:16px;padding:20px;width:92%;max-width:460px;">
-      <div id="popup-title" style="font-size:.85em;font-weight:700;color:#1a56a0;margin-bottom:10px;line-height:1.5;"></div>
-      <img id="popup-img-tag" src="" style="width:100%;border-radius:8px;display:block;" alt="ケーブルカー図">
-      <button id="popup-close-x" style="margin-top:12px;width:100%;padding:11px;background:#1a56a0;color:#fff;border:none;border-radius:8px;font-size:1em;font-weight:700;cursor:pointer;font-family:inherit;">閉じる</button>
-    </div>
-  </div>
-
-  <!-- ══════ パート1：ケーブルカーで考える ══════ -->
+<!-- ══════ パート1：ケーブルカーで考える ══════ -->
   <div class="section-title">① ケーブルカーで考えよう</div>
 
   <div class="problem-card" style="padding:20px;">
     <p style="font-size:.93em;line-height:1.9;margin-bottom:16px;">
       ケーブルカーの<strong>速さ</strong>と<strong>時間</strong>で位置を考えると、<br>
-      かけ算の符号のルールがわかります。<br>
-      🔍 ボタンを押すと図が表示されます。
+      かけ算の符号のルールがわかります。
     </p>
 
     <!-- ① +×+ -->
     <div class="cable-card up" style="margin-bottom:10px;">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
         <div style="font-size:.82em;font-weight:700;color:var(--primary);">🚋 ① ＋2m/秒で上る　＋5秒後の位置</div>
-        <button onclick="showPopup(1)" style="background:var(--primary);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
+        <button onclick="toggleImg('fig1')" style="background:var(--primary);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
       </div>
+      <img id="fig1" src="./cable01.png" style="display:none;width:100%;border-radius:8px;margin-top:8px;" alt="ケーブルカー図①">
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--primary);font-weight:700;">(＋2) × (＋5) ＝ ＋10</span>　→　＋10mの位置<br>
         <span style="font-size:.82em;color:var(--text-sub);">上る方向 × 未来 ＝ 上の位置</span>
@@ -122,8 +114,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <div class="cable-card up" style="margin-bottom:10px;">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
         <div style="font-size:.82em;font-weight:700;color:var(--primary);">🚋 ② ＋2m/秒で上る　−5秒後（5秒前）の位置</div>
-        <button onclick="showPopup(2)" style="background:var(--primary);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
+        <button onclick="toggleImg('fig2')" style="background:var(--primary);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
       </div>
+      <img id="fig2" src="./cable01.png" style="display:none;width:100%;border-radius:8px;margin-top:8px;" alt="ケーブルカー図②">
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--accent);font-weight:700;">(＋2) × (−5) ＝ −10</span>　→　−10mの位置<br>
         <span style="font-size:.82em;color:var(--text-sub);">上る方向 × 過去 ＝ 下の位置</span>
@@ -141,8 +134,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <div class="cable-card down" style="margin-bottom:10px;">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
         <div style="font-size:.82em;font-weight:700;color:var(--accent);">🚋 ③ −2m/秒で下る　＋5秒後の位置</div>
-        <button onclick="showPopup(3)" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
+        <button onclick="toggleImg('fig3')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
       </div>
+      <img id="fig3" src="./cable02.png" style="display:none;width:100%;border-radius:8px;margin-top:8px;" alt="ケーブルカー図③">
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--accent);font-weight:700;">(−2) × (＋5) ＝ −10</span>　→　−10mの位置<br>
         <span style="font-size:.82em;color:var(--text-sub);">下る方向 × 未来 ＝ 下の位置</span>
@@ -160,8 +154,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <div class="cable-card down">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
         <div style="font-size:.82em;font-weight:700;color:var(--accent);">🚋 ④ −2m/秒で下る　−5秒後（5秒前）の位置</div>
-        <button onclick="showPopup(4)" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
+        <button onclick="toggleImg('fig4')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
       </div>
+      <img id="fig4" src="./cable02.png" style="display:none;width:100%;border-radius:8px;margin-top:8px;" alt="ケーブルカー図④">
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--primary);font-weight:700;">(−2) × (−5) ＝ ＋10</span>　→　＋10mの位置<br>
         <span style="font-size:.82em;color:var(--text-sub);">下る方向 × 過去 ＝ 上の位置（プラスに！）</span>
@@ -324,22 +319,15 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 </main>
 
 <script>
-var _I=[null,"mb07-1.png","mb07-1.png","mb07-2.png","mb07-2.png"];
-var _L=[null,"① ＋2m/秒で上る・＋5秒後 → (+2)×(+5)=+10","② ＋2m/秒で上る・5秒前(-5) → (+2)×(-5)=-10","③ -2m/秒で下る・＋5秒後 → (-2)×(+5)=-10","④ -2m/秒で下る・5秒前(-5) → (-2)×(-5)=+10"];
-function showPopup(n){
-  var popup = document.getElementById('svg-popup');
-  var img = document.getElementById('popup-img-tag');
-  var title = document.getElementById('popup-title');
-  if(!popup){alert('popup要素なし'); return;}
-  if(!img){alert('img要素なし'); return;}
-  title.textContent=_L[n];
-  img.src=_I[n];
-  popup.style.display='block';
-  popup.style.visibility='visible';
-  popup.style.opacity='1';
+function toggleImg(id){
+  var el=document.getElementById(id);
+  if(!el){return;}
+  if(el.style.display==='none'||el.style.display===''){
+    el.style.display='block';
+  }else{
+    el.style.display='none';
+  }
 }
-document.getElementById('popup-close-x').onclick=function(){document.getElementById('svg-popup').style.display='none';};
-document.getElementById('svg-popup').onclick=function(e){if(e.target===this)this.style.display='none';};
 
   const feedback = document.getElementById(id+'-feedback');
   btn.parentElement.querySelectorAll('.quiz-btn').forEach(b=>{b.classList.remove('correct-btn','wrong-btn');b.disabled=true;});
