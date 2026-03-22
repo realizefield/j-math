@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB10 四則混合計算 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
+.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;margin-top:28px;}
+.section-title:first-of-type{margin-top:0;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;}
+.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
+.summary-box ul{margin:0;padding-left:20px;line-height:2;}
+.summary-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.quiz-btn{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:none;border:2px solid var(--primary);border-radius:8px;padding:8px 18px;font-size:.95em;font-weight:700;color:var(--primary);cursor:pointer;margin:4px;}
+.quiz-btn.correct-btn{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.quiz-btn.wrong-btn{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.9em;font-weight:700;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--success-light);color:var(--success);}
+.quiz-feedback.ng{background:var(--accent-light);color:var(--accent);}
+.step-row{display:flex;align-items:flex-start;gap:12px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:8px;}
+.step-num{background:var(--primary);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0;margin-top:2px;}
+.expr-big{font-size:clamp(1.1em,3.5vw,1.4em);font-weight:700;}
+.arrow-row{text-align:center;font-size:1.4em;color:var(--primary);margin:4px 0;}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MB10</div>
+  <h1>四則混合計算　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- ══════ パート1：ルール ══════ -->
+  <div class="section-title">① 計算の順番のルール</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.93em;line-height:1.9;margin-bottom:16px;">
+      ＋・−・×・÷ が混ざった式では、<br>
+      <strong style="color:var(--accent);">かけ算（×）・わり算（÷）を先に</strong>計算します。
+    </p>
+
+    <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:3px solid var(--warn);border-radius:14px;padding:16px 20px;text-align:center;margin-bottom:16px;">
+      <div style="font-size:.88em;font-weight:700;color:var(--warn);margin-bottom:12px;">📏 計算の順番</div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;font-size:clamp(.9em,2.5vw,1.1em);font-weight:700;flex-wrap:wrap;">
+        <div style="background:var(--accent-light);border:2.5px solid var(--accent);border-radius:10px;padding:10px 16px;color:var(--accent);">
+          ① × と ÷<br><span style="font-size:.8em;">先に計算！</span>
+        </div>
+        <div style="font-size:1.6em;color:var(--warn);">→</div>
+        <div style="background:var(--primary-light);border:2.5px solid var(--primary);border-radius:10px;padding:10px 16px;color:var(--primary);">
+          ② ＋ と −<br><span style="font-size:.8em;">あとで計算</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 例：5 − 2×3 -->
+    <div style="background:#f8faff;border:1.5px solid var(--border);border-radius:12px;padding:14px 18px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:10px;">例） 5 − 2×3 を計算する</div>
+      <div class="step-row" style="border-color:var(--accent);background:var(--accent-light);">
+        <div class="step-num" style="background:var(--accent);">1</div>
+        <div>
+          <div style="font-size:.8em;color:var(--accent);font-weight:700;margin-bottom:4px;">まず × を計算</div>
+          <div class="expr-big">5 − <span style="color:var(--accent);text-decoration:underline;">2×3</span></div>
+          <div style="font-size:.9em;margin-top:4px;color:var(--accent);">↓　2×3 ＝ 6</div>
+          <div class="expr-big">5 − 6</div>
+        </div>
+      </div>
+      <div class="step-row" style="border-color:var(--primary);background:var(--primary-light);">
+        <div class="step-num">2</div>
+        <div>
+          <div style="font-size:.8em;color:var(--primary);font-weight:700;margin-bottom:4px;">次に − を計算</div>
+          <div class="expr-big">5 − 6 <span style="color:var(--primary);">＝ −1</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ パート2：−(−n)のポイント ══════ -->
+  <div class="section-title">② 【注意】−(負の数) の処理</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.93em;line-height:1.9;margin-bottom:14px;">
+      ×・÷を先に計算した後、<strong style="color:var(--accent);">−(マイナス)が残る</strong>ことがあります。<br>
+      このとき「引くマイナス」は「足すプラス」に変わります。
+    </p>
+    <div style="background:var(--accent-light);border:2.5px solid var(--accent);border-radius:12px;padding:14px 18px;text-align:center;margin-bottom:14px;">
+      <div style="font-size:.88em;font-weight:700;color:var(--accent);margin-bottom:8px;">⚠️ 符号の変換</div>
+      <div style="font-size:clamp(1.1em,3vw,1.4em);font-weight:700;color:var(--accent);">
+        −（−n） ＝ ＋n
+      </div>
+      <div style="font-size:.85em;color:var(--text-sub);margin-top:6px;">マイナスをひく ＝ プラスを足す</div>
+    </div>
+
+    <!-- 例：−5 −(−6)÷3 -->
+    <div style="background:#f8faff;border:1.5px solid var(--border);border-radius:12px;padding:14px 18px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:10px;">例） −5 −(−6)÷3 を計算する</div>
+      <div class="step-row" style="border-color:var(--accent);background:var(--accent-light);">
+        <div class="step-num" style="background:var(--accent);">1</div>
+        <div>
+          <div style="font-size:.8em;color:var(--accent);font-weight:700;margin-bottom:4px;">まず ÷ を計算</div>
+          <div class="expr-big">−5 − <span style="color:var(--accent);text-decoration:underline;">(−6)÷3</span></div>
+          <div style="font-size:.9em;margin-top:4px;color:var(--accent);">↓　(−6)÷3 ＝ −2</div>
+          <div class="expr-big">−5 − （−2）</div>
+        </div>
+      </div>
+      <div class="step-row" style="border-color:var(--warn);background:var(--warn-light);">
+        <div class="step-num" style="background:var(--warn);">2</div>
+        <div>
+          <div style="font-size:.8em;color:var(--warn);font-weight:700;margin-bottom:4px;">−(−2) を ＋2 に変換</div>
+          <div class="expr-big">−5 − （−2） ＝ −5 <span style="color:var(--success);font-weight:900;">＋ 2</span></div>
+        </div>
+      </div>
+      <div class="step-row" style="border-color:var(--primary);background:var(--primary-light);">
+        <div class="step-num">3</div>
+        <div>
+          <div style="font-size:.8em;color:var(--primary);font-weight:700;margin-bottom:4px;">最後に計算</div>
+          <div class="expr-big">−5 ＋ 2 <span style="color:var(--primary);">＝ −3</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ パート3：確認クイズ ══════ -->
+  <div class="section-title">③ 確認クイズ</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:14px;">🧠 計算してみよう</div>
+
+    <div style="margin-bottom:14px;">
+      <p style="font-size:.95em;margin-bottom:4px;font-weight:700;">① 12 −(−8)×3 を計算すると？</p>
+      <p style="font-size:.82em;color:var(--text-sub);margin-bottom:8px;">ヒント：(−8)×3 を先に計算</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">−12</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',true)">36</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">−36</button>
+      <div id="q1-feedback" class="quiz-feedback"></div>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <p style="font-size:.95em;margin-bottom:4px;font-weight:700;">② −7 −(−12)÷4 を計算すると？</p>
+      <p style="font-size:.82em;color:var(--text-sub);margin-bottom:8px;">ヒント：(−12)÷4 を先に計算</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)">−10</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',true)">−4</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)">4</button>
+      <div id="q2-feedback" class="quiz-feedback"></div>
+    </div>
+
+    <div>
+      <p style="font-size:.95em;margin-bottom:4px;font-weight:700;">③ −11 −(−12)÷(−3) を計算すると？</p>
+      <p style="font-size:.82em;color:var(--text-sub);margin-bottom:8px;">ヒント：(−12)÷(−3) を先に計算（符号に注意！）</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',false)">−7</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',false)">−11</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',true)">−15</button>
+      <div id="q3-feedback" class="quiz-feedback"></div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul>
+      <li><strong>× と ÷ を先に</strong>計算する（＋・− より優先）</li>
+      <li>計算後に <strong>−（負の数）</strong> が出たら、<strong>引くマイナス＝足すプラス</strong>に変換</li>
+      <li>手順：① ×÷を計算　② 符号を整理　③ ＋−を計算</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+<script>
+function quizAnswer(btn, id, isCorrect) {
+  const feedback = document.getElementById(id+'-feedback');
+  btn.parentElement.querySelectorAll('.quiz-btn').forEach(b=>{b.classList.remove('correct-btn','wrong-btn');b.disabled=true;});
+  const msgs = {
+    q1:{ok:'⭕ 正解！　(−8)×3＝−24 → 12−(−24)＝12＋24＝36',ng:'❌ (−8)×3＝−24、12−(−24)＝12＋24＝36 です。'},
+    q2:{ok:'⭕ 正解！　(−12)÷4＝−3 → −7−(−3)＝−7＋3＝−4',ng:'❌ (−12)÷4＝−3、−7−(−3)＝−7＋3＝−4 です。'},
+    q3:{ok:'⭕ 正解！　(−12)÷(−3)＝4 → −11−4＝−15',ng:'❌ (−12)÷(−3)＝＋4（同じ符号）、−11−4＝−15 です。'}
+  };
+  if(isCorrect){btn.classList.add('correct-btn');feedback.textContent=msgs[id].ok;feedback.className='quiz-feedback show ok';}
+  else{btn.classList.add('wrong-btn');feedback.textContent=msgs[id].ng;feedback.className='quiz-feedback show ng';}
+}
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>
