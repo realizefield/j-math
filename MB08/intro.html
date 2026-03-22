@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB08 3つ以上のかけ算・わり算 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
+.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;margin-top:28px;}
+.section-title:first-of-type{margin-top:0;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;}
+.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
+.summary-box ul{margin:0;padding-left:20px;line-height:2;}
+.summary-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.quiz-btn{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:none;border:2px solid var(--primary);border-radius:8px;padding:8px 18px;font-size:.95em;font-weight:700;color:var(--primary);cursor:pointer;margin:4px;}
+.quiz-btn.correct-btn{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.quiz-btn.wrong-btn{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.9em;font-weight:700;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--success-light);color:var(--success);}
+.quiz-feedback.ng{background:var(--accent-light);color:var(--accent);}
+.sign-badge{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:1.1em;}
+.sign-plus-badge{background:var(--primary-light);color:var(--primary);border:2px solid var(--primary);}
+.sign-minus-badge{background:var(--accent-light);color:var(--accent);border:2px solid var(--accent);}
+.count-table{width:100%;border-collapse:collapse;font-size:.95em;margin-bottom:12px;}
+.count-table th{background:var(--primary);color:#fff;padding:10px;text-align:center;}
+.count-table td{padding:12px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;}
+.count-table tr:nth-child(even) td{background:var(--primary-light);}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="unit-code">MB08</div>
+  <h1>3つ以上のかけ算・わり算　【導入】</h1>
+</div>
+
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- ══════ パート1：ルール ══════ -->
+  <div class="section-title">① 負の数の個数で符号が決まる！</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.93em;line-height:1.9;margin-bottom:16px;">
+      3つ以上のかけ算・わり算は、<br>
+      <strong>「負の数（マイナスの数）が何個あるか」</strong>で符号が決まります。
+    </p>
+
+    <table class="count-table">
+      <tr>
+        <th>負の数の個数</th>
+        <th>偶数 or 奇数</th>
+        <th>答えの符号</th>
+      </tr>
+      <tr>
+        <td>0個・2個・4個…</td>
+        <td style="color:var(--primary);">偶数（ぐうすう）</td>
+        <td><span class="sign-badge sign-plus-badge">＋</span></td>
+      </tr>
+      <tr>
+        <td>1個・3個・5個…</td>
+        <td style="color:var(--accent);">奇数（きすう）</td>
+        <td><span class="sign-badge sign-minus-badge">−</span></td>
+      </tr>
+    </table>
+
+    <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:3px solid var(--warn);border-radius:14px;padding:14px 18px;text-align:center;">
+      <div style="font-size:.88em;font-weight:700;color:var(--warn);margin-bottom:10px;">⭐ 覚え方</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:.92em;font-weight:700;">
+        <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:10px;">
+          <div style="color:var(--primary);margin-bottom:4px;">偶数個 → <span style="font-size:1.3em;">＋</span></div>
+          <div style="font-size:.85em;color:var(--text-sub);">ペアになる → プラス</div>
+        </div>
+        <div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:10px;padding:10px;">
+          <div style="color:var(--accent);margin-bottom:4px;">奇数個 → <span style="font-size:1.3em;">−</span></div>
+          <div style="font-size:.85em;color:var(--text-sub);">余りが出る → マイナス</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ パート2：計算の手順 ══════ -->
+  <div class="section-title">② 計算の手順</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:12px;background:var(--warn-light);border:1.5px solid var(--warn);border-radius:10px;padding:12px 16px;">
+        <span style="background:var(--warn);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88em;flex-shrink:0;">1</span>
+        <span style="font-size:.92em;line-height:1.8;"><strong>負の数を数える</strong>　（−）がいくつあるか数える</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--primary-light);border:1.5px solid var(--primary);border-radius:10px;padding:12px 16px;">
+        <span style="background:var(--primary);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88em;flex-shrink:0;">2</span>
+        <span style="font-size:.92em;line-height:1.8;"><strong>符号を決める</strong>　偶数個→＋、奇数個→−</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--success-light);border:1.5px solid var(--success);border-radius:10px;padding:12px 16px;">
+        <span style="background:var(--success);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88em;flex-shrink:0;">3</span>
+        <span style="font-size:.92em;line-height:1.8;"><strong>数字だけ計算</strong>　絶対値（数字部分）だけ計算する</span>
+      </div>
+    </div>
+
+    <!-- 例題 -->
+    <div style="background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:12px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:10px;">例） (−5) × (−3) × (−2)</div>
+      <div style="font-size:.9em;line-height:2.2;">
+        <div>① 負の数：<span style="color:var(--accent);font-weight:700;">(−5)(−3)(−2)</span> → <strong style="color:var(--accent);">3個（奇数）</strong></div>
+        <div>② 符号：奇数 → <span class="sign-badge sign-minus-badge" style="font-size:.95em;">−</span></div>
+        <div>③ 数字：5 × 3 × 2 ＝ <strong>30</strong></div>
+        <div style="margin-top:6px;padding:8px 12px;background:var(--accent-light);border-radius:8px;font-weight:700;color:var(--accent);">答え：−30</div>
+      </div>
+    </div>
+
+    <div style="background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:10px;">例） (−24) ÷ (−3) ÷ 4</div>
+      <div style="font-size:.9em;line-height:2.2;">
+        <div>① 負の数：<span style="color:var(--accent);font-weight:700;">(−24)(−3)</span> → <strong style="color:var(--primary);">2個（偶数）</strong></div>
+        <div>② 符号：偶数 → <span class="sign-badge sign-plus-badge" style="font-size:.95em;">＋</span></div>
+        <div>③ 数字：24 ÷ 3 ÷ 4 ＝ <strong>2</strong></div>
+        <div style="margin-top:6px;padding:8px 12px;background:var(--primary-light);border-radius:8px;font-weight:700;color:var(--primary);">答え：＋2</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ パート3：確認クイズ ══════ -->
+  <div class="section-title">③ 確認クイズ</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:14px;">🧠 答えの符号は？（＋か−か）</div>
+
+    <div style="margin-bottom:14px;">
+      <p style="font-size:.95em;margin-bottom:6px;font-weight:700;">① (−2) × (−3) × 4　の符号は？</p>
+      <p style="font-size:.82em;color:var(--text-sub);margin-bottom:6px;">（負の数は何個？）</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',true)">＋</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">−</button>
+      <div id="q1-feedback" class="quiz-feedback"></div>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <p style="font-size:.95em;margin-bottom:6px;font-weight:700;">② 5 × (−2) × (−3) × (−1)　の符号は？</p>
+      <p style="font-size:.82em;color:var(--text-sub);margin-bottom:6px;">（負の数は何個？）</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)">＋</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q2',true)">−</button>
+      <div id="q2-feedback" class="quiz-feedback"></div>
+    </div>
+
+    <div>
+      <p style="font-size:.95em;margin-bottom:6px;font-weight:700;">③ (−2) × (−1) × (−3) × (−2)　の符号は？</p>
+      <p style="font-size:.82em;color:var(--text-sub);margin-bottom:6px;">（負の数は何個？）</p>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',true)">＋</button>
+      <button class="quiz-btn" onclick="quizAnswer(this,'q3',false)">−</button>
+      <div id="q3-feedback" class="quiz-feedback"></div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul>
+      <li><strong>負の数が偶数個</strong>（0,2,4…個）→ 答えは <strong>＋（プラス）</strong></li>
+      <li><strong>負の数が奇数個</strong>（1,3,5…個）→ 答えは <strong>−（マイナス）</strong></li>
+      <li>手順：① 負の数を数える　② 符号を決める　③ 数字だけ計算</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+<script>
+function quizAnswer(btn, id, isCorrect) {
+  const feedback = document.getElementById(id+'-feedback');
+  btn.parentElement.querySelectorAll('.quiz-btn').forEach(b=>{b.classList.remove('correct-btn','wrong-btn');b.disabled=true;});
+  const msgs = {
+    q1:{ok:'⭕ 正解！　負の数2個（偶数）→ ＋　答え：＋24',ng:'❌ (−2)(−3)で負の数2個（偶数）→ ＋ です。'},
+    q2:{ok:'⭕ 正解！　負の数3個（奇数）→ −　答え：−30',ng:'❌ (−2)(−3)(−1)で負の数3個（奇数）→ − です。'},
+    q3:{ok:'⭕ 正解！　負の数4個（偶数）→ ＋　答え：＋12',ng:'❌ (−2)(−1)(−3)(−2)で負の数4個（偶数）→ ＋ です。'}
+  };
+  if(isCorrect){btn.classList.add('correct-btn');feedback.textContent=msgs[id].ok;feedback.className='quiz-feedback show ok';}
+  else{btn.classList.add('wrong-btn');feedback.textContent=msgs[id].ng;feedback.className='quiz-feedback show ng';}
+}
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>
