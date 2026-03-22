@@ -81,22 +81,189 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 <main class="g-container">
 
   <!-- ポップアップオーバーレイ（シンプル版） -->
-<!-- ══════ パート1：ケーブルカーで考える ══════ -->
+<!-- ══════ パート2：符号のルール表（重要・暗記） ══════ -->
+  <div class="section-title">② 符号のルール【重要・暗記！】</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <div style="overflow-x:auto;margin-bottom:16px;">
+      <table class="sign-table">
+        <tr>
+          <th>計算</th>
+          <th>符号のルール</th>
+          <th>答えの符号</th>
+          <th>例</th>
+        </tr>
+        <tr>
+          <td>
+            <span class="sign-box sign-plus" style="width:26px;height:26px;font-size:1em;">＋</span>
+            × / ÷
+            <span class="sign-box sign-plus" style="width:26px;height:26px;font-size:1em;">＋</span>
+          </td>
+          <td>同じ符号</td>
+          <td class="result-plus">＋</td>
+          <td>(＋3)×(＋4)＝<strong style="color:var(--primary);">＋12</strong></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="sign-box sign-plus" style="width:26px;height:26px;font-size:1em;">＋</span>
+            × / ÷
+            <span class="sign-box sign-minus" style="width:26px;height:26px;font-size:1em;">−</span>
+          </td>
+          <td>違う符号</td>
+          <td class="result-minus">−</td>
+          <td>(＋3)×(−4)＝<strong style="color:var(--accent);">−12</strong></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="sign-box sign-minus" style="width:26px;height:26px;font-size:1em;">−</span>
+            × / ÷
+            <span class="sign-box sign-plus" style="width:26px;height:26px;font-size:1em;">＋</span>
+          </td>
+          <td>違う符号</td>
+          <td class="result-minus">−</td>
+          <td>(−3)×(＋4)＝<strong style="color:var(--accent);">−12</strong></td>
+        </tr>
+        <tr>
+          <td>
+            <span class="sign-box sign-minus" style="width:26px;height:26px;font-size:1em;">−</span>
+            × / ÷
+            <span class="sign-box sign-minus" style="width:26px;height:26px;font-size:1em;">−</span>
+          </td>
+          <td>同じ符号</td>
+          <td class="result-plus">＋</td>
+          <td>(−3)×(−4)＝<strong style="color:var(--primary);">＋12</strong></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 暗記の公式 -->
+    <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:3px solid var(--warn);border-radius:14px;padding:16px 20px;text-align:center;">
+      <div style="font-size:.85em;font-weight:700;color:var(--warn);margin-bottom:10px;">⭐ 暗記のコツ</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:.95em;font-weight:700;">
+        <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:10px;">
+          <div style="color:var(--primary);font-size:.82em;margin-bottom:4px;">同じ符号どうし</div>
+          <div style="font-size:1.2em;color:var(--primary);">＋ × ＋ ＝ <span style="font-size:1.3em;">＋</span></div>
+          <div style="font-size:1.2em;color:var(--primary);">− × − ＝ <span style="font-size:1.3em;">＋</span></div>
+        </div>
+        <div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:10px;padding:10px;">
+          <div style="color:var(--accent);font-size:.82em;margin-bottom:4px;">違う符号どうし</div>
+          <div style="font-size:1.2em;color:var(--accent);">＋ × − ＝ <span style="font-size:1.3em;">−</span></div>
+          <div style="font-size:1.2em;color:var(--accent);">− × ＋ ＝ <span style="font-size:1.3em;">−</span></div>
+        </div>
+      </div>
+      <div style="margin-top:12px;font-size:.9em;font-weight:700;color:var(--text-sub);">
+        ÷（わり算）も同じルール！
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════ パート3：計算の手順 ══════ -->
+  <div class="section-title">③ 計算の手順</div>
+
+  <div class="problem-card" style="padding:20px;">
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;gap:12px;background:var(--warn-light);border:1.5px solid var(--warn);border-radius:10px;padding:12px 16px;">
+        <span style="background:var(--warn);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88em;flex-shrink:0;">1</span>
+        <span style="font-size:.92em;line-height:1.8;"><strong>符号を決める</strong>　同じ符号 → ＋、違う符号 → −</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--primary-light);border:1.5px solid var(--primary);border-radius:10px;padding:12px 16px;">
+        <span style="background:var(--primary);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88em;flex-shrink:0;">2</span>
+        <span style="font-size:.92em;line-height:1.8;"><strong>数字だけ計算</strong>　符号を無視して絶対値だけかける・わる</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--success-light);border:1.5px solid var(--success);border-radius:10px;padding:12px 16px;">
+        <span style="background:var(--success);color:#fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.88em;flex-shrink:0;">3</span>
+        <span style="font-size:.92em;line-height:1.8;"><strong>符号をつける</strong>　手順①で決めた符号をつける</span>
+      </div>
+    </div>
+
+    <!-- 具体例 -->
+    <div style="background:white;border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:8px;">例）(−6) × (−3)</div>
+      <div style="font-size:.9em;line-height:2;">
+        ① 符号：<strong style="color:var(--primary);">− × − ＝ ＋</strong><br>
+        ② 数字：6 × 3 ＝ 18<br>
+        ③ 答え：<strong style="color:var(--primary);font-size:1.1em;">＋18</strong>
+      </div>
+    </div>
+    <div style="background:white;border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--accent);margin-bottom:8px;">例）(＋4) × (−5)</div>
+      <div style="font-size:.9em;line-height:2;">
+        ① 符号：<strong style="color:var(--accent);">＋ × − ＝ −</strong><br>
+        ② 数字：4 × 5 ＝ 20<br>
+        ③ 答え：<strong style="color:var(--accent);font-size:1.1em;">−20</strong>
+      </div>
+    </div>
+
+    <!-- 確認クイズ -->
+    <div style="background:#f8faff;border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-top:14px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:10px;">🧠 確認クイズ　答えの符号は？</div>
+      <div style="margin-bottom:12px;">
+        <p style="font-size:.93em;margin-bottom:6px;font-weight:700;">① (−5) × (−4) の符号は？</p>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q1',true)">＋</button>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">−</button>
+        <div id="q1-feedback" class="quiz-feedback"></div>
+      </div>
+      <div>
+        <p style="font-size:.93em;margin-bottom:6px;font-weight:700;">② (＋8) × (−3) の符号は？</p>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)">＋</button>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q2',true)">−</button>
+        <div id="q2-feedback" class="quiz-feedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul>
+      <li><strong>同じ符号</strong>どうしのかけ算・わり算 → 答えは <strong>＋（プラス）</strong></li>
+      <li><strong>違う符号</strong>どうしのかけ算・わり算 → 答えは <strong>−（マイナス）</strong></li>
+      <li>手順：① 符号を決める　② 数字だけ計算　③ 符号をつける</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+
+<script>
+  if(el.style.display==='none'||el.style.display===''){
+    el.style.display='block';
+  }else{
+    el.style.display='none';
+  }
+}
+
+  const feedback = document.getElementById(id+'-feedback');
+  btn.parentElement.querySelectorAll('.quiz-btn').forEach(b=>{b.classList.remove('correct-btn','wrong-btn');b.disabled=true;});
+  const msgs = {
+    q1:{ok:'⭕ 正解！　− × − ＝ ＋（同じ符号なのでプラス）',ng:'❌ − × − は同じ符号どうし → ＋ です。'},
+    q2:{ok:'⭕ 正解！　＋ × − ＝ −（違う符号なのでマイナス）',ng:'❌ ＋ × − は違う符号どうし → − です。'}
+  };
+  if(isCorrect){btn.classList.add('correct-btn');feedback.textContent=msgs[id].ok;feedback.className='quiz-feedback show ok';}
+  else{btn.classList.add('wrong-btn');feedback.textContent=msgs[id].ng;feedback.className='quiz-feedback show ng';}
+}
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>  <!-- ══════ パート1：ケーブルカーで考える ══════ -->
   <div class="section-title">① ケーブルカーで考えよう</div>
 
   <div class="problem-card" style="padding:20px;">
     <p style="font-size:.93em;line-height:1.9;margin-bottom:16px;">
       ケーブルカーの<strong>速さ</strong>と<strong>時間</strong>で位置を考えると、<br>
-      かけ算の符号のルールがわかります。
+      かけ算の符号のルールがわかります。▼をタップすると図が見えます。
     </p>
 
     <!-- ① +×+ -->
     <div class="cable-card up" style="margin-bottom:10px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
-        <div style="font-size:.82em;font-weight:700;color:var(--primary);">🚋 ① ＋2m/秒で上る　＋5秒後の位置</div>
-        <button onclick="toggleImg('fig1')" style="background:var(--primary);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
-      </div>
-      <img id="fig1" src="./cable01.png" style="display:none;width:100%;border-radius:8px;margin-top:8px;" alt="ケーブルカー図①">
+      <div style="font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:6px;">🚋 ① ＋2m/秒で上る　＋5秒後の位置</div>
+      <details>
+        <summary style="font-size:.8em;font-weight:700;color:var(--primary);cursor:pointer;margin-bottom:6px;">🔍 図を見る（タップ）</summary>
+        <img src="./mb07-1.png" style="width:100%;border-radius:8px;margin-top:6px;" alt="ケーブルカー①上り">
+      </details>
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--primary);font-weight:700;">(＋2) × (＋5) ＝ ＋10</span>　→　＋10mの位置<br>
         <span style="font-size:.82em;color:var(--text-sub);">上る方向 × 未来 ＝ 上の位置</span>
@@ -112,11 +279,11 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
     <!-- ② +×- -->
     <div class="cable-card up" style="margin-bottom:10px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
-        <div style="font-size:.82em;font-weight:700;color:var(--primary);">🚋 ② ＋2m/秒で上る　−5秒後（5秒前）の位置</div>
-        <button onclick="toggleImg('fig2')" style="background:var(--primary);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
-      </div>
-      <img id="fig2" src="./cable01.png" style="display:none;width:100%;border-radius:8px;margin-top:8px;" alt="ケーブルカー図②">
+      <div style="font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:6px;">🚋 ② ＋2m/秒で上る　−5秒後（5秒前）の位置</div>
+      <details>
+        <summary style="font-size:.8em;font-weight:700;color:var(--primary);cursor:pointer;margin-bottom:6px;">🔍 図を見る（タップ）</summary>
+        <img src="./mb07-1.png" style="width:100%;border-radius:8px;margin-top:6px;" alt="ケーブルカー②上り過去">
+      </details>
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--accent);font-weight:700;">(＋2) × (−5) ＝ −10</span>　→　−10mの位置<br>
         <span style="font-size:.82em;color:var(--text-sub);">上る方向 × 過去 ＝ 下の位置</span>
@@ -132,11 +299,11 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
     <!-- ③ -×+ -->
     <div class="cable-card down" style="margin-bottom:10px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
-        <div style="font-size:.82em;font-weight:700;color:var(--accent);">🚋 ③ −2m/秒で下る　＋5秒後の位置</div>
-        <button onclick="toggleImg('fig3')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
-      </div>
-      <img id="fig3" src="./cable02.png" style="display:none;width:100%;border-radius:8px;margin-top:8px;" alt="ケーブルカー図③">
+      <div style="font-size:.82em;font-weight:700;color:var(--accent);margin-bottom:6px;">🚋 ③ −2m/秒で下る　＋5秒後の位置</div>
+      <details>
+        <summary style="font-size:.8em;font-weight:700;color:var(--accent);cursor:pointer;margin-bottom:6px;">🔍 図を見る（タップ）</summary>
+        <img src="./mb07-2.png" style="width:100%;border-radius:8px;margin-top:6px;" alt="ケーブルカー③下り">
+      </details>
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--accent);font-weight:700;">(−2) × (＋5) ＝ −10</span>　→　−10mの位置<br>
         <span style="font-size:.82em;color:var(--text-sub);">下る方向 × 未来 ＝ 下の位置</span>
@@ -152,11 +319,11 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
     <!-- ④ -×- -->
     <div class="cable-card down">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;">
-        <div style="font-size:.82em;font-weight:700;color:var(--accent);">🚋 ④ −2m/秒で下る　−5秒後（5秒前）の位置</div>
-        <button onclick="toggleImg('fig4')" style="background:var(--accent);color:#fff;border:none;border-radius:20px;padding:5px 14px;font-size:.78em;font-weight:700;cursor:pointer;font-family:inherit;">🔍 図を見る</button>
-      </div>
-      <img id="fig4" src="./cable02.png" style="display:none;width:100%;border-radius:8px;margin-top:8px;" alt="ケーブルカー図④">
+      <div style="font-size:.82em;font-weight:700;color:var(--accent);margin-bottom:6px;">🚋 ④ −2m/秒で下る　−5秒後（5秒前）の位置</div>
+      <details>
+        <summary style="font-size:.8em;font-weight:700;color:var(--accent);cursor:pointer;margin-bottom:6px;">🔍 図を見る（タップ）</summary>
+        <img src="./mb07-2.png" style="width:100%;border-radius:8px;margin-top:6px;" alt="ケーブルカー④下り過去">
+      </details>
       <div style="font-size:.93em;line-height:1.8;">
         <span style="color:var(--primary);font-weight:700;">(−2) × (−5) ＝ ＋10</span>　→　＋10mの位置<br>
         <span style="font-size:.82em;color:var(--text-sub);">下る方向 × 過去 ＝ 上の位置（プラスに！）</span>
@@ -319,9 +486,6 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 </main>
 
 <script>
-function toggleImg(id){
-  var el=document.getElementById(id);
-  if(!el){return;}
   if(el.style.display==='none'||el.style.display===''){
     el.style.display='block';
   }else{
