@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MB11 四則混合計算 【演習】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;}
+.page-header .unit-code{font-size:.82em;opacity:.8;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:20px;font-size:.95em;color:var(--primary);line-height:1.7;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.problem-head{display:flex;align-items:center;padding:16px 18px;gap:10px;flex-wrap:wrap;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 12px;font-family:'BIZ UDPGothic',sans-serif;font-size:.8em;color:var(--text-sub);cursor:pointer;white-space:nowrap;}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.num-input{width:clamp(72px,16vw,96px);height:clamp(44px,9vw,54px);text-align:center;font-size:clamp(1em,3vw,1.3em);font-weight:700;font-family:'BIZ UDPGothic',sans-serif;border:2.5px solid var(--primary);border-radius:10px;background:#f0f6ff;color:var(--primary);outline:none;-moz-appearance:textfield;}
+.num-input::-webkit-inner-spin-button,.num-input::-webkit-outer-spin-button{-webkit-appearance:none;}
+.num-input.correct{border-color:var(--success);background:var(--success-light);color:var(--success);}
+.num-input.wrong{border-color:var(--accent);background:var(--accent-light);color:var(--accent);}
+.calc-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;padding:7px 10px;border-radius:8px;margin-bottom:5px;font-size:.88em;font-weight:700;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.calc-row.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.7em;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;flex-shrink:0;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.b{background:var(--primary);color:#fff;}
+.clbl.r{background:var(--accent);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+.expr{font-size:clamp(1.0em,3vw,1.3em);font-weight:700;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">MB11</div>
+  <h1>四則混合計算②　【演習】</h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">③</span><span>演習</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+  <div class="instruction">
+    <strong>【演習】</strong>　① ×÷を先に計算　② −(負の数)→符号変換　③ ＋−を計算
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:2px solid var(--warn);border-radius:12px;padding:10px 14px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.88em;font-weight:700;text-align:center;">
+    <div style="background:var(--accent-light);border-radius:8px;padding:7px;color:var(--accent);">× と ÷ が最優先</div>
+    <div style="background:var(--primary-light);border-radius:8px;padding:7px;color:var(--primary);">−(−n) ＝ ＋n</div>
+  </div>
+  <div id="problems-area"></div>
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-back">← 例題にもどる</a>
+    <a href="check.html" class="btn-nav btn-forward">④ 確認テストへ →</a>
+  </div>
+</main>
+<script src="mb11_sets.js"></script>
+<script>
+const setIndex = Math.floor(Math.random() * MB11_DRILL_SETS.length);
+const problems = MB11_DRILL_SETS[setIndex].problems;
+
+function buildProblems() {
+  const area = document.getElementById('problems-area');
+  area.innerHTML = '';
+  problems.forEach((p, i) => {
+    area.innerHTML += `
+      <div class="problem-card" id="card${i}">
+        <div class="problem-head">
+          <span class="expr">${p.expr}</span>
+          <span style="font-size:1.2em;font-weight:700;color:var(--text-sub);">＝</span>
+          <input type="number" id="inp${i}" class="num-input" placeholder="?">
+          <button class="ans-toggle" onclick="toggleExplain(${i})">答を見る</button>
+        </div>
+        <div id="expl${i}" style="display:none;padding:0 14px 12px;"></div>
+      </div>`;
+  });
+}
+
+function explainHTML(p, isOk, hasInput) {
+  const isNeg = p.ans < 0;
+  let html = hasInput
+    ? (isOk ? `<div style="background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-weight:700;color:var(--success);">⭕ 正解！　<strong>${p.ans}</strong></div>`
+             : `<div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-weight:700;color:var(--accent);">❌ 正解は <strong style="font-size:1.2em;">${p.ans}</strong></div>`)
+    : `<div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-weight:700;color:var(--primary);">正解：<strong>${p.ans}</strong></div>`;
+  // step1に変換が入るか判定（stepに−(が含まれるか）
+  const hasConvert = p.step2.includes('＋') && p.step1.includes('（−');
+  html += `<div class="calc-row y"><span class="clbl y">① ×÷先</span> ${p.hint}</div>`;
+  if (p.step1 !== p.step2) {
+    html += `<div class="calc-row r"><span class="clbl r">② 変換</span> ${p.step1} → ${p.step2}</div>`;
+  }
+  html += `<div class="calc-row g"><span class="clbl g">③ 答え</span> ${p.step2} ＝ <strong style="color:${isNeg?'var(--accent)':'var(--primary)'};font-size:1.1em;">${p.ans}</strong></div>`;
+  return html;
+}
+
+function toggleExplain(i) {
+  const p = problems[i];
+  const expl = document.getElementById('expl'+i);
+  const btn  = document.querySelector('#card'+i+' .ans-toggle');
+  const inp  = document.getElementById('inp'+i);
+  if (expl.style.display === 'block') { expl.style.display='none'; btn.textContent='答を見る'; return; }
+  const val = parseInt(inp.value);
+  const hasInput = !isNaN(val);
+  const isOk = hasInput && val === p.ans;
+  inp.classList.remove('correct','wrong');
+  if (hasInput) inp.classList.add(isOk ? 'correct' : 'wrong');
+  expl.innerHTML = explainHTML(p, isOk, hasInput);
+  expl.style.display = 'block';
+  btn.textContent = '答を隠す';
+}
+buildProblems();
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>
