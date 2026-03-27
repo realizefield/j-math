@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC06 文字式の通分・加減 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
+.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;margin-top:28px;}
+.section-title:first-of-type{margin-top:0;}
+.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;font-size:.97em;line-height:2;}
+.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
+.summary-box ul{margin:0;padding-left:20px;}
+.summary-box li{margin-bottom:4px;}
+.summary-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+/* 例カード */
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.ex-card-head{background:var(--primary);color:#fff;padding:8px 16px;font-size:.85em;font-weight:700;}
+.ex-card-body{padding:14px 18px;}
+.step-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:9px;margin-bottom:8px;font-size:.9em;font-weight:700;line-height:2.5;}
+.step-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.step-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.step-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.slbl{font-size:.7em;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap;flex-shrink:0;}
+.slbl.y{background:var(--warn);color:#fff;}
+.slbl.b{background:var(--primary);color:#fff;}
+.slbl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:12px 16px;margin-top:10px;font-size:1.15em;font-weight:700;color:var(--primary);text-align:center;line-height:2.5;}
+/* 縦形分数 */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;line-height:1.1;}
+.frac .fn{border-bottom:2px solid currentColor;padding:0 5px 2px;text-align:center;min-width:1.2em;}
+.frac .fd{padding:2px 5px 0;text-align:center;min-width:1.2em;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">MC06</div>
+  <h1>文字式の通分・加減　【導入】</h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+
+  <!-- ① ルール確認 -->
+  <div class="section-title">① ルールを確認しよう</div>
+
+  <div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid var(--primary);border-radius:14px;padding:16px 20px;margin-bottom:16px;">
+    <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:12px;">📌 通分の手順</div>
+    <div style="font-size:.92em;line-height:2.8;">
+      ① 分母の最小公倍数を求める<br>
+      ② 分子と分母を同じ数で掛ける<br>
+      ③ 分子の文字式を計算する
+    </div>
+    <div style="margin-top:14px;background:#fff;border-radius:10px;padding:12px 16px;font-size:.92em;font-weight:700;line-height:3;text-align:center;">
+      例）
+      <span class="frac"><span class="fn">a</span><span class="fd">2</span></span>
+      ＋
+      <span class="frac"><span class="fn">b</span><span class="fd">3</span></span>
+      　→　
+      <span class="frac"><span class="fn">3a</span><span class="fd">6</span></span>
+      ＋
+      <span class="frac"><span class="fn">2b</span><span class="fd">6</span></span>
+      　＝　
+      <span class="frac"><span class="fn">3a＋2b</span><span class="fd">6</span></span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px;">
+    <div style="background:var(--primary-light);border-radius:8px;padding:9px;color:var(--primary);font-size:.88em;font-weight:700;text-align:center;">分母をそろえる（通分）</div>
+    <div style="background:var(--accent-light);border-radius:8px;padding:9px;color:var(--accent);font-size:.88em;font-weight:700;text-align:center;">分子の文字式を計算</div>
+  </div>
+
+  <!-- ② 例で確認 -->
+  <div class="section-title">② 例で確認しよう</div>
+
+  <!-- 例1 -->
+  <div class="ex-card">
+    <div class="ex-card-head">
+      例１）
+      <span class="frac"><span class="fn">a</span><span class="fd">2</span></span>
+      　－　
+      <span class="frac"><span class="fn">b</span><span class="fd">4</span></span>
+    </div>
+    <div class="ex-card-body">
+      <div class="step-row y">
+        <span class="slbl y">通分</span>
+        分母を 4 にそろえる（4 は 2 と 4 の最小公倍数）
+      </div>
+      <div class="step-row b">
+        <span class="slbl b">変換</span>
+        <span class="frac"><span class="fn">a</span><span class="fd">2</span></span>
+        ＝
+        <span class="frac"><span class="fn">2a</span><span class="fd">4</span></span>
+      </div>
+      <div class="step-row g">
+        <span class="slbl g">計算</span>
+        <span class="frac"><span class="fn">2a</span><span class="fd">4</span></span>
+        　－　
+        <span class="frac"><span class="fn">b</span><span class="fd">4</span></span>
+        　＝　
+        <span class="frac"><span class="fn">2a－b</span><span class="fd">4</span></span>
+      </div>
+      <div class="ans-box">
+        答え：<strong>
+          <span class="frac"><span class="fn">2a－b</span><span class="fd">4</span></span>
+        </strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 例2 -->
+  <div class="ex-card">
+    <div class="ex-card-head">
+      例２）
+      <span class="frac"><span class="fn">x</span><span class="fd">3</span></span>
+      　－　
+      <span class="frac"><span class="fn">x－y</span><span class="fd">4</span></span>
+    </div>
+    <div class="ex-card-body">
+      <div class="step-row y">
+        <span class="slbl y">通分</span>
+        最小公倍数 12 で通分する
+      </div>
+      <div class="step-row b">
+        <span class="slbl b">変換</span>
+        <span class="frac"><span class="fn">x</span><span class="fd">3</span></span>
+        ＝
+        <span class="frac"><span class="fn">4x</span><span class="fd">12</span></span>
+        　　
+        <span class="frac"><span class="fn">x－y</span><span class="fd">4</span></span>
+        ＝
+        <span class="frac"><span class="fn">3(x－y)</span><span class="fd">12</span></span>
+      </div>
+      <div class="step-row g">
+        <span class="slbl g">計算</span>
+        <span class="frac"><span class="fn">4x－3(x－y)</span><span class="fd">12</span></span>
+        　＝　
+        <span class="frac"><span class="fn">4x－3x＋3y</span><span class="fd">12</span></span>
+        　＝　
+        <span class="frac"><span class="fn">x＋3y</span><span class="fd">12</span></span>
+      </div>
+      <div class="ans-box">
+        答え：<strong>
+          <span class="frac"><span class="fn">x＋3y</span><span class="fd">12</span></span>
+        </strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 例3 -->
+  <div class="ex-card">
+    <div class="ex-card-head">
+      例３）　－x　－　
+      <span class="frac"><span class="fn">x</span><span class="fd">6</span></span>
+    </div>
+    <div class="ex-card-body">
+      <div class="step-row y">
+        <span class="slbl y">考え方</span>
+        －x を分数に直して通分する
+      </div>
+      <div class="step-row b">
+        <span class="slbl b">変換</span>
+        －x ＝
+        －<span class="frac"><span class="fn">6x</span><span class="fd">6</span></span>
+      </div>
+      <div class="step-row g">
+        <span class="slbl g">計算</span>
+        －<span class="frac"><span class="fn">6x</span><span class="fd">6</span></span>
+        　－　
+        <span class="frac"><span class="fn">x</span><span class="fd">6</span></span>
+        　＝　
+        －<span class="frac"><span class="fn">7x</span><span class="fd">6</span></span>
+      </div>
+      <div class="ans-box">
+        答え：<strong>
+          －<span class="frac"><span class="fn">7x</span><span class="fd">6</span></span>
+        </strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 例4 -->
+  <div class="ex-card">
+    <div class="ex-card-head">
+      例４）
+      <span class="frac"><span class="fn">a</span><span class="fd">6</span></span>
+      　－　
+      <span class="frac"><span class="fn">b</span><span class="fd">3</span></span>
+    </div>
+    <div class="ex-card-body">
+      <div class="step-row y">
+        <span class="slbl y">通分</span>
+        分母を 6 にそろえる（6 は 6 と 3 の最小公倍数）
+      </div>
+      <div class="step-row b">
+        <span class="slbl b">変換</span>
+        <span class="frac"><span class="fn">b</span><span class="fd">3</span></span>
+        ＝
+        <span class="frac"><span class="fn">2b</span><span class="fd">6</span></span>
+      </div>
+      <div class="step-row g">
+        <span class="slbl g">計算</span>
+        <span class="frac"><span class="fn">a</span><span class="fd">6</span></span>
+        　－　
+        <span class="frac"><span class="fn">2b</span><span class="fd">6</span></span>
+        　＝　
+        <span class="frac"><span class="fn">a－2b</span><span class="fd">6</span></span>
+      </div>
+      <div class="ans-box">
+        答え：<strong>
+          <span class="frac"><span class="fn">a－2b</span><span class="fd">6</span></span>
+        </strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul>
+      <li>分母が違う項は<strong>通分</strong>（最小公倍数にそろえる）してから計算</li>
+      <li>通分後は<strong>分子の文字式</strong>を足し引きする</li>
+      <li>分子に式がある場合は<strong>カッコ</strong>をつけてから展開</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+
+</main>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

@@ -81,6 +81,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .u-code{font-size:.72em;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
 .c-ma{background:var(--primary-light);color:var(--primary);}
 .c-mb{background:var(--warn-light);color:var(--warn);}
+.c-mc{background:#f3e8ff;color:#7c3aed;}
 
 /* 単元名 */
 .u-name{flex:1;font-size:.9em;font-weight:700;line-height:1.4;min-width:0;}
@@ -156,6 +157,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
     <div class="section-title">➕➖ MB　正負の数の計算</div>
     <div class="unit-list" id="list-mb"></div>
+
+    <div class="section-title">🔡 MC　文字式の計算</div>
+    <div class="unit-list" id="list-mc"></div>
   </main>
 </div>
 
@@ -185,11 +189,12 @@ const UNITS = [
   {code:'MB05',name:'分数の正負の計算',    sub:'通分＋正負の計算の組み合わせ',              g:'mb',path:'MB05/intro.html'},
   {code:'MB06',name:'混合計算',              sub:'カッコをはずしてまとめて計算する',            g:'mb',path:'MB06/intro.html'},
   {code:'MB07',name:'かけ算・わり算',          sub:'正負の数のかけ算・わり算（符号のルール）',      g:'mb',path:'MB07/intro.html'},
-  {code:'MB08',name:'3つ以上のかけ算',          sub:'負の数の個数で符号が決まる（奇数→−・偶数→＋）',  g:'mb',path:'MB08/intro.html'},
-  {code:'MB09',name:'指数の計算',              sub:'(−2)³ と −2³ の違い（カッコの有無に注意）',       g:'mb',path:'MB09/intro.html'},
-  {code:'MB10',name:'四則混合計算',            sub:'×÷が先・−(負の数)の変換（かけ算わり算優先）',    g:'mb',path:'MB10/intro.html'},
-  {code:'MB11',name:'四則混合計算②',           sub:'×÷が2箇所・両方先に計算してから符号整理',         g:'mb',path:'MB11/intro.html'},
-  {code:'MB12',name:'指数・カッコの計算',        sub:'指数を先に・中カッコは内側から（計算の総まとめ）',   g:'mb',path:'MB12/intro.html'},
+  {code:'MC01',name:'文字式の表し方',        sub:'×÷の省略・係数・指数',                g:'mc',path:'MC01/intro.html'},
+  {code:'MC02',name:'同類項の計算',            sub:'同じ文字の係数をまとめる',              g:'mc',path:'MC02/intro.html'},
+  {code:'MC03',name:'文字式の乗除・分配法則',  sub:'数×文字式、カッコをはずす',             g:'mc',path:'MC03/intro.html'},
+  {code:'MC04',name:'カッコをはずす計算',      sub:'－(  )の展開と同類項',                  g:'mc',path:'MC04/intro.html'},
+  {code:'MC05',name:'単項式の乗除',            sub:'2x×3y、12xy÷4y、累乗',               g:'mc',path:'MC05/intro.html'},
+  {code:'MC06',name:'文字式の通分・加減',      sub:'分数の文字式の加減',                    g:'mc',path:'MC06/intro.html'},
 ];
 const TOTAL = UNITS.length;
 
@@ -229,10 +234,13 @@ function showMain(){
 function render(){
   const maList = document.getElementById('list-ma');
   const mbList = document.getElementById('list-mb');
-  maList.innerHTML=''; mbList.innerHTML='';
+  const mcList = document.getElementById('list-mc');
+  maList.innerHTML=''; mbList.innerHTML=''; mcList.innerHTML='';
   UNITS.forEach(u=>{
     const card = makeCard(u);
-    (u.g==='ma'?maList:mbList).appendChild(card);
+    if(u.g==='ma') maList.appendChild(card);
+    else if(u.g==='mb') mbList.appendChild(card);
+    else mcList.appendChild(card);
   });
 }
 
@@ -241,7 +249,7 @@ function makeCard(u){
   const div = document.createElement('div');
   div.className = 'unit-card s-'+st;
 
-  const codeClass = u.g==='ma'?'c-ma':'c-mb';
+  const codeClass = u.g==='ma'?'c-ma':u.g==='mb'?'c-mb':'c-mc';
   const badgeMap = {
     pass:  '<span class="u-badge b-pass">✅ 合格</span>',
     review:'<span class="u-badge b-review">🔁 復習中</span>',

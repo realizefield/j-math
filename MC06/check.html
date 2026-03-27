@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC06 文字式の通分・加減 【確認テスト】</title>
+<style>:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:20px;font-size:.95em;color:var(--primary);line-height:1.7;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.p-num{display:inline-block;background:var(--primary);color:#fff;border-radius:6px;padding:2px 9px;font-size:.78em;font-weight:700;margin-bottom:8px;}
+.q-text{font-size:clamp(1em,3vw,1.2em);font-weight:700;margin-bottom:12px;line-height:2.2;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 14px;}
+.choice-btn{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--bg);border:2.5px solid var(--border);border-radius:10px;padding:14px 8px;font-size:.92em;font-weight:700;color:var(--text);cursor:pointer;transition:all .18s;text-align:center;line-height:2;}
+.choice-btn:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);color:var(--primary);}
+.choice-btn.selected{background:var(--primary-light);border-color:var(--primary);color:var(--primary);}
+.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.choice-btn:disabled{cursor:default;}
+.expl-area{display:none;padding:0 14px 14px;}
+.calc-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;padding:7px 10px;border-radius:8px;margin-bottom:5px;font-size:.88em;font-weight:700;line-height:2.2;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.7em;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;flex-shrink:0;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+.score-box{display:none;background:var(--card);border:3px solid var(--primary);border-radius:var(--radius);padding:20px 24px;text-align:center;}
+.score-box.visible{display:block;}
+.score-label{font-size:.9em;color:var(--text-sub);margin-bottom:6px;}
+.score-num{font-size:clamp(1.8em,5vw,2.6em);font-weight:700;color:var(--primary);}
+.score-msg{margin-top:8px;font-size:.9em;color:var(--text-sub);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:20px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-success{background:var(--success);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.btn-submit{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--primary);color:#fff;font-size:clamp(1em,3vw,1.15em);font-weight:700;padding:14px clamp(36px,10vw,80px);border:none;border-radius:50px;cursor:pointer;box-shadow:0 4px 14px rgba(26,86,160,.3);transition:transform .15s;letter-spacing:.05em;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;line-height:1.1;}
+.frac .fn{border-bottom:2px solid currentColor;padding:0 5px 2px;text-align:center;min-width:1.2em;}
+.frac .fd{padding:2px 5px 0;text-align:center;min-width:1.2em;}
+
+/* 花吹雪 */
+.confetti-piece{position:fixed;top:-20px;border-radius:3px;opacity:0;animation:confettiFall linear forwards;pointer-events:none;z-index:9999;}
+@keyframes confettiFall{
+  0%  {transform:translateY(0) rotate(0deg);opacity:1;}
+  80% {opacity:1;}
+  100%{transform:translateY(110vh) rotate(720deg);opacity:0;}
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">MC06</div>
+  <h1>文字式の通分・加減　【確認テスト】</h1>
+</div>
+<nav class="step-nav"><div class="step-item "><span class="step-circle">①</span><a href="intro.html">導入</a></div><span class="step-arrow">›</span><div class="step-item "><span class="step-circle">②</span><a href="example.html">例題</a></div><span class="step-arrow">›</span><div class="step-item "><span class="step-circle">③</span><a href="drill.html">演習</a></div><span class="step-arrow">›</span><div class="step-item active"><span class="step-circle">④</span><span>確認</span></div></nav>
+<main class="g-container">
+  <div class="instruction" style="border-left-color:var(--accent);">
+    <strong>【確認テスト】</strong>　全問正解で合格！正しい答えをひとつ選ぼう。
+  </div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:2px solid var(--warn);border-radius:12px;padding:10px 14px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div style="background:var(--primary-light);border-radius:8px;padding:7px;color:var(--primary);font-size:.88em;font-weight:700;text-align:center;">分母をそろえる（通分）</div>
+    <div style="background:var(--accent-light);border-radius:8px;padding:7px;color:var(--accent);font-size:.88em;font-weight:700;text-align:center;">分子の文字式を計算</div>
+  </div>
+  <div id="problems-area"></div>
+  <div style="text-align:center;margin-top:28px;">
+    <button onclick="judgeAll()" class="btn-submit">判定する</button>
+  </div>
+  <div id="result-area" class="score-box" style="margin-top:24px;"></div>
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="drill.html" class="btn-nav btn-back">← 演習にもどる</a>
+    <a id="btn-next" href="../index.html" class="btn-nav btn-success" style="display:none;">単元一覧へ →</a>
+  </div>
+</main>
+<script src="mc06_sets.js"></script>
+<script>
+const GAS_URL = 'https://script.google.com/macros/s/ここにURLを貼り付け/exec';
+const setIndex = Math.floor(Math.random() * MC06_CHECK_SETS.length);
+const problems = MC06_CHECK_SETS[setIndex].problems;
+let startTime = Date.now();
+const state = [];
+
+function buildProblems() {
+  const area = document.getElementById('problems-area');
+  area.innerHTML = '';
+  problems.forEach((p, i) => {
+    // インデックス配列をシャッフルして正解位置を追跡
+    const idxArr = p.choices.map((_, idx) => idx);
+    for (let j = idxArr.length-1; j > 0; j--) {
+      const k = Math.floor(Math.random()*(j+1));
+      [idxArr[j],idxArr[k]] = [idxArr[k],idxArr[j]];
+    }
+    const shuffled   = idxArr.map(idx => p.choices[idx]);
+    const correctIdx = idxArr.indexOf(p.ans);
+    state[i] = {chosenIdx:-1, correctIdx, shuffled, p};
+    const btns = shuffled.map((c,ci) =>
+      `<button class="choice-btn" onclick="selectChoice(${i},${ci})">${c}</button>`
+    ).join('');
+    area.innerHTML += `<div class="problem-card" id="card${i}">
+      <div style="padding:16px 18px 10px;">
+        <div class="p-num">問 ${i+1}</div>
+        <div class="q-text">${p.q}</div>
+      </div>
+      <div class="choices">${btns}</div>
+      <div class="expl-area" id="expl${i}"></div>
+    </div>`;
+  });
+}
+
+function selectChoice(qi, ci) {
+  if (state[qi].locked) return;
+  state[qi].chosenIdx = ci;
+  document.getElementById('card'+qi).querySelectorAll('.choice-btn')
+    .forEach((b,bi) => b.classList.toggle('selected', bi===ci));
+}
+
+function judgeAll() {
+  let correct = 0;
+  problems.forEach((p, i) => {
+    const s = state[i];
+    document.getElementById('card'+i).querySelectorAll('.choice-btn').forEach((b,bi) => {
+      b.disabled = true; b.classList.remove('selected');
+      if (bi===s.correctIdx) b.classList.add('correct');
+      else if (bi===s.chosenIdx && s.chosenIdx!==s.correctIdx) b.classList.add('wrong');
+    });
+    const isOk = s.chosenIdx === s.correctIdx;
+    if (isOk) correct++;
+    const ans = s.shuffled[s.correctIdx];
+    const expl = document.getElementById('expl'+i);
+    let html = isOk
+      ? `<div style="background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-weight:700;color:var(--success);">⭕ 正解！　<strong>${ans}</strong></div>`
+      : `<div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-weight:700;color:var(--accent);">❌ 正解は <strong style="font-size:1.1em;">${ans}</strong>${s.chosenIdx<0?'（未選択）':''}</div>`;
+    html += `<div class="calc-row y"><span class="clbl y">解説</span>${p.hint}</div>`;
+    html += `<div class="calc-row g"><span class="clbl g">答え</span><strong style="color:var(--primary)">${ans}</strong></div>`;
+    expl.innerHTML = html; expl.style.display = 'block'; state[i].locked = true;
+  });
+  const isPassed = correct === problems.length;
+  const ra = document.getElementById('result-area');
+  ra.classList.add('visible');
+  const msg = isPassed ? '完璧！マスターです 🎉'
+    : correct >= problems.length*0.75 ? 'あと少し！もう一度確認しよう。'
+    : '解説を見てルールを復習しよう！';
+  ra.innerHTML = `<div class="score-label">合計点</div>
+    <div class="score-num">${correct} / ${problems.length} 正解</div>
+    <div class="score-msg">${msg}</div>
+    ${isPassed ? '<div style="margin-top:12px;font-size:.95em;color:#16a34a;font-weight:700;">✅ 合格！</div>' : ''}`;
+  if (isPassed) {
+    launchConfetti();
+    document.getElementById('btn-next').style.display = 'inline-block';
+    localStorage.setItem('gamba_prog_MC06', 'pass');
+    fetch(GAS_URL, {method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        student_id: localStorage.getItem('studentId')||'guest',
+        student_name: localStorage.getItem('studentName')||'ゲスト',
+        unit_code: 'MC06', unit_name: '文字式の通分・加減',
+        correct_count: correct, total_count: problems.length,
+        is_passed: true,
+        study_minutes: Math.round((Date.now()-startTime)/60000)
+      })
+    }).catch(e => console.log('GAS:',e));
+  }
+  ra.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function launchConfetti() {
+  const colors=['#e8372d','#1a56a0','#16a34a','#d97706','#7c3aed','#ec4899','#0ea5e9','#f59e0b'];
+  const shapes=['rect','circle'];
+  for(let i=0;i<120;i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');
+      el.className='confetti-piece';
+      const size=Math.random()*10+6;
+      const shape=shapes[Math.floor(Math.random()*shapes.length)];
+      el.style.cssText=[
+        'left:'+(Math.random()*100)+'vw',
+        'width:'+size+'px',
+        'height:'+(shape==='circle'?size:size*(Math.random()*0.8+0.4))+'px',
+        'background:'+colors[Math.floor(Math.random()*colors.length)],
+        'border-radius:'+(shape==='circle'?'50%':'2px'),
+        'animation-duration:'+(Math.random()*2+2)+'s',
+        'animation-delay:0s',
+      ].join(';');
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),5000);
+    },i*30);
+  }
+}
+buildProblems();</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

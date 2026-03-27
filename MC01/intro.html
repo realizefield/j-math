@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC01 文字式の計算 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
+.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;margin-top:28px;}
+.section-title:first-of-type{margin-top:0;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;font-size:.97em;line-height:2;}
+.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
+.summary-box ul{margin:0;padding-left:20px;}
+.summary-box li{margin-bottom:4px;}
+.summary-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.quiz-btn{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:none;border:2px solid var(--primary);border-radius:8px;padding:8px 18px;font-size:.95em;font-weight:700;color:var(--primary);cursor:pointer;margin:4px;transition:all .18s;}
+.quiz-btn:hover{background:var(--primary-light);}
+.quiz-btn.correct-btn{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.quiz-btn.wrong-btn{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.quiz-btn:disabled{cursor:default;}
+.quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.9em;font-weight:700;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.ok{background:var(--success-light);color:var(--success);}
+.quiz-feedback.ng{background:var(--accent-light);color:var(--accent);}
+/* 果物イラスト */
+.fruit-scene{background:linear-gradient(135deg,#fffbeb,#fef9c3);border:2px solid var(--warn);border-radius:16px;padding:18px;margin-bottom:20px;}
+.fruit-row{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:12px;}
+.fruit-group{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.fruit-label{font-size:.78em;font-weight:700;color:var(--text-sub);text-align:center;}
+.fruit-price{font-size:.82em;font-weight:700;color:var(--accent);text-align:center;}
+.math-row{text-align:center;font-size:clamp(1em,3vw,1.2em);font-weight:700;color:var(--text);line-height:2.5;}
+/* ルール表 */
+.rule-table{width:100%;border-collapse:collapse;font-size:.9em;margin-bottom:12px;}
+.rule-table th{background:var(--primary);color:#fff;padding:10px 12px;text-align:center;font-weight:700;}
+.rule-table td{padding:11px 12px;text-align:center;border-bottom:1px solid var(--border);font-weight:700;}
+.rule-table tr:nth-child(even) td{background:var(--primary-light);}
+.rule-table .before{color:var(--accent);}
+.rule-table .after{color:var(--primary);}
+/* 縦形分数 */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;line-height:1.1;}
+.frac .fn{border-bottom:2px solid currentColor;padding:0 5px 2px;text-align:center;min-width:1.2em;}
+.frac .fd{padding:2px 5px 0;text-align:center;min-width:1.2em;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">MC01</div>
+  <h1>文字式の計算　【導入】</h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+
+<main class="g-container">
+  <div class="section-title">① 買い物で考えよう</div>
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.93em;line-height:1.9;margin-bottom:16px;">
+      数の代わりに<strong>文字（a, b, x …）</strong>を使った式を<strong>文字式</strong>といいます。<br>
+      まず、果物の買い物で考えてみましょう。
+    </p>
+    <div class="fruit-scene">
+      <div class="fruit-row">
+        <!-- みかん -->
+        <div class="fruit-group">
+          <svg width="70" height="70" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="38" cy="10" rx="9" ry="5" fill="#4ade80" transform="rotate(-20 38 10)"/>
+            <line x1="35" y1="17" x2="35" y2="22" stroke="#16a34a" stroke-width="2"/>
+            <circle cx="35" cy="42" r="22" fill="#fb923c"/>
+            <circle cx="35" cy="42" r="20" fill="#fdba74"/>
+            <line x1="35" y1="22" x2="35" y2="62" stroke="#f97316" stroke-width="1.2" opacity=".5"/>
+            <line x1="15" y1="38" x2="55" y2="46" stroke="#f97316" stroke-width="1" opacity=".4"/>
+            <line x1="15" y1="48" x2="55" y2="38" stroke="#f97316" stroke-width="1" opacity=".4"/>
+          </svg>
+          <div class="fruit-label">みかん</div>
+          <div class="fruit-price">1個 30円</div>
+          <div style="font-size:.85em;font-weight:700;color:var(--primary);">a 個</div>
+        </div>
+        <div style="font-size:1.8em;font-weight:700;color:var(--text-sub);">×</div>
+        <!-- なし -->
+        <div class="fruit-group">
+          <svg width="70" height="70" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="38" cy="9" rx="9" ry="5" fill="#4ade80" transform="rotate(-15 38 9)"/>
+            <line x1="35" y1="16" x2="35" y2="22" stroke="#16a34a" stroke-width="2"/>
+            <rect x="33.5" y="16" width="3" height="7" rx="1.5" fill="#92400e"/>
+            <ellipse cx="35" cy="44" rx="20" ry="22" fill="#fde68a"/>
+            <ellipse cx="35" cy="44" rx="18" ry="20" fill="#fef08a"/>
+            <circle cx="28" cy="38" r="1.5" fill="#d97706" opacity=".4"/>
+            <circle cx="38" cy="42" r="1.5" fill="#d97706" opacity=".4"/>
+            <circle cx="30" cy="50" r="1.5" fill="#d97706" opacity=".4"/>
+            <circle cx="42" cy="50" r="1.5" fill="#d97706" opacity=".4"/>
+          </svg>
+          <div class="fruit-label">なし</div>
+          <div class="fruit-price">1個 150円</div>
+          <div style="font-size:.85em;font-weight:700;color:var(--primary);">b 個</div>
+        </div>
+      </div>
+      <div class="math-row">
+        合計金額　＝　<span style="color:var(--warn);">30</span>
+        <span style="color:var(--text-sub);margin:0 4px;">×</span>
+        <span style="color:var(--primary);">a</span>
+        <span style="color:var(--text-sub);margin:0 4px;">＋</span>
+        <span style="color:var(--warn);">150</span>
+        <span style="color:var(--text-sub);margin:0 4px;">×</span>
+        <span style="color:var(--primary);">b</span>
+        <span style="color:var(--text-sub);margin:0 4px;">（円）</span>
+      </div>
+      <div style="text-align:center;margin-top:8px;font-size:.85em;color:var(--text-sub);">
+        → 文字式では <strong style="color:var(--primary);font-size:1.1em;">30a ＋ 150b</strong>（円）と書く
+      </div>
+    </div>
+    <p style="font-size:.9em;line-height:1.9;color:var(--text-sub);">
+      <strong style="color:var(--text);">a</strong> が何個でも、<strong style="color:var(--text);">b</strong> が何個でも、この式ひとつで合計金額が表せます。これが文字式の便利さです！
+    </p>
+  </div>
+
+  <div class="section-title">② 文字式のルール（×・÷の書き方）</div>
+  <div class="problem-card" style="padding:20px;">
+    <p style="font-size:.9em;line-height:1.8;margin-bottom:14px;">文字式には<strong>書き方のルール</strong>があります。</p>
+    <table class="rule-table">
+      <tr>
+        <th>ルール</th>
+        <th>もとの式</th>
+        <th style="color:#86efac;">✅ 正しい</th>
+        <th style="color:#fca5a5;">✕ ダメな例</th>
+      </tr>
+      <tr>
+        <td style="text-align:left;font-size:.85em;">① ×（かける）を省く</td>
+        <td class="before">a × 5</td>
+        <td class="after">5a</td>
+        <td style="color:var(--accent);font-weight:700;font-size:.92em;">a×5</td>
+      </tr>
+      <tr>
+        <td style="text-align:left;font-size:.85em;">② 数字を文字の前に</td>
+        <td class="before">a × 5</td>
+        <td class="after">5a</td>
+        <td style="color:var(--accent);font-weight:700;font-size:.92em;">a5</td>
+      </tr>
+      <tr>
+        <td style="text-align:left;font-size:.85em;">③ 係数が1は省く</td>
+        <td class="before">1 × x</td>
+        <td class="after">x</td>
+        <td style="color:var(--accent);font-weight:700;font-size:.92em;">1x</td>
+      </tr>
+      <tr>
+        <td style="text-align:left;font-size:.85em;">④ 係数が−1も省く</td>
+        <td class="before">−1 × x</td>
+        <td class="after">−x</td>
+        <td style="color:var(--accent);font-weight:700;font-size:.92em;">−1x</td>
+      </tr>
+      <tr>
+        <td style="text-align:left;font-size:.85em;">⑤ ÷（わる）は分数に</td>
+        <td class="before">x ÷ 3</td>
+        <td class="after"><span class="frac"><span class="fn">x</span><span class="fd">3</span></span></td>
+        <td style="color:var(--accent);font-weight:700;font-size:.92em;">x÷3</td>
+      </tr>
+      <tr>
+        <td style="text-align:left;font-size:.85em;">⑥ 同じ文字は指数に</td>
+        <td class="before">x × x</td>
+        <td class="after">x²</td>
+        <td style="color:var(--accent);font-weight:700;font-size:.92em;">xx</td>
+      </tr>
+    </table>
+    <!-- 暗記のコツ -->
+    <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:2px solid var(--warn);border-radius:12px;padding:14px 16px;text-align:center;margin-top:8px;">
+      <div style="font-size:.83em;font-weight:700;color:var(--warn);margin-bottom:10px;">⭐ 覚え方のコツ</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:.88em;font-weight:700;">
+        <div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:9px;color:var(--primary);">
+          × は省略<br>
+          <span style="font-size:1.1em;">a×5 → 5a</span>
+        </div>
+        <div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:10px;padding:9px;color:var(--accent);">
+          ÷ は分数<br>
+          <span style="font-size:1.1em;">x÷3 →
+            <span class="frac"><span class="fn">x</span><span class="fd">3</span></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">③ 具体例で確認しよう</div>
+  <div class="problem-card" style="padding:20px;">
+    <!-- 例1 -->
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:8px;">例１）a × 3</div>
+      <div style="font-size:.9em;line-height:2;">
+        ① × を省く　② 数字を前に<br>
+        → <strong style="color:var(--primary);font-size:1.1em;">3a</strong>
+      </div>
+    </div>
+    <!-- 例2 -->
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--accent);margin-bottom:8px;">例２）y ÷ 4</div>
+      <div style="font-size:.9em;line-height:2.5;">
+        ÷ は分数の形に<br>
+        → <strong style="color:var(--accent);font-size:1.1em;">
+          <span class="frac"><span class="fn">y</span><span class="fd">4</span></span>
+        </strong>
+      </div>
+    </div>
+    <!-- 例3 -->
+    <div style="background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--success);margin-bottom:8px;">例３）−1 × b</div>
+      <div style="font-size:.9em;line-height:2;">
+        係数が −1 → 1 を省略<br>
+        → <strong style="color:var(--success);font-size:1.1em;">−b</strong>
+      </div>
+    </div>
+
+    <!-- 確認クイズ -->
+    <div style="background:#f8faff;border:1.5px solid var(--border);border-radius:12px;padding:14px;">
+      <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:10px;">🧠 確認クイズ</div>
+      <div style="margin-bottom:12px;">
+        <p style="font-size:.93em;margin-bottom:6px;font-weight:700;">① x × 6 を文字式で書くと？</p>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">x6</button>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q1',true)">6x</button>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q1',false)">6×x</button>
+        <div id="q1-feedback" class="quiz-feedback"></div>
+      </div>
+      <div>
+        <p style="font-size:.93em;margin-bottom:6px;font-weight:700;">② a ÷ 2 を文字式で書くと？</p>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)">2a</button>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q2',false)" id="q2-wrong">
+          <span class="frac"><span class="fn">2</span><span class="fd">a</span></span>
+        </button>
+        <button class="quiz-btn" onclick="quizAnswer(this,'q2',true)" id="q2-correct">
+          <span class="frac"><span class="fn">a</span><span class="fd">2</span></span>
+        </button>
+        <div id="q2-feedback" class="quiz-feedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <div class="summary-title">📌 まとめ</div>
+    <ul>
+      <li><strong>×（かける）</strong> は省略する。数字を文字の前に書く。</li>
+      <li><strong>÷（わる）</strong> は分数の形で書く。</li>
+      <li>係数が <strong>1 や −1</strong> のときは「1」を省略する。</li>
+      <li>同じ文字のかけ算は <strong>指数（²）</strong> で表す。</li>
+    </ul>
+  </div>
+
+  <div class="nav-btns">
+    <a href="../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-forward">② 例題へ →</a>
+  </div>
+</main>
+
+<script>
+function quizAnswer(btn, id, isCorrect) {
+  btn.parentElement.querySelectorAll('.quiz-btn').forEach(b => { b.disabled = true; });
+  const feedback = document.getElementById(id + '-feedback');
+  const msgs = {
+    q1: {
+      ok: '⭕ 正解！　数字を文字の前に → 6x',
+      ng: '❌ × を省いて数字を前に → 6x が正解'
+    },
+    q2: {
+      ok: '⭕ 正解！　÷ を分数に →　a/2（縦形）',
+      ng: '❌ ÷ は分数の形に。a が分子。正解は　a/2（縦形）'
+    }
+  };
+  if (isCorrect) {
+    btn.classList.add('correct-btn');
+    feedback.textContent = msgs[id].ok;
+    feedback.className = 'quiz-feedback show ok';
+  } else {
+    btn.classList.add('wrong-btn');
+    feedback.textContent = msgs[id].ng;
+    feedback.className = 'quiz-feedback show ng';
+  }
+}
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>
