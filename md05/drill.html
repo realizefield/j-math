@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MD05 かっこをはずす方程式 【演習】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
+.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
+.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
+.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;margin-top:28px;}
+.section-title:first-of-type{margin-top:0;}
+.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;font-size:.97em;line-height:2;}
+.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
+.summary-box ul{margin:0;padding-left:20px;}
+.summary-box li{margin-bottom:4px;}
+.summary-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-forward{background:var(--primary);color:#fff;}
+.btn-back{background:#f1f5f9;color:var(--text-sub);}
+.btn-success{background:var(--success);color:#fff;}
+.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.ex-card-head{background:var(--primary);color:#fff;padding:8px 16px;font-size:.85em;font-weight:700;}
+.ex-card-body{padding:14px 18px;}
+.step-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:9px;margin-bottom:8px;font-size:.9em;font-weight:700;line-height:2.5;}
+.step-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.step-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.step-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.slbl{font-size:.7em;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap;flex-shrink:0;}
+.slbl.y{background:var(--warn);color:#fff;}
+.slbl.b{background:var(--primary);color:#fff;}
+.slbl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:12px 16px;margin-top:10px;font-size:1.15em;font-weight:700;color:var(--primary);text-align:center;line-height:2.5;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;line-height:1.1;}
+.frac .fn{border-bottom:2px solid currentColor;padding:0 5px 2px;text-align:center;min-width:1.2em;}
+.frac .fd{padding:2px 5px 0;text-align:center;min-width:1.2em;}
+
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:20px;font-size:.95em;color:var(--primary);line-height:1.7;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.problem-head{display:flex;align-items:center;padding:16px 18px;gap:10px;flex-wrap:wrap;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 14px;font-family:'BIZ UDPGothic',sans-serif;font-size:.8em;color:var(--text-sub);cursor:pointer;white-space:nowrap;}
+.expr{font-size:clamp(1em,3vw,1.2em);font-weight:700;line-height:2.2;}
+.calc-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;padding:7px 10px;border-radius:8px;margin-bottom:5px;font-size:.88em;font-weight:700;line-height:2.2;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.7em;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;flex-shrink:0;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">MD05</div>
+  <h1>かっこをはずす方程式　【演習】</h1>
+</div>
+<nav class="step-nav"><div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div><span class="step-arrow">›</span><div class="step-item active"><span class="step-circle">③</span><span>演習</span></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div></nav>
+<main class="g-container">
+
+  <div class="instruction"><strong>【演習】</strong>　① 自分で考える　②「答を見る」で確認しよう</div>
+  <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:2px solid var(--warn);border-radius:12px;padding:10px 14px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div style="background:var(--primary-light);border-radius:8px;padding:7px;color:var(--primary);font-size:.88em;font-weight:700;text-align:center;">かっこをはずしてから解く</div>
+    <div style="background:var(--accent-light);border-radius:8px;padding:7px;color:var(--accent);font-size:.88em;font-weight:700;text-align:center;">符号のミスに注意！</div>
+  </div>
+  <div id="problems-area"></div>
+  <div class="nav-btns">
+    <a href="../../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
+    <a href="example.html" class="btn-nav btn-back">← 例題にもどる</a>
+    <a href="check.html" class="btn-nav btn-forward">④ 確認テストへ →</a>
+  </div>
+</main>
+<script>
+const _DRILL=[
+  {set_id:1,problems:[
+    {id:'Q1',q:'6χ－(χ－3)＝7',ans:'χ＝<span class="frac"><span class="fn">4</span><span class="fd">5</span></span>',hint:'6χ－χ＋3＝7　→　5χ＝4　→　χ＝<span class="frac"><span class="fn">4</span><span class="fd">5</span></span>'},
+    {id:'Q2',q:'4χ－2(χ－1)＝7',ans:'χ＝<span class="frac"><span class="fn">5</span><span class="fd">2</span></span>',hint:'4χ－2χ＋2＝7　→　2χ＝5　→　χ＝<span class="frac"><span class="fn">5</span><span class="fd">2</span></span>'},
+    {id:'Q3',q:'3χ－(5χ－1)＝8',ans:'χ＝－<span class="frac"><span class="fn">7</span><span class="fd">2</span></span>',hint:'3χ－5χ＋1＝8　→　－2χ＝7　→　χ＝－<span class="frac"><span class="fn">7</span><span class="fd">2</span></span>'},
+    {id:'Q4',q:'2(χ－1)＝χ＋9',ans:'χ＝11',hint:'2χ－2＝χ＋9　→　χ＝11'},
+  ]},
+  {set_id:2,problems:[
+    {id:'Q1',q:'5χ－3(χ－1)＝7',ans:'χ＝2',hint:'5χ－3χ＋3＝7　→　2χ＝4　→　χ＝2'},
+    {id:'Q2',q:'4χ＋3(χ－1)＝11',ans:'χ＝2',hint:'4χ＋3χ－3＝11　→　7χ＝14　→　χ＝2'},
+    {id:'Q3',q:'9－χ＝－5(3－χ)',ans:'χ＝4',hint:'9－χ＝－15＋5χ　→　－6χ＝－24　→　χ＝4'},
+    {id:'Q4',q:'3χ＋2(3χ＋2)＝13',ans:'χ＝1',hint:'3χ＋6χ＋4＝13　→　9χ＝9　→　χ＝1'},
+  ]},
+  {set_id:3,problems:[
+    {id:'Q1',q:'6χ－(χ－7)＝11',ans:'χ＝<span class="frac"><span class="fn">4</span><span class="fd">5</span></span>',hint:'6χ－χ＋7＝11　→　5χ＝4　→　χ＝<span class="frac"><span class="fn">4</span><span class="fd">5</span></span>'},
+    {id:'Q2',q:'10－(2χ－7)＝3χ＋4',ans:'χ＝<span class="frac"><span class="fn">13</span><span class="fd">5</span></span>',hint:'10－2χ＋7＝3χ＋4　→　－5χ＝－13　→　χ＝<span class="frac"><span class="fn">13</span><span class="fd">5</span></span>'},
+    {id:'Q3',q:'4(χ－2)＝2χ',ans:'χ＝4',hint:'4χ－8＝2χ　→　2χ＝8　→　χ＝4'},
+    {id:'Q4',q:'5(2χ＋1)＝7χ－1',ans:'χ＝－2',hint:'10χ＋5＝7χ－1　→　3χ＝－6　→　χ＝－2'},
+  ]},
+];
+const setIndex=Math.floor(Math.random()*_DRILL.length);
+const problems=_DRILL[setIndex].problems;
+function buildProblems(){
+  const area=document.getElementById('problems-area');
+  area.innerHTML='';
+  problems.forEach((p,i)=>{
+    area.innerHTML+='<div class="problem-card" id="card'+i+'">'
+      +'<div class="problem-head"><span class="expr">'+p.q+'</span>'
+      +'<button class="ans-toggle" onclick="toggleExplain('+i+')">答を見る</button></div>'
+      +'<div id="expl'+i+'" style="display:none;padding:0 14px 12px;"></div></div>';
+  });
+}
+function toggleExplain(i){
+  const p=problems[i];
+  const expl=document.getElementById('expl'+i);
+  const btn=document.querySelector('#card'+i+' .ans-toggle');
+  if(expl.style.display==='block'){expl.style.display='none';btn.textContent='答を見る';return;}
+  let html='<div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-weight:700;color:var(--primary);">正解：<strong>'+p.ans+'</strong></div>';
+  html+='<div class="calc-row y"><span class="clbl y">考え方</span>'+p.hint+'</div>';
+  html+='<div class="calc-row g"><span class="clbl g">答え</span><strong style="color:var(--primary);font-size:1.1em;">'+p.ans+'</strong></div>';
+  expl.innerHTML=html;expl.style.display='block';btn.textContent='答を隠す';
+}
+buildProblems();
+</script>
+<script src="../../gamba_support.js"></script>
+</body>
+</html>
