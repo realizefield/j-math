@@ -82,6 +82,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .c-ma{background:var(--primary-light);color:var(--primary);}
 .c-mb{background:var(--warn-light);color:var(--warn);}
 .c-mc{background:#f3e8ff;color:#7c3aed;}
+.c-md{background:#dcfce7;color:#15803d;}
 
 /* 単元名 */
 .u-name{flex:1;font-size:.9em;font-weight:700;line-height:1.4;min-width:0;}
@@ -138,7 +139,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
     <div class="progress-area">
       <div class="progress-row">
         <span>学習進捗</span>
-        <span id="prog-text">0 / 19 単元合格</span>
+        <span id="prog-text">0 / 0 単元合格</span>
       </div>
       <div class="progress-bar-bg">
         <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
@@ -160,6 +161,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
     <div class="section-title">🔡 MC　文字式の計算</div>
     <div class="unit-list" id="list-mc"></div>
+
+    <div class="section-title">⚖️ MD　一次方程式</div>
+    <div class="unit-list" id="list-md"></div>
   </main>
 </div>
 
@@ -195,6 +199,14 @@ const UNITS = [
   {code:'MC04',name:'カッコをはずす計算',      sub:'－(  )の展開と同類項',                  g:'mc',path:'MC04/intro.html'},
   {code:'MC05',name:'単項式の乗除',            sub:'2x×3y、12xy÷4y、累乗',               g:'mc',path:'MC05/intro.html'},
   {code:'MC06',name:'文字式の通分・加減',      sub:'分数の文字式の加減',                    g:'mc',path:'MC06/intro.html'},
+  {code:'MD01',name:'χ＋a＝○，χ－a＝△',     sub:'移項の基本・符号の変わり方',              g:'md',path:'md01/intro.html'},
+  {code:'MD02',name:'aχ＝○　係数でわる',       sub:'かけ算はわり算に・分数係数',              g:'md',path:'md02/intro.html'},
+  {code:'MD03',name:'aχ＋b＝○',               sub:'文字は左・数字は右の2ステップ',           g:'md',path:'md03/intro.html'},
+  {code:'MD04',name:'aχ＋b＝cχ＋d',           sub:'両辺にχがある式',                       g:'md',path:'md04/intro.html'},
+  {code:'MD05',name:'かっこをはずす方程式',       sub:'－(　)の展開・符号注意',                 g:'md',path:'md05/intro.html'},
+  {code:'MD06',name:'分数を含む方程式',           sub:'最小公倍数を両辺にかける',               g:'md',path:'md06/intro.html'},
+  {code:'MD07',name:'小数を含む方程式',           sub:'×10・×100で整数にする',               g:'md',path:'md07/intro.html'},
+  {code:'MD08',name:'比例式',                    sub:'内項の積＝外項の積',                    g:'md',path:'md08/intro.html'},
 ];
 const TOTAL = UNITS.length;
 
@@ -235,12 +247,14 @@ function render(){
   const maList = document.getElementById('list-ma');
   const mbList = document.getElementById('list-mb');
   const mcList = document.getElementById('list-mc');
-  maList.innerHTML=''; mbList.innerHTML=''; mcList.innerHTML='';
+  const mdList = document.getElementById('list-md');
+  maList.innerHTML=''; mbList.innerHTML=''; mcList.innerHTML=''; mdList.innerHTML='';
   UNITS.forEach(u=>{
     const card = makeCard(u);
     if(u.g==='ma') maList.appendChild(card);
     else if(u.g==='mb') mbList.appendChild(card);
-    else mcList.appendChild(card);
+    else if(u.g==='mc') mcList.appendChild(card);
+    else mdList.appendChild(card);
   });
 }
 
@@ -249,7 +263,7 @@ function makeCard(u){
   const div = document.createElement('div');
   div.className = 'unit-card s-'+st;
 
-  const codeClass = u.g==='ma'?'c-ma':u.g==='mb'?'c-mb':'c-mc';
+  const codeClass = u.g==='ma'?'c-ma':u.g==='mb'?'c-mb':u.g==='mc'?'c-mc':'c-md';
   const badgeMap = {
     pass:  '<span class="u-badge b-pass">✅ 合格</span>',
     review:'<span class="u-badge b-review">🔁 復習中</span>',
