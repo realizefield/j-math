@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF06 因数分解② 【導入】</title>
+<style>
+:root{--primary:#0e7490;--primary-light:#cffafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#ecfeff;--card:#ffffff;--border:#a5f3fc;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(14,116,144,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.formula-box{background:linear-gradient(135deg,#ecfeff,#cffafe);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;text-align:left;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2.}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#cffafe;color:#0e7490;font-size:.83em;padding:9px 18px;}
+.step-order{display:flex;gap:5px;margin:8px 0 12px;flex-wrap:wrap;}
+.step-badge{background:var(--primary);color:#fff;border-radius:6px;padding:4px 10px;font-size:.82em;font-weight:700;}
+.step-badge-arrow{color:var(--primary);font-weight:700;font-size:1em;align-self:center;}
+.why-box{background:linear-gradient(135deg,#fef9c3,#fef08a);border:2px solid #ca8a04;border-radius:14px;padding:15px 17px;margin-bottom:18px;}
+.why-badge{display:inline-block;background:#ca8a04;color:#fff;font-size:.75em;font-weight:700;border-radius:20px;padding:3px 12px;margin-bottom:10px;}
+.why-title{font-size:.97em;font-weight:700;color:#713f12;margin-bottom:11px;}
+.why-step{display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:.88em;font-weight:700;line-height:2.0;border:1.5px solid #fde68a;}
+.why-num{background:#ca8a04;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72em;flex-shrink:0;margin-top:2px;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF06</div>
+  <h1>因数分解③　完全平方<br><small style="font-size:.75em;opacity:.85;">χ²±2aχ＋a²＝(χ±a)²</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef02/intro.html">平方公式</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="../ef04/intro.html">因数分解①差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑤</span><a href="../ef05/intro.html">因数分解②</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">⑥</span><span>因数分解③</span></div>
+</nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① 完全平方式の因数分解</div>
+<div class="formula-box">
+  <div class="ftitle">📌 公式Ⅲ（展開②の逆）</div>
+  χ²＋2aχ＋a²＝<strong>(χ＋a)²</strong><br>
+  χ²－2aχ＋a²＝<strong>(χ－a)²</strong><br>
+  <span style="font-size:.82em;color:var(--text-sub);font-weight:400;">両端が完全な平方数 → (χ±a)² を疑う！</span>
+</div>
+
+<div class="why-box">
+  <div class="why-badge">🤔 なぜ見分けられるの？</div>
+  <div class="why-title">EF02の平方公式を「逆向き」に読む！</div>
+  <div class="why-step">
+    <div class="why-num">1</div>
+    <div>EF02で学んだ公式②を右から左に読む<br>
+    (χ＋a)² ＝ χ²＋2aχ＋a²　→　<span style="color:var(--accent);">χ²＋2aχ＋a² ＝ (χ＋a)²</span></div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">2</div>
+    <div>「完全平方式」の3つの条件をチェックする<br>
+    ①　両端の項が<strong>平方数</strong>（○²の形）になっている<br>
+    ②　真ん中の係数が <strong>2×√(両端の積)</strong> と一致する<br>
+    ③　定数項が<strong>プラス</strong>である</div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">3</div>
+    <div>χ²＋6χ＋9 を確認しよう<br>
+    ① 9 ＝ 3²　✅　　② 2×χ×3 ＝ 6χ　✅　　③ ＋9　✅<br>
+    → <span style="color:var(--accent);">(χ＋3)²</span></div>
+  </div>
+  <div class="pop-note">定数項がマイナスのとき（例：χ²＋6χ－9）は完全平方ではない！「かけてたして」の公式Ⅱを使おう。</div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例１）χ²＋6χ＋9 を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">確認</span><div>9＝3²，6χ＝2×3×χ　→ 完全平方！</div></div>
+    <div class="ans-box"><strong>(χ＋3)²</strong></div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例２）4χ²－12χ＋9 を因数分解する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">確認</span><div>4χ²＝(2χ)²，9＝3²，12χ＝2×2χ×3 → 完全平方！</div></div>
+    <div class="ans-box"><strong>(2χ－3)²</strong></div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 完全平方の因数分解まとめ</div>
+  <ul>
+    <li>χ²＋2aχ＋a²＝<strong>(χ＋a)²</strong></li>
+    <li>χ²－2aχ＋a²＝<strong>(χ－a)²</strong></li>
+    <li>確認3条件：①両端が□²　②真ん中＝2×√(両端の積)　③定数項がプラス</li>
+    <li>前がχ以外（2χなど）のとき，(2χ)²＝4χ² ときちんと2乗する</li>
+  </ul>
+</div>
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../ef05/intro.html" class="btn-nav btn-b">← EF05</a>
+  <a href="../ef08/intro.html" class="btn-nav btn-f">EF08へ →</a>
+</div>
+</main>
+</body>
+</html>

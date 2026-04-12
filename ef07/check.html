@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF06 因数分解② 【確認テスト】</title>
+<style>
+:root{--primary:#0e7490;--primary-light:#cffafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#ecfeff;--card:#ffffff;--border:#a5f3fc;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(14,116,144,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.q-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;padding:16px;}
+.q-num{font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.q-text{font-size:1.05em;font-weight:700;margin-bottom:13px;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choice-btn{background:#f1f5f9;border:2px solid var(--border);border-radius:10px;padding:11px 8px;font-family:'BIZ UDPGothic',sans-serif;font-size:.88em;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;}
+.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:#15803d;}
+.choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.choice-btn.show-ans{background:var(--success-light);border-color:var(--success);color:#15803d;}
+.result-panel{margin-top:13px;padding:10px 14px;border-radius:9px;font-size:.9em;font-weight:700;display:none;}
+.result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;}
+.result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);color:var(--accent);}
+.score-box{background:linear-gradient(135deg,#0e7490,#0891b2);color:#fff;border-radius:var(--radius);padding:20px;text-align:center;margin-top:22px;display:none;}
+.score-box .sc{font-size:2.2em;font-weight:700;margin-bottom:5px;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#cffafe;color:#0e7490;font-size:.83em;padding:9px 18px;}
+.btn-retry{background:var(--success);color:#fff;margin-top:14px;width:100%;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;padding:12px;border-radius:50px;border:none;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF06</div>
+  <h1>因数分解②<br><small style="font-size:.75em;opacity:.85;">確認テスト</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef02/intro.html">平方公式</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="../ef04/intro.html">因数分解①差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑤</span><a href="../ef05/intro.html">因数分解②</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">⑥</span><span>因数分解③</span></div>
+</nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">④</span><span>確認</span></div>
+</nav>
+<main class="g-container">
+<div class="instruction"><strong>【確認テスト】</strong>　選択肢をタップして答えを選ぼう！</div>
+<div id="quiz-area"></div>
+<div class="score-box" id="score-box">
+  <div class="sc" id="sc-text"></div>
+  <div id="sc-msg" style="font-size:.93em;opacity:.9;"></div>
+  <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
+</div>
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="drill.html" class="btn-nav btn-b">← 演習</a>
+  <a href="../ef_index.html" class="btn-nav btn-f">🎓 全単元完了！</a>
+</div>
+</main>
+<script>
+const QS=[
+  {q:"χ²＋10χ＋25 を因数分解すると？",choices:["(χ＋5)²","(χ－5)²","(χ＋5)(χ－5)","(χ＋25)(χ＋1)"],ans:0,exp:"χ²＋2×5×χ＋5²の形 → 完全平方 (χ＋5)²"},
+  {q:"4χ²－4χ＋1 を因数分解すると？",choices:["(2χ＋1)²","(2χ－1)²","(4χ－1)(χ－1)","(2χ＋1)(2χ－1)"],ans:1,exp:"(2χ)²－2×2χ×1＋1²の形 → (2χ－1)²"},
+  {q:"3χ²－12χ を因数分解すると？",choices:["3χ(χ－4)","3(χ²－4χ)","χ(3χ－12)","3(χ＋2)(χ－2)"],ans:0,exp:"共通因数3χをくくり出す → 3χ(χ－4)"},
+  {q:"(χ＋3)²＋5(χ＋3)＋6 を因数分解すると？",choices:["(χ＋4)(χ＋5)","(χ＋5)(χ＋6)","(χ＋1)(χ＋6)","(χ＋3)(χ＋6)"],ans:1,exp:"A＝χ＋3 とおくとA²＋5A＋6＝(A＋2)(A＋3)＝(χ＋5)(χ＋6)"},
+  {q:"2χ²＋6χ－8 を因数分解すると？",choices:["2(χ＋4)(χ－1)","2(χ＋1)(χ－4)","(χ＋4)(2χ－2)","2(χ＋2)(χ－2)"],ans:0,exp:"2をくくり出す → 2(χ²＋3χ－4)＝2(χ＋4)(χ－1)"},
+];
+let answers=[],answered=new Array(QS.length).fill(false);
+function buildQuiz(){
+  const area=document.getElementById('quiz-area');area.innerHTML='';
+  QS.forEach((q,i)=>{
+    let cHtml=q.choices.map((c,j)=>`<button class="choice-btn" id="c${i}_${j}" onclick="choose(${i},${j})">${c}</button>`).join('');
+    area.innerHTML+=`<div class="q-card" id="qc${i}"><div class="q-num">問${i+1}</div><div class="q-text">${q.q}</div><div class="choices">${cHtml}</div><div class="result-panel" id="rp${i}"></div></div>`;
+  });
+}
+function choose(qi,ci){
+  if(answered[qi])return;answered[qi]=true;answers[qi]=ci;
+  const q=QS[qi];const correct=ci===q.ans;
+  for(let j=0;j<q.choices.length;j++){const btn=document.getElementById(`c${qi}_${j}`);btn.disabled=true;if(j===q.ans)btn.classList.add('show-ans');}
+  document.getElementById(`c${qi}_${ci}`).classList.add(correct?'correct':'wrong');
+  const rp=document.getElementById('rp'+qi);rp.style.display='block';rp.className='result-panel '+(correct?'ok':'ng');
+  rp.innerHTML=(correct?'✅ 正解！':'❌ 不正解…　正解は【'+q.choices[q.ans]+'】')+`<br><span style="font-weight:400;">${q.exp}</span>`;
+  if(answered.every(v=>v))showScore();
+}
+function showScore(){
+  const box=document.getElementById('score-box');const correct=answers.filter((a,i)=>a===QS[i].ans).length;box.style.display='block';
+  document.getElementById('sc-text').textContent=`${correct} / ${QS.length} 問正解`;
+  const msgs=['もう一度チャレンジ！💪','あと少し！📖','なかなか良い！✨','ほぼ完璧！🌟','満点！すばらしい🎉'];
+  document.getElementById('sc-msg').textContent=msgs[Math.min(correct,4)];
+}
+function retry(){answered=new Array(QS.length).fill(false);answers=[];document.getElementById('score-box').style.display='none';buildQuiz();}
+buildQuiz();
+</script>
+</body>
+</html>

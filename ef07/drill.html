@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF06 因数分解② 【演習】</title>
+<style>
+:root{--primary:#0e7490;--primary-light:#cffafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#ecfeff;--card:#ffffff;--border:#a5f3fc;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(14,116,144,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.tip3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:16px;}
+.tip3 div{border-radius:8px;padding:7px;font-size:.78em;font-weight:700;text-align:center;line-height:1.4;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#cffafe;color:#0e7490;font-size:.83em;padding:9px 18px;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.problem-head{display:flex;align-items:center;padding:13px 15px;gap:11px;flex-wrap:wrap;font-weight:700;font-size:.97em;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.78em;color:var(--text-sub);cursor:pointer;white-space:nowrap;}
+.calc-row{display:flex;align-items:flex-start;gap:6px;padding:8px 11px;border-radius:8px;margin-bottom:5px;font-size:.86em;font-weight:700;line-height:2.1;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF06</div>
+  <h1>因数分解②<br><small style="font-size:.75em;opacity:.85;">演習</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef02/intro.html">平方公式</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="../ef04/intro.html">因数分解①差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑤</span><a href="../ef05/intro.html">因数分解②</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">⑥</span><span>因数分解③</span></div>
+</nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">③</span><span>演習</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+<div class="instruction"><strong>【演習】</strong>　自分で考えてから「答を見る」で確認しよう</div>
+<div class="tip3">
+  <div style="background:var(--primary-light);color:var(--primary);">完全平方<br>χ²±2aχ＋a²＝(χ±a)²</div>
+  <div style="background:#dcfce7;color:#15803d;">共通因数<br>まず「くくり出し」</div>
+  <div style="background:#fffbeb;color:#d97706;">置き換え<br>カタマリを1文字に</div>
+</div>
+<div id="drill-area"></div>
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-b">← 例題</a>
+  <a href="check.html" class="btn-nav btn-f">④ 確認テストへ →</a>
+</div>
+</main>
+<script>
+const SETS=[
+  {set_id:1,problems:[
+    {q:"χ²＋6χ＋9",ans:"(χ＋3)²",hint:"χ²＋2×3×χ＋3²の形 → (χ＋3)²"},
+    {q:"χ²－10χ＋25",ans:"(χ－5)²",hint:"χ²－2×5×χ＋5²の形 → (χ－5)²"},
+    {q:"2χ²－8χ",ans:"2χ(χ－4)",hint:"共通因数2χをくくり出す → 2χ(χ－4)"},
+    {q:"(χ＋2)²－9",ans:"(χ＋5)(χ－1)",hint:"(χ＋2)²－3²＝{(χ＋2)＋3}{(χ＋2)－3}＝(χ＋5)(χ－1)"},
+  ]},
+  {set_id:2,problems:[
+    {q:"4χ²＋12χ＋9",ans:"(2χ＋3)²",hint:"(2χ)²＋2×2χ×3＋3²の形 → (2χ＋3)²"},
+    {q:"χ²－8χ＋16",ans:"(χ－4)²",hint:"χ²－2×4×χ＋4²の形 → (χ－4)²"},
+    {q:"3χ²－12",ans:"3(χ＋2)(χ－2)",hint:"3をくくり出す → 3(χ²－4)＝3(χ＋2)(χ－2)"},
+    {q:"(χ＋y)²＋3(χ＋y)＋2",ans:"(χ＋y＋1)(χ＋y＋2)",hint:"A＝χ＋y とおくと A²＋3A＋2＝(A＋1)(A＋2)"},
+  ]},
+  {set_id:3,problems:[
+    {q:"9χ²－6χ＋1",ans:"(3χ－1)²",hint:"(3χ)²－2×3χ×1＋1²の形 → (3χ－1)²"},
+    {q:"χ³＋3χ²",ans:"χ²(χ＋3)",hint:"共通因数χ²をくくり出す → χ²(χ＋3)"},
+    {q:"2χ²＋4χ－6",ans:"2(χ＋3)(χ－1)",hint:"2をくくり出す → 2(χ²＋2χ－3)＝2(χ＋3)(χ－1)"},
+    {q:"(χ－1)²－(y＋2)²",ans:"(χ＋y＋1)(χ－y－3)",hint:"A＝χ－1，B＝y＋2 とおくと A²－B²＝(A＋B)(A－B)"},
+  ]}
+];
+const si=Math.floor(Math.random()*SETS.length);
+const probs=SETS[si].problems;
+function build(){
+  const area=document.getElementById('drill-area');area.innerHTML='';
+  probs.forEach((p,i)=>{
+    area.innerHTML+='<div class="problem-card" id="dc'+i+'"><div class="problem-head">'+p.q
+      +'<button class="ans-toggle" onclick="tog('+i+')">答を見る</button></div>'
+      +'<div id="de'+i+'" style="display:none;padding:0 13px 12px;"></div></div>';
+  });
+}
+function tog(i){
+  const p=probs[i];const d=document.getElementById('de'+i);const btn=document.querySelector('#dc'+i+' .ans-toggle');
+  if(d.style.display==='block'){d.style.display='none';btn.textContent='答を見る';return;}
+  let h='<div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:7px 11px;margin-bottom:7px;font-weight:700;color:var(--primary);">正解：<strong>'+p.ans+'</strong></div>';
+  h+='<div class="calc-row y"><span class="clbl y">考え方</span><div>'+p.hint+'</div></div>';
+  d.innerHTML=h;d.style.display='block';btn.textContent='答を隠す';
+}
+build();
+</script>
+</body>
+</html>

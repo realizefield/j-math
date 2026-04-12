@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF01 展開の基本 【演習】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.tip2 div{border-radius:8px;padding:8px;font-size:.84em;font-weight:700;text-align:center;line-height:1.5;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#3730a3;font-size:.83em;padding:9px 18px;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.problem-head{display:flex;align-items:center;padding:13px 15px;gap:11px;flex-wrap:wrap;font-weight:700;font-size:.97em;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.78em;color:var(--text-sub);cursor:pointer;white-space:nowrap;}
+.calc-row{display:flex;align-items:flex-start;gap:6px;padding:8px 11px;border-radius:8px;margin-bottom:5px;font-size:.86em;font-weight:700;line-height:2.1;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF01</div>
+  <h1>展開の基本<br><small style="font-size:.75em;opacity:.85;">(χ＋a)(χ＋b) の展開</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>展開の基本</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef02/intro.html">平方・差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="../ef03/intro.html">因数分解①</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="../ef04/intro.html">因数分解②</a></div>
+</nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">③</span><span>演習</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+<div class="instruction"><strong>【演習】</strong>　① 自分で考える　②「答を見る」で確認しよう</div>
+<div class="tip2">
+  <div style="background:var(--primary-light);color:var(--primary);">χの係数＝a＋b（たした数）</div>
+  <div style="background:var(--accent-light);color:var(--accent);">定数項＝ab（かけた数）</div>
+</div>
+<div id="drill-area"></div>
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-b">← 例題</a>
+  <a href="check.html" class="btn-nav btn-f">④ 確認テストへ →</a>
+</div>
+</main>
+<script>
+const SETS=[
+  {set_id:1,problems:[
+    {q:"(χ＋4)(χ＋3)",ans:"χ²＋7χ＋12",hint:"4＋3＝7，4×3＝12"},
+    {q:"(χ＋6)(χ＋3)",ans:"χ²＋9χ＋18",hint:"6＋3＝9，6×3＝18"},
+    {q:"(χ＋5)(χ－7)",ans:"χ²－2χ－35",hint:"5＋(－7)＝－2，5×(－7)＝－35"},
+    {q:"(χ－4)(χ－7)",ans:"χ²－11χ＋28",hint:"(－4)＋(－7)＝－11，(－4)×(－7)＝28"},
+  ]},
+  {set_id:2,problems:[
+    {q:"(χ＋1)(χ＋2)",ans:"χ²＋3χ＋2",hint:"1＋2＝3，1×2＝2"},
+    {q:"(χ＋6)(χ－1)",ans:"χ²＋5χ－6",hint:"6＋(－1)＝5，6×(－1)＝－6"},
+    {q:"(χ－3)(χ＋7)",ans:"χ²＋4χ－21",hint:"(－3)＋7＝4，(－3)×7＝－21"},
+    {q:"(a－5)(a－4)",ans:"a²－9a＋20",hint:"(－5)＋(－4)＝－9，(－5)×(－4)＝20"},
+  ]},
+  {set_id:3,problems:[
+    {q:"(χ＋4)(χ＋7)",ans:"χ²＋11χ＋28",hint:"4＋7＝11，4×7＝28"},
+    {q:"(χ＋4)(χ－5)",ans:"χ²－χ－20",hint:"4＋(－5)＝－1，4×(－5)＝－20"},
+    {q:"(a－3)(a＋7)",ans:"a²＋4a－21",hint:"(－3)＋7＝4，(－3)×7＝－21"},
+    {q:"(y＋5)(y－11)",ans:"y²－6y－55",hint:"5＋(－11)＝－6，5×(－11)＝－55"},
+  ]}
+];
+const si=Math.floor(Math.random()*SETS.length);
+const probs=SETS[si].problems;
+function build(){
+  const area=document.getElementById('drill-area');area.innerHTML='';
+  probs.forEach((p,i)=>{
+    area.innerHTML+='<div class="problem-card" id="dc'+i+'">'
+      +'<div class="problem-head">'+p.q
+      +'<button class="ans-toggle" onclick="tog('+i+')">答を見る</button>'
+      +'</div>'
+      +'<div id="de'+i+'" style="display:none;padding:0 13px 12px;"></div>'
+      +'</div>';
+  });
+}
+function tog(i){
+  const p=probs[i];
+  const d=document.getElementById('de'+i);
+  const btn=document.querySelector('#dc'+i+' .ans-toggle');
+  if(d.style.display==='block'){d.style.display='none';btn.textContent='答を見る';return;}
+  let h='<div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:7px 11px;margin-bottom:7px;font-weight:700;color:var(--primary);">正解：<strong>'+p.ans+'</strong></div>';
+  h+='<div class="calc-row y"><span class="clbl y">考え方</span><div>'+p.hint+'</div></div>';
+  h+='<div class="calc-row g"><span class="clbl g">答え</span><strong style="color:var(--primary);">'+p.ans+'</strong></div>';
+  d.innerHTML=h;d.style.display='block';btn.textContent='答を隠す';
+}
+build();
+</script>
+</body>
+</html>

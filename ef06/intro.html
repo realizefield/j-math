@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF05 因数分解② たして・かける【導入】</title>
+<style>
+:root{--primary:#7c3aed;--primary-light:#ede9fe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f5f3ff;--card:#ffffff;--border:#ddd6fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(124,58,237,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.formula-box{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:2px solid var(--primary);border-radius:14px;padding:14px 16px;margin-bottom:16px;text-align:center;}
+.formula-box .ftitle{font-size:.84em;font-weight:700;color:var(--primary);margin-bottom:8px;text-align:left;}
+.formula-main{font-size:1.1em;font-weight:700;line-height:2.4;}
+.formula-note{font-size:.82em;color:var(--text-sub);font-weight:400;margin-top:4px;}
+.why-box{background:linear-gradient(135deg,#fef9c3,#fef08a);border:2px solid #ca8a04;border-radius:14px;padding:15px 17px;margin-bottom:20px;}
+.why-badge{display:inline-block;background:#ca8a04;color:#fff;font-size:.75em;font-weight:700;border-radius:20px;padding:3px 12px;margin-bottom:10px;}
+.why-title{font-size:.97em;font-weight:700;color:#713f12;margin-bottom:11px;}
+.why-step{display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:.88em;font-weight:700;line-height:2.0;border:1.5px solid #fde68a;}
+.why-num{background:#ca8a04;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72em;flex-shrink:0;margin-top:2px;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.pattern-grid{display:flex;flex-direction:column;gap:14px;margin-bottom:22px;}
+.pattern-card{border-radius:14px;overflow:hidden;border:2px solid;}
+.pattern-card.p1{border-color:#16a34a;}
+.pattern-card.p2{border-color:#2563eb;}
+.pattern-card.p3{border-color:#ea580c;}
+.pattern-head{display:flex;align-items:center;gap:10px;padding:10px 14px;font-weight:700;font-size:.95em;}
+.pattern-head.p1{background:#16a34a;color:#fff;}
+.pattern-head.p2{background:#2563eb;color:#fff;}
+.pattern-head.p3{background:#ea580c;color:#fff;}
+.pattern-badge{background:rgba(255,255,255,.25);border-radius:6px;padding:2px 9px;font-size:.8em;font-weight:700;}
+.pattern-body{padding:12px 14px;background:#fff;}
+.pattern-formula{font-size:1em;font-weight:700;text-align:center;margin-bottom:8px;padding:8px;border-radius:8px;line-height:2.2;}
+.pattern-formula.p1{background:#dcfce7;color:#15803d;}
+.pattern-formula.p2{background:#dbeafe;color:#1e40af;}
+.pattern-formula.p3{background:#ffedd5;color:#9a3412;}
+.pattern-rule{font-size:.86em;font-weight:700;line-height:2.0;color:var(--text-sub);margin-bottom:8px;}
+.pattern-rule strong{color:var(--text);}
+.pattern-example{display:flex;align-items:center;gap:8px;background:#f8fafc;border-radius:8px;padding:8px 12px;font-size:.9em;font-weight:700;margin-bottom:10px;}
+.pattern-link{display:block;text-align:center;font-size:.88em;font-weight:700;padding:10px;border-radius:8px;text-decoration:none;transition:opacity .15s;}
+.pattern-link:hover{opacity:.85;}
+.pattern-link.p1{background:#16a34a;color:#fff;}
+.pattern-link.p2{background:#2563eb;color:#fff;}
+.pattern-link.p3{background:#ea580c;color:#fff;}
+.sign-table{width:100%;border-collapse:collapse;margin:10px 0 16px;font-size:.86em;font-weight:700;}
+.sign-table th{background:var(--primary);color:#fff;padding:8px 6px;text-align:center;}
+.sign-table td{padding:8px 6px;text-align:center;border:1.5px solid var(--border);}
+.sign-table tr:nth-child(odd) td{background:#faf5ff;}
+.sign-table tr:nth-child(even) td{background:#fff;}
+.badge-p1{background:#dcfce7;color:#15803d;border-radius:6px;padding:2px 8px;white-space:nowrap;}
+.badge-p2{background:#dbeafe;color:#1e40af;border-radius:6px;padding:2px 8px;white-space:nowrap;}
+.badge-p3{background:#ffedd5;color:#9a3412;border-radius:6px;padding:2px 8px;white-space:nowrap;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#ede9fe;color:#5b21b6;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF05</div>
+  <h1>因数分解②　たして・かける<br><small style="font-size:.75em;opacity:.85;">χ²＋bχ＋c の因数分解　3パターン</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef02/intro.html">平方公式</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="../ef03/intro.html">和と差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="../ef04/intro.html">因数分解①</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">⑤</span><span>因数分解②</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef06/intro.html">因数分解③</a></div>
+</nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);">
+  <div class="step-item active"><span class="step-circle">★</span><span>導入（3パターン）</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">①</span><a href="../ef05-1/intro.html">パターン1</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef05-2/intro.html">パターン2</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="../ef05-3/intro.html">パターン3</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">基本公式</div>
+<div class="formula-box">
+  <div class="ftitle">📌 たして・かける の公式（展開①の逆）</div>
+  <div class="formula-main">χ²＋(a＋b)χ＋ab ＝ (χ＋a)(χ＋b)</div>
+  <div class="formula-note">かけて<strong>定数項c</strong>，たして<strong>χの係数b</strong> になる2数 a, b を探す！</div>
+</div>
+
+<div class="why-box">
+  <div class="why-badge">🤔 なぜ「かけて・たして」で見つかるの？</div>
+  <div class="why-title">EF01の展開を逆向きに読むだけ！</div>
+  <div class="why-step">
+    <div class="why-num">1</div>
+    <div>EF01の展開：(χ＋a)(χ＋b) ＝ χ²＋<span style="color:var(--accent);">(a＋b)</span>χ＋<span style="color:#15803d;">ab</span><br>
+    χの係数は <span style="color:var(--accent);">a＋b（たした値）</span>，定数項は <span style="color:#15803d;">ab（かけた値）</span></div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">2</div>
+    <div>逆に，<strong>「かけてc，たしてb」</strong>になる2数 a,b を探せばよい！<br>
+    見つかれば → <strong>(χ＋a)(χ＋b)</strong> と書けばOK</div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">3</div>
+    <div>2数の符号は<strong>定数項とχの係数の符号</strong>で決まる<br>
+    → 3つのパターンに分けて覚えよう！</div>
+  </div>
+  <div class="pop-note">まず定数項の符号を見てパターンを判断 → そのパターンのルールで2数を探す，の2ステップ！</div>
+</div>
+
+<div class="sec">3パターンの見分け方（符号早見表）</div>
+<table class="sign-table">
+  <tr>
+    <th>パターン</th><th>χの係数b</th><th>定数項c</th><th>2数の符号</th><th>形</th>
+  </tr>
+  <tr>
+    <td><span class="badge-p1">パターン1</span></td>
+    <td>＋</td><td>＋</td><td>両方＋</td><td>(χ＋ )(χ＋ )</td>
+  </tr>
+  <tr>
+    <td><span class="badge-p2">パターン2</span></td>
+    <td>－</td><td>＋</td><td>両方－</td><td>(χ－ )(χ－ )</td>
+  </tr>
+  <tr>
+    <td><span class="badge-p3">パターン3</span></td>
+    <td>＋ or －</td><td>－</td><td>符号が逆</td><td>(χ＋ )(χ－ )</td>
+  </tr>
+</table>
+
+<div class="sec">各パターンの詳細と練習</div>
+<div class="pattern-grid">
+
+  <div class="pattern-card p1">
+    <div class="pattern-head p1"><span class="pattern-badge">パターン1</span>(χ＋　)(χ＋　)　← 両プラス</div>
+    <div class="pattern-body">
+      <div class="pattern-formula p1">χ²＋bχ＋c　（b＞0，c＞0）</div>
+      <div class="pattern-rule">
+        <strong>ルール：</strong>かけてc，たしてb になる<strong>正の整数の組</strong>を探す<br>
+        定数項がプラス・χの係数もプラス → 2数とも＋
+      </div>
+      <div class="pattern-example">例）χ²＋5χ＋6　→　2と3　→　<strong style="color:#15803d;">(χ＋2)(χ＋3)</strong></div>
+      <a href="../ef05-1/intro.html" class="pattern-link p1">➡ パターン1 を練習する（例題・類題・確認）</a>
+    </div>
+  </div>
+
+  <div class="pattern-card p2">
+    <div class="pattern-head p2"><span class="pattern-badge">パターン2</span>(χ－　)(χ－　)　← 両マイナス</div>
+    <div class="pattern-body">
+      <div class="pattern-formula p2">χ²－bχ＋c　（b＞0，c＞0）</div>
+      <div class="pattern-rule">
+        <strong>ルール：</strong>かけてc，たして－b になる<strong>負の整数の組</strong>を探す<br>
+        定数項がプラス・χの係数がマイナス → 2数とも－
+      </div>
+      <div class="pattern-example">例）χ²－5χ＋6　→　－2と－3　→　<strong style="color:#1e40af;">(χ－2)(χ－3)</strong></div>
+      <a href="../ef05-2/intro.html" class="pattern-link p2">➡ パターン2 を練習する（例題・類題・確認）</a>
+    </div>
+  </div>
+
+  <div class="pattern-card p3">
+    <div class="pattern-head p3"><span class="pattern-badge">パターン3</span>(χ＋　)(χ－　)　← 符号が逆</div>
+    <div class="pattern-body">
+      <div class="pattern-formula p3">χ²＋bχ－c　または　χ²－bχ－c</div>
+      <div class="pattern-rule">
+        <strong>ルール：</strong>定数項がマイナス → 2数は<strong>符号が逆</strong>（一方＋，一方－）<br>
+        数の大きい方がχの係数と<strong>同じ符号</strong>になる
+      </div>
+      <div class="pattern-example">例）χ²＋χ－6　→　＋3と－2　→　<strong style="color:#9a3412;">(χ＋3)(χ－2)</strong></div>
+      <a href="../ef05-3/intro.html" class="pattern-link p3">➡ パターン3 を練習する（例題・類題・確認）</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../ef04/intro.html" class="btn-nav btn-b">← EF04</a>
+  <a href="../ef05-1/intro.html" class="btn-nav btn-f">パターン1へ →</a>
+</div>
+</main>
+</body>
+</html>

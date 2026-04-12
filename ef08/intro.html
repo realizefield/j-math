@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF08 因数分解④ 共通因数【例題・演習・確認】</title>
+<style>
+:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-card{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--primary);border-radius:14px;padding:14px 16px;margin-bottom:16px;}
+.rule-card .rtitle{font-size:.84em;font-weight:700;color:var(--primary);margin-bottom:8px;}
+.rule-body{font-size:.92em;font-weight:700;line-height:2.2;}
+.step-order{display:flex;gap:5px;margin:10px 0 14px;flex-wrap:wrap;align-items:center;}
+.step-badge{background:var(--primary);color:#fff;border-radius:6px;padding:5px 12px;font-size:.84em;font-weight:700;}
+.step-arrow2{color:var(--primary);font-weight:700;font-size:1.1em;}
+.why-box{background:linear-gradient(135deg,#fef9c3,#fef08a);border:2px solid #ca8a04;border-radius:14px;padding:15px 17px;margin-bottom:18px;}
+.why-badge{display:inline-block;background:#ca8a04;color:#fff;font-size:.75em;font-weight:700;border-radius:20px;padding:3px 12px;margin-bottom:10px;}
+.why-step{display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:.88em;font-weight:700;line-height:2.0;border:1.5px solid #fde68a;}
+.why-num{background:#ca8a04;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72em;flex-shrink:0;margin-top:2px;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:8px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;}
+.ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75em;flex-shrink:0;}
+.ex-body{padding:13px 16px 10px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;animation:fadeIn .3s ease;}
+.next-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:8px;}
+.done-badge{text-align:center;padding:5px;font-size:.84em;font-weight:700;color:var(--success);}
+.drill-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.drill-head{display:flex;align-items:center;padding:12px 15px;gap:10px;font-weight:700;font-size:.97em;flex-wrap:wrap;}
+.drill-badge{background:var(--primary);color:#fff;font-size:.72em;font-weight:700;border-radius:6px;padding:3px 9px;white-space:nowrap;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.78em;color:var(--text-sub);cursor:pointer;white-space:nowrap;}
+.ans-area{display:none;padding:0 13px 12px;}
+.ans-result{background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:7px 11px;margin-bottom:7px;font-weight:700;color:var(--primary);}
+.calc-row{display:flex;align-items:flex-start;gap:6px;padding:8px 11px;border-radius:8px;margin-bottom:5px;font-size:.86em;font-weight:700;line-height:2.1;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.b{background:var(--primary);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+.q-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;padding:16px;}
+.q-num{font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:8px;}
+.q-text{font-size:1.05em;font-weight:700;margin-bottom:12px;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choice-btn{background:#f1f5f9;border:2px solid var(--border);border-radius:10px;padding:11px 8px;font-family:'BIZ UDPGothic',sans-serif;font-size:.86em;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;line-height:1.6;}
+.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:#15803d;}
+.choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.choice-btn.show-ans{background:var(--success-light);border-color:var(--success);color:#15803d;}
+.result-panel{margin-top:12px;padding:10px 14px;border-radius:9px;font-size:.9em;font-weight:700;display:none;}
+.result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;}
+.result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);color:var(--accent);}
+.score-box{background:linear-gradient(135deg,#15803d,#16a34a);color:#fff;border-radius:var(--radius);padding:20px;text-align:center;margin-top:20px;display:none;}
+.score-box .sc{font-size:2.2em;font-weight:700;margin-bottom:5px;}
+.btn-retry{background:#fff;color:#15803d;margin-top:12px;width:100%;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;padding:11px;border-radius:50px;border:none;cursor:pointer;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.divider{border:none;border-top:2px dashed var(--border);margin:26px 0;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF08</div>
+  <h1>因数分解④　共通因数<br><small style="font-size:.75em;opacity:.85;">まず「くくり出し」から！</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">⑤</span><a href="../ef05/intro.html">差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef06/intro.html">たして・かける</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑦</span><a href="../ef07/intro.html">完全平方</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">⑧</span><span>共通因数</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑨</span><a href="../ef09/intro.html">置き換え</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">共通因数とは</div>
+<div class="rule-card">
+  <div class="rtitle">📌 共通因数のくくり出し</div>
+  <div class="rule-body">
+    すべての項に共通してかけられている数や文字を<strong>共通因数</strong>という<br>
+    共通因数を先にくくり出すと，残りがシンプルになって因数分解しやすくなる！
+  </div>
+</div>
+<div class="step-order">
+  <span class="step-badge">① 全項の共通因数を探す</span>
+  <span class="step-arrow2">→</span>
+  <span class="step-badge">② 共通因数をくくり出す</span>
+  <span class="step-arrow2">→</span>
+  <span class="step-badge">③ 残りを因数分解</span>
+</div>
+
+<div class="why-box">
+  <div class="why-badge">🤔 なぜ先にくくり出すの？</div>
+  <div class="why-step">
+    <div class="why-num">1</div>
+    <div>例：3χ²＋6χ＋3 をそのまま因数分解しようとすると…<br>
+    かけて3，たして6 になる整数を探すのが難しい！</div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">2</div>
+    <div>全ての項に <strong style="color:var(--accent);">3</strong> がかけられている → まず3をくくり出す<br>
+    3(χ²＋2χ＋1)　← 係数が小さくなってシンプル！</div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">3</div>
+    <div>残りの χ²＋2χ＋1 を因数分解する<br>
+    完全平方の形！→ <strong style="color:var(--accent);">(χ＋1)²</strong><br>
+    全体：<strong>3(χ＋1)²</strong></div>
+  </div>
+  <div class="pop-note">因数分解の第一歩は必ず「共通因数さがし」！数・文字・式のどれが共通しているか確認しよう。</div>
+</div>
+
+<div class="sec">例題</div>
+<div id="ex-area"></div>
+
+<hr class="divider">
+<div class="sec">演習　—　自分でやってみよう</div>
+<div id="drill-area"></div>
+
+<hr class="divider">
+<div class="sec">確認テスト</div>
+<div id="quiz-area"></div>
+<div class="score-box" id="score-box">
+  <div class="sc" id="sc-text"></div>
+  <div id="sc-msg" style="font-size:.93em;opacity:.9;"></div>
+  <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 共通因数まとめ</div>
+  <ul>
+    <li>因数分解の<strong>第一歩</strong>は必ず共通因数さがし</li>
+    <li>数の共通因数：全係数の最大公約数をくくる</li>
+    <li>文字の共通因数：全項に含まれる文字・最小の次数をくくる</li>
+    <li>くくり出した後は<strong>残りをさらに因数分解</strong>できないか確認！</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 一覧へ</a>
+  <a href="../ef07/intro.html" class="btn-nav btn-b">← EF07</a>
+  <a href="../ef09/intro.html" class="btn-nav btn-f">EF09へ →</a>
+</div>
+</main>
+<script>
+const EXAMPLES=[
+  {q:"2χ²＋4χ",steps:[
+    {cls:"y",lbl:"確認",txt:"全項に <strong style='color:var(--accent);'>2χ</strong> がある → 共通因数は 2χ"},
+    {cls:"b",lbl:"くくる",txt:"2χ(χ＋2)"},
+    {cls:"g",lbl:"確認",txt:"残りは χ＋2 → これ以上分解できない"},
+  ],ans:"2χ(χ＋2)"},
+  {q:"3χ²－12",steps:[
+    {cls:"y",lbl:"確認",txt:"全項に <strong style='color:var(--accent);'>3</strong> がある → 共通因数は 3"},
+    {cls:"b",lbl:"くくる",txt:"3(χ²－4)"},
+    {cls:"g",lbl:"さらに分解",txt:"χ²－4＝χ²－2²＝(χ＋2)(χ－2)　← 差の積！"},
+  ],ans:"3(χ＋2)(χ－2)"},
+  {q:"2χ²＋8χ＋8",steps:[
+    {cls:"y",lbl:"確認",txt:"全項に <strong style='color:var(--accent);'>2</strong> がある → 共通因数は 2"},
+    {cls:"b",lbl:"くくる",txt:"2(χ²＋4χ＋4)"},
+    {cls:"g",lbl:"さらに分解",txt:"χ²＋4χ＋4＝(χ＋2)²　← 完全平方！"},
+  ],ans:"2(χ＋2)²"},
+  {q:"aχ²＋3aχ－4a",steps:[
+    {cls:"y",lbl:"確認",txt:"全項に <strong style='color:var(--accent);'>a</strong> がある → 共通因数は a"},
+    {cls:"b",lbl:"くくる",txt:"a(χ²＋3χ－4)"},
+    {cls:"g",lbl:"さらに分解",txt:"χ²＋3χ－4　かけて－4，たして3 → ＋4と－1　→ (χ＋4)(χ－1)"},
+  ],ans:"a(χ＋4)(χ－1)"},
+  {q:"4χ³－8χ²＋4χ",steps:[
+    {cls:"y",lbl:"確認",txt:"全項に <strong style='color:var(--accent);'>4χ</strong> がある → 共通因数は 4χ"},
+    {cls:"b",lbl:"くくる",txt:"4χ(χ²－2χ＋1)"},
+    {cls:"g",lbl:"さらに分解",txt:"χ²－2χ＋1＝(χ－1)²　← 完全平方！"},
+  ],ans:"4χ(χ－1)²"},
+];
+const state=EXAMPLES.map(()=>0);
+function buildExamples(){
+  const area=document.getElementById('ex-area');
+  EXAMPLES.forEach((ex,i)=>{
+    const div=document.createElement('div');div.className='ex-card';div.id='ec'+i;
+    div.innerHTML=`<div class="ex-head"><span class="ex-num">${i+1}</span>${ex.q} を因数分解する</div>`
+      +`<div class="ex-body"><div style="font-size:1.05em;font-weight:700;margin-bottom:10px;color:var(--primary);">${ex.q}</div>`
+      +`<div id="esteps${i}"></div>`
+      +`<button class="next-btn" id="ebtn${i}" onclick="nextStep(${i})">💡 考え方を見る</button>`
+      +`<div id="edone${i}" class="done-badge" style="display:none;">✅ 完了！</div>`
+      +'</div>';
+    area.appendChild(div);
+  });
+}
+function nextStep(i){
+  const ex=EXAMPLES[i],cur=state[i];
+  const sd=document.getElementById('esteps'+i),btn=document.getElementById('ebtn'+i),done=document.getElementById('edone'+i);
+  if(cur<ex.steps.length){
+    const s=ex.steps[cur];const row=document.createElement('div');row.className='sr '+s.cls;
+    row.innerHTML=`<span class="sl ${s.cls}">${s.lbl}</span><div>${s.txt}</div>`;
+    sd.appendChild(row);state[i]++;
+    btn.textContent=state[i]<ex.steps.length?'➡ 次へ':'✅ 答えを見る';
+  }else{
+    const ab=document.createElement('div');ab.className='ans-box';ab.innerHTML='答え：<strong>'+ex.ans+'</strong>';
+    sd.appendChild(ab);btn.style.display='none';done.style.display='block';
+  }
+}
+const DRILLS=[
+  {q:"5χ²＋15χ",ans:"5χ(χ＋3)",steps:[
+    {cls:"y",lbl:"確認",txt:"共通因数は 5χ"},
+    {cls:"b",lbl:"くくる",txt:"5χ(χ＋3)"},
+  ]},
+  {q:"4χ²－16",ans:"4(χ＋2)(χ－2)",steps:[
+    {cls:"y",lbl:"確認",txt:"共通因数は 4 → 4(χ²－4)"},
+    {cls:"g",lbl:"分解",txt:"χ²－4＝(χ＋2)(χ－2)"},
+  ]},
+  {q:"3χ²＋6χ＋3",ans:"3(χ＋1)²",steps:[
+    {cls:"y",lbl:"確認",txt:"共通因数は 3 → 3(χ²＋2χ＋1)"},
+    {cls:"g",lbl:"分解",txt:"χ²＋2χ＋1＝(χ＋1)²"},
+  ]},
+  {q:"2χ²－2χ－12",ans:"2(χ＋2)(χ－3)",steps:[
+    {cls:"y",lbl:"確認",txt:"共通因数は 2 → 2(χ²－χ－6)"},
+    {cls:"g",lbl:"分解",txt:"χ²－χ－6　かけて－6，たして－1 → ＋2と－3　→ (χ＋2)(χ－3)"},
+  ]},
+  {q:"bχ²－4b",ans:"b(χ＋2)(χ－2)",steps:[
+    {cls:"y",lbl:"確認",txt:"共通因数は b → b(χ²－4)"},
+    {cls:"g",lbl:"分解",txt:"χ²－4＝(χ＋2)(χ－2)"},
+  ]},
+];
+function buildDrills(){
+  const area=document.getElementById('drill-area');area.innerHTML='';
+  DRILLS.forEach((p,i)=>{
+    area.innerHTML+=`<div class="drill-card" id="dd${i}"><div class="drill-head"><span class="drill-badge">演習${i+1}</span>${p.q}<button class="ans-toggle" onclick="togDrill(${i})">答を見る</button></div><div class="ans-area" id="da${i}"></div></div>`;
+  });
+}
+function togDrill(i){
+  const p=DRILLS[i];const d=document.getElementById('da'+i);const btn=document.querySelector(`#dd${i} .ans-toggle`);
+  if(d.style.display==='block'){d.style.display='none';btn.textContent='答を見る';return;}
+  let h=`<div class="ans-result">正解：<strong>${p.ans}</strong></div>`;
+  p.steps.forEach(s=>{h+=`<div class="calc-row ${s.cls}"><span class="clbl ${s.cls}">${s.lbl}</span><div>${s.txt}</div></div>`;});
+  d.innerHTML=h;d.style.display='block';btn.textContent='答を隠す';
+}
+const QS=[
+  {q:"6χ²＋12χ を因数分解すると？",choices:["6χ(χ＋2)","6(χ²＋2χ)","2χ(3χ＋6)","6χ(χ＋12)"],ans:0,
+    exp:"共通因数は 6χ → 6χ(χ＋2)"},
+  {q:"5χ²－20 を因数分解すると？",choices:["5(χ＋2)(χ－2)","5(χ²－4)","(χ＋2)(5χ－10)","5(χ－4)(χ＋1)"],ans:0,
+    exp:"共通因数は 5 → 5(χ²－4)＝5(χ＋2)(χ－2)"},
+  {q:"2χ²＋12χ＋18 を因数分解すると？",choices:["2(χ＋3)²","2(χ＋9)(χ＋1)","(χ＋3)(2χ＋6)","2(χ＋6)(χ＋3)"],ans:0,
+    exp:"共通因数は 2 → 2(χ²＋6χ＋9)＝2(χ＋3)²"},
+  {q:"aχ²－9a を因数分解すると？",choices:["a(χ＋3)(χ－3)","a(χ²－9)","(aχ＋3)(χ－3)","a(χ－9)(χ＋1)"],ans:0,
+    exp:"共通因数は a → a(χ²－9)＝a(χ＋3)(χ－3)"},
+  {q:"3χ²－3χ－6 を因数分解すると？",choices:["3(χ＋1)(χ－2)","3(χ－1)(χ＋2)","3(χ＋2)(χ－3)","(3χ＋3)(χ－2)"],ans:0,
+    exp:"共通因数は 3 → 3(χ²－χ－2)　かけて－2，たして－1 → ＋1と－2 → 3(χ＋1)(χ－2)"},
+];
+let answers=[],answered=new Array(QS.length).fill(false);
+function buildQuiz(){
+  const area=document.getElementById('quiz-area');area.innerHTML='';
+  QS.forEach((q,i)=>{
+    let cHtml=q.choices.map((c,j)=>`<button class="choice-btn" id="c${i}_${j}" onclick="choose(${i},${j})">${c}</button>`).join('');
+    area.innerHTML+=`<div class="q-card" id="qc${i}"><div class="q-num">問${i+1}</div><div class="q-text">${q.q}</div><div class="choices">${cHtml}</div><div class="result-panel" id="rp${i}"></div></div>`;
+  });
+}
+function choose(qi,ci){
+  if(answered[qi])return;answered[qi]=true;answers[qi]=ci;
+  const q=QS[qi];const correct=ci===q.ans;
+  for(let j=0;j<q.choices.length;j++){const btn=document.getElementById(`c${qi}_${j}`);btn.disabled=true;if(j===q.ans)btn.classList.add('show-ans');}
+  document.getElementById(`c${qi}_${ci}`).classList.add(correct?'correct':'wrong');
+  const rp=document.getElementById('rp'+qi);rp.style.display='block';rp.className='result-panel '+(correct?'ok':'ng');
+  rp.innerHTML=(correct?'✅ 正解！':'❌ 不正解…　正解は【'+q.choices[q.ans]+'】')+`<br><span style="font-weight:400;">${q.exp}</span>`;
+  if(answered.every(v=>v))showScore();
+}
+function showScore(){
+  const box=document.getElementById('score-box');const correct=answers.filter((a,i)=>a===QS[i].ans).length;
+  box.style.display='block';
+  document.getElementById('sc-text').textContent=`${correct} / ${QS.length} 問正解`;
+  const msgs=['もう一度！💪','あと少し！📖','なかなか良い！✨','ほぼ完璧！🌟','満点！🎉'];
+  document.getElementById('sc-msg').textContent=msgs[Math.min(correct,4)];
+}
+function retry(){answered=new Array(QS.length).fill(false);answers=[];document.getElementById('score-box').style.display='none';buildQuiz();}
+buildExamples();buildDrills();buildQuiz();
+</script>
+</body>
+</html>

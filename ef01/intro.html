@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF01 展開の基本 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.9em;line-height:2.6;}
+.formula-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #16a34a;border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:#15803d;margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#3730a3;font-size:.83em;padding:9px 18px;}
+.arrow-wrap{text-align:center;font-size:1.3em;margin:5px 0;color:var(--primary);}
+.foil-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;}
+.foil-cell{background:var(--primary-light);border-radius:8px;padding:8px 10px;font-size:.85em;font-weight:700;text-align:center;color:var(--primary);}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF01</div>
+  <h1>展開の基本<br><small style="font-size:.75em;opacity:.85;">(χ＋a)(χ＋b) の展開</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>展開の基本</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef02/intro.html">平方・差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="../ef03/intro.html">因数分解①</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="../ef04/intro.html">因数分解②</a></div>
+</nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① 展開とは</div>
+<div class="rule-box">
+  <div class="rtitle">📌 展開の意味</div>
+  <div class="rbody">
+    かっこをはずして，<strong>多項式の和の形</strong>に変えることを「<strong>展開</strong>」といいます。<br>
+    (χ＋2)(χ＋3)　→　χ²＋5χ＋6　のようにします。
+  </div>
+</div>
+<div class="rule-box">
+  <div class="rtitle">📌 基本の展開（分配法則）</div>
+  <div class="rbody">
+    (a＋b)(c＋d)＝<strong>ac＋ad＋bc＋bd</strong><br>
+    前×前，前×後，後×前，後×後　の4つをたします。
+  </div>
+</div>
+
+<div class="sec">② 乗法公式を覚えよう</div>
+<div class="formula-box">
+  <div class="ftitle">📌 公式① ：(χ＋a)(χ＋b)の展開</div>
+  (χ＋a)(χ＋b)＝χ²＋<span style="color:var(--accent);">(a＋b)</span>χ＋<span style="color:#15803d;">ab</span><br>
+  <span style="font-size:.82em;color:var(--text-sub);font-weight:400;">→ たして<span style="color:var(--accent);">(a＋b)</span>，かけて<span style="color:#15803d;">ab</span>　で覚えよう！</span>
+</div>
+<div class="tip2">
+  <div style="background:#dcfce7;color:#15803d;">χの係数は<br>a＋b（たした数）</div>
+  <div style="background:var(--accent-light);color:var(--accent);">定数項は<br>ab（かけた数）</div>
+</div>
+
+<div class="sec">③ 例で確認しよう</div>
+<div class="ex-card">
+  <div class="ex-head">例１）(χ＋4)(χ＋3) を展開する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">確認</span><div>aは4，bは3</div></div>
+    <div class="sr b"><span class="sl b">たす</span><div>a＋b＝4＋3＝<strong>7</strong>　→ χの係数</div></div>
+    <div class="sr b"><span class="sl b">かける</span><div>ab＝4×3＝<strong>12</strong>　→ 定数項</div></div>
+    <div class="ans-box">(χ＋4)(χ＋3)＝<strong>χ²＋7χ＋12</strong></div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例２）(χ＋5)(χ－7) を展開する（マイナスに注意！）</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">確認</span><div>aは5，bは－7</div></div>
+    <div class="sr b"><span class="sl b">たす</span><div>a＋b＝5＋(－7)＝<strong>－2</strong>　→ χの係数</div></div>
+    <div class="sr b"><span class="sl b">かける</span><div>ab＝5×(－7)＝<strong>－35</strong>　→ 定数項</div></div>
+    <div class="ans-box">(χ＋5)(χ－7)＝<strong>χ²－2χ－35</strong></div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例３）(χ－4)(χ－7) を展開する（両方マイナス）</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">確認</span><div>aは－4，bは－7</div></div>
+    <div class="sr b"><span class="sl b">たす</span><div>a＋b＝(－4)＋(－7)＝<strong>－11</strong>　→ χの係数</div></div>
+    <div class="sr b"><span class="sl b">かける</span><div>ab＝(－4)×(－7)＝<strong>＋28</strong>　→ 定数項</div></div>
+    <div class="ans-box">(χ－4)(χ－7)＝<strong>χ²－11χ＋28</strong></div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>(χ＋a)(χ＋b)＝<strong>χ²＋(a＋b)χ＋ab</strong></li>
+    <li>χの係数 → <strong>a＋b（たした数）</strong></li>
+    <li>定数項 → <strong>ab（かけた数）</strong></li>
+    <li>マイナスがあるときは符号に注意！</li>
+  </ul>
+</div>
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+</body>
+</html>

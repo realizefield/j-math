@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF02 公式② 平方公式【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+
+/* 公式ボックス */
+.formula-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #16a34a;border-radius:14px;padding:16px 18px;margin-bottom:18px;text-align:center;}
+.formula-box .ftitle{font-size:.84em;font-weight:700;color:#15803d;margin-bottom:10px;text-align:left;}
+.formula-main{font-size:1.18em;font-weight:700;line-height:2.4;margin-bottom:6px;}
+.formula-note{font-size:.82em;color:var(--text-sub);font-weight:400;}
+
+/* なぜポップ */
+.why-box{background:linear-gradient(135deg,#fef9c3,#fef08a);border:2px solid #ca8a04;border-radius:14px;padding:15px 17px;margin-bottom:18px;position:relative;}
+.why-badge{display:inline-block;background:#ca8a04;color:#fff;font-size:.75em;font-weight:700;border-radius:20px;padding:3px 12px;margin-bottom:10px;}
+.why-title{font-size:.97em;font-weight:700;color:#713f12;margin-bottom:11px;}
+.why-step{display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:.88em;font-weight:700;line-height:2.0;border:1.5px solid #fde68a;}
+.why-num{background:#ca8a04;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72em;flex-shrink:0;margin-top:2px;}
+.why-eq{background:var(--primary-light);border:1.5px solid var(--primary);border-radius:8px;padding:8px 14px;text-align:center;font-size:1em;font-weight:700;color:var(--primary);margin:10px 0 4px;line-height:2.2;}
+.why-arrow{text-align:center;font-size:1.3em;color:#ca8a04;margin:4px 0;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;line-height:1.8;}
+.pop-note::before{content:"💡 ";font-style:normal;}
+
+/* 図解グリッド */
+.grid-fig{display:grid;grid-template-columns:auto auto auto;gap:3px;margin:12px auto;width:fit-content;font-size:.85em;font-weight:700;}
+.cell{display:flex;align-items:center;justify-content:center;border-radius:6px;padding:6px 10px;min-width:70px;min-height:44px;text-align:center;line-height:1.4;}
+.cell-label{background:transparent;color:var(--text-sub);font-size:.8em;}
+.cell-chi2{background:#dbeafe;border:2px solid #3b82f6;color:#1e40af;}
+.cell-achi{background:#dcfce7;border:2px solid #22c55e;color:#15803d;}
+.cell-a2{background:#fef9c3;border:2px solid #eab308;color:#713f12;}
+.grid-caption{text-align:center;font-size:.78em;color:var(--text-sub);margin-top:4px;}
+
+/* 使い方 */
+.tip-row{display:flex;gap:8px;margin-bottom:12px;}
+.tip-cell{flex:1;background:var(--primary-light);border-radius:8px;padding:8px 10px;font-size:.82em;font-weight:700;text-align:center;color:var(--primary);}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#3730a3;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF02</div>
+  <h1>公式②　平方公式<br><small style="font-size:.75em;opacity:.85;">(χ＋a)² の展開</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>平方・差の積</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="../ef03/intro.html">和と差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="../ef04/intro.html">因数分解①</a></div>
+</nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入A</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">①</span><a href="intro_b.html">導入B</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">公式② ：(χ＋a)² の展開（平方公式）</div>
+
+<div class="formula-box">
+  <div class="ftitle">📌 公式②</div>
+  <div class="formula-main">(χ＋a)²＝<span style="color:#1a56a0;">χ²＋2aχ＋a²</span></div>
+  <div class="formula-note">前を２乗　＋　前×後×２　＋　後を２乗</div>
+</div>
+
+<!-- なぜこの公式になるの？ -->
+<div class="why-box">
+  <div class="why-badge">🤔 なぜこうなるの？</div>
+  <div class="why-title">(χ＋a)² を地道に展開してみよう！</div>
+
+  <div class="why-step">
+    <div class="why-num">1</div>
+    <div>²は「同じものを2回かける」こと<br>
+    <span style="color:var(--accent);">(χ＋a)²</span>　＝　<span style="color:var(--accent);">(χ＋a)(χ＋a)</span></div>
+  </div>
+
+  <div class="why-step">
+    <div class="why-num">2</div>
+    <div>EF01の方法で展開する<br>
+    (χ＋a)(χ＋a)　→　χ²　＋　aχ　＋　aχ　＋　a²<br>
+    <span style="color:var(--text-sub);font-size:.88em;">（前×前，前×後，後×前，後×後 の4項）</span></div>
+  </div>
+
+  <div class="why-step">
+    <div class="why-num">3</div>
+    <div>真ん中の2項をまとめる<br>
+    aχ ＋ aχ ＝ <span style="color:var(--accent);">2aχ</span>　← 同じものが2個！</div>
+  </div>
+
+  <div class="why-arrow">↓</div>
+  <div class="why-eq">χ²　＋　<span style="color:var(--accent);">2aχ</span>　＋　a²</div>
+
+  <div class="pop-note">真ん中の「2a」は「aが2個分」という意味。だから公式に「×2」が出てくる！</div>
+
+  <!-- 面積図 -->
+  <div style="margin-top:14px;">
+    <div style="font-size:.84em;font-weight:700;color:#713f12;margin-bottom:8px;">📐 面積図でイメージしよう（(χ＋a)²は正方形の面積！）</div>
+    <div class="grid-fig">
+      <div class="cell cell-label"></div>
+      <div class="cell cell-label" style="min-width:72px;text-align:center;">χ</div>
+      <div class="cell cell-label" style="min-width:56px;text-align:center;">a</div>
+      <div class="cell cell-label" style="min-height:56px;">χ</div>
+      <div class="cell cell-chi2" style="min-width:72px;min-height:56px;">χ²</div>
+      <div class="cell cell-achi" style="min-width:56px;min-height:56px;">aχ</div>
+      <div class="cell cell-label" style="min-height:56px;">a</div>
+      <div class="cell cell-achi" style="min-width:72px;min-height:56px;">aχ</div>
+      <div class="cell cell-a2" style="min-width:56px;min-height:56px;">a²</div>
+    </div>
+    <div class="grid-caption">全体の面積＝χ²＋aχ＋aχ＋a²＝χ²＋2aχ＋a²</div>
+  </div>
+</div>
+
+<div class="sec">公式②の使い方</div>
+<div class="tip-row">
+  <div class="tip-cell">① 前を2乗<br>→ χ²</div>
+  <div class="tip-cell">② 前×後×2<br>→ 2aχ</div>
+  <div class="tip-cell">③ 後を2乗<br>→ a²</div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例１）(χ＋3)² を展開する</div>
+  <div class="ex-body">
+    <div class="sr b"><span class="sl b">公式②</span><div>(χ＋3)²＝χ²＋2×<strong style="color:var(--accent);">3</strong>×χ＋<strong style="color:var(--accent);">3</strong>²</div></div>
+    <div class="ans-box">＝<strong>χ²＋6χ＋9</strong></div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例２）(χ－5)² を展開する（マイナスに注意！）</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">注意①</span><div>a は <strong style="color:var(--accent);">－5</strong></div></div>
+    <div class="sr y"><span class="sl y">注意②</span><div>2aχ ＝ 2×(－5)×χ ＝ <strong style="color:var(--accent);">－10χ</strong>　→ 前×後×2</div></div>
+    <div class="sr y"><span class="sl y">注意③</span><div>a² ＝ (－5)² ＝ <strong style="color:var(--accent);">25</strong>　← 2乗するとプラスになる！</div></div>
+    <div class="sr b"><span class="sl b">公式②</span><div>(χ－5)² ＝ χ² ＋ 2×(－5)×χ ＋ (－5)²</div></div>
+    <div class="ans-box">＝<strong>χ²－10χ＋25</strong></div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例３）(3χ＋1)² を展開する（前がχ以外）</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">注意①</span><div>前は <strong style="color:var(--accent);">3χ</strong>（χだけじゃない！）</div></div>
+    <div class="sr y"><span class="sl y">注意②</span><div>前を2乗：(3χ)² ＝ <strong style="color:var(--accent);">9χ²</strong>　← 3²×χ²</div></div>
+    <div class="sr y"><span class="sl y">注意③</span><div>前×後×2：2×3χ×1 ＝ <strong style="color:var(--accent);">6χ</strong>　→ 前×後×2</div></div>
+    <div class="sr b"><span class="sl b">公式②</span><div>(3χ＋1)² ＝ (3χ)² ＋ 2×3χ×1 ＋ 1²</div></div>
+    <div class="ans-box">＝<strong>9χ²＋6χ＋1</strong></div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 公式②まとめ</div>
+  <ul>
+    <li>(χ＋a)²＝<strong>χ²＋2aχ＋a²</strong>　← 前²，前×後×2，後²</li>
+    <li>aがマイナスのとき，<strong>2aχの符号</strong>に注意！</li>
+    <li>前がχ以外（3χなど）のとき，<strong>きちんと2乗</strong>する</li>
+    <li>定数項（後²）は<strong>必ずプラス</strong>になる（2乗だから）</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../ef01/intro.html" class="btn-nav btn-b">← EF01</a>
+  <a href="intro_b.html" class="btn-nav btn-f">公式③へ →</a>
+</div>
+</main>
+</body>
+</html>

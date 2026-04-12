@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF05-3 パターン3【例題・類題・確認】</title>
+<style>
+:root{--primary:#ea580c;--primary-light:#ffedd5;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#fff7ed;--card:#ffffff;--border:#fed7aa;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(234,88,12,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-card{background:linear-gradient(135deg,#fff7ed,#ffedd5);border:2px solid var(--primary);border-radius:14px;padding:14px 16px;margin-bottom:16px;}
+.rule-card .rtitle{font-size:.84em;font-weight:700;color:var(--primary);margin-bottom:8px;}
+.rule-body{font-size:.92em;font-weight:700;line-height:2.2;}
+.why-box{background:linear-gradient(135deg,#fef9c3,#fef08a);border:2px solid #ca8a04;border-radius:14px;padding:14px 16px;margin-bottom:16px;}
+.why-badge{display:inline-block;background:#ca8a04;color:#fff;font-size:.75em;font-weight:700;border-radius:20px;padding:3px 12px;margin-bottom:9px;}
+.why-step{display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:9px;padding:9px 12px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.0;border:1.5px solid #fde68a;}
+.why-num{background:#ca8a04;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72em;flex-shrink:0;margin-top:2px;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:8px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:8px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;}
+.ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75em;flex-shrink:0;}
+.ex-body{padding:13px 16px 10px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;animation:fadeIn .3s ease;}
+.next-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:8px;}
+.done-badge{text-align:center;padding:5px;font-size:.84em;font-weight:700;color:var(--success);}
+.drill-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.drill-head{display:flex;align-items:center;padding:12px 15px;gap:10px;font-weight:700;font-size:.97em;}
+.drill-badge{background:var(--primary);color:#fff;font-size:.72em;font-weight:700;border-radius:6px;padding:3px 9px;white-space:nowrap;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.78em;color:var(--text-sub);cursor:pointer;white-space:nowrap;}
+.ans-area{display:none;padding:0 13px 12px;}
+.ans-result{background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:7px 11px;margin-bottom:7px;font-weight:700;color:var(--primary);}
+.calc-row{display:flex;align-items:flex-start;gap:6px;padding:8px 11px;border-radius:8px;margin-bottom:5px;font-size:.86em;font-weight:700;line-height:2.1;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.clbl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.b{background:var(--primary);color:#fff;}
+.q-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;padding:16px;}
+.q-num{font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:8px;}
+.q-text{font-size:1.05em;font-weight:700;margin-bottom:12px;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choice-btn{background:#f1f5f9;border:2px solid var(--border);border-radius:10px;padding:11px 8px;font-family:'BIZ UDPGothic',sans-serif;font-size:.88em;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;}
+.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:#15803d;}
+.choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.choice-btn.show-ans{background:var(--success-light);border-color:var(--success);color:#15803d;}
+.result-panel{margin-top:12px;padding:10px 14px;border-radius:9px;font-size:.9em;font-weight:700;display:none;}
+.result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;}
+.result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);color:var(--accent);}
+.score-box{background:linear-gradient(135deg,#ea580c,#c2410c);color:#fff;border-radius:var(--radius);padding:20px;text-align:center;margin-top:20px;display:none;}
+.score-box .sc{font-size:2.2em;font-weight:700;margin-bottom:5px;}
+.btn-retry{background:#fff;color:#ea580c;margin-top:12px;width:100%;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;padding:11px;border-radius:50px;border:none;cursor:pointer;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#ffedd5;color:#9a3412;font-size:.83em;padding:9px 18px;}
+.divider{border:none;border-top:2px dashed var(--border);margin:28px 0;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF05-3</div>
+  <h1>パターン3　(χ＋　)(χ－　)<br><small style="font-size:.75em;opacity:.85;">符号が逆：定数項がマイナス</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">⑤</span><a href="../ef05/intro.html">EF05導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">①</span><a href="../ef05-1/intro.html">パターン1</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef05-2/intro.html">パターン2</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">③</span><span>パターン3</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef06/intro.html">EF06</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">パターン3のルール</div>
+<div class="rule-card">
+  <div class="rtitle">📌 パターン3：χ²＋bχ－c　または　χ²－bχ－c（c＞0）</div>
+  <div class="rule-body">
+    定数項が<strong>マイナス</strong><br>
+    → 2数は<strong>符号が逆</strong>（一方＋，一方－）<br>
+    → 数の大きい方がχの係数と<strong>同じ符号</strong>
+  </div>
+</div>
+
+<div class="why-box">
+  <div class="why-badge">🤔 なぜ符号が逆になるの？</div>
+  <div class="why-step">
+    <div class="why-num">1</div>
+    <div>定数項がマイナス → 2数をかけるとマイナスになる<br>
+    プラス×マイナス だけがマイナスになるので，<strong>2数は必ず符号が逆</strong>（一方＋，一方－）</div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">2</div>
+    <div>まず<strong>プラスの整数の組</strong>の中から，かけて定数項の数（マイナスを取った値）になる組を探す<br>
+    例：定数項が－15 → かけて <strong style="color:var(--accent);">15</strong> になる組を探す → (1,15)，(3,5)<br>
+    <small style="font-weight:400;color:var(--text-sub);">※ マイナス符号は後でつけるので，まずは数だけで考える</small></div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">3</div>
+    <div>見つかった組の<strong>どちらにマイナスをつけるか</strong>は，χの係数で決める<br>
+    → たした結果がχの係数になるように選ぶ<br>
+    → <strong>数の大きい方</strong>をχの係数と<strong>同じ符号</strong>にする</div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">4</div>
+    <div>例：χ²＋2χ－15　→　かけて15：(1,15)，(3,5)<br>
+    χの係数は <strong style="color:var(--accent);">＋2</strong>（プラス）→ 大きい方の5を＋にする<br>
+    → <strong>＋5と－3</strong>　確認：(＋5)＋(－3)＝＋2 ✅　(＋5)×(－3)＝－15 ✅</div>
+  </div>
+  <div class="pop-note">「かけてマイナス → 符号が逆」「たしてプラス → 大きい方がプラス」「たしてマイナス → 大きい方がマイナス」の3つを覚えよう！</div>
+</div>
+
+<div class="sec">例題</div>
+<div id="ex-area"></div>
+<hr class="divider">
+<div class="sec">類題　—　自分でやってみよう</div>
+<div id="drill-area"></div>
+<hr class="divider">
+<div class="sec">確認テスト</div>
+<div id="quiz-area"></div>
+<div class="score-box" id="score-box">
+  <div class="sc" id="sc-text"></div>
+  <div id="sc-msg" style="font-size:.93em;opacity:.9;"></div>
+  <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
+</div>
+
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 一覧へ</a>
+  <a href="../ef05-2/intro.html" class="btn-nav btn-b">← パターン2</a>
+  <a href="../ef06/intro.html" class="btn-nav btn-f">EF06へ →</a>
+</div>
+</main>
+<script>
+const EXAMPLES=[
+  {q:"χ²＋2χ－15",steps:[
+    {cls:"y",lbl:"確認",txt:"c＝－15（－）　→ パターン3：2数は符号が逆"},
+    {cls:"y",lbl:"探す①",txt:"かけて<strong style='color:var(--accent);'>15</strong> になる正の整数の組：(1,15)，<strong style='color:var(--accent);'>(3,5)</strong>"},
+    {cls:"b",lbl:"探す②",txt:"たして＋2 → 大きい方が＋ → <strong style='color:var(--accent);'>＋5と－3</strong>　(5＋(－3)＝2 ✅)"},
+  ],ans:"(χ＋5)(χ－3)"},
+  {q:"χ²－3χ－18",steps:[
+    {cls:"y",lbl:"確認",txt:"c＝－18（－）　→ パターン3：2数は符号が逆"},
+    {cls:"y",lbl:"探す①",txt:"かけて<strong style='color:var(--accent);'>18</strong> になる正の整数の組：(1,18)，(2,9)，<strong style='color:var(--accent);'>(3,6)</strong>"},
+    {cls:"b",lbl:"探す②",txt:"たして－3 → 大きい方が－ → <strong style='color:var(--accent);'>－6と＋3</strong>　(－6＋3＝－3 ✅)"},
+  ],ans:"(χ＋3)(χ－6)"},
+  {q:"χ²＋χ－20",steps:[
+    {cls:"y",lbl:"確認",txt:"c＝－20（－）　→ パターン3：2数は符号が逆"},
+    {cls:"y",lbl:"探す①",txt:"かけて<strong style='color:var(--accent);'>20</strong> になる正の整数の組：(1,20)，(2,10)，<strong style='color:var(--accent);'>(4,5)</strong>"},
+    {cls:"b",lbl:"探す②",txt:"たして＋1 → 大きい方が＋ → <strong style='color:var(--accent);'>＋5と－4</strong>　(5＋(－4)＝1 ✅)"},
+  ],ans:"(χ＋5)(χ－4)"},
+  {q:"χ²－5χ－24",steps:[
+    {cls:"y",lbl:"確認",txt:"c＝－24（－）　→ パターン3：2数は符号が逆"},
+    {cls:"y",lbl:"探す①",txt:"かけて<strong style='color:var(--accent);'>24</strong> になる正の整数の組：(1,24)，(2,12)，<strong style='color:var(--accent);'>(3,8)</strong>，(4,6)"},
+    {cls:"b",lbl:"探す②",txt:"たして－5 → 大きい方が－ → <strong style='color:var(--accent);'>－8と＋3</strong>　(－8＋3＝－5 ✅)"},
+  ],ans:"(χ＋3)(χ－8)"},
+];
+const state=EXAMPLES.map(()=>0);
+function buildExamples(){
+  const area=document.getElementById('ex-area');
+  EXAMPLES.forEach((ex,i)=>{
+    const div=document.createElement('div');div.className='ex-card';div.id='ec'+i;
+    div.innerHTML='<div class="ex-head"><span class="ex-num">'+(i+1)+'</span>'+ex.q+' を因数分解する</div>'
+      +'<div class="ex-body"><div style="font-size:1.05em;font-weight:700;color:var(--primary);margin-bottom:10px;">'+ex.q+'</div>'
+      +'<div id="esteps'+i+'"></div>'
+      +'<button class="next-btn" id="ebtn'+i+'" onclick="nextStep('+i+')">💡 考え方を見る</button>'
+      +'<div id="edone'+i+'" class="done-badge" style="display:none;">✅ 完了！</div>'
+      +'</div>';
+    area.appendChild(div);
+  });
+}
+function nextStep(i){
+  const ex=EXAMPLES[i],cur=state[i];
+  const sd=document.getElementById('esteps'+i),btn=document.getElementById('ebtn'+i),done=document.getElementById('edone'+i);
+  if(cur<ex.steps.length){
+    const s=ex.steps[cur];const row=document.createElement('div');row.className='sr '+s.cls;
+    row.innerHTML='<span class="sl '+s.cls+'">'+s.lbl+'</span><div>'+s.txt+'</div>';
+    sd.appendChild(row);state[i]++;
+    btn.textContent=state[i]<ex.steps.length?'➡ 次へ':'✅ 答えを見る';
+  }else{
+    const ab=document.createElement('div');ab.className='ans-box';ab.innerHTML='答え：<strong>'+ex.ans+'</strong>';
+    sd.appendChild(ab);btn.style.display='none';done.style.display='block';
+  }
+}
+const DRILLS=[
+  {q:"χ²＋3χ－10",ans:"(χ＋5)(χ－2)",steps:[
+    {cls:"y",lbl:"確認",txt:"c＝－10（－）　→ パターン3"},
+    {cls:"y",lbl:"探す",txt:"かけて10，たして＋3 → 大きい方が＋ → <strong style='color:var(--accent);'>＋5と－2</strong>"},
+    {cls:"b",lbl:"答え",txt:"(χ＋5)(χ－2)"},
+  ]},
+  {q:"χ²－2χ－8",ans:"(χ＋2)(χ－4)",steps:[
+    {cls:"y",lbl:"確認",txt:"c＝－8（－）　→ パターン3"},
+    {cls:"y",lbl:"探す",txt:"かけて8，たして－2 → 大きい方が－ → <strong style='color:var(--accent);'>－4と＋2</strong>"},
+    {cls:"b",lbl:"答え",txt:"(χ＋2)(χ－4)"},
+  ]},
+  {q:"χ²＋4χ－12",ans:"(χ＋6)(χ－2)",steps:[
+    {cls:"y",lbl:"確認",txt:"c＝－12（－）　→ パターン3"},
+    {cls:"y",lbl:"探す",txt:"かけて12，たして＋4 → 大きい方が＋ → <strong style='color:var(--accent);'>＋6と－2</strong>"},
+    {cls:"b",lbl:"答え",txt:"(χ＋6)(χ－2)"},
+  ]},
+  {q:"χ²－7χ－30",ans:"(χ＋3)(χ－10)",steps:[
+    {cls:"y",lbl:"確認",txt:"c＝－30（－）　→ パターン3"},
+    {cls:"y",lbl:"探す",txt:"かけて30，たして－7 → 大きい方が－ → <strong style='color:var(--accent);'>－10と＋3</strong>"},
+    {cls:"b",lbl:"答え",txt:"(χ＋3)(χ－10)"},
+  ]},
+];
+function buildDrills(){
+  const area=document.getElementById('drill-area');
+  DRILLS.forEach((p,i)=>{
+    area.innerHTML+=`<div class="drill-card" id="dd${i}"><div class="drill-head"><span class="drill-badge">類題${i+1}</span>${p.q}<button class="ans-toggle" onclick="togDrill(${i})">答を見る</button></div><div class="ans-area" id="da${i}"></div></div>`;
+  });
+}
+function togDrill(i){
+  const p=DRILLS[i];const d=document.getElementById('da'+i);const btn=document.querySelector('#dd'+i+' .ans-toggle');
+  if(d.style.display==='block'){d.style.display='none';btn.textContent='答を見る';return;}
+  let h=`<div class="ans-result">正解：<strong>${p.ans}</strong></div>`;
+  p.steps.forEach(s=>{h+=`<div class="calc-row ${s.cls}"><span class="clbl ${s.cls}">${s.lbl}</span><div>${s.txt}</div></div>`;});
+  d.innerHTML=h;d.style.display='block';btn.textContent='答を隠す';
+}
+const QS=[
+  {q:"χ²＋5χ－14 を因数分解すると？",choices:["(χ＋7)(χ－2)","(χ＋2)(χ－7)","(χ＋7)(χ＋2)","(χ－7)(χ－2)"],ans:0,exp:"かけて14，たして＋5 → 大きい方が＋ → ＋7と－2"},
+  {q:"χ²－4χ－21 を因数分解すると？",choices:["(χ＋3)(χ－7)","(χ＋7)(χ－3)","(χ－3)(χ－7)","(χ＋3)(χ＋7)"],ans:0,exp:"かけて21，たして－4 → 大きい方が－ → ＋3と－7"},
+  {q:"χ²＋2χ－24 を因数分解すると？",choices:["(χ＋4)(χ－6)","(χ＋6)(χ－4)","(χ＋3)(χ－8)","(χ＋8)(χ－3)"],ans:1,exp:"かけて24，たして＋2 → 大きい方が＋ → ＋6と－4"},
+  {q:"χ²－6χ－27 を因数分解すると？",choices:["(χ＋9)(χ－3)","(χ＋3)(χ－9)","(χ－9)(χ＋3)","(χ－3)(χ＋9)"],ans:1,exp:"かけて27，たして－6 → 大きい方が－ → ＋3と－9"},
+];
+let answers=[],answered=new Array(QS.length).fill(false);
+function buildQuiz(){
+  const area=document.getElementById('quiz-area');area.innerHTML='';
+  QS.forEach((q,i)=>{
+    let cHtml=q.choices.map((c,j)=>`<button class="choice-btn" id="c${i}_${j}" onclick="choose(${i},${j})">${c}</button>`).join('');
+    area.innerHTML+=`<div class="q-card" id="qc${i}"><div class="q-num">問${i+1}</div><div class="q-text">${q.q}</div><div class="choices">${cHtml}</div><div class="result-panel" id="rp${i}"></div></div>`;
+  });
+}
+function choose(qi,ci){
+  if(answered[qi])return;answered[qi]=true;answers[qi]=ci;
+  const q=QS[qi];const correct=ci===q.ans;
+  for(let j=0;j<q.choices.length;j++){const btn=document.getElementById(`c${qi}_${j}`);btn.disabled=true;if(j===q.ans)btn.classList.add('show-ans');}
+  document.getElementById(`c${qi}_${ci}`).classList.add(correct?'correct':'wrong');
+  const rp=document.getElementById('rp'+qi);rp.style.display='block';rp.className='result-panel '+(correct?'ok':'ng');
+  rp.innerHTML=(correct?'✅ 正解！':'❌ 不正解…　正解は【'+q.choices[q.ans]+'】')+`<br><span style="font-weight:400;">${q.exp}</span>`;
+  if(answered.every(v=>v))showScore();
+}
+function showScore(){
+  const box=document.getElementById('score-box');const correct=answers.filter((a,i)=>a===QS[i].ans).length;box.style.display='block';
+  document.getElementById('sc-text').textContent=`${correct} / ${QS.length} 問正解`;
+  const msgs=['もう一度！💪','あと少し！📖','なかなか良い！✨','ほぼ完璧！🌟','満点！🎉'];
+  document.getElementById('sc-msg').textContent=msgs[Math.min(correct,4)];
+}
+function retry(){answered=new Array(QS.length).fill(false);answers=[];document.getElementById('score-box').style.display='none';buildQuiz();}
+buildExamples();buildDrills();buildQuiz();
+</script>
+</body>
+</html>

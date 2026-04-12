@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF04-2 展開の置き換え【例題・演習・確認】</title>
+<style>
+:root{--primary:#7e22ce;--primary-light:#f3e8ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#faf5ff;--card:#ffffff;--border:#e9d5ff;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(126,34,206,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#faf5ff,#f3e8ff);border:2px solid var(--primary);border-radius:14px;padding:14px 16px;margin-bottom:16px;}
+.rule-box .rtitle{font-size:.84em;font-weight:700;color:var(--primary);margin-bottom:8px;}
+.rule-body{font-size:.92em;font-weight:700;line-height:2.2;}
+.step-order{display:flex;gap:5px;margin:10px 0 14px;flex-wrap:wrap;align-items:center;}
+.step-badge{background:var(--primary);color:#fff;border-radius:6px;padding:5px 12px;font-size:.84em;font-weight:700;}
+.step-arrow2{color:var(--primary);font-weight:700;font-size:1.1em;}
+.why-box{background:linear-gradient(135deg,#fef9c3,#fef08a);border:2px solid #ca8a04;border-radius:14px;padding:15px 17px;margin-bottom:18px;}
+.why-badge{display:inline-block;background:#ca8a04;color:#fff;font-size:.75em;font-weight:700;border-radius:20px;padding:3px 12px;margin-bottom:10px;}
+.why-step{display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:.88em;font-weight:700;line-height:2.0;border:1.5px solid #fde68a;}
+.why-num{background:#ca8a04;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72em;flex-shrink:0;margin-top:2px;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:8px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;}
+.ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.75em;flex-shrink:0;}
+.ex-body{padding:13px 16px 10px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;animation:fadeIn .3s ease;}
+.next-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:8px;}
+.done-badge{text-align:center;padding:5px;font-size:.84em;font-weight:700;color:var(--success);}
+.drill-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.drill-head{display:flex;align-items:center;padding:12px 15px;gap:10px;font-weight:700;font-size:.97em;flex-wrap:wrap;}
+.drill-badge{background:var(--primary);color:#fff;font-size:.72em;font-weight:700;border-radius:6px;padding:3px 9px;white-space:nowrap;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.78em;color:var(--text-sub);cursor:pointer;white-space:nowrap;}
+.ans-area{display:none;padding:0 13px 12px;}
+.ans-result{background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:7px 11px;margin-bottom:7px;font-weight:700;color:var(--primary);}
+.calc-row{display:flex;align-items:flex-start;gap:6px;padding:8px 11px;border-radius:8px;margin-bottom:5px;font-size:.86em;font-weight:700;line-height:2.1;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.b{background:var(--primary);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+.q-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;padding:16px;}
+.q-num{font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:8px;}
+.q-text{font-size:1.05em;font-weight:700;margin-bottom:12px;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choice-btn{background:#f1f5f9;border:2px solid var(--border);border-radius:10px;padding:11px 8px;font-family:'BIZ UDPGothic',sans-serif;font-size:.86em;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;line-height:1.6;}
+.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:#15803d;}
+.choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.choice-btn.show-ans{background:var(--success-light);border-color:var(--success);color:#15803d;}
+.result-panel{margin-top:12px;padding:10px 14px;border-radius:9px;font-size:.9em;font-weight:700;display:none;}
+.result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;}
+.result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);color:var(--accent);}
+.score-box{background:linear-gradient(135deg,#7e22ce,#9333ea);color:#fff;border-radius:var(--radius);padding:20px;text-align:center;margin-top:20px;display:none;}
+.score-box .sc{font-size:2.2em;font-weight:700;margin-bottom:5px;}
+.btn-retry{background:#fff;color:#7e22ce;margin-top:12px;width:100%;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;padding:11px;border-radius:50px;border:none;cursor:pointer;}
+.divider{border:none;border-top:2px dashed var(--border);margin:26px 0;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#f3e8ff;color:#7e22ce;font-size:.83em;padding:9px 18px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF04-2</div>
+  <h1>展開の置き換え<br><small style="font-size:.75em;opacity:.85;">カタマリを A に置き換えて展開する</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef02/intro.html">平方公式</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="../ef03/intro.html">和と差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="../ef04-1/intro.html">組み合わせ展開</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">⑤</span><span>展開・置き換え</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef05/intro.html">因数分解①</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">置き換えの考え方</div>
+<div class="rule-box">
+  <div class="rtitle">📌 置き換えとは？</div>
+  <div class="rule-body">
+    式の中に<strong>同じカタマリ</strong>が出てくるとき，そのカタマリを <strong style="color:#7e22ce;">A</strong> などの1文字に置き換えると，<br>
+    いつもの公式がそのまま使えるようになる！
+  </div>
+</div>
+<div class="step-order">
+  <span class="step-badge">① カタマリを A に置き換え</span>
+  <span class="step-arrow2">→</span>
+  <span class="step-badge">② 公式を使って展開</span>
+  <span class="step-arrow2">→</span>
+  <span class="step-badge">③ A を元に戻す</span>
+</div>
+
+<div class="why-box">
+  <div class="why-badge">🤔 なぜ置き換えるの？</div>
+  <div class="why-step">
+    <div class="why-num">1</div>
+    <div>(χ＋y＋3)(χ＋y－3) をそのまま展開しようとすると…<br>
+    4つの項がありとても複雑になる！</div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">2</div>
+    <div>よく見ると「<strong style="color:var(--accent);">χ＋y</strong>」という<strong>同じカタマリ</strong>が両方に出てくる！<br>
+    χ＋y ＝ <strong style="color:#7e22ce;">A</strong> と置き換えると<br>
+    (<strong style="color:#7e22ce;">A</strong>＋3)(<strong style="color:#7e22ce;">A</strong>－3) ← 見慣れた公式③の形！</div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">3</div>
+    <div>公式③を使う：A²－9<br>
+    最後に A をχ＋y に<strong>戻す</strong> → (χ＋y)²－9 → <strong>χ²＋2χy＋y²－9</strong></div>
+  </div>
+  <div class="pop-note">「同じカタマリが出てくる」→ 置き換えのサイン！Aに置き換え → 展開 → Aを戻す，の3ステップ。</div>
+</div>
+
+<div class="sec">例題</div>
+<div id="ex-area"></div>
+
+<hr class="divider">
+<div class="sec">演習　—　自分でやってみよう</div>
+<div id="drill-area"></div>
+
+<hr class="divider">
+<div class="sec">確認テスト</div>
+<div id="quiz-area"></div>
+<div class="score-box" id="score-box">
+  <div class="sc" id="sc-text"></div>
+  <div id="sc-msg" style="font-size:.93em;opacity:.9;"></div>
+  <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
+</div>
+
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 一覧へ</a>
+  <a href="../ef04-1/intro.html" class="btn-nav btn-b">← EF04-1</a>
+  <a href="../ef05/intro.html" class="btn-nav btn-f">EF05へ →</a>
+</div>
+</main>
+<script>
+const EXAMPLES=[
+  {q:"(χ＋y＋3)(χ＋y－3)",
+    steps:[
+      {cls:"y",lbl:"確認",txt:"「χ＋y」という<strong style='color:var(--accent);'>同じカタマリ</strong>が2つある → 置き換え！"},
+      {cls:"b",lbl:"置換",txt:"<strong style='color:#7e22ce;'>A</strong>＝χ＋y とおく → (<strong style='color:#7e22ce;'>A</strong>＋3)(<strong style='color:#7e22ce;'>A</strong>－3)"},
+      {cls:"b",lbl:"公式③",txt:"<strong style='color:#7e22ce;'>A</strong>²－3²＝<strong style='color:#7e22ce;'>A</strong>²－9"},
+      {cls:"g",lbl:"戻す",txt:"A＝χ＋y を代入 → (χ＋y)²－9＝χ²＋2χy＋y²－9"},
+    ],ans:"χ²＋2χy＋y²－9"},
+  {q:"(χ＋y＋2)²",
+    steps:[
+      {cls:"y",lbl:"確認",txt:"「χ＋y」を <strong style='color:#7e22ce;'>A</strong> とおく → (<strong style='color:#7e22ce;'>A</strong>＋2)²"},
+      {cls:"b",lbl:"公式②",txt:"<strong style='color:#7e22ce;'>A</strong>²＋2×<strong style='color:#7e22ce;'>A</strong>×2＋4＝<strong style='color:#7e22ce;'>A</strong>²＋4<strong style='color:#7e22ce;'>A</strong>＋4"},
+      {cls:"g",lbl:"戻す",txt:"A＝χ＋y → (χ＋y)²＋4(χ＋y)＋4"},
+      {cls:"g",lbl:"整理",txt:"χ²＋2χy＋y²＋4χ＋4y＋4"},
+    ],ans:"χ²＋2χy＋y²＋4χ＋4y＋4"},
+  {q:"(χ－1＋y)(χ－1－y)",
+    steps:[
+      {cls:"y",lbl:"確認",txt:"「χ－1」が同じカタマリ → <strong style='color:#7e22ce;'>A</strong>＝χ－1 とおく"},
+      {cls:"b",lbl:"公式③",txt:"(<strong style='color:#7e22ce;'>A</strong>＋y)(<strong style='color:#7e22ce;'>A</strong>－y)＝<strong style='color:#7e22ce;'>A</strong>²－y²"},
+      {cls:"g",lbl:"戻す",txt:"A＝χ－1 → (χ－1)²－y²＝χ²－2χ＋1－y²"},
+    ],ans:"χ²－2χ＋1－y²"},
+  {q:"(a＋b＋c)(a＋b－c)",
+    steps:[
+      {cls:"y",lbl:"確認",txt:"「a＋b」が同じカタマリ → <strong style='color:#7e22ce;'>A</strong>＝a＋b とおく"},
+      {cls:"b",lbl:"公式③",txt:"(<strong style='color:#7e22ce;'>A</strong>＋c)(<strong style='color:#7e22ce;'>A</strong>－c)＝<strong style='color:#7e22ce;'>A</strong>²－c²"},
+      {cls:"g",lbl:"戻す",txt:"A＝a＋b → (a＋b)²－c²＝a²＋2ab＋b²－c²"},
+    ],ans:"a²＋2ab＋b²－c²"},
+];
+const state=EXAMPLES.map(()=>0);
+function buildExamples(){
+  const area=document.getElementById('ex-area');
+  EXAMPLES.forEach((ex,i)=>{
+    const div=document.createElement('div');div.className='ex-card';div.id='ec'+i;
+    div.innerHTML=`<div class="ex-head"><span class="ex-num">${i+1}</span>${ex.q} を展開する</div>`
+      +`<div class="ex-body"><div style="font-size:1.1em;font-weight:700;margin-bottom:10px;color:var(--primary);">${ex.q}</div>`
+      +`<div id="esteps${i}"></div>`
+      +`<button class="next-btn" id="ebtn${i}" onclick="nextStep(${i})">💡 考え方を見る</button>`
+      +`<div id="edone${i}" class="done-badge" style="display:none;">✅ 完了！</div>`
+      +'</div>';
+    area.appendChild(div);
+  });
+}
+function nextStep(i){
+  const ex=EXAMPLES[i],cur=state[i];
+  const sd=document.getElementById('esteps'+i),btn=document.getElementById('ebtn'+i),done=document.getElementById('edone'+i);
+  if(cur<ex.steps.length){
+    const s=ex.steps[cur];const row=document.createElement('div');row.className='sr '+s.cls;
+    row.innerHTML=`<span class="sl ${s.cls}">${s.lbl}</span><div>${s.txt}</div>`;
+    sd.appendChild(row);state[i]++;
+    btn.textContent=state[i]<ex.steps.length?'➡ 次へ':'✅ 答えを見る';
+  }else{
+    const ab=document.createElement('div');ab.className='ans-box';ab.innerHTML='答え：<strong>'+ex.ans+'</strong>';
+    sd.appendChild(ab);btn.style.display='none';done.style.display='block';
+  }
+}
+const DRILLS=[
+  {q:"(χ＋2＋y)(χ＋2－y)",ans:"χ²＋4χ＋4－y²",
+    steps:[
+      {cls:"y",lbl:"確認",txt:"「χ＋2」が同じカタマリ → A＝χ＋2"},
+      {cls:"b",lbl:"公式③",txt:"(A＋y)(A－y)＝A²－y²"},
+      {cls:"g",lbl:"戻す",txt:"(χ＋2)²－y²＝χ²＋4χ＋4－y²"},
+    ]},
+  {q:"(χ＋y－1)²",ans:"χ²＋2χy＋y²－2χ－2y＋1",
+    steps:[
+      {cls:"y",lbl:"確認",txt:"「χ＋y」を A とおく → (A－1)²"},
+      {cls:"b",lbl:"公式②",txt:"A²－2A＋1"},
+      {cls:"g",lbl:"戻す",txt:"(χ＋y)²－2(χ＋y)＋1＝χ²＋2χy＋y²－2χ－2y＋1"},
+    ]},
+  {q:"(a＋b＋1)(a＋b＋3)",ans:"a²＋2ab＋b²＋4a＋4b＋3",
+    steps:[
+      {cls:"y",lbl:"確認",txt:"「a＋b」が同じカタマリ → A＝a＋b"},
+      {cls:"b",lbl:"公式①",txt:"(A＋1)(A＋3)＝A²＋4A＋3"},
+      {cls:"g",lbl:"戻す",txt:"(a＋b)²＋4(a＋b)＋3＝a²＋2ab＋b²＋4a＋4b＋3"},
+    ]},
+];
+function buildDrills(){
+  const area=document.getElementById('drill-area');area.innerHTML='';
+  DRILLS.forEach((p,i)=>{
+    area.innerHTML+=`<div class="drill-card" id="dd${i}"><div class="drill-head"><span class="drill-badge">演習${i+1}</span>${p.q}<button class="ans-toggle" onclick="togDrill(${i})">答を見る</button></div><div class="ans-area" id="da${i}"></div></div>`;
+  });
+}
+function togDrill(i){
+  const p=DRILLS[i];const d=document.getElementById('da'+i);const btn=document.querySelector(`#dd${i} .ans-toggle`);
+  if(d.style.display==='block'){d.style.display='none';btn.textContent='答を見る';return;}
+  let h=`<div class="ans-result">正解：<strong>${p.ans}</strong></div>`;
+  p.steps.forEach(s=>{h+=`<div class="calc-row ${s.cls}"><span class="clbl ${s.cls}">${s.lbl}</span><div>${s.txt}</div></div>`;});
+  d.innerHTML=h;d.style.display='block';btn.textContent='答を隠す';
+}
+const QS=[
+  {q:"(χ＋y＋4)(χ＋y－4) を展開すると？",
+    choices:["χ²＋2χy＋y²－16","(χ＋y)²－4","χ²＋y²－16","χ²＋2χy＋y²＋8χ＋8y＋16"],
+    ans:0,exp:"A＝χ＋y → A²－16＝(χ＋y)²－16＝χ²＋2χy＋y²－16"},
+  {q:"(χ＋y＋1)² を展開すると？",
+    choices:["χ²＋y²＋1","χ²＋2χy＋y²＋1","χ²＋2χy＋y²＋2χ＋2y＋1","(χ＋y)²＋1"],
+    ans:2,exp:"A＝χ＋y → A²＋2A＋1＝(χ＋y)²＋2(χ＋y)＋1＝χ²＋2χy＋y²＋2χ＋2y＋1"},
+  {q:"(χ－2＋y)(χ－2－y) を展開すると？",
+    choices:["χ²－4χ＋4－y²","χ²－y²－4","(χ－2)²－y","χ²－2χ＋4－y²"],
+    ans:0,exp:"A＝χ－2 → A²－y²＝(χ－2)²－y²＝χ²－4χ＋4－y²"},
+  {q:"(a＋b＋2)(a＋b－5) を展開すると？",
+    choices:["a²＋2ab＋b²－3a－3b－10","a²＋b²－10","a²＋2ab＋b²－3","(a＋b)²－10"],
+    ans:0,exp:"A＝a＋b → (A＋2)(A－5)＝A²－3A－10＝(a＋b)²－3(a＋b)－10"},
+];
+let answers=[],answered=new Array(QS.length).fill(false);
+function buildQuiz(){
+  const area=document.getElementById('quiz-area');area.innerHTML='';
+  QS.forEach((q,i)=>{
+    let cHtml=q.choices.map((c,j)=>`<button class="choice-btn" id="c${i}_${j}" onclick="choose(${i},${j})">${c}</button>`).join('');
+    area.innerHTML+=`<div class="q-card" id="qc${i}"><div class="q-num">問${i+1}</div><div class="q-text">${q.q}</div><div class="choices">${cHtml}</div><div class="result-panel" id="rp${i}"></div></div>`;
+  });
+}
+function choose(qi,ci){
+  if(answered[qi])return;answered[qi]=true;answers[qi]=ci;
+  const q=QS[qi];const correct=ci===q.ans;
+  for(let j=0;j<q.choices.length;j++){const btn=document.getElementById(`c${qi}_${j}`);btn.disabled=true;if(j===q.ans)btn.classList.add('show-ans');}
+  document.getElementById(`c${qi}_${ci}`).classList.add(correct?'correct':'wrong');
+  const rp=document.getElementById('rp'+qi);rp.style.display='block';rp.className='result-panel '+(correct?'ok':'ng');
+  rp.innerHTML=(correct?'✅ 正解！':'❌ 不正解…　正解は【'+q.choices[q.ans]+'】')+`<br><span style="font-weight:400;">${q.exp}</span>`;
+  if(answered.every(v=>v))showScore();
+}
+function showScore(){
+  const box=document.getElementById('score-box');const correct=answers.filter((a,i)=>a===QS[i].ans).length;
+  box.style.display='block';
+  document.getElementById('sc-text').textContent=`${correct} / ${QS.length} 問正解`;
+  const msgs=['もう一度！💪','あと少し！📖','なかなか良い！✨','ほぼ完璧！🌟','満点！🎉'];
+  document.getElementById('sc-msg').textContent=msgs[Math.min(correct,4)];
+}
+function retry(){answered=new Array(QS.length).fill(false);answers=[];document.getElementById('score-box').style.display='none';buildQuiz();}
+buildExamples();buildDrills();buildQuiz();
+</script>
+</body>
+</html>
