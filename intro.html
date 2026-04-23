@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQ01 平方根とは 【導入】</title>
+
+<!-- KaTeX（ローカル配置） -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.visual-box{background:#fff;border:2px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px;text-align:center;}
+.sq-grid{display:inline-grid;gap:4px;margin:10px auto;}
+.sq-cell{width:44px;height:44px;background:var(--primary-light);border:2px solid var(--primary);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;color:var(--primary);}
+.arrow-down{font-size:1.4em;color:var(--primary);margin:8px 0;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">SQ01</div>
+  <h1>平方根とは<br><small style="font-size:.75em;opacity:.85;">√（ルート）の意味を正方形のイメージでつかもう</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① 平方根とは</div>
+<div class="rule-box">
+  <div class="rtitle">📌 平方根の意味</div>
+  <div class="rbody">
+    ある数 $a$ に対して，<strong>2乗すると $a$ になる数</strong>を「$a$ の<strong>平方根</strong>」といいます。<br>
+    たとえば $3^2 = 9$ なので，$3$ は $9$ の平方根です。同じように $(-3)^2 = 9$ なので，$-3$ も $9$ の平方根です。
+  </div>
+</div>
+<div class="rule-box">
+  <div class="rtitle">📌 正方形の面積でイメージしよう</div>
+  <div class="rbody">
+    面積が $9\,\text{cm}^2$ の正方形 → 1辺は $3\,\text{cm}$<br>
+    面積が $2\,\text{cm}^2$ の正方形 → 1辺は $\sqrt{2}\,\text{cm}$<br>
+    このように「<strong>面積→1辺</strong>」をもとめるのが平方根です。
+  </div>
+</div>
+<div class="visual-box">
+  <div style="font-size:.85em;font-weight:700;color:var(--primary);margin-bottom:8px;">面積 9 の正方形</div>
+  <div class="sq-grid" style="grid-template-columns:repeat(3,1fr);">
+    <div class="sq-cell">1</div><div class="sq-cell">1</div><div class="sq-cell">1</div>
+    <div class="sq-cell">1</div><div class="sq-cell">1</div><div class="sq-cell">1</div>
+    <div class="sq-cell">1</div><div class="sq-cell">1</div><div class="sq-cell">1</div>
+  </div>
+  <div class="arrow-down">↓</div>
+  <div style="font-size:.9em;font-weight:700;">1辺 = $\sqrt{9} = 3$</div>
+</div>
+
+<div class="sec">② √（ルート）の記号</div>
+<div class="formula-box">
+  <div class="ftitle">📌 平方根の表し方</div>
+  $a$ の正の平方根を $\sqrt{a}$ と書く<br>
+  $a$ の負の平方根は $-\sqrt{a}$<br>
+  <span style="font-size:.82em;color:var(--text-sub);font-weight:400;">→ 2つ合わせて $\pm\sqrt{a}$ と書ける！</span>
+</div>
+<div class="tip2">
+  <div style="background:var(--primary-light);color:var(--primary);">整数になるもの<br>→ 整数で表す（例：$\sqrt{9}=3$）</div>
+  <div style="background:var(--accent-light);color:var(--accent);">整数にならないもの<br>→ $\sqrt{\phantom{x}}$ で表す（例：$\sqrt{2}$）</div>
+</div>
+<div class="pop-note">
+  $\sqrt{9}$ はふつう $3$ と書きます。「$\pm$」がつくのは「平方根」を聞かれたときだけ！
+</div>
+
+<div class="sec">③ 例で確認しよう</div>
+<div class="ex-card">
+  <div class="ex-head">例１）16 の平方根を求める</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">考える</span><div>2乗して $16$ になる数は？</div></div>
+    <div class="sr b"><span class="sl b">プラス側</span><div>$4^2 = 16$ ✔　→ 正の平方根は <strong>4</strong></div></div>
+    <div class="sr b"><span class="sl b">マイナス側</span><div>$(-4)^2 = 16$ ✔　→ 負の平方根は <strong>$-4$</strong></div></div>
+    <div class="ans-box">16 の平方根は　<strong>$\pm 4$</strong></div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例２）5 の平方根を求める（整数にならない場合）</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">考える</span><div>2乗して $5$ になる数はきれいな整数にならない…</div></div>
+    <div class="sr b"><span class="sl b">記号を使う</span><div>正の平方根を <strong>$\sqrt{5}$</strong>（ルート5）と書く</div></div>
+    <div class="sr b"><span class="sl b">マイナス側</span><div>負の平方根は <strong>$-\sqrt{5}$</strong></div></div>
+    <div class="ans-box">5 の平方根は　<strong>$\pm\sqrt{5}$</strong></div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例３）0 の平方根を求める（特別な場合）</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">考える</span><div>$0^2 = 0$</div></div>
+    <div class="sr b"><span class="sl b">注意</span><div>$0$ の場合は $\pm 0$ とは書かない</div></div>
+    <div class="ans-box">0 の平方根は　<strong>$0$</strong>（1つだけ）</div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例４）$-3$ の平方根は存在するか？</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">考える</span><div>どんな数でも2乗すると $0$ 以上になる（$x^2 \geq 0$）</div></div>
+    <div class="sr b"><span class="sl b">結論</span><div>マイナスになる2乗は存在しないので…</div></div>
+    <div class="ans-box">$-3$ の平方根は　<strong>存在しない</strong></div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>2乗して $a$ になる数を，$a$ の<strong>平方根</strong>という</li>
+    <li>正の数 $a$ の平方根は <strong>$\pm\sqrt{a}$</strong>（プラスとマイナスの2つ）</li>
+    <li>$\sqrt{9}=3$ のように整数で表せるものもある</li>
+    <li>$0$ の平方根は <strong>$0$ だけ</strong></li>
+    <li>負の数の平方根は<strong>存在しない</strong>（中学・高認の範囲）</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>
