@@ -87,6 +87,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .c-ef{background:#dbeafe;color:#1a56a0;}
 .c-ef2{background:#ede9fe;color:#7c3aed;}
 .c-ef3{background:#d1fae5;color:#065f46;}
+.c-sq{background:#dcfce7;color:#15803d;}
 
 /* 単元名 */
 .u-name{flex:1;font-size:.9em;font-weight:700;line-height:1.4;min-width:0;}
@@ -176,6 +177,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
     <div class="section-title">📐 EF　展開と因数分解</div>
     <div class="unit-list" id="list-ef"></div>
+
+    <div class="section-title">√ SQ　平方根</div>
+    <div class="unit-list" id="list-sq"></div>
   </main>
 </div>
 
@@ -238,6 +242,15 @@ const UNITS = [
   {code:'EF07',  name:'因数分解③　完全平方',     sub:'χ²±2aχ＋a²＝(χ±a)²',              g:'ef', cls:'c-ef3', path:'ef07/intro.html'},
   {code:'EF08',  name:'因数分解④　共通因数',     sub:'まず「くくり出し」から！',                g:'ef', cls:'c-ef3', path:'ef08/intro.html'},
   {code:'EF09',  name:'因数分解⑤　置き換え',     sub:'カタマリをAに置き換えて因数分解（高認頻出！）', g:'ef', cls:'c-ef3', path:'ef09/intro.html'},
+  // ── 平方根 ──
+  {code:'SQ01',name:'平方根とは',                sub:'2乗してaになる数・記号√の意味',           g:'sq', path:'sq01/intro.html'},
+  {code:'SQ02',name:'平方根の性質',              sub:'√(a²)＝|a|・絶対値の考え方',             g:'sq', path:'sq02/intro.html'},
+  {code:'SQ03',name:'平方根のかけ算・わり算',     sub:'√a×√b＝√(ab)・√a÷√b＝√(a/b)',         g:'sq', path:'sq03/intro.html'},
+  {code:'SQ04',name:'ルートの中を簡単にする',     sub:'√(a²b)＝a√b・平方数を見つける',          g:'sq', path:'sq04/intro.html'},
+  {code:'SQ05',name:'分母の有理化',              sub:'分母にルートがあるときの処理',            g:'sq', path:'sq05/intro.html'},
+  {code:'SQ06',name:'平方根のたし算・ひき算',     sub:'同じルートをまとめる（同類項の考え方）',    g:'sq', path:'sq06/intro.html'},
+  {code:'SQ07',name:'平方根の四則計算',          sub:'分配法則・展開公式の応用',                g:'sq', path:'sq07/intro.html'},
+  {code:'SQ08',name:'平方根の式の値',            sub:'文字式に代入して値を求める',              g:'sq', path:'sq08/intro.html'},
 ];
 const TOTAL = UNITS.length;
 
@@ -281,7 +294,8 @@ function render(){
   const mdList = document.getElementById('list-md');
   const mfList = document.getElementById('list-mf');
   const efList = document.getElementById('list-ef');
-  maList.innerHTML=''; mbList.innerHTML=''; mcList.innerHTML=''; mdList.innerHTML=''; mfList.innerHTML=''; efList.innerHTML='';
+  const sqList = document.getElementById('list-sq');
+  maList.innerHTML=''; mbList.innerHTML=''; mcList.innerHTML=''; mdList.innerHTML=''; mfList.innerHTML=''; efList.innerHTML=''; sqList.innerHTML='';
   UNITS.forEach(u=>{
     const card = makeCard(u);
     if(u.g==='ma') maList.appendChild(card);
@@ -289,6 +303,7 @@ function render(){
     else if(u.g==='mc') mcList.appendChild(card);
     else if(u.g==='mf') mfList.appendChild(card);
     else if(u.g==='ef') efList.appendChild(card);
+    else if(u.g==='sq') sqList.appendChild(card);
     else mdList.appendChild(card);
   });
 }
@@ -298,7 +313,7 @@ function makeCard(u){
   const div = document.createElement('div');
   div.className = 'unit-card s-'+st;
 
-  const codeClass = u.g==='ma'?'c-ma':u.g==='mb'?'c-mb':u.g==='mc'?'c-mc':u.g==='mf'?'c-mf':u.g==='ef'?(u.cls||'c-ef'):'c-md';
+  const codeClass = u.g==='ma'?'c-ma':u.g==='mb'?'c-mb':u.g==='mc'?'c-mc':u.g==='mf'?'c-mf':u.g==='ef'?(u.cls||'c-ef'):u.g==='sq'?'c-sq':'c-md';
   const badgeMap = {
     pass:  '<span class="u-badge b-pass">✅ 合格</span>',
     review:'<span class="u-badge b-review">🔁 復習中</span>',
