@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQ07 平方根の四則計算 【導入】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.08em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.05em;line-height:2.4;font-weight:700;}
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.compare-side{border:2px solid var(--border);border-radius:10px;padding:12px;background:var(--success-light);border-color:var(--success);}
+.compare-side .lbl{font-size:.78em;font-weight:700;margin-bottom:6px;color:var(--success);}
+.compare-side .val{font-size:1em;font-weight:700;line-height:2;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">SQ07</div>
+  <h1>平方根の四則計算<br><small style="font-size:.75em;opacity:.85;">分配法則・展開公式の応用</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① これまでの総まとめ</div>
+<div class="rule-box">
+  <div class="rtitle">📌 SQ03〜SQ06で学んだルール</div>
+  <div class="rbody">
+    ・かけ算：$\sqrt{a} \times \sqrt{b} = \sqrt{ab}$<br>
+    ・わり算：$\sqrt{a} \div \sqrt{b} = \sqrt{\dfrac{a}{b}}$<br>
+    ・たし算・ひき算：中が同じ場合のみ係数をまとめる<br>
+    ・$\sqrt{a} \times \sqrt{a} = a$<br>
+    SQ07では，これらを <strong>組み合わせて使う</strong> 練習をします！
+  </div>
+</div>
+
+<div class="sec">② 分配法則をルートでも使おう</div>
+<div class="rule-box">
+  <div class="rtitle">📌 文字式の分配法則を思い出そう</div>
+  <div class="rbody">
+    $a(b+c) = ab + ac$　($a$ をかっこの中の両方にかける)<br>
+    これと同じことを <strong>ルートでも使えます</strong>！
+  </div>
+</div>
+
+<div class="formula-box">
+  <div class="ftitle">📌 ルートの分配法則</div>
+  $\sqrt{a}(\sqrt{b} + \sqrt{c}) = \sqrt{ab} + \sqrt{ac}$
+</div>
+
+<div class="split-vis">
+  $\sqrt{2}(\sqrt{3} + \sqrt{5}) = \sqrt{2} \times \sqrt{3} + \sqrt{2} \times \sqrt{5}$<br>
+  $= \sqrt{6} + \sqrt{10}$
+</div>
+
+<div class="pop-note">
+  外の $\sqrt{2}$ を，かっこの中の <strong>$\sqrt{3}$ と $\sqrt{5}$ それぞれ</strong> にかけるだけ！
+</div>
+
+<div class="sec">③ 展開公式の応用</div>
+<div class="rule-box">
+  <div class="rtitle">📌 展開公式の復習(EF)</div>
+  <div class="rbody">
+    ・$(a+b)(c+d) = ac + ad + bc + bd$<br>
+    ・$(a+b)^2 = a^2 + 2ab + b^2$<br>
+    ・$(a+b)(a-b) = a^2 - b^2$<br>
+    これらすべて，ルートを使った式にも応用できます。
+  </div>
+</div>
+
+<div class="formula-box">
+  <div class="ftitle">📌 たとえば(2乗の展開)</div>
+  $(\sqrt{a} + b)^2 = a + 2b\sqrt{a} + b^2$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 計算の流れ</div>
+  <div class="rbody">
+    $(\sqrt{2} + 1)^2$ を展開すると：<br>
+    $(\sqrt{2})^2 + 2 \times \sqrt{2} \times 1 + 1^2$<br>
+    $= 2 + 2\sqrt{2} + 1$<br>
+    $= 3 + 2\sqrt{2}$
+  </div>
+</div>
+
+<div class="pop-note">
+  $(\sqrt{2})^2 = 2$ を忘れずに！　($\sqrt{a} \times \sqrt{a} = a$ のルール)
+</div>
+
+<div class="sec">④ 和と差の積(超重要)</div>
+<div class="formula-box">
+  <div class="ftitle">📌 和と差の積</div>
+  $(\sqrt{a} + \sqrt{b})(\sqrt{a} - \sqrt{b}) = a - b$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 計算してみよう</div>
+  <div class="rbody">
+    $(\sqrt{3} + \sqrt{2})(\sqrt{3} - \sqrt{2})$ を展開：<br>
+    $(\sqrt{3})^2 - (\sqrt{2})^2 = 3 - 2 = 1$<br>
+    なんと <strong>整数になる</strong>！
+  </div>
+</div>
+
+<div class="pop-note">
+  和と差の積は，ルート同士の積でも結果が <strong>必ず整数</strong> になる便利な公式！
+</div>
+
+<div class="sec">⑤ 計算の優先順位</div>
+<div class="rule-box">
+  <div class="rtitle">📌 数学の基本ルール</div>
+  <div class="rbody">
+    ① かっこの中　② かけ算・わり算　③ たし算・ひき算<br>
+    この順番は <strong>ルートが入っていても変わりません</strong>。
+  </div>
+</div>
+
+<div class="warn-note">
+  $\sqrt{2} + \sqrt{3} \times \sqrt{6}$ のような式は，<strong>かけ算が先</strong>！　$\sqrt{3} \times \sqrt{6} = \sqrt{18} = 3\sqrt{2}$ を先に計算する。
+</div>
+
+<div class="sec">⑥ 例で確認しよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">例１)$\sqrt{3}(\sqrt{2} + \sqrt{5})$ を展開する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">分配する</span><div>$\sqrt{3}$ をかっこの中の両方にかける</div></div>
+    <div class="sr b"><span class="sl b">計算</span><div>$\sqrt{3} \times \sqrt{2} + \sqrt{3} \times \sqrt{5} = \sqrt{6} + \sqrt{15}$</div></div>
+    <div class="ans-box">$\sqrt{3}(\sqrt{2} + \sqrt{5}) = \sqrt{6} + \sqrt{15}$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例２)$(\sqrt{5} + \sqrt{3})(\sqrt{5} - \sqrt{3})$ を展開する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">公式</span><div>和と差の積：$(a+b)(a-b) = a^2 - b^2$</div></div>
+    <div class="sr b"><span class="sl b">当てはめ</span><div>$(\sqrt{5})^2 - (\sqrt{3})^2$</div></div>
+    <div class="sr b"><span class="sl b">計算</span><div>$5 - 3 = 2$</div></div>
+    <div class="ans-box">$(\sqrt{5} + \sqrt{3})(\sqrt{5} - \sqrt{3}) = 2$</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>SQ03〜SQ06のルールを <strong>組み合わせて</strong> 使う</li>
+    <li><strong>分配法則</strong>：$\sqrt{a}(\sqrt{b}+\sqrt{c}) = \sqrt{ab}+\sqrt{ac}$</li>
+    <li><strong>2乗の展開</strong>：$(\sqrt{a}+b)^2 = a + 2b\sqrt{a} + b^2$</li>
+    <li><strong>和と差の積</strong>：$(\sqrt{a}+\sqrt{b})(\sqrt{a}-\sqrt{b}) = a - b$</li>
+    <li>$\sqrt{a} \times \sqrt{a} = a$ を活用する場面が多い</li>
+    <li>計算の <strong>優先順位</strong> はふつうの計算と同じ</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

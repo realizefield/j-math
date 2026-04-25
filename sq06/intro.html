@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQ06 平方根のたし算・ひき算 【導入】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.1em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.compare-side{border:2px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+.compare-side.bad{background:#fef2f2;border-color:var(--accent);}
+.compare-side.good{background:var(--success-light);border-color:var(--success);}
+.compare-side .lbl{font-size:.78em;font-weight:700;margin-bottom:6px;}
+.compare-side.bad .lbl{color:var(--accent);}
+.compare-side.good .lbl{color:var(--success);}
+.compare-side .val{font-size:1.05em;font-weight:700;line-height:2;}
+.split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.05em;line-height:2.4;font-weight:700;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">SQ06</div>
+  <h1>平方根のたし算・ひき算<br><small style="font-size:.75em;opacity:.85;">同じルートだけまとめる</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① たし算・ひき算は要注意！</div>
+<div class="rule-box">
+  <div class="rtitle">📌 SQ03で学んだこと</div>
+  <div class="rbody">
+    かけ算・わり算では <strong>$\sqrt{a} \times \sqrt{b} = \sqrt{ab}$</strong> という便利な公式がありました。<br>
+    でも，<strong>たし算・ひき算では同じようにはいきません！</strong>
+  </div>
+</div>
+
+<div class="warn-note">
+  $\sqrt{2} + \sqrt{3} = \sqrt{5}$ は <strong>大きな間違い</strong>！　たし算は中の数を足してはいけない！
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 値で確かめてみよう</div>
+  <div class="rbody">
+    $\sqrt{2} \approx 1.414$，$\sqrt{3} \approx 1.732$<br>
+    $\sqrt{2} + \sqrt{3} \approx 1.414 + 1.732 = 3.146$<br>
+    一方，$\sqrt{5} \approx 2.236$<br>
+    全然違う値！　だから $\sqrt{2} + \sqrt{3} \neq \sqrt{5}$
+  </div>
+</div>
+
+<div class="sec">② たし算・ひき算のルール</div>
+<div class="formula-box">
+  <div class="ftitle">📌 公式</div>
+  $a\sqrt{b} + c\sqrt{b} = (a+c)\sqrt{b}$<br>
+  $a\sqrt{b} - c\sqrt{b} = (a-c)\sqrt{b}$<br>
+  <span style="font-size:.82em;color:var(--text-sub);font-weight:400;">(ルートの中が同じ場合のみ)</span>
+</div>
+<div class="rule-box">
+  <div class="rtitle">📌 言葉でいうと</div>
+  <div class="rbody">
+    <strong>ルートの中が同じ</strong>もの同士は，<strong>係数(ルートの外の数)</strong>だけたし算・ひき算する。<br>
+    ルートの中の数は <strong>変えない</strong>！
+  </div>
+</div>
+
+<div class="split-vis">
+  $2\sqrt{3} + 5\sqrt{3} = (2+5)\sqrt{3} = 7\sqrt{3}$
+</div>
+
+<div class="pop-note">
+  これは「同類項のまとめ方」と同じ考え方です。$2x + 5x = 7x$ となるのと一緒！
+</div>
+
+<div class="sec">③ 文字式と比べてみよう</div>
+<div class="compare-box">
+  <div class="compare-side good">
+    <div class="lbl">文字式</div>
+    <div class="val">$2x + 5x$<br>$= 7x$</div>
+  </div>
+  <div class="compare-side good">
+    <div class="lbl">ルート</div>
+    <div class="val">$2\sqrt{3} + 5\sqrt{3}$<br>$= 7\sqrt{3}$</div>
+  </div>
+</div>
+<div class="rule-box">
+  <div class="rtitle">📌 「ルート部分」が同じものだけまとめる</div>
+  <div class="rbody">
+    文字式で $2x + 3y$ がそれ以上計算できないように，<br>
+    $2\sqrt{3} + 3\sqrt{5}$ もそれ以上計算できません。
+  </div>
+</div>
+
+<div class="compare-box">
+  <div class="compare-side bad">
+    <div class="lbl">❌ ダメな例</div>
+    <div class="val">$\sqrt{2} + \sqrt{3} = \sqrt{5}$</div>
+    <div style="font-size:.78em;font-weight:400;color:var(--text-sub);margin-top:5px;">中を足してしまっている</div>
+  </div>
+  <div class="compare-side good">
+    <div class="lbl">✅ 正しい</div>
+    <div class="val">$\sqrt{2} + \sqrt{3}$<br>そのまま</div>
+    <div style="font-size:.78em;font-weight:400;color:var(--text-sub);margin-top:5px;">中が違うのでまとめられない</div>
+  </div>
+</div>
+
+<div class="sec">④ 一見まとめられないように見えるが…</div>
+<div class="rule-box">
+  <div class="rtitle">📌 たとえば $\sqrt{8} + \sqrt{2}$</div>
+  <div class="rbody">
+    パッと見ると，ルートの中の数が違う(8と2)のでまとめられないように見えます。<br>
+    でも，<strong>SQ04で学んだ「ルートの中を簡単にする」</strong>を使うと…？
+  </div>
+</div>
+
+<div class="split-vis">
+  $\sqrt{8} = \sqrt{4 \times 2} = 2\sqrt{2}$<br>
+  だから，$\sqrt{8} + \sqrt{2} = 2\sqrt{2} + \sqrt{2} = 3\sqrt{2}$
+</div>
+
+<div class="pop-note">
+  たし算・ひき算をする前に，<strong>まずルートの中を簡単にする</strong>のがコツ！
+</div>
+
+<div class="sec">⑤ 例で確認しよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">例１)$\sqrt{5} + 3\sqrt{5}$ を計算する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">確認</span><div>ルートの中はどちらも $5$ で同じ → まとめられる！</div></div>
+    <div class="sr b"><span class="sl b">係数を見る</span><div>$\sqrt{5}$ の係数は $1$，$3\sqrt{5}$ の係数は $3$</div></div>
+    <div class="sr b"><span class="sl b">係数を計算</span><div>$1 + 3 = 4$ なので $4\sqrt{5}$</div></div>
+    <div class="ans-box">$\sqrt{5} + 3\sqrt{5} = 4\sqrt{5}$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例２)$\sqrt{12} + \sqrt{3}$ を計算する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">中を簡単に</span><div>$\sqrt{12} = 2\sqrt{3}$ (SQ04で学習)</div></div>
+    <div class="sr b"><span class="sl b">書きかえる</span><div>$\sqrt{12} + \sqrt{3} = 2\sqrt{3} + \sqrt{3}$</div></div>
+    <div class="sr b"><span class="sl b">係数を計算</span><div>$2 + 1 = 3$ なので $3\sqrt{3}$</div></div>
+    <div class="ans-box">$\sqrt{12} + \sqrt{3} = 3\sqrt{3}$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例３)$\sqrt{2} + \sqrt{7}$ を計算する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">確認</span><div>$\sqrt{2}$ も $\sqrt{7}$ もルートの中が違う数</div></div>
+    <div class="sr r"><span class="sl r">注意</span><div>これ以上簡単にもできないので…</div></div>
+    <div class="sr g"><span class="sl g">結論</span><div>そのまま $\sqrt{2} + \sqrt{7}$ が答え！</div></div>
+    <div class="ans-box">$\sqrt{2} + \sqrt{7}$ (まとめられない)</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>たし算・ひき算は <strong>ルートの中が同じ場合のみ</strong> まとめられる</li>
+    <li>公式：<strong>$a\sqrt{b} + c\sqrt{b} = (a+c)\sqrt{b}$</strong></li>
+    <li>「同類項のまとめ方」と同じ考え方</li>
+    <li>$\sqrt{2} + \sqrt{3} = \sqrt{5}$ は <strong>大きな間違い</strong>！</li>
+    <li>計算する前に，<strong>まずルートの中を簡単にする</strong>(SQ04)</li>
+    <li>中が違ってまとめられない場合は，そのままが答え</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>
