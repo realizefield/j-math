@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQ03 平方根のかけ算・わり算 - 導入 | GAMBA</title>
+
+<!-- KaTeX -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+
+<style>
+  :root{
+    --primary:#15803d;
+    --primary-dark:#166534;
+    --bg:#f0fdf4;
+    --border:#bbf7d0;
+    --accent:#fef3c7;
+    --accent-border:#fcd34d;
+    --text:#1f2937;
+    --muted:#6b7280;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.8;
+    padding:1rem;
+  }
+  .container{max-width:780px;margin:0 auto}
+
+  /* ヘッダー */
+  header{
+    background:var(--primary);
+    color:#fff;
+    padding:1.2rem 1.5rem;
+    border-radius:12px 12px 0 0;
+  }
+  header h1{font-size:1.4rem;margin-bottom:.25rem}
+  header .sub{font-size:.9rem;opacity:.9}
+
+  /* ナビ */
+  .nav{
+    display:flex;
+    background:#fff;
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .nav a{
+    flex:1;
+    text-align:center;
+    padding:.7rem .5rem;
+    text-decoration:none;
+    color:var(--muted);
+    font-size:.85rem;
+    border-right:1px solid var(--border);
+    transition:background .2s;
+  }
+  .nav a:last-child{border-right:none}
+  .nav a:hover{background:var(--bg)}
+  .nav a.active{
+    background:var(--primary);
+    color:#fff;
+    font-weight:bold;
+  }
+
+  /* メイン */
+  main{
+    background:#fff;
+    padding:1.8rem 1.5rem;
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    border-radius:0 0 12px 12px;
+  }
+
+  h2{
+    color:var(--primary-dark);
+    font-size:1.2rem;
+    margin:1.5rem 0 .8rem;
+    padding-left:.7rem;
+    border-left:5px solid var(--primary);
+  }
+  h2:first-child{margin-top:0}
+
+  p{margin-bottom:1rem}
+
+  /* 公式ボックス */
+  .formula{
+    background:var(--accent);
+    border:2px solid var(--accent-border);
+    border-radius:10px;
+    padding:1.2rem;
+    margin:1.2rem 0;
+    text-align:center;
+  }
+  .formula .label{
+    display:inline-block;
+    background:#d97706;
+    color:#fff;
+    padding:.2rem .8rem;
+    border-radius:20px;
+    font-size:.85rem;
+    margin-bottom:.6rem;
+  }
+  .formula .math{
+    font-size:1.2rem;
+    margin:.5rem 0;
+  }
+  .formula .cond{
+    font-size:.9rem;
+    color:var(--muted);
+    margin-top:.5rem;
+  }
+
+  /* 例ボックス */
+  .example{
+    background:#ecfdf5;
+    border-left:4px solid var(--primary);
+    padding:1rem 1.2rem;
+    margin:1rem 0;
+    border-radius:0 8px 8px 0;
+  }
+  .example .title{
+    font-weight:bold;
+    color:var(--primary-dark);
+    margin-bottom:.5rem;
+  }
+  .example .step{
+    margin:.4rem 0;
+    padding-left:1rem;
+  }
+
+  /* 注意ボックス */
+  .caution{
+    background:#fef2f2;
+    border-left:4px solid #dc2626;
+    padding:1rem 1.2rem;
+    margin:1rem 0;
+    border-radius:0 8px 8px 0;
+  }
+  .caution .title{
+    font-weight:bold;
+    color:#b91c1c;
+    margin-bottom:.5rem;
+  }
+
+  /* ヒントボックス */
+  .hint{
+    background:#eff6ff;
+    border-left:4px solid #2563eb;
+    padding:1rem 1.2rem;
+    margin:1rem 0;
+    border-radius:0 8px 8px 0;
+  }
+  .hint .title{
+    font-weight:bold;
+    color:#1d4ed8;
+    margin-bottom:.5rem;
+  }
+
+  /* 比較表 */
+  .compare{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1rem;
+    margin:1.2rem 0;
+  }
+  .compare-item{
+    background:#fff;
+    border:2px solid var(--border);
+    border-radius:8px;
+    padding:1rem;
+    text-align:center;
+  }
+  .compare-item .head{
+    font-weight:bold;
+    color:var(--primary-dark);
+    margin-bottom:.5rem;
+    padding-bottom:.5rem;
+    border-bottom:1px dashed var(--border);
+  }
+
+  /* フッター */
+  footer{
+    text-align:center;
+    margin-top:1.5rem;
+    color:var(--muted);
+    font-size:.85rem;
+  }
+  footer a{
+    color:var(--primary);
+    text-decoration:none;
+    margin:0 .5rem;
+  }
+  footer a:hover{text-decoration:underline}
+
+  @media (max-width:600px){
+    .compare{grid-template-columns:1fr}
+    .nav a{font-size:.75rem;padding:.6rem .3rem}
+    header h1{font-size:1.2rem}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>SQ03　平方根のかけ算・わり算</h1>
+  <div class="sub">📘 導入 — ルートどうしの計算ルール</div>
+</header>
+
+<nav class="nav">
+  <a href="intro.html" class="active">📘 導入</a>
+  <a href="example.html">✏️ 例題</a>
+  <a href="drill.html">📝 演習</a>
+  <a href="check.html">✅ 確認</a>
+</nav>
+
+<main>
+
+<h2>ルートどうしのかけ算</h2>
+
+<p>
+$\sqrt{2} \times \sqrt{3}$ を計算するとき，どうすればよいでしょう？
+</p>
+
+<p>
+$\sqrt{2} \approx 1.414$，$\sqrt{3} \approx 1.732$ ですから，かけ算すると
+約 $2.449$ になります。
+</p>
+
+<p>
+そして $\sqrt{6} \approx 2.449$ です。
+</p>
+
+<p>
+つまり <strong>$\sqrt{2} \times \sqrt{3} = \sqrt{6}$</strong> となります。
+これがルートのかけ算ルールです。
+</p>
+
+<div class="formula">
+  <div class="label">公式①</div>
+  <div class="math">$\sqrt{a} \times \sqrt{b} = \sqrt{a \times b}$</div>
+  <div class="cond">（ただし $a \geq 0$，$b \geq 0$）</div>
+</div>
+
+<p>
+ルート同士のかけ算は，<strong>中の数どうしをかけて，1つのルートにまとめる</strong>と覚えましょう。
+</p>
+
+<div class="example">
+  <div class="title">例</div>
+  <div class="step">$\sqrt{2} \times \sqrt{5} = \sqrt{2 \times 5} = \sqrt{10}$</div>
+  <div class="step">$\sqrt{3} \times \sqrt{7} = \sqrt{3 \times 7} = \sqrt{21}$</div>
+  <div class="step">$\sqrt{6} \times \sqrt{6} = \sqrt{6 \times 6} = \sqrt{36} = 6$</div>
+</div>
+
+<div class="hint">
+  <div class="title">💡 同じ数どうしのかけ算は整数になる</div>
+  <p>
+  $\sqrt{6} \times \sqrt{6} = \sqrt{36} = 6$ のように，
+  <strong>同じ数のルートをかけると，中の数そのものになります</strong>。
+  </p>
+  <p style="margin-top:.5rem">
+  これは大事なルール：$\sqrt{a} \times \sqrt{a} = a$
+  </p>
+</div>
+
+<h2>ルートどうしのわり算</h2>
+
+<p>
+わり算もかけ算と同じように，<strong>中の数どうしをわって，1つのルートにまとめる</strong>ことができます。
+</p>
+
+<div class="formula">
+  <div class="label">公式②</div>
+  <div class="math">$\sqrt{a} \div \sqrt{b} = \sqrt{\dfrac{a}{b}}$</div>
+  <div class="cond">（ただし $a \geq 0$，$b > 0$）</div>
+</div>
+
+<p>
+分数の形で書くと，こうなります：
+</p>
+
+<div class="formula">
+  <div class="math">$\dfrac{\sqrt{a}}{\sqrt{b}} = \sqrt{\dfrac{a}{b}}$</div>
+</div>
+
+<div class="example">
+  <div class="title">例</div>
+  <div class="step">$\sqrt{12} \div \sqrt{3} = \sqrt{\dfrac{12}{3}} = \sqrt{4} = 2$</div>
+  <div class="step">$\sqrt{50} \div \sqrt{2} = \sqrt{\dfrac{50}{2}} = \sqrt{25} = 5$</div>
+  <div class="step">$\dfrac{\sqrt{18}}{\sqrt{2}} = \sqrt{\dfrac{18}{2}} = \sqrt{9} = 3$</div>
+</div>
+
+<h2>かけ算とわり算 — まとめて比較</h2>
+
+<div class="compare">
+  <div class="compare-item">
+    <div class="head">かけ算</div>
+    <div>$\sqrt{a} \times \sqrt{b} = \sqrt{ab}$</div>
+    <div style="margin-top:.5rem;color:var(--muted);font-size:.9rem">中の数を「かけて」まとめる</div>
+  </div>
+  <div class="compare-item">
+    <div class="head">わり算</div>
+    <div>$\sqrt{a} \div \sqrt{b} = \sqrt{\dfrac{a}{b}}$</div>
+    <div style="margin-top:.5rem;color:var(--muted);font-size:.9rem">中の数を「わって」まとめる</div>
+  </div>
+</div>
+
+<h2>係数つきの計算</h2>
+
+<p>
+$2\sqrt{3}$ のように，ルートの前に数（係数）がついている場合のかけ算は，
+<strong>係数どうし・ルートどうしをそれぞれ計算</strong>します。
+</p>
+
+<div class="formula">
+  <div class="label">係数つき</div>
+  <div class="math">$a\sqrt{b} \times c\sqrt{d} = ac\sqrt{bd}$</div>
+</div>
+
+<div class="example">
+  <div class="title">例</div>
+  <div class="step">$2\sqrt{3} \times 3\sqrt{5}$</div>
+  <div class="step">　$= (2 \times 3) \times \sqrt{3 \times 5}$</div>
+  <div class="step">　$= 6\sqrt{15}$</div>
+</div>
+
+<div class="hint">
+  <div class="title">💡 計算の手順</div>
+  <p>① 係数（ルートの外の数）どうしをかける</p>
+  <p>② ルートの中の数どうしをかける</p>
+  <p>③ 答えをまとめる</p>
+</div>
+
+<h2>注意点</h2>
+
+<div class="caution">
+  <div class="title">⚠️ たし算・ひき算では使えない！</div>
+  <p>
+  かけ算・わり算のルールは，<strong>たし算・ひき算には使えません</strong>。
+  </p>
+  <p style="margin-top:.5rem">
+  $\sqrt{2} + \sqrt{3} \neq \sqrt{5}$　（×まちがい）
+  </p>
+  <p>
+  $\sqrt{2} + \sqrt{3}$ はそのままで，それ以上計算できません。
+  </p>
+  <p style="margin-top:.5rem;color:var(--muted);font-size:.9rem">
+  （たし算・ひき算は SQ06 で学習します）
+  </p>
+</div>
+
+<h2>このセクションのまとめ</h2>
+
+<div class="formula">
+  <div class="label">大事な3つの公式</div>
+  <div class="math" style="margin:.8rem 0">$\sqrt{a} \times \sqrt{b} = \sqrt{ab}$</div>
+  <div class="math" style="margin:.8rem 0">$\sqrt{a} \div \sqrt{b} = \sqrt{\dfrac{a}{b}}$</div>
+  <div class="math" style="margin:.8rem 0">$\sqrt{a} \times \sqrt{a} = a$</div>
+</div>
+
+<p style="text-align:center;margin-top:1.5rem;color:var(--primary-dark);font-weight:bold">
+次は，これらを使って計算練習をしてみましょう！
+</p>
+
+</main>
+
+<footer>
+  <a href="../gamba_chugaku.html">🏠 中学数学トップ</a>
+  <a href="example.html">次へ：例題 →</a>
+</footer>
+
+</div>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

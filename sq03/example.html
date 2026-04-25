@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQ03 平方根のかけ算・わり算 - 例題 | GAMBA</title>
+
+<!-- KaTeX -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false}
+    ]
+  });"></script>
+
+<style>
+  :root{
+    --primary:#15803d;
+    --primary-dark:#166534;
+    --bg:#f0fdf4;
+    --border:#bbf7d0;
+    --accent:#fef3c7;
+    --accent-border:#fcd34d;
+    --text:#1f2937;
+    --muted:#6b7280;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.8;
+    padding:1rem;
+  }
+  .container{max-width:780px;margin:0 auto}
+
+  /* ヘッダー */
+  header{
+    background:var(--primary);
+    color:#fff;
+    padding:1.2rem 1.5rem;
+    border-radius:12px 12px 0 0;
+  }
+  header h1{font-size:1.4rem;margin-bottom:.25rem}
+  header .sub{font-size:.9rem;opacity:.9}
+
+  /* ナビ */
+  .nav{
+    display:flex;
+    background:#fff;
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .nav a{
+    flex:1;
+    text-align:center;
+    padding:.7rem .5rem;
+    text-decoration:none;
+    color:var(--muted);
+    font-size:.85rem;
+    border-right:1px solid var(--border);
+    transition:background .2s;
+  }
+  .nav a:last-child{border-right:none}
+  .nav a:hover{background:var(--bg)}
+  .nav a.active{
+    background:var(--primary);
+    color:#fff;
+    font-weight:bold;
+  }
+
+  /* メイン */
+  main{
+    background:#fff;
+    padding:1.8rem 1.5rem;
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    border-radius:0 0 12px 12px;
+  }
+
+  h2{
+    color:var(--primary-dark);
+    font-size:1.2rem;
+    margin:1.5rem 0 .8rem;
+    padding-left:.7rem;
+    border-left:5px solid var(--primary);
+  }
+
+  /* 例題ボックス */
+  .problem{
+    background:#fff;
+    border:2px solid var(--border);
+    border-radius:12px;
+    padding:1.2rem 1.4rem;
+    margin:1.5rem 0;
+    box-shadow:0 2px 4px rgba(0,0,0,.04);
+  }
+  .problem-no{
+    display:inline-block;
+    background:var(--primary);
+    color:#fff;
+    padding:.25rem .8rem;
+    border-radius:20px;
+    font-size:.85rem;
+    font-weight:bold;
+    margin-bottom:.7rem;
+  }
+  .problem-q{
+    font-size:1.1rem;
+    margin:.5rem 0 1rem;
+    padding:.7rem;
+    background:var(--bg);
+    border-radius:6px;
+    text-align:center;
+  }
+
+  /* ボタン */
+  .btn{
+    display:inline-block;
+    padding:.6rem 1.2rem;
+    border:none;
+    border-radius:6px;
+    font-size:.95rem;
+    font-weight:bold;
+    cursor:pointer;
+    margin:.3rem .2rem;
+    transition:all .2s;
+  }
+  .btn-hint{
+    background:#3b82f6;
+    color:#fff;
+  }
+  .btn-hint:hover{background:#2563eb}
+  .btn-ans{
+    background:var(--primary);
+    color:#fff;
+  }
+  .btn-ans:hover{background:var(--primary-dark)}
+
+  /* ステップ表示 */
+  .steps{
+    margin-top:1rem;
+    padding:1rem;
+    background:#eff6ff;
+    border-left:4px solid #2563eb;
+    border-radius:0 8px 8px 0;
+    display:none;
+  }
+  .steps.show{display:block}
+  .steps .step-title{
+    font-weight:bold;
+    color:#1d4ed8;
+    margin-bottom:.5rem;
+  }
+  .steps .step-line{
+    margin:.5rem 0;
+    padding-left:1rem;
+  }
+
+  /* 答え表示 */
+  .answer{
+    margin-top:1rem;
+    padding:1rem 1.2rem;
+    background:#fef3c7;
+    border:2px solid #fcd34d;
+    border-radius:8px;
+    text-align:center;
+    display:none;
+  }
+  .answer.show{display:block}
+  .answer .ans-title{
+    font-weight:bold;
+    color:#b45309;
+    margin-bottom:.4rem;
+  }
+  .answer .ans-math{
+    font-size:1.2rem;
+    color:var(--primary-dark);
+    font-weight:bold;
+  }
+
+  /* メモボックス */
+  .memo{
+    background:#ecfdf5;
+    border-left:4px solid var(--primary);
+    padding:.8rem 1rem;
+    margin:1rem 0;
+    border-radius:0 6px 6px 0;
+    font-size:.95rem;
+  }
+  .memo .memo-title{
+    font-weight:bold;
+    color:var(--primary-dark);
+    margin-bottom:.3rem;
+  }
+
+  /* フッター */
+  footer{
+    text-align:center;
+    margin-top:1.5rem;
+    color:var(--muted);
+    font-size:.85rem;
+  }
+  footer a{
+    color:var(--primary);
+    text-decoration:none;
+    margin:0 .5rem;
+  }
+  footer a:hover{text-decoration:underline}
+
+  @media (max-width:600px){
+    .nav a{font-size:.75rem;padding:.6rem .3rem}
+    header h1{font-size:1.2rem}
+    .problem-q{font-size:1rem}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>SQ03　平方根のかけ算・わり算</h1>
+  <div class="sub">✏️ 例題 — 6問でルールを身につけよう</div>
+</header>
+
+<nav class="nav">
+  <a href="intro.html">📘 導入</a>
+  <a href="example.html" class="active">✏️ 例題</a>
+  <a href="drill.html">📝 演習</a>
+  <a href="check.html">✅ 確認</a>
+</nav>
+
+<main>
+
+<p>
+導入で学んだ公式 <strong>$\sqrt{a} \times \sqrt{b} = \sqrt{ab}$</strong>，<strong>$\sqrt{a} \div \sqrt{b} = \sqrt{\dfrac{a}{b}}$</strong> を使って，
+6つの例題を解いていきましょう。
+</p>
+
+<p>
+各問題には「💡 考え方を見る」ボタンがあります。まず自分で考えてから，行き詰まったらヒントを開いてみてください。
+</p>
+
+<!-- 例題1 -->
+<div class="problem">
+  <span class="problem-no">例題 1</span>
+  <div class="problem-q">$\sqrt{3} \times \sqrt{5}$ を計算しなさい。</div>
+  <button class="btn btn-hint" onclick="toggleHint(1)">💡 考え方を見る</button>
+  <button class="btn btn-ans" onclick="toggleAns(1)">✅ 答えを見る</button>
+
+  <div class="steps" id="hint1">
+    <div class="step-title">考え方</div>
+    <div class="step-line">公式 $\sqrt{a} \times \sqrt{b} = \sqrt{ab}$ を使います。</div>
+    <div class="step-line">中の数 3 と 5 をかけて，1つのルートにまとめます。</div>
+    <div class="step-line">$\sqrt{3} \times \sqrt{5} = \sqrt{3 \times 5} = \sqrt{15}$</div>
+    <div class="step-line">15 は平方数（4, 9, 16, 25,…）ではないので，$\sqrt{15}$ のままが答えです。</div>
+  </div>
+
+  <div class="answer" id="ans1">
+    <div class="ans-title">答え</div>
+    <div class="ans-math">$\sqrt{15}$</div>
+  </div>
+</div>
+
+<!-- 例題2 -->
+<div class="problem">
+  <span class="problem-no">例題 2</span>
+  <div class="problem-q">$\sqrt{3} \times \sqrt{12}$ を計算しなさい。</div>
+  <button class="btn btn-hint" onclick="toggleHint(2)">💡 考え方を見る</button>
+  <button class="btn btn-ans" onclick="toggleAns(2)">✅ 答えを見る</button>
+
+  <div class="steps" id="hint2">
+    <div class="step-title">考え方</div>
+    <div class="step-line">同じく公式 $\sqrt{a} \times \sqrt{b} = \sqrt{ab}$ を使います。</div>
+    <div class="step-line">$\sqrt{3} \times \sqrt{12} = \sqrt{3 \times 12} = \sqrt{36}$</div>
+    <div class="step-line">ここで気づきましょう！　$36 = 6 \times 6 = 6^2$ なので，</div>
+    <div class="step-line">$\sqrt{36} = 6$</div>
+    <div class="step-line">中の数が平方数になるときは，<strong>整数に化ける</strong>ので注意です。</div>
+  </div>
+
+  <div class="answer" id="ans2">
+    <div class="ans-title">答え</div>
+    <div class="ans-math">$6$</div>
+  </div>
+</div>
+
+<div class="memo">
+  <div class="memo-title">💡 平方数を覚えておこう</div>
+  <p>$1^2=1$，$2^2=4$，$3^2=9$，$4^2=16$，$5^2=25$，</p>
+  <p>$6^2=36$，$7^2=49$，$8^2=64$，$9^2=81$，$10^2=100$</p>
+  <p style="margin-top:.4rem">これらの数がルートの中に現れたら，整数になります。</p>
+</div>
+
+<!-- 例題3 -->
+<div class="problem">
+  <span class="problem-no">例題 3</span>
+  <div class="problem-q">$\sqrt{50} \div \sqrt{2}$ を計算しなさい。</div>
+  <button class="btn btn-hint" onclick="toggleHint(3)">💡 考え方を見る</button>
+  <button class="btn btn-ans" onclick="toggleAns(3)">✅ 答えを見る</button>
+
+  <div class="steps" id="hint3">
+    <div class="step-title">考え方</div>
+    <div class="step-line">わり算の公式 $\sqrt{a} \div \sqrt{b} = \sqrt{\dfrac{a}{b}}$ を使います。</div>
+    <div class="step-line">中の数 50 を 2 でわります。</div>
+    <div class="step-line">$\sqrt{50} \div \sqrt{2} = \sqrt{\dfrac{50}{2}} = \sqrt{25}$</div>
+    <div class="step-line">$25 = 5^2$ なので，$\sqrt{25} = 5$</div>
+  </div>
+
+  <div class="answer" id="ans3">
+    <div class="ans-title">答え</div>
+    <div class="ans-math">$5$</div>
+  </div>
+</div>
+
+<!-- 例題4 -->
+<div class="problem">
+  <span class="problem-no">例題 4</span>
+  <div class="problem-q">$2\sqrt{3} \times 3\sqrt{2}$ を計算しなさい。</div>
+  <button class="btn btn-hint" onclick="toggleHint(4)">💡 考え方を見る</button>
+  <button class="btn btn-ans" onclick="toggleAns(4)">✅ 答えを見る</button>
+
+  <div class="steps" id="hint4">
+    <div class="step-title">考え方</div>
+    <div class="step-line">係数つきのかけ算 $a\sqrt{b} \times c\sqrt{d} = ac\sqrt{bd}$ を使います。</div>
+    <div class="step-line"><strong>① 係数どうしをかける：</strong>$2 \times 3 = 6$</div>
+    <div class="step-line"><strong>② ルートの中どうしをかける：</strong>$\sqrt{3} \times \sqrt{2} = \sqrt{6}$</div>
+    <div class="step-line"><strong>③ まとめる：</strong>$2\sqrt{3} \times 3\sqrt{2} = 6\sqrt{6}$</div>
+  </div>
+
+  <div class="answer" id="ans4">
+    <div class="ans-title">答え</div>
+    <div class="ans-math">$6\sqrt{6}$</div>
+  </div>
+</div>
+
+<!-- 例題5 -->
+<div class="problem">
+  <span class="problem-no">例題 5</span>
+  <div class="problem-q">$\sqrt{6} \times \sqrt{6}$ を計算しなさい。</div>
+  <button class="btn btn-hint" onclick="toggleHint(5)">💡 考え方を見る</button>
+  <button class="btn btn-ans" onclick="toggleAns(5)">✅ 答えを見る</button>
+
+  <div class="steps" id="hint5">
+    <div class="step-title">考え方</div>
+    <div class="step-line">同じ数のルートどうしのかけ算です。</div>
+    <div class="step-line"><strong>方法1（公式で）：</strong></div>
+    <div class="step-line">　$\sqrt{6} \times \sqrt{6} = \sqrt{6 \times 6} = \sqrt{36} = 6$</div>
+    <div class="step-line"><strong>方法2（ルール $\sqrt{a} \times \sqrt{a} = a$ を使う）：</strong></div>
+    <div class="step-line">　$\sqrt{6} \times \sqrt{6} = 6$</div>
+    <div class="step-line">同じ数のルートをかけると，<strong>中の数そのもの</strong>になります。</div>
+  </div>
+
+  <div class="answer" id="ans5">
+    <div class="ans-title">答え</div>
+    <div class="ans-math">$6$</div>
+  </div>
+</div>
+
+<!-- 例題6 -->
+<div class="problem">
+  <span class="problem-no">例題 6</span>
+  <div class="problem-q">次の式を簡単にしなさい。<br>$\sqrt{a} \times \sqrt{a}$（ただし $a \geq 0$）</div>
+  <button class="btn btn-hint" onclick="toggleHint(6)">💡 考え方を見る</button>
+  <button class="btn btn-ans" onclick="toggleAns(6)">✅ 答えを見る</button>
+
+  <div class="steps" id="hint6">
+    <div class="step-title">考え方</div>
+    <div class="step-line">これは <strong>とても大事なルール</strong> です。</div>
+    <div class="step-line">公式を使って計算してみましょう：</div>
+    <div class="step-line">　$\sqrt{a} \times \sqrt{a} = \sqrt{a \times a} = \sqrt{a^2}$</div>
+    <div class="step-line">$\sqrt{a^2} = a$（$a \geq 0$ のとき）でしたね（SQ02 で学びました）。</div>
+    <div class="step-line">よって，$\sqrt{a} \times \sqrt{a} = a$</div>
+    <div class="step-line">これは，文字でも数字でも成り立つ <strong>万能ルール</strong> です。</div>
+  </div>
+
+  <div class="answer" id="ans6">
+    <div class="ans-title">答え</div>
+    <div class="ans-math">$a$</div>
+  </div>
+</div>
+
+<div class="memo">
+  <div class="memo-title">📌 このページのポイント</div>
+  <p>① ルートのかけ算・わり算は <strong>中の数を計算してまとめる</strong></p>
+  <p>② 中の数が平方数（4, 9, 16, 25, 36,…）になったら <strong>整数に化ける</strong></p>
+  <p>③ 同じルートどうしのかけ算は中の数そのもの：$\sqrt{a} \times \sqrt{a} = a$</p>
+  <p>④ 係数つきは <strong>係数どうし・ルートどうし</strong> を分けて計算</p>
+</div>
+
+<p style="text-align:center;margin-top:1.5rem;color:var(--primary-dark);font-weight:bold">
+6問できましたか？　次は演習で実力を試しましょう！
+</p>
+
+</main>
+
+<footer>
+  <a href="../gamba_chugaku.html">🏠 中学数学トップ</a>
+  <a href="intro.html">← 導入</a>
+  <a href="drill.html">演習へ →</a>
+</footer>
+
+</div>
+
+<script>
+function toggleHint(n){
+  const el = document.getElementById('hint' + n);
+  el.classList.toggle('show');
+  if(el.classList.contains('show') && window.renderMathInElement){
+    renderMathInElement(el, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });
+  }
+}
+function toggleAns(n){
+  const el = document.getElementById('ans' + n);
+  el.classList.toggle('show');
+  if(el.classList.contains('show') && window.renderMathInElement){
+    renderMathInElement(el, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });
+  }
+}
+</script>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQ02 平方根の性質 【導入】</title>
+
+<!-- KaTeX（ローカル配置） -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.warn-box{background:#fff7ed;border:2px solid var(--accent);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.warn-box .rtitle{font-size:.83em;font-weight:700;color:var(--accent);margin-bottom:9px;}
+.warn-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.abs-box{background:#eff6ff;border:2px solid #3b82f6;border-radius:14px;padding:14px 16px;margin-bottom:14px;}
+.abs-box .rtitle{font-size:.85em;font-weight:700;color:#1d4ed8;margin-bottom:10px;}
+.abs-box .rbody{font-size:.93em;line-height:2.1;}
+.abs-nl-wrap{background:#fff;border-radius:10px;padding:14px 10px 10px;margin:12px 0;text-align:center;}
+.abs-nl-caption{font-size:.82em;font-weight:700;color:var(--text-sub);margin-top:6px;}
+.ex-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0;}
+.ex-item{background:#fff;border:1.5px solid #93c5fd;border-radius:8px;padding:8px 10px;font-size:.88em;font-weight:700;text-align:center;color:#1d4ed8;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">SQ02</div>
+  <h1>平方根の性質<br><small style="font-size:.75em;opacity:.85;">$\sqrt{a^2}$ の値は？　絶対値 $|a|$ を学ぼう</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① 基本の公式</div>
+<div class="rule-box">
+  <div class="rtitle">📌 重要公式（$a \geq 0$ のとき）</div>
+  <div class="rbody">
+    $$\sqrt{a^2} = a$$
+    ルートの中が「ある数の $2$ 乗」になっているときは，ルートを外せる！<br>
+    <strong>例：</strong>$\sqrt{5^2} = \sqrt{25} = 5$　／　$\sqrt{3^2} = \sqrt{9} = 3$
+  </div>
+</div>
+
+<div class="sec">② ⚠️ ここで問題が起きる！</div>
+<div class="warn-box">
+  <div class="rtitle">❗ もし $a$ がマイナスだったら？</div>
+  <div class="rbody">
+    例として $\sqrt{(-2)^2}$ を計算してみよう。<br>
+    もし「ルートを外すだけ」と考えると… $\sqrt{(-2)^2} = -2$？<br>
+    <strong style="color:var(--accent);">でもそれは間違い！</strong>
+  </div>
+</div>
+<div class="rule-box">
+  <div class="rtitle">📌 正しい計算の手順</div>
+  <div class="rbody">
+    ① まず ( ) の中を $2$ 乗する　→　$(-2)^2 = 4$<br>
+    ② $\sqrt{4} = 2$<br>
+    つまり　$\sqrt{(-2)^2} = 2$　（$-2$ ではない！）
+  </div>
+</div>
+<div class="pop-note">
+  ルート記号「$\sqrt{\phantom{x}}$」の答えは，<strong>かならずプラス（または0）</strong>になる！
+</div>
+
+<div class="sec">③ 📖 絶対値とは？（新しい記号 $|\,\phantom{a}\,|$ を学ぼう）</div>
+<div class="abs-box">
+  <div class="rtitle">📌 絶対値 $|a|$ ってなに？</div>
+  <div class="rbody">
+    平方根の公式を完全にするために，<strong>絶対値</strong>という新しい記号を学びます。<br>
+    絶対値とは，ひとことで言うと：<br>
+    <br>
+    👉 <strong>「0 からの距離」</strong>　のこと！
+  </div>
+
+  <div class="abs-nl-wrap">
+    <svg viewBox="0 0 420 110" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;height:auto;" aria-label="数直線">
+      <!-- 数直線本体 -->
+      <line x1="20" y1="60" x2="400" y2="60" stroke="#1e293b" stroke-width="2"/>
+      <!-- 矢印 -->
+      <polygon points="400,60 390,55 390,65" fill="#1e293b"/>
+      <polygon points="20,60 30,55 30,65" fill="#1e293b"/>
+      <!-- 目盛り -->
+      <g stroke="#1e293b" stroke-width="1.5">
+        <line x1="62" y1="55" x2="62" y2="65"/>
+        <line x1="124" y1="55" x2="124" y2="65"/>
+        <line x1="186" y1="55" x2="186" y2="65"/>
+        <line x1="210" y1="53" x2="210" y2="67" stroke-width="2.5"/>
+        <line x1="234" y1="55" x2="234" y2="65"/>
+        <line x1="296" y1="55" x2="296" y2="65"/>
+        <line x1="358" y1="55" x2="358" y2="65"/>
+      </g>
+      <!-- 数字 -->
+      <g font-family="'BIZ UDPGothic',sans-serif" font-size="14" font-weight="700" text-anchor="middle" fill="#1e293b">
+        <text x="62" y="82">-3</text>
+        <text x="124" y="82">-2</text>
+        <text x="186" y="82">-1</text>
+        <text x="210" y="82">0</text>
+        <text x="234" y="82">1</text>
+        <text x="296" y="82">2</text>
+        <text x="358" y="82">3</text>
+      </g>
+      <!-- -2 の点 -->
+      <circle cx="124" cy="60" r="6" fill="#dc2626"/>
+      <!-- 2 の点 -->
+      <circle cx="296" cy="60" r="6" fill="#2563eb"/>
+      <!-- 距離の矢印：-2 → 0 -->
+      <g stroke="#dc2626" stroke-width="2" fill="none">
+        <path d="M 124 32 L 210 32" marker-end="url(#arrRed)"/>
+      </g>
+      <!-- 距離の矢印：0 → 2 -->
+      <g stroke="#2563eb" stroke-width="2" fill="none">
+        <path d="M 210 32 L 296 32" marker-end="url(#arrBlue)"/>
+      </g>
+      <!-- 矢印マーカー定義 -->
+      <defs>
+        <marker id="arrRed" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <polygon points="0 0, 8 4, 0 8" fill="#dc2626"/>
+        </marker>
+        <marker id="arrBlue" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+          <polygon points="0 0, 8 4, 0 8" fill="#2563eb"/>
+        </marker>
+      </defs>
+      <!-- 距離ラベル -->
+      <text x="167" y="22" font-family="'BIZ UDPGothic',sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle">距離 2</text>
+      <text x="253" y="22" font-family="'BIZ UDPGothic',sans-serif" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">距離 2</text>
+    </svg>
+    <div class="abs-nl-caption">「$-2$」も「$2$」も，$0$ からの距離はどちらも $2$</div>
+  </div>
+
+  <div class="rbody">
+    つまり：
+  </div>
+  <div class="ex-grid">
+    <div class="ex-item">$|2| = 2$</div>
+    <div class="ex-item">$|-2| = 2$</div>
+    <div class="ex-item">$|5| = 5$</div>
+    <div class="ex-item">$|-5| = 5$</div>
+    <div class="ex-item">$|0| = 0$</div>
+    <div class="ex-item">$|-100| = 100$</div>
+  </div>
+  <div class="rbody">
+    👉 <strong>符号を取り除いた値</strong>（必ず $0$ 以上）と覚えよう！
+  </div>
+</div>
+
+<div class="pop-note">
+  <strong>イメージ：</strong>東京駅から「新宿方面に $3$ km」も「千葉方面に $3$ km」も，どちらも「$3$ km 離れている」のは同じ。方向は無視して「距離」だけを表すのが絶対値！
+</div>
+
+<div class="sec">④ 絶対値を使って公式を完成！</div>
+<div class="formula-box">
+  <div class="ftitle">📌 重要公式（$a$ がどんな値でも成り立つ）</div>
+  $$\sqrt{a^2} = |a|$$
+  <span style="font-size:.82em;color:var(--text-sub);font-weight:400;">→ $a$ がプラスなら $a$，マイナスなら $-a$（プラスに戻す）</span>
+</div>
+<div class="rule-box">
+  <div class="rtitle">📌 具体例で確認</div>
+  <div class="rbody">
+    $\sqrt{3^2} = |3| = 3$　（$a=3$ の場合）<br>
+    $\sqrt{(-3)^2} = |-3| = 3$　（$a=-3$ の場合，結果は $3$！）<br>
+    $\sqrt{7^2} = |7| = 7$<br>
+    $\sqrt{(-7)^2} = |-7| = 7$
+  </div>
+</div>
+
+<div class="sec">⑤ 例で確認しよう</div>
+<div class="ex-card">
+  <div class="ex-head">例１）$\sqrt{6^2}$ を計算する</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">公式</span><div>$\sqrt{a^2} = a$（$a \geq 0$）を使う</div></div>
+    <div class="sr b"><span class="sl b">計算</span><div>$\sqrt{6^2} = 6$</div></div>
+    <div class="ans-box">答え：$\mathbf{6}$</div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例２）$\sqrt{(-5)^2}$ を計算する（マイナスに注意！）</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">注意</span><div>ルートの中はまず $2$ 乗を計算！</div></div>
+    <div class="sr b"><span class="sl b">手順①</span><div>$(-5)^2 = 25$</div></div>
+    <div class="sr b"><span class="sl b">手順②</span><div>$\sqrt{25} = 5$</div></div>
+    <div class="ans-box">答え：$\mathbf{5}$　（$-5$ ではない！）</div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例３）$-\sqrt{8^2}$ を計算する（ルートの外にマイナス）</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">分解</span><div>$-\sqrt{8^2} = -(\sqrt{8^2})$　外のマイナスはあとで！</div></div>
+    <div class="sr b"><span class="sl b">ルート部分</span><div>$\sqrt{8^2} = 8$</div></div>
+    <div class="sr b"><span class="sl b">外のマイナス</span><div>$-8$</div></div>
+    <div class="ans-box">答え：$\mathbf{-8}$</div>
+  </div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例４）$\sqrt{(-3)^2}$ と $\sqrt{-3}$ の違い</div>
+  <div class="ex-body">
+    <div class="sr b"><span class="sl b">左の式</span><div>$\sqrt{(-3)^2}$ : まず $2$ 乗 → $(-3)^2 = 9$ → $\sqrt{9} = 3$</div></div>
+    <div class="sr r"><span class="sl r">右の式</span><div>$\sqrt{-3}$ : ルートの中がマイナス → <strong>存在しない</strong>！</div></div>
+    <div class="sr g"><span class="sl g">ポイント</span><div>「$2$ 乗してからルート」と「直接ルート」はまったく別物！</div></div>
+    <div class="ans-box">$\sqrt{(-3)^2} = 3$ ，$\sqrt{-3}$ は存在しない</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>$\sqrt{a^2} = a$（$a \geq 0$ のとき）</li>
+    <li>$\sqrt{a^2} = |a|$（$a$ がどんな値でも）</li>
+    <li>絶対値 $|a|$ は「$0$ からの距離」＝「符号を取り除いた値」</li>
+    <li>ルート記号の中が「$2$ 乗の形」なら，<strong>先に $2$ 乗を計算</strong>してから √ を外す</li>
+    <li>ルートの値は<strong>必ず $0$ 以上</strong>（マイナスにならない）</li>
+    <li>$\sqrt{(-3)^2} \neq \sqrt{-3}$　に注意！</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

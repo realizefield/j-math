@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQ03 平方根のかけ算・わり算 - 確認テスト | GAMBA</title>
+
+<!-- KaTeX -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/auto-render.min.js"></script>
+
+<style>
+  :root{
+    --primary:#15803d;
+    --primary-dark:#166534;
+    --bg:#f0fdf4;
+    --border:#bbf7d0;
+    --accent:#fef3c7;
+    --accent-border:#fcd34d;
+    --text:#1f2937;
+    --muted:#6b7280;
+    --correct:#16a34a;
+    --wrong:#dc2626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+    padding:1rem;
+  }
+  .container{max-width:780px;margin:0 auto}
+
+  header{
+    background:var(--primary);
+    color:#fff;
+    padding:1.2rem 1.5rem;
+    border-radius:12px 12px 0 0;
+  }
+  header h1{font-size:1.4rem;margin-bottom:.25rem}
+  header .sub{font-size:.9rem;opacity:.9}
+
+  .nav{
+    display:flex;
+    background:#fff;
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .nav a{
+    flex:1;
+    text-align:center;
+    padding:.7rem .5rem;
+    text-decoration:none;
+    color:var(--muted);
+    font-size:.85rem;
+    border-right:1px solid var(--border);
+    transition:background .2s;
+  }
+  .nav a:last-child{border-right:none}
+  .nav a:hover{background:var(--bg)}
+  .nav a.active{
+    background:var(--primary);
+    color:#fff;
+    font-weight:bold;
+  }
+
+  main{
+    background:#fff;
+    padding:1.8rem 1.5rem;
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    border-radius:0 0 12px 12px;
+  }
+
+  .lead{
+    background:#fef3c7;
+    border:2px solid #fcd34d;
+    border-radius:10px;
+    padding:1rem 1.2rem;
+    margin-bottom:1.5rem;
+  }
+  .lead .h{
+    font-weight:bold;
+    color:#b45309;
+    margin-bottom:.4rem;
+  }
+
+  /* 問題 */
+  .problem{
+    background:#fff;
+    border:2px solid var(--border);
+    border-radius:12px;
+    padding:1.2rem 1.4rem;
+    margin:1.2rem 0;
+  }
+  .problem-no{
+    display:inline-block;
+    background:var(--primary);
+    color:#fff;
+    padding:.25rem .8rem;
+    border-radius:20px;
+    font-size:.85rem;
+    font-weight:bold;
+    margin-bottom:.6rem;
+  }
+  .problem-q{
+    font-size:1.1rem;
+    margin:.4rem 0 1rem;
+    padding:.7rem;
+    background:var(--bg);
+    border-radius:6px;
+    text-align:center;
+  }
+
+  /* 選択肢 */
+  .choices{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.6rem;
+  }
+  .choice{
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+    padding:.7rem 1rem;
+    background:#fff;
+    border:2px solid var(--border);
+    border-radius:8px;
+    cursor:pointer;
+    transition:all .15s;
+    font-size:1rem;
+  }
+  .choice:hover{
+    background:var(--bg);
+    border-color:var(--primary);
+  }
+  .choice input[type="radio"]{
+    margin:0;
+    accent-color:var(--primary);
+    flex-shrink:0;
+  }
+  .choice.selected{
+    background:#dcfce7;
+    border-color:var(--primary);
+  }
+  .choice.correct{
+    background:#dcfce7;
+    border-color:var(--correct);
+  }
+  .choice.wrong{
+    background:#fee2e2;
+    border-color:var(--wrong);
+  }
+  .choice.disabled{
+    cursor:default;
+    opacity:.85;
+  }
+  .choice-label{
+    background:var(--primary);
+    color:#fff;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.85rem;
+    font-weight:bold;
+    flex-shrink:0;
+  }
+
+  /* 解説 */
+  .explain{
+    margin-top:1rem;
+    padding:.9rem 1.1rem;
+    background:#eff6ff;
+    border-left:4px solid #2563eb;
+    border-radius:0 8px 8px 0;
+    display:none;
+    font-size:.95rem;
+  }
+  .explain.show{display:block}
+  .explain .h{
+    font-weight:bold;
+    color:#1d4ed8;
+    margin-bottom:.4rem;
+  }
+  .explain .line{margin:.3rem 0}
+
+  /* ボタン */
+  .controls{
+    text-align:center;
+    margin:1.5rem 0 .5rem;
+  }
+  .btn{
+    padding:.8rem 1.6rem;
+    border:none;
+    border-radius:8px;
+    font-size:1rem;
+    font-weight:bold;
+    cursor:pointer;
+    margin:.3rem;
+    transition:all .2s;
+  }
+  .btn-primary{background:var(--primary);color:#fff}
+  .btn-primary:hover{background:var(--primary-dark)}
+  .btn-sub{background:#3b82f6;color:#fff}
+  .btn-sub:hover{background:#2563eb}
+
+  /* 結果 */
+  .result{
+    background:#ecfdf5;
+    border:3px solid var(--primary);
+    border-radius:12px;
+    padding:1.5rem;
+    margin-top:1.5rem;
+    text-align:center;
+    display:none;
+  }
+  .result.show{display:block}
+  .result.perfect{
+    background:#fef3c7;
+    border-color:#f59e0b;
+  }
+  .result .score{
+    font-size:1.8rem;
+    font-weight:bold;
+    color:var(--primary-dark);
+    margin-bottom:.5rem;
+  }
+  .result.perfect .score{color:#b45309}
+  .result .msg{
+    font-size:1.05rem;
+    margin-top:.5rem;
+  }
+  .result .badge{
+    display:inline-block;
+    margin-top:.7rem;
+    padding:.4rem 1rem;
+    background:#f59e0b;
+    color:#fff;
+    border-radius:20px;
+    font-weight:bold;
+    font-size:.95rem;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:1.5rem;
+    color:var(--muted);
+    font-size:.85rem;
+  }
+  footer a{
+    color:var(--primary);
+    text-decoration:none;
+    margin:0 .5rem;
+  }
+  footer a:hover{text-decoration:underline}
+
+  @media (max-width:600px){
+    .nav a{font-size:.75rem;padding:.6rem .3rem}
+    header h1{font-size:1.2rem}
+    .choices{grid-template-columns:1fr}
+    .problem-q{font-size:1rem}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>SQ03　平方根のかけ算・わり算</h1>
+  <div class="sub">✅ 確認テスト — 5問の4択で総仕上げ</div>
+</header>
+
+<nav class="nav">
+  <a href="intro.html">📘 導入</a>
+  <a href="example.html">✏️ 例題</a>
+  <a href="drill.html">📝 演習</a>
+  <a href="check.html" class="active">✅ 確認</a>
+</nav>
+
+<main>
+
+<div class="lead">
+  <div class="h">📌 確認テストについて</div>
+  <p>5問すべて正解で <strong>SQ03 合格</strong> です。各問題は4つの選択肢から1つを選んでください。</p>
+  <p style="margin-top:.3rem;color:var(--muted);font-size:.9rem">※ すべての問題に答えてから「採点する」ボタンを押してください。</p>
+</div>
+
+<div id="problems"></div>
+
+<div class="controls">
+  <button class="btn btn-primary" onclick="grade()">採点する</button>
+  <button class="btn btn-sub" onclick="reset()">もう一度チャレンジ</button>
+</div>
+
+<div class="result" id="result">
+  <div class="score" id="score"></div>
+  <div class="msg" id="msg"></div>
+  <div id="badge"></div>
+</div>
+
+</main>
+
+<footer>
+  <a href="../gamba_chugaku.html">🏠 中学数学トップ</a>
+  <a href="drill.html">← 演習</a>
+</footer>
+
+</div>
+
+<script>
+/* =========================================================
+   5問の4択確認テスト
+   - q: 問題文（KaTeX）
+   - choices: 4択（KaTeX 可）
+   - correct: 正解の index（0〜3）
+   - explain: 解説の各行（配列）
+   ========================================================= */
+const QUIZ = [
+  {
+    q: '$\\sqrt{6} \\times \\sqrt{10}$ を計算しなさい。',
+    choices: ['$\\sqrt{16}$', '$\\sqrt{60}$', '$60$', '$\\sqrt{16}=4$'],
+    correct: 1,
+    explain: [
+      '公式 $\\sqrt{a} \\times \\sqrt{b} = \\sqrt{ab}$ を使います。',
+      '$\\sqrt{6} \\times \\sqrt{10} = \\sqrt{6 \\times 10} = \\sqrt{60}$',
+      '60 は平方数ではないので，$\\sqrt{60}$ のままが答えです。'
+    ]
+  },
+  {
+    q: '$\\sqrt{8} \\times \\sqrt{2}$ を計算しなさい。',
+    choices: ['$\\sqrt{10}$', '$4$', '$\\sqrt{16}$', '$16$'],
+    correct: 1,
+    explain: [
+      '$\\sqrt{8} \\times \\sqrt{2} = \\sqrt{8 \\times 2} = \\sqrt{16}$',
+      '$16 = 4^2$ なので，$\\sqrt{16} = 4$',
+      'ルートの中が平方数になったので，整数に化けます。'
+    ]
+  },
+  {
+    q: '$\\sqrt{32} \\div \\sqrt{2}$ を計算しなさい。',
+    choices: ['$\\sqrt{16}$', '$16$', '$4$', '$2\\sqrt{8}$'],
+    correct: 2,
+    explain: [
+      'わり算の公式 $\\sqrt{a} \\div \\sqrt{b} = \\sqrt{\\dfrac{a}{b}}$ を使います。',
+      '$\\sqrt{32} \\div \\sqrt{2} = \\sqrt{\\dfrac{32}{2}} = \\sqrt{16}$',
+      '$\\sqrt{16} = 4$ が答えです。'
+    ]
+  },
+  {
+    q: '$3\\sqrt{5} \\times 2\\sqrt{2}$ を計算しなさい。',
+    choices: ['$5\\sqrt{7}$', '$6\\sqrt{10}$', '$6\\sqrt{7}$', '$\\sqrt{60}$'],
+    correct: 1,
+    explain: [
+      '係数つきのかけ算 $a\\sqrt{b} \\times c\\sqrt{d} = ac\\sqrt{bd}$ を使います。',
+      '係数どうし：$3 \\times 2 = 6$',
+      'ルートの中どうし：$\\sqrt{5} \\times \\sqrt{2} = \\sqrt{10}$',
+      'まとめて：$3\\sqrt{5} \\times 2\\sqrt{2} = 6\\sqrt{10}$'
+    ]
+  },
+  {
+    q: '$\\sqrt{7} \\times \\sqrt{7}$ を計算しなさい。',
+    choices: ['$\\sqrt{7}$', '$\\sqrt{14}$', '$7$', '$49$'],
+    correct: 2,
+    explain: [
+      '同じ数のルートどうしのかけ算は，<strong>中の数そのもの</strong>になります。',
+      '$\\sqrt{a} \\times \\sqrt{a} = a$ のルールより，',
+      '$\\sqrt{7} \\times \\sqrt{7} = 7$',
+      '別解：$\\sqrt{7} \\times \\sqrt{7} = \\sqrt{49} = 7$'
+    ]
+  }
+];
+
+let answers = new Array(QUIZ.length).fill(null);
+let graded = false;
+
+function renderQuiz(){
+  const container = document.getElementById('problems');
+  container.innerHTML = '';
+  const labels = ['ア','イ','ウ','エ'];
+
+  QUIZ.forEach((quiz, qi)=>{
+    const div = document.createElement('div');
+    div.className = 'problem';
+    let choicesHtml = '';
+    quiz.choices.forEach((c, ci)=>{
+      choicesHtml += `
+        <label class="choice" data-q="${qi}" data-c="${ci}">
+          <input type="radio" name="q${qi}" value="${ci}" onchange="select(${qi},${ci})">
+          <span class="choice-label">${labels[ci]}</span>
+          <span class="choice-text">${c}</span>
+        </label>
+      `;
+    });
+    let explainHtml = '';
+    quiz.explain.forEach(line=>{
+      explainHtml += `<div class="line">${line}</div>`;
+    });
+    div.innerHTML = `
+      <span class="problem-no">問 ${qi+1}</span>
+      <div class="problem-q">${quiz.q}</div>
+      <div class="choices">${choicesHtml}</div>
+      <div class="explain" id="ex${qi}">
+        <div class="h">解説</div>
+        ${explainHtml}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  if(window.renderMathInElement){
+    renderMathInElement(container, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });
+  }
+}
+
+function select(qi, ci){
+  if(graded) return;
+  answers[qi] = ci;
+  // 視覚的な選択ハイライト
+  document.querySelectorAll(`.choice[data-q="${qi}"]`).forEach(el=>{
+    el.classList.remove('selected');
+  });
+  document.querySelector(`.choice[data-q="${qi}"][data-c="${ci}"]`).classList.add('selected');
+}
+
+function grade(){
+  // 未回答チェック
+  const unanswered = answers.findIndex(a => a === null);
+  if(unanswered !== -1){
+    alert(`問 ${unanswered+1} がまだ未回答です。すべての問題に答えてから採点してください。`);
+    return;
+  }
+
+  graded = true;
+  let correct = 0;
+
+  QUIZ.forEach((quiz, qi)=>{
+    const userAns = answers[qi];
+    const correctAns = quiz.correct;
+
+    // 全選択肢を disabled に
+    document.querySelectorAll(`.choice[data-q="${qi}"]`).forEach(el=>{
+      el.classList.add('disabled');
+      el.classList.remove('selected');
+      const radio = el.querySelector('input[type="radio"]');
+      if(radio) radio.disabled = true;
+    });
+
+    // 正解の選択肢を緑色に
+    document.querySelector(`.choice[data-q="${qi}"][data-c="${correctAns}"]`).classList.add('correct');
+
+    // ユーザーの選んだ選択肢が間違っていれば赤色に
+    if(userAns === correctAns){
+      correct++;
+    } else {
+      document.querySelector(`.choice[data-q="${qi}"][data-c="${userAns}"]`).classList.add('wrong');
+    }
+
+    // 解説を表示
+    document.getElementById('ex'+qi).classList.add('show');
+  });
+
+  // 結果表示
+  const result = document.getElementById('result');
+  const score = document.getElementById('score');
+  const msg = document.getElementById('msg');
+  const badge = document.getElementById('badge');
+  const total = QUIZ.length;
+
+  result.classList.remove('perfect');
+  badge.innerHTML = '';
+
+  score.textContent = `${correct} / ${total} 問 正解`;
+
+  if(correct === total){
+    result.classList.add('perfect');
+    msg.innerHTML = '🎉 全問正解！　完璧です！<br>SQ03「平方根のかけ算・わり算」を合格として登録しました。';
+    badge.innerHTML = '<span class="badge">🏆 SQ03 合格</span>';
+    // 合格登録
+    if(typeof markPassed === 'function'){
+      markPassed('SQ03');
+    }
+  } else if(correct === 4){
+    msg.textContent = '✨ おしい！　あと1問！　解説を見て，もう一度チャレンジしてみましょう。';
+  } else if(correct === 3){
+    msg.textContent = '💪 半分以上できました！　まちがえた問題の解説をしっかり読みましょう。';
+  } else if(correct >= 1){
+    msg.textContent = '📘 例題に戻って計算ルールを再確認してから，もう一度チャレンジしましょう。';
+  } else {
+    msg.textContent = '📘 まずは例題と演習でしっかり練習してから戻ってきましょう。';
+  }
+  result.classList.add('show');
+
+  // 結果までスクロール
+  setTimeout(()=>{
+    result.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 100);
+}
+
+function reset(){
+  answers = new Array(QUIZ.length).fill(null);
+  graded = false;
+  document.getElementById('result').classList.remove('show', 'perfect');
+  renderQuiz();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+window.addEventListener('load', ()=>{
+  setTimeout(renderQuiz, 100);
+});
+</script>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>
