@@ -8,7 +8,7 @@
 <!-- KaTeX -->
 <link rel="stylesheet" href="../lib/katex/katex.min.css">
 <script defer src="../lib/katex/katex.min.js"></script>
-<script defer src="../lib/katex/auto-render.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"></script>
 
 <style>
   :root{
@@ -330,28 +330,28 @@ const SETS = [
   {
     title: '📚 セット 1：基本のかけ算',
     problems: [
-      { q: '$\\sqrt{2} \\times \\sqrt{7}$',  a: ['sqrt(14)'] },
-      { q: '$\\sqrt{5} \\times \\sqrt{3}$',  a: ['sqrt(15)'] },
-      { q: '$\\sqrt{6} \\times \\sqrt{6}$',  a: ['6'] },
-      { q: '$\\sqrt{2} \\times \\sqrt{8}$',  a: ['4'] }
+      { q: '$\\sqrt{2} \\times \\sqrt{7}$',  a: ['sqrt(14)'], display: '$\\sqrt{14}$' },
+      { q: '$\\sqrt{5} \\times \\sqrt{3}$',  a: ['sqrt(15)'], display: '$\\sqrt{15}$' },
+      { q: '$\\sqrt{6} \\times \\sqrt{6}$',  a: ['6'],        display: '$6$' },
+      { q: '$\\sqrt{2} \\times \\sqrt{8}$',  a: ['4'],        display: '$4$' }
     ]
   },
   {
     title: '📚 セット 2：かけ算とわり算ミックス',
     problems: [
-      { q: '$\\sqrt{3} \\times \\sqrt{27}$',  a: ['9'] },
-      { q: '$\\sqrt{45} \\div \\sqrt{5}$',    a: ['3'] },
-      { q: '$\\sqrt{72} \\div \\sqrt{2}$',    a: ['6'] },
-      { q: '$\\sqrt{10} \\times \\sqrt{10}$', a: ['10'] }
+      { q: '$\\sqrt{3} \\times \\sqrt{27}$',  a: ['9'],  display: '$9$' },
+      { q: '$\\sqrt{45} \\div \\sqrt{5}$',    a: ['3'],  display: '$3$' },
+      { q: '$\\sqrt{72} \\div \\sqrt{2}$',    a: ['6'],  display: '$6$' },
+      { q: '$\\sqrt{10} \\times \\sqrt{10}$', a: ['10'], display: '$10$' }
     ]
   },
   {
     title: '📚 セット 3：係数つきの計算',
     problems: [
-      { q: '$2\\sqrt{3} \\times \\sqrt{5}$',  a: ['2sqrt(15)','2*sqrt(15)'] },
-      { q: '$3\\sqrt{2} \\times 2\\sqrt{3}$', a: ['6sqrt(6)','6*sqrt(6)'] },
-      { q: '$4\\sqrt{5} \\times \\sqrt{5}$',  a: ['20'] },
-      { q: '$5\\sqrt{6} \\div \\sqrt{6}$',    a: ['5'] }
+      { q: '$2\\sqrt{3} \\times \\sqrt{5}$',  a: ['2sqrt(15)','2*sqrt(15)'], display: '$2\\sqrt{15}$' },
+      { q: '$3\\sqrt{2} \\times 2\\sqrt{3}$', a: ['6sqrt(6)','6*sqrt(6)'],   display: '$6\\sqrt{6}$' },
+      { q: '$4\\sqrt{5} \\times \\sqrt{5}$',  a: ['20'], display: '$20$' },
+      { q: '$5\\sqrt{6} \\div \\sqrt{6}$',    a: ['5'],  display: '$5$' }
     ]
   }
 ];
@@ -466,8 +466,19 @@ function reveal(){
   currentOrder.forEach((p,i)=>{
     const rv = document.getElementById('rv'+i);
     const txt = document.getElementById('rvtext'+i);
-    txt.textContent = p.a[0];
+    // display プロパティがあれば KaTeX 式を、なければ通常のテキストを表示
+    const displayStr = p.display || p.a[0];
+    txt.innerHTML = displayStr;
     rv.classList.add('show');
+    // KaTeX で再レンダリング
+    if(window.renderMathInElement){
+      renderMathInElement(txt, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false}
+        ]
+      });
+    }
   });
 }
 
