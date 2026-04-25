@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQ08 平方根の式の値 【導入】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.05em;line-height:2.4;font-weight:700;}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">SQ08</div>
+  <h1>平方根の式の値<br><small style="font-size:.75em;opacity:.85;">代入と式変形のテクニック</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① 「式の値」とは？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 文字に値を代入して計算する</div>
+  <div class="rbody">
+    たとえば文字式 $x^2 + 3x$ で，$x = 2$ のとき：<br>
+    $2^2 + 3 \times 2 = 4 + 6 = 10$<br>
+    これが「式の値」です。<br>
+    SQ08では，<strong>$x$ にルートを含む値が入る</strong> ケースを学びます。
+  </div>
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 たとえばこんな問題</div>
+  <div class="rbody">
+    $x = \sqrt{3} + 1$ のとき，$x^2 - 2x$ の値を求めなさい。<br>
+    一見むずかしそうに見えますが，<strong>SQ07までの計算</strong> ができていれば必ず解けます！
+  </div>
+</div>
+
+<div class="sec">② 基本：直接代入する</div>
+<div class="formula-box">
+  <div class="ftitle">📌 基本のやり方</div>
+  $x$ にそのままルートを含む値を代入し，計算する
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 例：$x = \sqrt{3} + 1$ のとき $x^2 - 2x$</div>
+  <div class="rbody">
+    まず $x^2$ を計算：<br>
+    $x^2 = (\sqrt{3}+1)^2 = 3 + 2\sqrt{3} + 1 = 4 + 2\sqrt{3}$<br>
+    次に $2x$：<br>
+    $2x = 2(\sqrt{3}+1) = 2\sqrt{3} + 2$<br>
+    引き算：<br>
+    $x^2 - 2x = (4+2\sqrt{3}) - (2\sqrt{3}+2) = 2$
+  </div>
+</div>
+
+<div class="pop-note">
+  $\sqrt{3}$ の部分が <strong>うまく消える</strong> ことが多い！　答えが整数になりやすいのが特徴。
+</div>
+
+<div class="sec">③ 応用：式を変形してから代入</div>
+<div class="rule-box">
+  <div class="rtitle">📌 直接代入だと大変な場合</div>
+  <div class="rbody">
+    $x^2 + 4x$ に $x = \sqrt{5} - 2$ を代入するとき，まともに計算すると面倒。<br>
+    でも，<strong>式を先に変形すると楽</strong> になることがあります。
+  </div>
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 テクニック：因数分解して代入</div>
+  <div class="body">
+    $x^2 + 4x = x(x + 4)$ と因数分解できる。<br>
+    $x = \sqrt{5} - 2$ なので $x + 4 = \sqrt{5} + 2$<br>
+    積を計算：$(\sqrt{5}-2)(\sqrt{5}+2) = (\sqrt{5})^2 - 2^2 = 5 - 4 = 1$<br>
+    <strong>和と差の積</strong>(SQ07)を利用して，あっという間に答えが出る！
+  </div>
+</div>
+
+<div class="sec">④ よく使う公式</div>
+<div class="formula-box">
+  <div class="ftitle">📌 平方の和・差の公式</div>
+  $x^2 + y^2 = (x+y)^2 - 2xy$<br>
+  $x^2 - y^2 = (x+y)(x-y)$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 なぜ便利？</div>
+  <div class="rbody">
+    $x = \sqrt{2}+1$，$y = \sqrt{2}-1$ のとき，$x^2 + y^2$ を求める場合：<br>
+    直接計算すると面倒だが，先に <strong>$x+y$ と $xy$</strong> を求めれば楽！<br>
+    $x + y = 2\sqrt{2}$，$xy = (\sqrt{2}+1)(\sqrt{2}-1) = 2-1 = 1$<br>
+    $x^2 + y^2 = (2\sqrt{2})^2 - 2 \times 1 = 8 - 2 = 6$
+  </div>
+</div>
+
+<div class="pop-note">
+  $x+y$ や $xy$ が <strong>シンプルな値</strong> になるように $x$，$y$ が設定されていることが多い！
+</div>
+
+<div class="sec">⑤ 高認でよく出るパターン</div>
+<div class="rule-box">
+  <div class="rtitle">📌 たとえば $x = 3+\sqrt{5}$ のとき $x^2 - 6x + 4$</div>
+  <div class="rbody">
+    まず $x - 3 = \sqrt{5}$ になることに注目！<br>
+    両辺を2乗：$(x-3)^2 = 5$ → $x^2 - 6x + 9 = 5$ → $x^2 - 6x = -4$<br>
+    よって $x^2 - 6x + 4 = -4 + 4 = 0$
+  </div>
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 テクニック：$x - \text{整数} = \sqrt{\phantom{x}}$ の形を作る</div>
+  <div class="body">
+    式の中の <strong>「2次の項」と「1次の項」のセット</strong> をうまく使うと，ルートを消せることがある！<br>
+    高認の入試によく出るので，慣れておこう。
+  </div>
+</div>
+
+<div class="sec">⑥ 例で確認しよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x = 2\sqrt{3}$ のとき $x^2 - 7$ の値</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">代入する</span><div>$x^2 = (2\sqrt{3})^2$</div></div>
+    <div class="sr b"><span class="sl b">展開</span><div>$(2)^2 \times (\sqrt{3})^2 = 4 \times 3 = 12$</div></div>
+    <div class="sr b"><span class="sl b">引き算</span><div>$12 - 7 = 5$</div></div>
+    <div class="ans-box">$x^2 - 7 = 5$</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>SQ08は <strong>SQ07までの総まとめ</strong> 的な単元</li>
+    <li>基本は <strong>そのまま代入</strong> して計算</li>
+    <li>大変なときは <strong>式を変形</strong> してから代入</li>
+    <li>$(\sqrt{a}+b)(\sqrt{a}-b) = a-b^2$ (和と差の積)が大活躍</li>
+    <li>$x^2 + y^2 = (x+y)^2 - 2xy$ も覚えておく</li>
+    <li>高認頻出：$x - \text{整数} = \sqrt{\phantom{x}}$ の形に注目！</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>
