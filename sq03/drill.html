@@ -76,7 +76,6 @@
     border-radius:0 0 12px 12px;
   }
 
-  /* セットラベル */
   .set-label{
     display:inline-block;
     background:#fef3c7;
@@ -89,18 +88,32 @@
     margin-bottom:1rem;
   }
 
-  /* コントロール */
+  .lead{
+    background:#eff6ff;
+    border-left:4px solid #2563eb;
+    padding:.8rem 1.1rem;
+    margin-bottom:1.2rem;
+    border-radius:0 8px 8px 0;
+    font-size:.95rem;
+  }
+  .lead .h{
+    font-weight:bold;
+    color:#1d4ed8;
+    margin-bottom:.3rem;
+  }
+
   .controls{
     display:flex;
     gap:.6rem;
     flex-wrap:wrap;
-    margin-bottom:1rem;
+    margin:1rem 0;
+    justify-content:center;
   }
   .btn{
-    padding:.6rem 1.1rem;
+    padding:.7rem 1.4rem;
     border:none;
-    border-radius:6px;
-    font-size:.9rem;
+    border-radius:8px;
+    font-size:.95rem;
     font-weight:bold;
     cursor:pointer;
     transition:all .2s;
@@ -112,134 +125,133 @@
   .btn-grade{background:#d97706;color:#fff}
   .btn-grade:hover{background:#b45309}
 
-  /* 問題リスト */
   .problem{
     background:#fff;
     border:2px solid var(--border);
-    border-radius:10px;
+    border-radius:12px;
     padding:1rem 1.2rem;
-    margin:.8rem 0;
+    margin:1rem 0;
   }
   .problem-head{
     display:flex;
     align-items:center;
     gap:.7rem;
-    margin-bottom:.6rem;
+    margin-bottom:.7rem;
   }
   .q-no{
     background:var(--primary);
     color:#fff;
-    width:28px;
-    height:28px;
+    width:30px;
+    height:30px;
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:.85rem;
+    font-size:.9rem;
     font-weight:bold;
     flex-shrink:0;
   }
   .q-text{
-    font-size:1.05rem;
     flex:1;
+    font-size:1.05rem;
   }
-  .ans-row{
+
+  .choices{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:.5rem;
+    margin-top:.5rem;
+  }
+  .choice{
     display:flex;
     align-items:center;
     gap:.5rem;
-    margin-top:.5rem;
-    flex-wrap:wrap;
-  }
-  .ans-row label{
-    font-size:.9rem;
-    color:var(--muted);
-  }
-  .ans-row input{
-    flex:1;
-    min-width:140px;
-    padding:.5rem .7rem;
+    padding:.6rem .9rem;
+    background:#fff;
     border:2px solid var(--border);
-    border-radius:6px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:all .15s;
     font-size:1rem;
-    font-family:inherit;
   }
-  .ans-row input:focus{
-    outline:none;
+  .choice:hover{
+    background:var(--bg);
     border-color:var(--primary);
   }
-  .ans-row input.correct{
+  .choice input[type="radio"]{
+    margin:0;
+    accent-color:var(--primary);
+    flex-shrink:0;
+  }
+  .choice.selected{
+    background:#dcfce7;
+    border-color:var(--primary);
+  }
+  .choice.correct{
+    background:#dcfce7;
     border-color:var(--correct);
-    background:#f0fdf4;
   }
-  .ans-row input.wrong{
+  .choice.wrong{
+    background:#fee2e2;
     border-color:var(--wrong);
-    background:#fef2f2;
   }
-  .mark{
-    font-size:1.3rem;
+  .choice.disabled{
+    cursor:default;
+    opacity:.85;
+  }
+  .choice-label{
+    background:var(--primary);
+    color:#fff;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.8rem;
     font-weight:bold;
-    min-width:24px;
-    text-align:center;
+    flex-shrink:0;
   }
-  .mark.ok{color:var(--correct)}
-  .mark.ng{color:var(--wrong)}
 
-  .reveal{
-    margin-top:.5rem;
-    padding:.6rem .9rem;
+  .explain{
+    margin-top:.7rem;
+    padding:.7rem .9rem;
     background:#fef3c7;
     border-left:3px solid #fcd34d;
     border-radius:0 6px 6px 0;
-    font-size:.95rem;
+    font-size:.92rem;
     display:none;
   }
-  .reveal.show{display:block}
-  .reveal .lab{
+  .explain.show{display:block}
+  .explain .h{
     font-weight:bold;
     color:#b45309;
-    margin-right:.5rem;
+    margin-bottom:.3rem;
   }
 
-  /* 結果表示 */
   .result{
     background:#ecfdf5;
     border:2px solid var(--primary);
     border-radius:10px;
     padding:1.2rem;
-    margin-top:1.5rem;
+    margin-top:1.2rem;
     text-align:center;
     display:none;
   }
   .result.show{display:block}
+  .result.perfect{
+    background:#fef3c7;
+    border-color:#f59e0b;
+  }
   .result .score{
     font-size:1.4rem;
     font-weight:bold;
     color:var(--primary-dark);
     margin-bottom:.4rem;
   }
+  .result.perfect .score{color:#b45309}
   .result .msg{
     color:var(--text);
-  }
-
-  /* 入力フォーマットヒント */
-  .format-hint{
-    background:#eff6ff;
-    border-left:4px solid #2563eb;
-    padding:.8rem 1rem;
-    border-radius:0 6px 6px 0;
-    margin-bottom:1rem;
-    font-size:.9rem;
-  }
-  .format-hint .h{
-    font-weight:bold;
-    color:#1d4ed8;
-    margin-bottom:.3rem;
-  }
-  .format-hint code{
-    background:#dbeafe;
-    padding:.1rem .4rem;
-    border-radius:4px;
-    font-size:.9rem;
   }
 
   footer{
@@ -258,6 +270,7 @@
   @media (max-width:600px){
     .nav a{font-size:.75rem;padding:.6rem .3rem}
     header h1{font-size:1.2rem}
+    .choices{grid-template-columns:1fr}
     .q-text{font-size:1rem}
   }
 </style>
@@ -267,7 +280,7 @@
 
 <header>
   <h1>SQ03　平方根のかけ算・わり算</h1>
-  <div class="sub">📝 演習 — 4問×3セットのランダム出題</div>
+  <div class="sub">📝 演習 — 4択 × 4問 × 3セット</div>
 </header>
 
 <nav class="nav">
@@ -281,24 +294,16 @@
 
 <div id="set-label" class="set-label">📚 セット 1：基本のかけ算</div>
 
-<div class="format-hint">
-  <div class="h">📌 答え方</div>
-  <p>・整数なら数字をそのまま入力（例：<code>6</code>）</p>
-  <p>・ルートが残る場合は <code>sqrt(15)</code> のように <code>sqrt( )</code> で書く（例：<code>2sqrt(6)</code>）</p>
-  <p style="margin-top:.3rem;color:var(--muted)">※ 半角・空白なし。ルートの中はかんたんにできる形まで。</p>
-</div>
-
-<div class="controls">
-  <button class="btn btn-grade" onclick="grade()">採点する</button>
-  <button class="btn btn-sub" onclick="reveal()">答えを表示</button>
-  <button class="btn btn-primary" onclick="nextSet()">別のセットに切替</button>
+<div class="lead">
+  <div class="h">📌 演習について</div>
+  <p>4つの選択肢から正しい答えを選んでください。何度でもチャレンジできます。</p>
 </div>
 
 <div id="problems"></div>
 
-<div class="controls" style="margin-top:1rem">
+<div class="controls">
   <button class="btn btn-grade" onclick="grade()">採点する</button>
-  <button class="btn btn-sub" onclick="reveal()">答えを表示</button>
+  <button class="btn btn-sub" onclick="resetCurrent()">もう一度</button>
   <button class="btn btn-primary" onclick="nextSet()">別のセットに切替</button>
 </div>
 
@@ -318,46 +323,100 @@
 </div>
 
 <script>
-/* =========================================================
-   3セット × 4問
-   各問題：q（表示用 KaTeX 式）, a（正解の文字列・複数許容）
-   入力フォーマット：
-     - 整数 → "6"
-     - ルート単独 → "sqrt(15)"
-     - 係数つき → "2sqrt(6)" or "2*sqrt(6)"
-   ========================================================= */
 const SETS = [
   {
     title: '📚 セット 1：基本のかけ算',
     problems: [
-      { q: '$\\sqrt{2} \\times \\sqrt{7}$',  a: ['sqrt(14)'], display: '$\\sqrt{14}$' },
-      { q: '$\\sqrt{5} \\times \\sqrt{3}$',  a: ['sqrt(15)'], display: '$\\sqrt{15}$' },
-      { q: '$\\sqrt{6} \\times \\sqrt{6}$',  a: ['6'],        display: '$6$' },
-      { q: '$\\sqrt{2} \\times \\sqrt{8}$',  a: ['4'],        display: '$4$' }
+      {
+        q: '$\\sqrt{2} \\times \\sqrt{7}$ を計算しなさい。',
+        choices: ['$\\sqrt{9}$', '$\\sqrt{14}$', '$14$', '$\\sqrt{72}$'],
+        correct: 1,
+        explain: '$\\sqrt{a} \\times \\sqrt{b} = \\sqrt{ab}$ より，$\\sqrt{2 \\times 7} = \\sqrt{14}$。14は平方数ではないので $\\sqrt{14}$ のまま。'
+      },
+      {
+        q: '$\\sqrt{5} \\times \\sqrt{3}$ を計算しなさい。',
+        choices: ['$\\sqrt{8}$', '$\\sqrt{15}$', '$15$', '$8$'],
+        correct: 1,
+        explain: '$\\sqrt{5} \\times \\sqrt{3} = \\sqrt{5 \\times 3} = \\sqrt{15}$。15は平方数ではないので $\\sqrt{15}$ のまま。'
+      },
+      {
+        q: '$\\sqrt{6} \\times \\sqrt{6}$ を計算しなさい。',
+        choices: ['$\\sqrt{12}$', '$\\sqrt{6}$', '$6$', '$36$'],
+        correct: 2,
+        explain: '同じ数のルートどうしのかけ算は，<strong>中の数そのもの</strong>になります。$\\sqrt{a} \\times \\sqrt{a} = a$ より，$\\sqrt{6} \\times \\sqrt{6} = 6$。'
+      },
+      {
+        q: '$\\sqrt{2} \\times \\sqrt{8}$ を計算しなさい。',
+        choices: ['$\\sqrt{10}$', '$\\sqrt{16}$', '$4$', '$16$'],
+        correct: 2,
+        explain: '$\\sqrt{2} \\times \\sqrt{8} = \\sqrt{16}$。$16 = 4^2$ なので $\\sqrt{16} = 4$。整数に化けるパターン！'
+      }
     ]
   },
   {
-    title: '📚 セット 2：かけ算とわり算ミックス',
+    title: '📚 セット 2:かけ算とわり算ミックス',
     problems: [
-      { q: '$\\sqrt{3} \\times \\sqrt{27}$',  a: ['9'],  display: '$9$' },
-      { q: '$\\sqrt{45} \\div \\sqrt{5}$',    a: ['3'],  display: '$3$' },
-      { q: '$\\sqrt{72} \\div \\sqrt{2}$',    a: ['6'],  display: '$6$' },
-      { q: '$\\sqrt{10} \\times \\sqrt{10}$', a: ['10'], display: '$10$' }
+      {
+        q: '$\\sqrt{3} \\times \\sqrt{27}$ を計算しなさい。',
+        choices: ['$\\sqrt{30}$', '$3\\sqrt{3}$', '$9$', '$81$'],
+        correct: 2,
+        explain: '$\\sqrt{3} \\times \\sqrt{27} = \\sqrt{81}$。$81 = 9^2$ なので $\\sqrt{81} = 9$。'
+      },
+      {
+        q: '$\\sqrt{45} \\div \\sqrt{5}$ を計算しなさい。',
+        choices: ['$3$', '$9$', '$\\sqrt{9}$', '$\\sqrt{40}$'],
+        correct: 0,
+        explain: '$\\sqrt{45} \\div \\sqrt{5} = \\sqrt{\\dfrac{45}{5}} = \\sqrt{9} = 3$。'
+      },
+      {
+        q: '$\\sqrt{72} \\div \\sqrt{2}$ を計算しなさい。',
+        choices: ['$36$', '$6$', '$\\sqrt{36}$', '$\\sqrt{70}$'],
+        correct: 1,
+        explain: '$\\sqrt{72} \\div \\sqrt{2} = \\sqrt{\\dfrac{72}{2}} = \\sqrt{36} = 6$。'
+      },
+      {
+        q: '$\\sqrt{10} \\times \\sqrt{10}$ を計算しなさい。',
+        choices: ['$\\sqrt{10}$', '$\\sqrt{20}$', '$10$', '$100$'],
+        correct: 2,
+        explain: '$\\sqrt{a} \\times \\sqrt{a} = a$ より，$\\sqrt{10} \\times \\sqrt{10} = 10$。'
+      }
     ]
   },
   {
-    title: '📚 セット 3：係数つきの計算',
+    title: '📚 セット 3:係数つきの計算',
     problems: [
-      { q: '$2\\sqrt{3} \\times \\sqrt{5}$',  a: ['2sqrt(15)','2*sqrt(15)'], display: '$2\\sqrt{15}$' },
-      { q: '$3\\sqrt{2} \\times 2\\sqrt{3}$', a: ['6sqrt(6)','6*sqrt(6)'],   display: '$6\\sqrt{6}$' },
-      { q: '$4\\sqrt{5} \\times \\sqrt{5}$',  a: ['20'], display: '$20$' },
-      { q: '$5\\sqrt{6} \\div \\sqrt{6}$',    a: ['5'],  display: '$5$' }
+      {
+        q: '$2\\sqrt{3} \\times \\sqrt{5}$ を計算しなさい。',
+        choices: ['$2\\sqrt{8}$', '$\\sqrt{30}$', '$2\\sqrt{15}$', '$10\\sqrt{3}$'],
+        correct: 2,
+        explain: '係数 2 はそのまま，ルート同士をかけて $\\sqrt{3} \\times \\sqrt{5} = \\sqrt{15}$。よって $2\\sqrt{15}$。'
+      },
+      {
+        q: '$3\\sqrt{2} \\times 2\\sqrt{3}$ を計算しなさい。',
+        choices: ['$5\\sqrt{6}$', '$6\\sqrt{6}$', '$5\\sqrt{5}$', '$6\\sqrt{5}$'],
+        correct: 1,
+        explain: '係数どうし：$3 \\times 2 = 6$，ルートどうし：$\\sqrt{2} \\times \\sqrt{3} = \\sqrt{6}$。まとめて $6\\sqrt{6}$。'
+      },
+      {
+        q: '$4\\sqrt{5} \\times \\sqrt{5}$ を計算しなさい。',
+        choices: ['$4\\sqrt{5}$', '$4\\sqrt{10}$', '$20$', '$25$'],
+        correct: 2,
+        explain: '$\\sqrt{5} \\times \\sqrt{5} = 5$，係数の 4 と合わせて $4 \\times 5 = 20$。'
+      },
+      {
+        q: '$5\\sqrt{6} \\div \\sqrt{6}$ を計算しなさい。',
+        choices: ['$5$', '$\\sqrt{5}$', '$5\\sqrt{6}$', '$\\sqrt{30}$'],
+        correct: 0,
+        explain: 'ルートどうしが消えて，係数 5 だけが残ります。$\\dfrac{5\\sqrt{6}}{\\sqrt{6}} = 5$。'
+      }
     ]
   }
 ];
 
 let currentSet = 0;
 let currentOrder = [];
+let answers = [];
+let graded = false;
 
 function shuffleArray(arr){
   const r = arr.slice();
@@ -373,36 +432,46 @@ function loadSet(idx){
   const set = SETS[idx];
   document.getElementById('set-label').textContent = set.title;
 
-  const problems = shuffleArray(set.problems.map((p,i)=>({...p, origIdx:i})));
-  currentOrder = problems;
+  currentOrder = shuffleArray(set.problems.slice());
+  answers = new Array(currentOrder.length).fill(null);
+  graded = false;
 
+  renderQuiz();
+  document.getElementById('result').classList.remove('show', 'perfect');
+}
+
+function renderQuiz(){
   const container = document.getElementById('problems');
   container.innerHTML = '';
+  const labels = ['ア','イ','ウ','エ'];
 
-  problems.forEach((p,i)=>{
+  currentOrder.forEach((quiz, qi)=>{
     const div = document.createElement('div');
     div.className = 'problem';
+    let choicesHtml = '';
+    quiz.choices.forEach((c, ci)=>{
+      choicesHtml += `
+        <label class="choice" data-q="${qi}" data-c="${ci}">
+          <input type="radio" name="q${qi}" value="${ci}" onchange="select(${qi},${ci})">
+          <span class="choice-label">${labels[ci]}</span>
+          <span class="choice-text">${c}</span>
+        </label>
+      `;
+    });
     div.innerHTML = `
       <div class="problem-head">
-        <div class="q-no">${i+1}</div>
-        <div class="q-text">${p.q}</div>
+        <div class="q-no">${qi+1}</div>
+        <div class="q-text">${quiz.q}</div>
       </div>
-      <div class="ans-row">
-        <label>答え：</label>
-        <input type="text" id="in${i}" autocomplete="off" placeholder="例：sqrt(15) や 6">
-        <span class="mark" id="mk${i}"></span>
-      </div>
-      <div class="reveal" id="rv${i}">
-        <span class="lab">正解</span><span id="rvtext${i}"></span>
+      <div class="choices">${choicesHtml}</div>
+      <div class="explain" id="ex${qi}">
+        <div class="h">解説</div>
+        <div>${quiz.explain}</div>
       </div>
     `;
     container.appendChild(div);
   });
 
-  // 採点状況リセット
-  document.getElementById('result').classList.remove('show');
-
-  // 数式の再レンダリング
   if(window.renderMathInElement){
     renderMathInElement(container, {
       delimiters: [
@@ -413,73 +482,71 @@ function loadSet(idx){
   }
 }
 
-function normalize(s){
-  if(!s) return '';
-  return s.replace(/\s+/g,'').replace(/\*/g,'').toLowerCase();
+function select(qi, ci){
+  if(graded) return;
+  answers[qi] = ci;
+  document.querySelectorAll(`.choice[data-q="${qi}"]`).forEach(el=>{
+    el.classList.remove('selected');
+  });
+  document.querySelector(`.choice[data-q="${qi}"][data-c="${ci}"]`).classList.add('selected');
 }
 
 function grade(){
+  const unanswered = answers.findIndex(a => a === null);
+  if(unanswered !== -1){
+    alert('問 ' + (unanswered+1) + ' がまだ未回答です。すべての問題に答えてから採点してください。');
+    return;
+  }
+
+  graded = true;
   let correct = 0;
-  currentOrder.forEach((p,i)=>{
-    const inp = document.getElementById('in'+i);
-    const mk = document.getElementById('mk'+i);
-    const user = normalize(inp.value);
-    const oks = p.a.map(normalize);
-    inp.classList.remove('correct','wrong');
-    if(user === '') {
-      mk.textContent = '';
-      mk.className = 'mark';
-      return;
-    }
-    if(oks.includes(user)){
-      inp.classList.add('correct');
-      mk.textContent = '○';
-      mk.className = 'mark ok';
+
+  currentOrder.forEach((quiz, qi)=>{
+    const userAns = answers[qi];
+    const correctAns = quiz.correct;
+
+    document.querySelectorAll(`.choice[data-q="${qi}"]`).forEach(el=>{
+      el.classList.add('disabled');
+      el.classList.remove('selected');
+      const radio = el.querySelector('input[type="radio"]');
+      if(radio) radio.disabled = true;
+    });
+
+    document.querySelector(`.choice[data-q="${qi}"][data-c="${correctAns}"]`).classList.add('correct');
+
+    if(userAns === correctAns){
       correct++;
     } else {
-      inp.classList.add('wrong');
-      mk.textContent = '×';
-      mk.className = 'mark ng';
+      document.querySelector(`.choice[data-q="${qi}"][data-c="${userAns}"]`).classList.add('wrong');
     }
+
+    document.getElementById('ex'+qi).classList.add('show');
   });
 
-  const total = currentOrder.length;
   const result = document.getElementById('result');
   const score = document.getElementById('score');
   const msg = document.getElementById('msg');
+  const total = currentOrder.length;
 
-  score.textContent = `スコア：${correct} / ${total} 問`;
+  result.classList.remove('perfect');
+  score.textContent = 'スコア：' + correct + ' / ' + total + ' 問';
 
   if(correct === total){
+    result.classList.add('perfect');
     msg.textContent = '🎉 全問正解！　完璧です。';
-  } else if(correct >= 3){
-    msg.textContent = '✨ もう少し！　まちがえた問題をもう一度チェックしましょう。';
+  } else if(correct === 3){
+    msg.textContent = '✨ もう少し！　解説を見て，もう一度チャレンジしてみましょう。';
   } else if(correct >= 1){
-    msg.textContent = '💪 「答えを表示」で答えを確認し，もう一度トライしましょう。';
+    msg.textContent = '💪 解説をしっかり読んで，計算ルールを再確認しましょう。';
   } else {
-    msg.textContent = '📘 例題に戻って，計算ルールを再確認してみましょう。';
+    msg.textContent = '📘 例題に戻って，計算ルールを確認してから戻ってきましょう。';
   }
   result.classList.add('show');
 }
 
-function reveal(){
-  currentOrder.forEach((p,i)=>{
-    const rv = document.getElementById('rv'+i);
-    const txt = document.getElementById('rvtext'+i);
-    // display プロパティがあれば KaTeX 式を、なければ通常のテキストを表示
-    const displayStr = p.display || p.a[0];
-    txt.innerHTML = displayStr;
-    rv.classList.add('show');
-    // KaTeX で再レンダリング
-    if(window.renderMathInElement){
-      renderMathInElement(txt, {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false}
-        ]
-      });
-    }
-  });
+function resetCurrent(){
+  loadSet(currentSet);
+  window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function nextSet(){
@@ -488,7 +555,6 @@ function nextSet(){
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-// 初期化（KaTeX 読み込み待ち）
 window.addEventListener('load', ()=>{
   setTimeout(()=>loadSet(0), 100);
 });
