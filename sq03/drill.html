@@ -451,8 +451,8 @@ function renderQuiz(){
     let choicesHtml = '';
     quiz.choices.forEach((c, ci)=>{
       choicesHtml += `
-        <label class="choice" data-q="${qi}" data-c="${ci}">
-          <input type="radio" name="q${qi}" value="${ci}" onchange="select(${qi},${ci})">
+        <label class="choice" data-q="${qi}" data-c="${ci}" onclick="select(${qi},${ci})">
+          <input type="radio" name="q${qi}" value="${ci}">
           <span class="choice-label">${labels[ci]}</span>
           <span class="choice-text">${c}</span>
         </label>
@@ -485,6 +485,10 @@ function renderQuiz(){
 function select(qi, ci){
   if(graded) return;
   answers[qi] = ci;
+  // ラジオボタンを明示的にチェック
+  const radio = document.querySelector(`input[name="q${qi}"][value="${ci}"]`);
+  if(radio) radio.checked = true;
+  // 視覚的な選択ハイライト
   document.querySelectorAll(`.choice[data-q="${qi}"]`).forEach(el=>{
     el.classList.remove('selected');
   });
