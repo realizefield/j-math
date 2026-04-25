@@ -3,20 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SQ04 ルートの中を簡単にする 【例題】</title>
-
-<!-- KaTeX(ローカル配置) -->
-<link rel="stylesheet" href="../lib/katex/katex.min.css">
-<script defer src="../lib/katex/katex.min.js"></script>
-<script defer src="../lib/katex/contrib/auto-render.min.js"
-  onload="renderAllMath();"></script>
-
+<title>MF04 分数・小数の連立方程式 【例題】</title>
 <style>
-:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
 .g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
-.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
 .page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
 .page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
 .step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
@@ -31,141 +24,71 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
 .tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
 .tip2 div{border-radius:8px;padding:8px;font-size:.84em;font-weight:700;text-align:center;line-height:1.5;}
-.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
-.ex-head{padding:10px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;background:var(--primary);color:#fff;}
-.ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
-.ex-body{padding:14px 16px 8px;}
-.q-text{font-size:1.1em;font-weight:700;margin-bottom:12px;color:var(--primary);line-height:2;}
-.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
-.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
-.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
-.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
-.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
-.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
-.sl.y{background:var(--warn);color:#fff;}
-.sl.b{background:var(--primary);color:#fff;}
-.sl.r{background:var(--accent);color:#fff;}
-.sl.g{background:var(--success);color:#fff;}
-.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.1em;font-weight:700;color:var(--primary);text-align:center;line-height:2.2;animation:fadeIn .3s ease;}
-.next-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:11px;transition:background .15s;}
-.next-btn:hover{background:#166534;}
-.done-badge{text-align:center;padding:6px;font-size:.84em;font-weight:700;color:var(--success);margin-bottom:10px;}
+/* 連立方程式（中かっこ） */
+.sys{display:inline-flex;align-items:center;gap:0;margin:5px 0 10px;}
+.sys.g .sys-brace{color:#15803d;}
+.sys-brace{font-size:2.8em;line-height:1;color:var(--primary);font-weight:300;font-family:'Times New Roman','Georgia',serif;margin-right:4px;align-self:center;}
+.sys-lines{display:inline-grid;gap:0;}
+.sys-eq{font-size:.93em;font-weight:700;line-height:2.3;}
+.eq-no{font-size:.7em;color:var(--text-sub);margin-left:7px;}
+/* 分数 */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;line-height:1.1;}
+.frac .fn{border-bottom:2px solid currentColor;padding:0 4px 1px;text-align:center;min-width:1.1em;}
+.frac .fd{padding:1px 4px 0;text-align:center;min-width:1.1em;}
+/* ナビボタン */
 .nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
 .btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
 .btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
 .btn-f{background:var(--primary);color:#fff;}
 .btn-b{background:#f1f5f9;color:var(--text-sub);}
-.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
+.btn-s{background:var(--success);color:#fff;}
+.btn-h{background:#e0e7ff;color:#3730a3;font-size:.83em;padding:9px 18px;}
+
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.ex-head{padding:10px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;}
+.ex-head.blue{background:var(--primary);color:#fff;}
+.ex-head.green{background:#15803d;color:#fff;}
+.ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:21px;height:21px;display:flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
+.ex-body{padding:14px 16px 8px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2.1;animation:fadeIn .3s ease;}
+.next-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:11px;transition:background .15s;}
+.next-btn:hover{background:#1648cc;}
+.done-badge{text-align:center;padding:6px;font-size:.84em;font-weight:700;color:var(--success);margin-bottom:10px;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
 <div class="page-header">
-  <div class="unit-code">SQ04</div>
-  <h1>ルートの中を簡単にする<br><small style="font-size:.75em;opacity:.85;">例題</small></h1>
+  <div class="unit-code">MF04</div>
+  <h1>分数・小数の連立方程式<br><small style="font-size:.75em;opacity:.85;">整数に直してから解く</small></h1>
 </div>
-<nav class="step-nav">
-  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
-</nav>
+<nav class="step-nav"><div class="step-item"><span class="step-circle">①</span><a href="../mf01/intro.html">連立・①＋②</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">②</span><a href="../mf02/intro.html">①－②</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">③</span><a href="../mf03/intro.html">係数そろえ</a></div><span class="step-arrow">›</span><div class="step-item active"><span class="step-circle">④</span><span>分数・小数</span></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">⑤</span><a href="../mf05/intro.html">代入法</a></div></nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);"><div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div><span class="step-arrow">›</span><div class="step-item active"><span class="step-circle">②</span><span>例題</span></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div></nav>
 <main class="g-container">
-<div class="instruction"><strong>【例題】</strong>　ボタンをタップして，分解 → 公式 → 答えの順に確認しよう！</div>
-<div class="tip2">
-  <div style="background:var(--primary-light);color:var(--primary);">$\sqrt{a^2 \times b} = a\sqrt{b}$<br>2乗の数を外に出す</div>
-  <div style="background:var(--accent-light);color:var(--accent);">平方数を探す！<br>4,9,16,25,36,49…</div>
-</div>
-<div id="ex-area"></div>
-<div class="nav-btns">
-  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
-  <a href="intro.html" class="btn-nav btn-b">← 導入</a>
-  <a href="drill.html" class="btn-nav btn-f">③ 演習へ →</a>
-</div>
+<div class="instruction"><strong>【例題】</strong>　ボタンをタップして，考え方 → 答えの順に確認しよう！</div>
+<div class="tip2"><div style="background:var(--primary-light);color:var(--primary);">分数→分母のLCMをかける</div><div style="background:var(--accent-light);color:var(--accent);">小数→×10や×100で整数に</div></div><div id="ex-area"></div>
+<div class="nav-btns"><a href="../../index.html" class="btn-nav btn-h">🏠 単元一覧へ</a><a href="intro.html" class="btn-nav btn-b">← ← 導入</a><a href="drill.html" class="btn-nav btn-f">③ 演習へ →</a></div>
 </main>
-
 <script>
-const EXAMPLES=[
-  {
-    title:"基本パターン(20)",
-    q:"$\\sqrt{20}$ を簡単にする",
-    steps:[
-      {cls:"y",lbl:"分解する",txt:"$20$ をルートの中に「2乗の数」が見えるように分解！　$20 = 4 \\times 5$"},
-      {cls:"b",lbl:"2乗の形に",txt:"$4 = 2^2$ なので，$20 = 2^2 \\times 5$"},
-      {cls:"b",lbl:"公式を使う",txt:"$\\sqrt{a^2 \\times b} = a\\sqrt{b}$ より，$\\sqrt{2^2 \\times 5} = 2\\sqrt{5}$"},
-    ],
-    ans:"$\\sqrt{20} = 2\\sqrt{5}$"
-  },
-  {
-    title:"4の平方数(48)",
-    q:"$\\sqrt{48}$ を簡単にする",
-    steps:[
-      {cls:"y",lbl:"分解を探す",txt:"$48$ をかけ算で分解。できるだけ大きな平方数を探す！　$48 = 16 \\times 3$"},
-      {cls:"b",lbl:"2乗の形に",txt:"$16 = 4^2$ なので，$48 = 4^2 \\times 3$"},
-      {cls:"b",lbl:"公式を使う",txt:"$\\sqrt{4^2 \\times 3} = 4\\sqrt{3}$"},
-      {cls:"r",lbl:"注意",txt:"もし $48 = 4 \\times 12$ で進めると，$\\sqrt{4 \\times 12} = 2\\sqrt{12}$ になり<strong>まだ簡単にできる</strong>！　最初から大きな平方数で分解しよう。"},
-    ],
-    ans:"$\\sqrt{48} = 4\\sqrt{3}$"
-  },
-  {
-    title:"6の平方数(72)",
-    q:"$\\sqrt{72}$ を簡単にする",
-    steps:[
-      {cls:"y",lbl:"分解する",txt:"$72$ の中に大きな平方数を探す。$72 = 36 \\times 2$"},
-      {cls:"b",lbl:"2乗の形に",txt:"$36 = 6^2$ なので，$72 = 6^2 \\times 2$"},
-      {cls:"b",lbl:"公式を使う",txt:"$\\sqrt{6^2 \\times 2} = 6\\sqrt{2}$"},
-    ],
-    ans:"$\\sqrt{72} = 6\\sqrt{2}$"
-  },
-  {
-    title:"係数つきの計算(3√8)",
-    q:"$3\\sqrt{8}$ を簡単にする",
-    steps:[
-      {cls:"y",lbl:"ルート部分を分解",txt:"まず $\\sqrt{8}$ を簡単にする。$8 = 4 \\times 2 = 2^2 \\times 2$"},
-      {cls:"b",lbl:"ルート部分を変形",txt:"$\\sqrt{8} = \\sqrt{2^2 \\times 2} = 2\\sqrt{2}$"},
-      {cls:"b",lbl:"係数をかける",txt:"$3\\sqrt{8} = 3 \\times 2\\sqrt{2}$"},
-      {cls:"b",lbl:"係数どうしの計算",txt:"$3 \\times 2 = 6$ なので，$3\\sqrt{8} = 6\\sqrt{2}$"},
-    ],
-    ans:"$3\\sqrt{8} = 6\\sqrt{2}$"
-  },
-  {
-    title:"大きい数(200)",
-    q:"$\\sqrt{200}$ を簡単にする",
-    steps:[
-      {cls:"y",lbl:"分解する",txt:"$200$ の中に大きな平方数を探す。$200 = 100 \\times 2$"},
-      {cls:"b",lbl:"2乗の形に",txt:"$100 = 10^2$ なので，$200 = 10^2 \\times 2$"},
-      {cls:"b",lbl:"公式を使う",txt:"$\\sqrt{10^2 \\times 2} = 10\\sqrt{2}$"},
-      {cls:"g",lbl:"ポイント",txt:"末尾に $0$ が偶数個あれば $100$，$10000$ などの平方数を見つけやすい！"},
-    ],
-    ans:"$\\sqrt{200} = 10\\sqrt{2}$"
-  },
-  {
-    title:"応用(108)",
-    q:"$\\sqrt{108}$ を簡単にする",
-    steps:[
-      {cls:"y",lbl:"見つけにくい",txt:"$108$ の中の平方数を探す…　$108 = 4 \\times 27$？　いや，$27$ にも $9$ が隠れている"},
-      {cls:"b",lbl:"より大きな分解",txt:"$108 = 36 \\times 3$　($36 \\times 3 = 108$ を確認)"},
-      {cls:"b",lbl:"2乗の形に",txt:"$36 = 6^2$ なので，$108 = 6^2 \\times 3$"},
-      {cls:"b",lbl:"公式を使う",txt:"$\\sqrt{6^2 \\times 3} = 6\\sqrt{3}$"},
-      {cls:"g",lbl:"別解",txt:"$\\sqrt{4 \\times 27}$ から進めると $2\\sqrt{27}$ → $2\\sqrt{9 \\times 3} = 2 \\times 3\\sqrt{3} = 6\\sqrt{3}$ 。<strong>2段階に分けても同じ答え</strong>！"},
-    ],
-    ans:"$\\sqrt{108} = 6\\sqrt{3}$"
-  },
-];
 
+const EXAMPLES=[{title:"\u5206\u6570\u578b\u2460\uff1a<span class=\"frac\"><span class=\"fn\">\u03c7</span><span class=\"fd\">3</span></span>\uff0b<span class=\"frac\"><span class=\"fn\">\uff59</span><span class=\"fd\">5</span></span>\uff1d3\u3068 \u03c7\uff0b\uff59\uff1d11",head_cls:"blue",q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\"><span class=\"frac\"><span class=\"fn\">\u03c7</span><span class=\"fd\">3</span></span>\uff0b<span class=\"frac\"><span class=\"fn\">\uff59</span><span class=\"fd\">5</span></span>\uff1d3<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d11<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div>",steps:[{cls:"y",lbl:"\u65b9\u91dd",txt:"\u2460\u306e\u5206\u6bcd3\u30685 \u2192 lcm\uff1d15\u3002\u2460\u306e\u4e21\u8fba\u306b <strong>\u00d715</strong>"},{cls:"b",lbl:"\u5909\u5f62",txt:"\u2460\u00d715\uff1a5\u03c7\uff0b3\uff59\uff1d45\u3000\u2026\u2026\u2460'"},{cls:"b",lbl:"\u2461\u00d75\uff0d\u2460'",txt:"5\u03c7\uff0b5\uff59\uff0d(5\u03c7\uff0b3\uff59)\uff1d55\uff0d45\u3000\u2192\u3000<strong>2\uff59\uff1d10\u3000\u2192\u3000\uff59\uff1d5</strong>"},{cls:"g",lbl:"\u4ee3\u5165",txt:"\uff59\uff1d5 \u3092\u2461\u3078\uff1a\u03c7\uff0b5\uff1d11\u3000\u2192\u3000<strong>\u03c7\uff1d6</strong>"}],ans:"(\u03c7\uff0c\uff59)\uff1d<strong>(6\uff0c5)</strong>"},{title:"\u5206\u6570\u578b\u2461\uff1a<span class=\"frac\"><span class=\"fn\">\u03c7</span><span class=\"fd\">5</span></span>\uff0b<span class=\"frac\"><span class=\"fn\">\uff59</span><span class=\"fd\">2</span></span>\uff1d3\u3068 \u03c7\uff0b\uff59\uff1d\uff0d3",head_cls:"blue",q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\"><span class=\"frac\"><span class=\"fn\">\u03c7</span><span class=\"fd\">5</span></span>\uff0b<span class=\"frac\"><span class=\"fn\">\uff59</span><span class=\"fd\">2</span></span>\uff1d3<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d\uff0d3<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div>",steps:[{cls:"y",lbl:"\u65b9\u91dd",txt:"\u2460\u306e\u5206\u6bcd5\u30682 \u2192 lcm\uff1d10\u3002\u2460\u306e\u4e21\u8fba\u306b <strong>\u00d710</strong>"},{cls:"b",lbl:"\u5909\u5f62",txt:"\u2460\u00d710\uff1a2\u03c7\uff0b5\uff59\uff1d30\u3000\u2026\u2026\u2460'"},{cls:"b",lbl:"\u2461\u00d72\uff0d\u2460'",txt:"2\u03c7\uff0b2\uff59\uff0d(2\u03c7\uff0b5\uff59)\uff1d\uff0d6\uff0d30\u3000\u2192\u3000<strong>\uff0d3\uff59\uff1d\uff0d36\u3000\u2192\u3000\uff59\uff1d12</strong>"},{cls:"g",lbl:"\u4ee3\u5165",txt:"\uff59\uff1d12 \u3092\u2461\u3078\uff1a\u03c7\uff0b12\uff1d\uff0d3\u3000\u2192\u3000<strong>\u03c7\uff1d\uff0d15</strong>"}],ans:"(\u03c7\uff0c\uff59)\uff1d<strong>(\uff0d15\uff0c12)</strong>"},{title:"\u5c0f\u6570\u578b\u2460\uff1a\u03c7\uff0b\uff59\uff1d\uff0d1 \u3068 0.5\u03c7\uff0b0.3\uff59\uff1d\uff0d0.7",head_cls:"blue",q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d\uff0d1<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">0.5\u03c7\uff0b0.3\uff59\uff1d\uff0d0.7<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div>",steps:[{cls:"y",lbl:"\u65b9\u91dd",txt:"\u2461\u306e\u5c0f\u65701\u6841 \u2192 \u4e21\u8fba\u306b <strong>\u00d710</strong>"},{cls:"b",lbl:"\u5909\u5f62",txt:"\u2461\u00d710\uff1a5\u03c7\uff0b3\uff59\uff1d\uff0d7\u3000\u2026\u2026\u2461'"},{cls:"b",lbl:"\u2460\u00d75\uff0d\u2461'",txt:"5\u03c7\uff0b5\uff59\uff0d(5\u03c7\uff0b3\uff59)\uff1d\uff0d5\uff0d(\uff0d7)\u3000\u2192\u3000<strong>2\uff59\uff1d2\u3000\u2192\u3000\uff59\uff1d1</strong>"},{cls:"g",lbl:"\u4ee3\u5165",txt:"\uff59\uff1d1 \u3092\u2460\u3078\uff1a\u03c7\uff0b1\uff1d\uff0d1\u3000\u2192\u3000<strong>\u03c7\uff1d\uff0d2</strong>"}],ans:"(\u03c7\uff0c\uff59)\uff1d<strong>(\uff0d2\uff0c1)</strong>"},{title:"\u5c0f\u6570\u578b\u2461\uff1a\u03c7\uff0b\uff59\uff1d5 \u3068 0.3\u03c7\uff0b0.7\uff59\uff1d2.3",head_cls:"blue",q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d5<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">0.3\u03c7\uff0b0.7\uff59\uff1d2.3<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div>",steps:[{cls:"y",lbl:"\u65b9\u91dd",txt:"\u2461\u306e\u5c0f\u65701\u6841 \u2192 \u4e21\u8fba\u306b <strong>\u00d710</strong>"},{cls:"b",lbl:"\u5909\u5f62",txt:"\u2461\u00d710\uff1a3\u03c7\uff0b7\uff59\uff1d23\u3000\u2026\u2026\u2461'"},{cls:"b",lbl:"\u2461'\uff0d\u2460\u00d73",txt:"3\u03c7\uff0b7\uff59\uff0d(3\u03c7\uff0b3\uff59)\uff1d23\uff0d15\u3000\u2192\u3000<strong>4\uff59\uff1d8\u3000\u2192\u3000\uff59\uff1d2</strong>"},{cls:"g",lbl:"\u4ee3\u5165",txt:"\uff59\uff1d2 \u3092\u2460\u3078\uff1a\u03c7\uff0b2\uff1d5\u3000\u2192\u3000<strong>\u03c7\uff1d3</strong>"}],ans:"(\u03c7\uff0c\uff59)\uff1d<strong>(3\uff0c2)</strong>"}];
 const state=EXAMPLES.map(()=>0);
-
 function buildAll(){
   const area=document.getElementById('ex-area');
   EXAMPLES.forEach((ex,i)=>{
     const div=document.createElement('div');
     div.className='ex-card';div.id='ec'+i;
-    div.innerHTML='<div class="ex-head">'
+    div.innerHTML='<div class="ex-head '+ex.head_cls+'">'
       +'<span class="ex-num">'+(i+1)+'</span>'+ex.title+'</div>'
-      +'<div class="ex-body"><div class="q-text">'+ex.q+'</div>'
+      +'<div class="ex-body">'+ex.q
       +'<div id="steps'+i+'"></div>'
       +'<button class="next-btn" id="btn'+i+'" onclick="nextStep('+i+')">💡 考え方を見る</button>'
       +'<div id="done'+i+'" class="done-badge" style="display:none;">✅ 完了！</div>'
@@ -173,7 +96,6 @@ function buildAll(){
     area.appendChild(div);
   });
 }
-
 function nextStep(i){
   const ex=EXAMPLES[i],cur=state[i];
   const sd=document.getElementById('steps'+i);
@@ -184,45 +106,17 @@ function nextStep(i){
     const row=document.createElement('div');
     row.className='sr '+s.cls;
     row.innerHTML='<span class="sl '+s.cls+'">'+s.lbl+'</span><div>'+s.txt+'</div>';
-    sd.appendChild(row);
-    state[i]++;
+    sd.appendChild(row);state[i]++;
     btn.textContent=state[i]<ex.steps.length?'➡ 次のステップへ':'✅ 答えを見る';
-    if(typeof renderMathInElement==='function'){
-      renderMathInElement(row,{
-        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
-        throwOnError:false
-      });
-    }
   }else{
     const ab=document.createElement('div');
-    ab.className='ans-box';
-    ab.innerHTML='答え：'+ex.ans;
-    sd.appendChild(ab);
-    btn.style.display='none';
-    done.style.display='block';
-    if(typeof renderMathInElement==='function'){
-      renderMathInElement(ab,{
-        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
-        throwOnError:false
-      });
-    }
+    ab.className='ans-box';ab.innerHTML='答え：'+ex.ans;
+    sd.appendChild(ab);btn.style.display='none';done.style.display='block';
   }
 }
-
-function renderAllMath(){
-  if(typeof renderMathInElement==='function'){
-    renderMathInElement(document.body,{
-      delimiters:[
-        {left:'$$',right:'$$',display:true},
-        {left:'$',right:'$',display:false}
-      ],
-      throwOnError:false
-    });
-  }
-}
-
 buildAll();
+
 </script>
-<script src="../gamba_support.js"></script>
+<script src="../../gamba_support.js"></script>
 </body>
 </html>

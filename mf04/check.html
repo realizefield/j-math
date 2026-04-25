@@ -3,20 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SQ04 ルートの中を簡単にする 【確認テスト】</title>
-
-<!-- KaTeX(ローカル配置) -->
-<link rel="stylesheet" href="../lib/katex/katex.min.css">
-<script defer src="../lib/katex/katex.min.js"></script>
-<script defer src="../lib/katex/contrib/auto-render.min.js"
-  onload="renderAllMath();"></script>
-
+<title>MF04 分数・小数の連立方程式 【確認】</title>
 <style>
-:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
 .g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
-.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
 .page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
 .page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
 .step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
@@ -29,245 +22,148 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
 .step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
 .instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
-.q-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;padding:16px;}
-.q-num{font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:9px;}
-.q-text{font-size:1.08em;font-weight:700;margin-bottom:13px;line-height:2;}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.choice-btn{background:#f1f5f9;border:2px solid var(--border);border-radius:10px;padding:12px 8px;font-family:'BIZ UDPGothic',sans-serif;font-size:.95em;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;line-height:1.6;min-height:52px;}
-.choice-btn:hover{background:var(--primary-light);border-color:var(--primary);}
-.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:#15803d;}
-.choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
-.choice-btn.show-ans{background:var(--success-light);border-color:var(--success);color:#15803d;}
-.choice-btn:disabled{cursor:default;}
-.result-panel{margin-top:13px;padding:11px 14px;border-radius:9px;font-size:.9em;font-weight:700;display:none;line-height:1.8;}
-.result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;}
-.result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);color:var(--accent);}
-.score-box{background:linear-gradient(135deg,#15803d,#059669);color:#fff;border-radius:var(--radius);padding:22px;text-align:center;margin-top:22px;display:none;box-shadow:0 5px 18px rgba(21,128,61,.3);}
-.score-box .sc{font-size:2.2em;font-weight:700;margin-bottom:5px;}
-.score-box .sc-msg{font-size:.93em;opacity:.95;}
-.btn-retry{background:#fff;color:#15803d;margin-top:14px;width:100%;font-family:'BIZ UDPGothic',sans-serif;font-size:.95em;font-weight:700;padding:12px;border-radius:50px;border:none;cursor:pointer;}
-.btn-retry:hover{background:var(--primary-light);}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.tip2 div{border-radius:8px;padding:8px;font-size:.84em;font-weight:700;text-align:center;line-height:1.5;}
+/* 連立方程式（中かっこ） */
+.sys{display:inline-flex;align-items:center;gap:0;margin:5px 0 10px;}
+.sys.g .sys-brace{color:#15803d;}
+.sys-brace{font-size:2.8em;line-height:1;color:var(--primary);font-weight:300;font-family:'Times New Roman','Georgia',serif;margin-right:4px;align-self:center;}
+.sys-lines{display:inline-grid;gap:0;}
+.sys-eq{font-size:.93em;font-weight:700;line-height:2.3;}
+.eq-no{font-size:.7em;color:var(--text-sub);margin-left:7px;}
+/* 分数 */
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;line-height:1.1;}
+.frac .fn{border-bottom:2px solid currentColor;padding:0 4px 1px;text-align:center;min-width:1.1em;}
+.frac .fd{padding:1px 4px 0;text-align:center;min-width:1.1em;}
+/* ナビボタン */
 .nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
 .btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
 .btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
 .btn-f{background:var(--primary);color:#fff;}
 .btn-b{background:#f1f5f9;color:var(--text-sub);}
-.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
+.btn-s{background:var(--success);color:#fff;}
+.btn-h{background:#e0e7ff;color:#3730a3;font-size:.83em;padding:9px 18px;}
+
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.problem-head{display:flex;align-items:center;padding:13px 15px;gap:11px;flex-wrap:wrap;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.78em;color:var(--text-sub);cursor:pointer;white-space:nowrap;}
+.calc-row{display:flex;align-items:flex-start;gap:6px;padding:8px 11px;border-radius:8px;margin-bottom:5px;font-size:.86em;font-weight:700;line-height:2.1;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+
+.p-head{padding:13px 15px 6px;}
+.p-num{display:inline-block;background:var(--primary);color:#fff;border-radius:5px;padding:2px 9px;font-size:.76em;font-weight:700;margin-bottom:7px;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:0 15px 13px;}
+.choice-btn{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--bg);border:2.5px solid var(--border);border-radius:9px;padding:13px 7px;font-size:.9em;font-weight:700;color:var(--text);cursor:pointer;transition:all .18s;text-align:center;line-height:1.8;}
+.choice-btn:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);color:var(--primary);}
+.choice-btn.selected{background:var(--primary-light);border-color:var(--primary);color:var(--primary);}
+.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.choice-btn:disabled{cursor:default;}
+.expl-area{display:none;padding:0 13px 13px;}
+.score-box{display:none;background:var(--card);border:3px solid var(--primary);border-radius:var(--radius);padding:20px 22px;text-align:center;margin-top:22px;}
+.score-box.visible{display:block;}
+.score-label{font-size:.88em;color:var(--text-sub);margin-bottom:5px;}
+.score-num{font-size:clamp(1.7em,5vw,2.5em);font-weight:700;color:var(--primary);}
+.score-msg{margin-top:7px;font-size:.88em;color:var(--text-sub);}
+.btn-submit{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--primary);color:#fff;font-size:clamp(1em,3vw,1.12em);font-weight:700;padding:13px clamp(32px,9vw,72px);border:none;border-radius:50px;cursor:pointer;box-shadow:0 4px 14px rgba(26,86,160,.3);transition:transform .15s;letter-spacing:.05em;}
+.confetti-piece{position:fixed;top:-20px;border-radius:3px;opacity:0;animation:confettiFall linear forwards;pointer-events:none;z-index:9999;}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1;}80%{opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
 </style>
 </head>
 <body>
-<canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none"></canvas>
 <div class="page-header">
-  <div class="unit-code">SQ04</div>
-  <h1>ルートの中を簡単にする<br><small style="font-size:.75em;opacity:.85;">確認テスト</small></h1>
+  <div class="unit-code">MF04</div>
+  <h1>分数・小数の連立方程式<br><small style="font-size:.75em;opacity:.85;">整数に直してから解く</small></h1>
 </div>
-<nav class="step-nav">
-  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item active"><span class="step-circle">④</span><span>確認</span></div>
-</nav>
+<nav class="step-nav"><div class="step-item"><span class="step-circle">①</span><a href="../mf01/intro.html">連立・①＋②</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">②</span><a href="../mf02/intro.html">①－②</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">③</span><a href="../mf03/intro.html">係数そろえ</a></div><span class="step-arrow">›</span><div class="step-item active"><span class="step-circle">④</span><span>分数・小数</span></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">⑤</span><a href="../mf05/intro.html">代入法</a></div></nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);"><div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div><span class="step-arrow">›</span><div class="step-item active"><span class="step-circle">④</span><span>確認</span></div></nav>
 <main class="g-container">
-<div class="instruction"><strong>【確認テスト】</strong>　選択肢をタップして答えを選ぼう！全問正解を目指せ！</div>
-<div id="quiz-area"></div>
-<div class="score-box" id="score-box">
-  <div class="sc" id="sc-text"></div>
-  <div class="sc-msg" id="sc-msg"></div>
-  <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
-</div>
-<div class="nav-btns">
-  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
-  <a href="drill.html" class="btn-nav btn-b">← 演習</a>
-  <a href="../sq05/intro.html" class="btn-nav btn-f">SQ05 へ →</a>
-</div>
+<div class="instruction" style="border-left-color:var(--accent);"><strong>【確認テスト】</strong>　全問正解で合格！正しい答えをひとつ選ぼう。</div>
+<div class="tip2"><div style="background:var(--primary-light);color:var(--primary);">分数→分母のLCMをかける</div><div style="background:var(--accent-light);color:var(--accent);">小数→×10や×100で整数に</div></div><div id="check-area"></div>
+<div style="text-align:center;margin-top:26px;"><button onclick="judge()" class="btn-submit">判定する</button></div>
+<div id="result" class="score-box"></div>
+<div class="nav-btns"><a href="../../index.html" class="btn-nav btn-h">🏠 単元一覧へ</a><a href="drill.html" class="btn-nav btn-b">← ← 演習</a><a href="../mf05/intro.html" class="btn-nav btn-s">次の単元へ →</a></div>
+<a id="btn-next" href="../mf05/intro.html" class="btn-nav btn-s" style="display:none;margin-top:10px;">次の単元へ →</a>
 </main>
-
 <script>
-const QS=[
-  {
-    q:"$\\sqrt{20}$ を簡単にすると？",
-    choices:["$2\\sqrt{5}$","$5\\sqrt{2}$","$4\\sqrt{5}$","$\\sqrt{20}$ のまま"],
-    ans:0,
-    exp:"$20 = 4 \\times 5 = 2^2 \\times 5$ なので，$\\sqrt{20} = 2\\sqrt{5}$。"
-  },
-  {
-    q:"$\\sqrt{50}$ を簡単にすると？",
-    choices:["$2\\sqrt{5}$","$5\\sqrt{2}$","$10\\sqrt{2}$","$5\\sqrt{5}$"],
-    ans:1,
-    exp:"$50 = 25 \\times 2 = 5^2 \\times 2$ なので，$\\sqrt{50} = 5\\sqrt{2}$。"
-  },
-  {
-    q:"$\\sqrt{72}$ を簡単にすると？",
-    choices:["$2\\sqrt{18}$","$3\\sqrt{8}$","$6\\sqrt{2}$","$8\\sqrt{6}$"],
-    ans:2,
-    exp:"$72 = 36 \\times 2 = 6^2 \\times 2$ なので，$\\sqrt{72} = 6\\sqrt{2}$。$2\\sqrt{18}$ や $3\\sqrt{8}$ もまだ簡単にできるので不正解。"
-  },
-  {
-    q:"$2\\sqrt{18}$ を簡単にすると？",
-    choices:["$2\\sqrt{18}$","$6\\sqrt{2}$","$3\\sqrt{2}$","$2\\sqrt{6}$"],
-    ans:1,
-    exp:"$\\sqrt{18} = 3\\sqrt{2}$ なので，$2\\sqrt{18} = 2 \\times 3\\sqrt{2} = 6\\sqrt{2}$。"
-  },
-  {
-    q:"$\\sqrt{125}$ を簡単にすると？",
-    choices:["$5\\sqrt{5}$","$25\\sqrt{5}$","$5\\sqrt{25}$","$\\sqrt{125}$ のまま"],
-    ans:0,
-    exp:"$125 = 25 \\times 5 = 5^2 \\times 5$ なので，$\\sqrt{125} = 5\\sqrt{5}$。"
-  },
-];
 
-let answers=[];
-let answered=new Array(QS.length).fill(false);
-
-function buildQuiz(){
-  const area=document.getElementById('quiz-area');
-  area.innerHTML='';
-  QS.forEach((q,i)=>{
-    const choicesHtml=q.choices.map((c,j)=>
-      '<button class="choice-btn" id="c'+i+'_'+j+'" onclick="choose('+i+','+j+')">'+c+'</button>'
-    ).join('');
-    area.innerHTML+='<div class="q-card" id="qc'+i+'">'
-      +'<div class="q-num">問'+(i+1)+'</div>'
-      +'<div class="q-text">'+q.q+'</div>'
-      +'<div class="choices">'+choicesHtml+'</div>'
-      +'<div class="result-panel" id="rp'+i+'"></div>'
+const SETS=[{set_id:1,problems:[{q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\"><span class=\"frac\"><span class=\"fn\">\u03c7</span><span class=\"fd\">3</span></span>\uff0b<span class=\"frac\"><span class=\"fn\">\uff59</span><span class=\"fd\">5</span></span>\uff1d3<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d11<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div><br>\u3092\u89e3\u304d\u306a\u3055\u3044",choices:["(5\uff0c6)","(6\uff0c5)","(6\uff0c\uff0d5)","(\uff0d6\uff0c5)"],ans:1,hint:"\u2460\u00d715\uff1a5\u03c7\uff0b3\uff59\uff1d45\u2192\uff59\uff1d5,\u03c7\uff1d6"},{q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\"><span class=\"frac\"><span class=\"fn\">\u03c7</span><span class=\"fd\">5</span></span>\uff0b<span class=\"frac\"><span class=\"fn\">\uff59</span><span class=\"fd\">2</span></span>\uff1d3<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d\uff0d3<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div><br>\u3092\u89e3\u304d\u306a\u3055\u3044",choices:["(15\uff0c\uff0d12)","(12\uff0c\uff0d15)","(\uff0d15\uff0c12)","(\uff0d12\uff0c15)"],ans:2,hint:"\u2460\u00d710\uff1a2\u03c7\uff0b5\uff59\uff1d30\u2192\uff59\uff1d12,\u03c7\uff1d\uff0d15"},{q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d\uff0d1<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">0.5\u03c7\uff0b0.3\uff59\uff1d\uff0d0.7<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div><br>\u3092\u89e3\u304d\u306a\u3055\u3044",choices:["(2\uff0c\uff0d1)","(\uff0d2\uff0c1)","(1\uff0c\uff0d2)","(\uff0d1\uff0c2)"],ans:1,hint:"\u2461\u00d710\uff1a5\u03c7\uff0b3\uff59\uff1d\uff0d7\u2192\uff59\uff1d1,\u03c7\uff1d\uff0d2"},{q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d5<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">0.3\u03c7\uff0b0.7\uff59\uff1d2.3<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div><br>\u3092\u89e3\u304d\u306a\u3055\u3044",choices:["(3\uff0c2)","(2\uff0c3)","(3\uff0c\uff0d2)","(\uff0d3\uff0c2)"],ans:0,hint:"\u2461\u00d710\uff1a3\u03c7\uff0b7\uff59\uff1d23\u2192\uff59\uff1d2,\u03c7\uff1d3"}]},{set_id:2,problems:[{q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\"><span class=\"frac\"><span class=\"fn\">2\u03c7</span><span class=\"fd\">3</span></span>\uff0b\uff59\uff1d4<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">\u03c7\uff0b3\uff59\uff1d9<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div><br>\u3092\u89e3\u304d\u306a\u3055\u3044",choices:["(2\uff0c3)","(3\uff0c2)","(3\uff0c\uff0d2)","(\uff0d3\uff0c2)"],ans:1,hint:"\u2460\u00d73\u21922\u03c7\uff0b3\uff59\uff1d12\u2192\u03c7\uff1d3,\uff59\uff1d2"},{q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d7<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\"><span class=\"frac\"><span class=\"fn\">\u03c7</span><span class=\"fd\">4</span></span>\uff0b<span class=\"frac\"><span class=\"fn\">\uff59</span><span class=\"fd\">3</span></span>\uff1d2<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div><br>\u3092\u89e3\u304d\u306a\u3055\u3044",choices:["(4\uff0c3)","(3\uff0c4)","(4\uff0c\uff0d3)","(\uff0d4\uff0c3)"],ans:0,hint:"\u2461\u00d712\u21923\u03c7\uff0b4\uff59\uff1d24\u2192\uff59\uff1d3,\u03c7\uff1d4"},{q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d4<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">0.4\u03c7\uff0b0.6\uff59\uff1d2<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div><br>\u3092\u89e3\u304d\u306a\u3055\u3044",choices:["(2\uff0c2)","(1\uff0c3)","(3\uff0c1)","(4\uff0c0)"],ans:0,hint:"\u2461\u00d710\u21924\u03c7\uff0b6\uff59\uff1d20\u2192\uff59\uff1d2,\u03c7\uff1d2"},{q:"<div class=\"sys\"><span class=\"sys-brace\">&#123;</span><div class=\"sys-lines\"><div class=\"sys-eq\">\u03c7\uff0b\uff59\uff1d5<span class=\"eq-no\">\u2026\u2026\u2460</span></div><div class=\"sys-eq\">0.3\u03c7\uff0b0.7\uff59\uff1d2.3<span class=\"eq-no\">\u2026\u2026\u2461</span></div></div></div><br>\u3092\u89e3\u304d\u306a\u3055\u3044",choices:["(2\uff0c3)","(3\uff0c2)","(3\uff0c\uff0d2)","(4\uff0c1)"],ans:1,hint:"\u2461\u00d710\u21923\u03c7\uff0b7\uff59\uff1d23\u2192\uff59\uff1d2,\u03c7\uff1d3"}]}];
+const UNIT='MF04';
+const si=Math.floor(Math.random()*SETS.length);
+const probs=SETS[si].problems;
+let startTime=Date.now();
+const state=[];
+function build(){
+  const area=document.getElementById('check-area');area.innerHTML='';
+  probs.forEach((p,i)=>{
+    const idx=p.choices.map((_,j)=>j);
+    for(let j=idx.length-1;j>0;j--){const k=Math.floor(Math.random()*(j+1));[idx[j],idx[k]]=[idx[k],idx[j]];}
+    const sh=idx.map(j=>p.choices[j]);
+    const ci=idx.indexOf(p.ans);
+    state[i]={chosenIdx:-1,correctIdx:ci,sh,p};
+    const btns=sh.map((c,j)=>'<button class="choice-btn" onclick="sel('+i+','+j+')">'+c+'</button>').join('');
+    area.innerHTML+='<div class="problem-card" id="cc'+i+'">'
+      +'<div class="p-head"><div class="p-num">問 '+(i+1)+'</div><div style="margin-top:5px;">'+p.q+'</div></div>'
+      +'<div class="choices">'+btns+'</div>'
+      +'<div class="expl-area" id="ce'+i+'"></div>'
       +'</div>';
   });
-  renderAllMath();
 }
-
-function choose(qi,ci){
-  if(answered[qi])return;
-  answered[qi]=true;
-  answers[qi]=ci;
-  const q=QS[qi];
-  const correct=(ci===q.ans);
-  for(let j=0;j<q.choices.length;j++){
-    const btn=document.getElementById('c'+qi+'_'+j);
-    btn.disabled=true;
-    if(j===q.ans)btn.classList.add('show-ans');
-  }
-  document.getElementById('c'+qi+'_'+ci).classList.add(correct?'correct':'wrong');
-  const rp=document.getElementById('rp'+qi);
-  rp.style.display='block';
-  rp.className='result-panel '+(correct?'ok':'ng');
-  rp.innerHTML=(correct?'✅ 正解！':'❌ 不正解…　正解は【'+q.choices[q.ans]+'】')
-    +'<br><span style="font-weight:400;">'+q.exp+'</span>';
-  if(typeof renderMathInElement==='function'){
-    renderMathInElement(rp,{
-      delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
-      throwOnError:false
+function sel(qi,ci){
+  if(state[qi].locked)return;
+  state[qi].chosenIdx=ci;
+  document.getElementById('cc'+qi).querySelectorAll('.choice-btn')
+    .forEach((b,bi)=>b.classList.toggle('selected',bi===ci));
+}
+function judge(){
+  let ok=0;
+  probs.forEach((p,i)=>{
+    const s=state[i];
+    document.getElementById('cc'+i).querySelectorAll('.choice-btn').forEach((b,bi)=>{
+      b.disabled=true;b.classList.remove('selected');
+      if(bi===s.correctIdx)b.classList.add('correct');
+      else if(bi===s.chosenIdx&&s.chosenIdx!==s.correctIdx)b.classList.add('wrong');
     });
-  }
-  if(answered.every(v=>v))showScore();
-}
-
-function showScore(){
-  const box=document.getElementById('score-box');
-  const correct=answers.filter((a,i)=>a===QS[i].ans).length;
-  box.style.display='block';
-  document.getElementById('sc-text').textContent=correct+' / '+QS.length+' 問正解';
-  const msgs=[
-    'もう一度チャレンジ！💪',
-    'あと少し！復習しよう📖',
-    'なかなか良い！✨',
-    'ほぼ完璧！🌟',
-    'おしい！あと1問！🔥',
-    '満点！すばらしい🎉'
-  ];
-  document.getElementById('sc-msg').textContent=msgs[Math.min(correct,5)];
-  // 満点の場合は合格登録 + 花吹雪
-  if(correct===QS.length){
-    if(typeof markPassed==='function'){
-      try{markPassed('SQ04');}catch(e){}
-    }
+    const isOk=s.chosenIdx===s.correctIdx;
+    if(isOk)ok++;
+    const ans=s.sh[s.correctIdx];
+    const e=document.getElementById('ce'+i);
+    let h=isOk
+      ?'<div style="background:var(--success-light);border:2px solid var(--success);border-radius:7px;padding:7px 11px;margin-bottom:7px;font-weight:700;color:var(--success);">⭕ 正解！ <strong>'+ans+'</strong></div>'
+      :'<div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:7px;padding:7px 11px;margin-bottom:7px;font-weight:700;color:var(--accent);">❌ 正解は <strong>'+ans+'</strong>'+(s.chosenIdx<0?' （未選択）':'')+'</div>';
+    h+='<div class="calc-row y"><span class="clbl y">解説</span><div>'+p.hint+'</div></div>';
+    h+='<div class="calc-row g"><span class="clbl g">答え</span><strong style="color:var(--primary);">'+ans+'</strong></div>';
+    e.innerHTML=h;e.style.display='block';state[i].locked=true;
+  });
+  const passed=ok===probs.length;
+  const ra=document.getElementById('result');ra.classList.add('visible');
+  const msg=passed?'完璧！マスターです 🎉':ok>=probs.length*0.75?'あと少し！もう一度確認しよう。':'解説を見てルールを復習しよう！';
+  ra.innerHTML='<div class="score-label">合計点</div><div class="score-num">'+ok+' / '+probs.length+' 正解</div><div class="score-msg">'+msg+'</div>'+(passed?'<div style="margin-top:10px;font-size:.93em;color:#16a34a;font-weight:700;">✅ 合格！</div>':'');
+  if(passed){
     launchConfetti();
+    document.getElementById('btn-next').style.display='inline-block';
+    localStorage.setItem('gamba_prog_'+UNIT,'pass');
   }
+  ra.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-
-function retry(){
-  answered=new Array(QS.length).fill(false);
-  answers=[];
-  document.getElementById('score-box').style.display='none';
-  buildQuiz();
-}
-
-function renderAllMath(){
-  if(typeof renderMathInElement==='function'){
-    renderMathInElement(document.body,{
-      delimiters:[
-        {left:'$$',right:'$$',display:true},
-        {left:'$',right:'$',display:false}
-      ],
-      throwOnError:false
-    });
-  }
-}
-
-/* ── 花吹雪エフェクト ── */
 function launchConfetti(){
-  const canvas = document.getElementById('confetti-canvas');
-  const ctx = canvas.getContext('2d');
-  canvas.style.display = 'block';
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const colors = ['#fbbf24','#f59e0b','#dc2626','#16a34a','#2563eb','#9333ea','#ec4899','#15803d'];
-  const particles = [];
-  const particleCount = 200;
-
-  for(let i = 0; i < particleCount; i++){
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: -Math.random() * canvas.height * 0.5 - 20,
-      w: Math.random() * 8 + 6,
-      h: Math.random() * 4 + 3,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      vx: (Math.random() - 0.5) * 4,
-      vy: Math.random() * 3 + 2,
-      rot: Math.random() * Math.PI * 2,
-      vrot: (Math.random() - 0.5) * 0.2
-    });
+  const colors=['#e8372d','#1a56a0','#16a34a','#d97706','#7c3aed','#ec4899','#0ea5e9','#f59e0b'];
+  for(let i=0;i<120;i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');el.className='confetti-piece';
+      const sz=Math.random()*10+6;
+      el.style.cssText='left:'+(Math.random()*100)+'vw;width:'+sz+'px;height:'+sz+'px;background:'+colors[Math.floor(Math.random()*colors.length)]+';border-radius:50%;animation-duration:'+(Math.random()*2+2)+'s;';
+      document.body.appendChild(el);setTimeout(()=>el.remove(),5000);
+    },i*30);
   }
-
-  let startTime = Date.now();
-  const duration = 5000;
-
-  function animate(){
-    const elapsed = Date.now() - startTime;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    particles.forEach(p=>{
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vy += 0.08;
-      p.vx *= 0.99;
-      p.rot += p.vrot;
-
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rot);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
-      ctx.restore();
-    });
-
-    if(elapsed < duration){
-      requestAnimationFrame(animate);
-    } else {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      canvas.style.display = 'none';
-    }
-  }
-
-  animate();
 }
+build();
 
-buildQuiz();
 </script>
-<script src="../gamba_support.js"></script>
+<script src="../../gamba_support.js"></script>
 </body>
 </html>

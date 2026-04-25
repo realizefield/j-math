@@ -3,26 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SQ04 ルートの中を簡単にする 【導入】</title>
-
-<!-- KaTeX(ローカル配置) -->
-<link rel="stylesheet" href="../lib/katex/katex.min.css">
-<script defer src="../lib/katex/katex.min.js"></script>
-<script defer src="../lib/katex/contrib/auto-render.min.js"
-  onload="renderMathInElement(document.body,{
-    delimiters:[
-      {left:'$$',right:'$$',display:true},
-      {left:'$',right:'$',display:false}
-    ],
-    throwOnError:false
-  });"></script>
-
+<title>MF04 分数・小数の連立方程式 【導入】</title>
 <style>
-:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
 .g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
-.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
 .page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
 .page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
 .step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
@@ -36,18 +23,20 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
 .sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
 .sec:first-of-type{margin-top:0;}
-.rule-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
 .rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
-.rule-box .rbody{font-size:.92em;line-height:2.3;}
-.formula-box{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.1em;font-weight:700;line-height:2.5;}
-.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.rule-box .rbody{font-size:.9em;line-height:2.6;}
 .tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
 .tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
-.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
-.pop-note::before{content:"💡 ";}
 .ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
 .ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
 .ex-body{padding:13px 16px;}
+.sys{display:inline-flex;align-items:center;gap:0;margin:5px 0 10px;}
+.sys.g .sys-brace{color:#15803d;}
+.sys-brace{font-size:2.8em;line-height:1;color:var(--primary);font-weight:300;font-family:'Times New Roman','Georgia',serif;margin-right:4px;align-self:center;}
+.sys-lines{display:inline-grid;gap:0;}
+.sys-eq{font-size:.94em;font-weight:700;line-height:2.2;}
+.eq-no{font-size:.7em;color:var(--text-sub);margin-left:7px;}
 .sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
 .sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
 .sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
@@ -56,172 +45,100 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .sl.y{background:var(--warn);color:#fff;}
 .sl.b{background:var(--primary);color:#fff;}
 .sl.g{background:var(--success);color:#fff;}
-.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2.}
 .sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
 .sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
 .sum-box ul{padding-left:17px;}
 .sum-box li{margin-bottom:3px;}
 .sum-box strong{color:var(--primary);}
-.sq-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.95em;}
-.sq-table th,.sq-table td{padding:7px 10px;border:1.5px solid var(--border);text-align:center;}
-.sq-table th{background:var(--primary);color:#fff;font-weight:700;}
-.sq-table td{background:#fff;font-weight:700;}
-.sq-table tr:nth-child(even) td{background:var(--primary-light);}
-.split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.1em;line-height:2.2;font-weight:700;}
-.split-vis .arrow{color:var(--primary);font-size:1.3em;display:inline-block;margin:0 8px;}
 .nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
 .btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
 .btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
 .btn-f{background:var(--primary);color:#fff;}
 .btn-b{background:#f1f5f9;color:var(--text-sub);}
-.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
+.btn-h{background:#e0e7ff;color:#3730a3;font-size:.83em;padding:9px 18px;}
+.bwrap{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px 10px 10px;margin-bottom:13px;text-align:center;}
+.bwrap.green{border-color:#16a34a;background:#f0fdf4;}
+.btitle{font-size:.8em;font-weight:700;color:var(--primary);margin-bottom:5px;}
+.bwrap.green .btitle{color:#15803d;}
+.bnote{font-size:.8em;font-weight:700;color:var(--text-sub);margin-top:7px;line-height:1.85;}
+.bwrap.green .bnote{color:#15803d;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;line-height:1.1;}
+.frac .fn{border-bottom:2px solid currentColor;padding:0 4px 1px;text-align:center;min-width:1.1em;}
+.frac .fd{padding:1px 4px 0;text-align:center;min-width:1.1em;}
 </style>
 </head>
 <body>
 <div class="page-header">
-  <div class="unit-code">SQ04</div>
-  <h1>ルートの中を簡単にする<br><small style="font-size:.75em;opacity:.85;">$\sqrt{12} = 2\sqrt{3}$ の正体</small></h1>
+  <div class="unit-code">MF04</div>
+  <h1>分数・小数の連立方程式<br><small style="font-size:.75em;opacity:.85;">整数に直してから解く</small></h1>
 </div>
-<nav class="step-nav">
-  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
-  <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
-</nav>
+<nav class="step-nav"><div class="step-item"><span class="step-circle">①</span><a href="../mf01/intro.html">連立・①＋②</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">②</span><a href="../mf02/intro.html">①－②</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">③</span><a href="../mf03/intro.html">係数そろえ</a></div><span class="step-arrow">›</span><div class="step-item active"><span class="step-circle">④</span><span>分数・小数</span></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">⑤</span><a href="../mf05/intro.html">代入法</a></div></nav>
 <main class="g-container">
 
-<div class="sec">① なぜ「ルートの中を簡単にする」のか</div>
+<div class="sec">① 分数を含む連立方程式</div>
 <div class="rule-box">
-  <div class="rtitle">📌 ルートはできるだけ小さく！</div>
+  <div class="rtitle">📌 分数型の解き方</div>
   <div class="rbody">
-    数学では，$\sqrt{12}$ よりも $2\sqrt{3}$ の方を「正しい答え」とします。<br>
-    これは <strong>ルートの中の数をできるだけ小さくする</strong> というルールがあるからです。<br>
-    なぜなら，$\sqrt{12}$ と $\sqrt{3}$ では，$\sqrt{3}$ の方がイメージしやすいからです。
+    分数の方程式はそのまま計算しにくい。<br>
+    → 分母の <strong>最小公倍数を両辺にかける</strong> と整数になり，いつもの加減法で解ける！
   </div>
 </div>
-
-<div class="sec">② 大事な公式</div>
-<div class="formula-box">
-  <div class="ftitle">📌 公式</div>
-  $\sqrt{a^2 \times b} = a\sqrt{b}$<br>
-  <span style="font-size:.82em;color:var(--text-sub);font-weight:400;">($a \geq 0$，$b \geq 0$)</span>
-</div>
-<div class="rule-box">
-  <div class="rtitle">📌 言葉で言うと</div>
-  <div class="rbody">
-    ルートの中に <strong>2乗の数</strong> が「かけ算で隠れて」いたら，<strong>ルートの外に出せる</strong>！<br>
-    たとえば $\sqrt{4 \times 3} = \sqrt{2^2 \times 3}$ のように，$2^2$ が見えたら $2$ が外に出る。
-  </div>
-</div>
-
-<div class="sec">③ なぜ $\sqrt{12} = 2\sqrt{3}$ なのか？</div>
-<div class="rule-box">
-  <div class="rtitle">📌 段階を追って見ていきましょう</div>
-  <div class="rbody">
-    まず $12$ を <strong>「2乗の数 × 別の数」</strong> に分解します。
-  </div>
-</div>
-
-<div class="split-vis">
-  $12 = 4 \times 3 = 2^2 \times 3$
-</div>
-
-<div class="rule-box">
-  <div class="rtitle">📌 分解できたら…</div>
-  <div class="rbody">
-    あとは公式 $\sqrt{a^2 \times b} = a\sqrt{b}$ を当てはめるだけ！
-  </div>
-</div>
-
-<div class="split-vis">
-  $\sqrt{12} = \sqrt{2^2 \times 3} = 2\sqrt{3}$
-</div>
-
-<div class="pop-note">
-  $2^2 = 4$ がルートの中で「2乗の形」になっていたから，$2$ がルートの外に出てきた！
-</div>
-
-<div class="sec">④ 平方数を覚えよう（最重要！）</div>
-<div class="rule-box">
-  <div class="rtitle">📌 これを覚えればラクになる</div>
-  <div class="rbody">
-    $1^2$ から $10^2$ までの「平方数」を覚えておくと，分解がすばやくできます。
-  </div>
-</div>
-
-<table class="sq-table">
-  <tr><th>$n$</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
-  <tr><th>$n^2$</th><td>1</td><td>4</td><td>9</td><td>16</td><td>25</td><td>36</td><td>49</td><td>64</td><td>81</td><td>100</td></tr>
-</table>
-
-<div class="pop-note">
-  ルートの中に <strong>4，9，16，25，36，49，64，81，100</strong> がかけ算で隠れていないか探そう！
-</div>
-
-<div class="sec">⑤ 例で確認しよう</div>
-
-<div class="ex-card">
-  <div class="ex-head">例１)$\sqrt{18}$ を簡単にする</div>
-  <div class="ex-body">
-    <div class="sr y"><span class="sl y">分解</span><div>$18 = 9 \times 2 = 3^2 \times 2$</div></div>
-    <div class="sr b"><span class="sl b">公式を使う</span><div>$\sqrt{3^2 \times 2} = 3\sqrt{2}$</div></div>
-    <div class="ans-box">$\sqrt{18} = 3\sqrt{2}$</div>
-  </div>
+<div class="tip2">
+  <div style="background:var(--primary-light);color:var(--primary);">分母の最小公倍数を求める</div>
+  <div style="background:var(--success-light);color:var(--success);">両辺にかけて分数を消す</div>
 </div>
 
 <div class="ex-card">
-  <div class="ex-head">例２)$\sqrt{50}$ を簡単にする</div>
-  <div class="ex-body">
-    <div class="sr y"><span class="sl y">分解</span><div>$50 = 25 \times 2 = 5^2 \times 2$</div></div>
-    <div class="sr b"><span class="sl b">公式を使う</span><div>$\sqrt{5^2 \times 2} = 5\sqrt{2}$</div></div>
-    <div class="ans-box">$\sqrt{50} = 5\sqrt{2}$</div>
+  <div class="ex-head">例１）<span class="frac"><span class="fn">χ</span><span class="fd">3</span></span>＋<span class="frac"><span class="fn">ｙ</span><span class="fd">5</span></span>＝3　と　χ＋ｙ＝11</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq"><span class="frac"><span class="fn">χ</span><span class="fd">3</span></span>＋<span class="frac"><span class="fn">ｙ</span><span class="fd">5</span></span>＝3<span class="eq-no">……①</span></div><div class="sys-eq">χ＋ｙ＝11<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">方針</span><div>①の分母：3と5 → lcm＝15。①の両辺に<strong>×15</strong></div></div><div class="sr b"><span class="sl b">変形</span><div>①×15：5χ＋3ｙ＝45　……①'</div></div><div class="sr b"><span class="sl b">②×5－①'</span><div>(5χ＋5ｙ)－(5χ＋3ｙ)＝55－45　→　<strong>2ｙ＝10　→　ｙ＝5</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>ｙ＝5 を②へ：χ＋5＝11　→　<strong>χ＝6</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(6，5)</strong></div></div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例２）<span class="frac"><span class="fn">χ</span><span class="fd">5</span></span>＋<span class="frac"><span class="fn">ｙ</span><span class="fd">2</span></span>＝3　と　χ＋ｙ＝－3</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq"><span class="frac"><span class="fn">χ</span><span class="fd">5</span></span>＋<span class="frac"><span class="fn">ｙ</span><span class="fd">2</span></span>＝3<span class="eq-no">……①</span></div><div class="sys-eq">χ＋ｙ＝－3<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">方針</span><div>①の分母：5と2 → lcm＝10。①の両辺に<strong>×10</strong></div></div><div class="sr b"><span class="sl b">変形</span><div>①×10：2χ＋5ｙ＝30　……①'</div></div><div class="sr b"><span class="sl b">②×2－①'</span><div>(2χ＋2ｙ)－(2χ＋5ｙ)＝－6－30　→　<strong>－3ｙ＝－36　→　ｙ＝12</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>ｙ＝12 を②へ：χ＋12＝－3　→　<strong>χ＝－15</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(－15，12)</strong></div></div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例３）<span class="frac"><span class="fn">2χ</span><span class="fd">3</span></span>＋ｙ＝4　と　χ＋3ｙ＝9</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq"><span class="frac"><span class="fn">2χ</span><span class="fd">3</span></span>＋ｙ＝4<span class="eq-no">……①</span></div><div class="sys-eq">χ＋3ｙ＝9<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">方針</span><div>①の分母：3 → 両辺に<strong>×3</strong></div></div><div class="sr b"><span class="sl b">変形</span><div>①×3：2χ＋3ｙ＝12　……①'</div></div><div class="sr b"><span class="sl b">①'－②</span><div>(2χ＋3ｙ)－(χ＋3ｙ)＝12－9　→　<strong>χ＝3</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>χ＝3 を②へ：3＋3ｙ＝9　→　<strong>ｙ＝2</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(3，2)</strong></div></div>
+</div>
+
+<div class="sec">② 小数を含む連立方程式</div>
+<div class="rule-box">
+  <div class="rtitle">📌 小数型の解き方</div>
+  <div class="rbody">
+    小数点以下の桁数に合わせて <strong>×10 や ×100</strong> をして整数にする！<br>
+    整数になったら，いつも通りの加減法で解ける。
   </div>
+</div>
+<div class="tip2">
+  <div style="background:var(--primary-light);color:var(--primary);">小数1桁 → ×10</div>
+  <div style="background:var(--warn-light);color:var(--warn);">小数2桁 → ×100</div>
 </div>
 
 <div class="ex-card">
-  <div class="ex-head">例３)$\sqrt{75}$ を簡単にする</div>
-  <div class="ex-body">
-    <div class="sr y"><span class="sl y">分解</span><div>$75 = 25 \times 3 = 5^2 \times 3$</div></div>
-    <div class="sr b"><span class="sl b">公式を使う</span><div>$\sqrt{5^2 \times 3} = 5\sqrt{3}$</div></div>
-    <div class="ans-box">$\sqrt{75} = 5\sqrt{3}$</div>
-  </div>
+  <div class="ex-head">例４）0.5χ＋0.3ｙ＝－0.7　と　χ＋ｙ＝－1</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">χ＋ｙ＝－1<span class="eq-no">……①</span></div><div class="sys-eq">0.5χ＋0.3ｙ＝－0.7<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">方針</span><div>②の小数1桁 → 両辺に<strong>×10</strong></div></div><div class="sr b"><span class="sl b">変形</span><div>②×10：5χ＋3ｙ＝－7　……②'</div></div><div class="sr b"><span class="sl b">①×5－②'</span><div>(5χ＋5ｙ)－(5χ＋3ｙ)＝－5－(－7)　→　<strong>2ｙ＝2　→　ｙ＝1</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>ｙ＝1 を①へ：χ＋1＝－1　→　<strong>χ＝－2</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(－2，1)</strong></div></div>
 </div>
-
-<div class="sec">⑥ コツ：分解の見つけ方</div>
-<div class="rule-box">
-  <div class="rtitle">📌 大きな平方数から試す</div>
-  <div class="rbody">
-    例：$\sqrt{72}$ を簡単にする場合<br>
-    ❌ $72 = 4 \times 18$ → $\sqrt{4 \times 18} = 2\sqrt{18}$（まだ簡単になる！）<br>
-    ✅ $72 = 36 \times 2$ → $\sqrt{36 \times 2} = 6\sqrt{2}$（完全に簡単！）<br>
-    <strong>できるだけ大きな平方数</strong>を見つけるのがコツです。
-  </div>
+<div class="ex-card">
+  <div class="ex-head">例５）χ＋ｙ＝5　と　0.3χ＋0.7ｙ＝2.3</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">χ＋ｙ＝5<span class="eq-no">……①</span></div><div class="sys-eq">0.3χ＋0.7ｙ＝2.3<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">方針</span><div>②の小数1桁 → 両辺に<strong>×10</strong></div></div><div class="sr b"><span class="sl b">変形</span><div>②×10：3χ＋7ｙ＝23　……②'</div></div><div class="sr b"><span class="sl b">②'－①×3</span><div>(3χ＋7ｙ)－(3χ＋3ｙ)＝23－15　→　<strong>4ｙ＝8　→　ｙ＝2</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>ｙ＝2 を①へ：χ＋2＝5　→　<strong>χ＝3</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(3，2)</strong></div></div>
 </div>
-
-<div class="pop-note">
-  もし小さい平方数しか思いつかなかったら，もう一度ルートの中を見直して，さらに分解できないか確認しよう！
+<div class="ex-card">
+  <div class="ex-head">例６）χ＋ｙ＝7　と　0.25χ＋0.33ｙ＝2</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">χ＋ｙ＝7<span class="eq-no">……①</span></div><div class="sys-eq"><span class="frac"><span class="fn">χ</span><span class="fd">4</span></span>＋<span class="frac"><span class="fn">ｙ</span><span class="fd">3</span></span>＝2<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">方針</span><div>②の分母：4と3 → lcm＝12。両辺に<strong>×12</strong></div></div><div class="sr b"><span class="sl b">変形</span><div>②×12：3χ＋4ｙ＝24　……②'</div></div><div class="sr b"><span class="sl b">②'－①×3</span><div>(3χ＋4ｙ)－(3χ＋3ｙ)＝24－21　→　<strong>ｙ＝3</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>ｙ＝3 を①へ：χ＋3＝7　→　<strong>χ＝4</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(4，3)</strong></div></div>
 </div>
 
 <div class="sum-box">
   <div class="st">📌 まとめ</div>
   <ul>
-    <li>公式：<strong>$\sqrt{a^2 \times b} = a\sqrt{b}$</strong></li>
-    <li>ルートの中の数を「<strong>2乗の数 × 別の数</strong>」に分解する</li>
-    <li>2乗の数の部分はルートの外に出す</li>
-    <li>$1^2 \sim 10^2$ の平方数を覚えておくと早い</li>
-    <li>できるだけ <strong>大きな平方数</strong> で分解するのがコツ</li>
+    <li><strong>分数型</strong>：分母のLCMを両辺にかけて整数にしてから解く</li>
+    <li><strong>小数型</strong>：×10 や ×100 で整数にしてから解く</li>
+    <li>整数になったら，あとはいつもの加減法（①＋②，①－②，係数そろえ）で解ける</li>
   </ul>
 </div>
+<div class="nav-btns"><a href="../../index.html" class="btn-nav btn-h">🏠 単元一覧へ</a><a href="../mf03/intro.html" class="btn-nav btn-b">← ← 係数そろえ</a><a href="../mf05/intro.html" class="btn-nav btn-f">⑤ 代入法 へ →</a></div>
 
-<div class="nav-btns">
-  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
-  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
-</div>
 </main>
-
-<script src="../gamba_support.js"></script>
+<script src="../../gamba_support.js"></script>
 </body>
 </html>
