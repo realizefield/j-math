@@ -3,198 +3,276 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MD02 aχ＝○，<span class="frac"><span class="fn">a</span><span class="fd">b</span></span>χ＝△ 【確認テスト】</title>
+<title>SQ02 平方根の性質 【確認テスト】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderAllMath();"></script>
+
 <style>
-:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
-.g-container{max-width:760px;margin:0 auto;padding:24px 16px 60px;}
-.page-header{background:var(--primary);color:#fff;padding:18px 24px 14px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
-.page-header .unit-code{font-size:.82em;opacity:.8;letter-spacing:.1em;margin-bottom:4px;}
-.page-header h1{font-size:clamp(1.1em,3vw,1.55em);font-weight:700;margin:0;}
-.step-nav{display:flex;align-items:center;justify-content:center;padding:14px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;}
-.step-item{display:flex;align-items:center;gap:6px;font-size:clamp(.75em,2vw,.88em);color:#94a3b8;white-space:nowrap;padding:4px 6px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
 .step-item a{color:inherit;text-decoration:none;}
 .step-item a:hover{color:var(--primary);}
 .step-item.active{color:var(--primary);font-weight:700;}
-.step-circle{width:22px;height:22px;border-radius:50%;font-size:.76em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 3px var(--primary-light);}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
 .step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
-.step-arrow{color:#cbd5e1;font-size:1.1em;padding:0 2px;}
-.section-title{font-size:1.05em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:12px;margin-bottom:16px;margin-top:28px;}
-.section-title:first-of-type{margin-top:0;}
-.summary-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:18px 20px;margin-bottom:28px;font-size:.97em;line-height:2;}
-.summary-box .summary-title{font-weight:700;color:var(--warn);font-size:1.05em;margin-bottom:8px;}
-.summary-box ul{margin:0;padding-left:20px;}
-.summary-box li{margin-bottom:4px;}
-.summary-box strong{color:var(--primary);}
-.nav-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;margin-top:28px;}
-.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.95em;font-weight:700;padding:12px 28px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
-.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
-.btn-forward{background:var(--primary);color:#fff;}
-.btn-back{background:#f1f5f9;color:var(--text-sub);}
-.btn-success{background:var(--success);color:#fff;}
-.btn-home{background:#e0e7ff;color:#3730a3;font-size:.85em;padding:10px 20px;}
-.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;}
-.ex-card-head{background:var(--primary);color:#fff;padding:8px 16px;font-size:.85em;font-weight:700;}
-.ex-card-body{padding:14px 18px;}
-.step-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:9px;margin-bottom:8px;font-size:.9em;font-weight:700;line-height:2.5;}
-.step-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
-.step-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
-.step-row.g{background:var(--success-light);border:1.5px solid var(--success);}
-.slbl{font-size:.7em;font-weight:700;border-radius:6px;padding:2px 8px;white-space:nowrap;flex-shrink:0;}
-.slbl.y{background:var(--warn);color:#fff;}
-.slbl.b{background:var(--primary);color:#fff;}
-.slbl.g{background:var(--success);color:#fff;}
-.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:12px 16px;margin-top:10px;font-size:1.15em;font-weight:700;color:var(--primary);text-align:center;line-height:2.5;}
-.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 4px;line-height:1.1;}
-.frac .fn{border-bottom:2px solid currentColor;padding:0 5px 2px;text-align:center;min-width:1.2em;}
-.frac .fd{padding:2px 5px 0;text-align:center;min-width:1.2em;}
-
-.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:20px;font-size:.95em;color:var(--primary);line-height:1.7;}
-.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
-.problem-head{display:flex;align-items:center;padding:16px 18px;gap:10px;flex-wrap:wrap;}
-.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 14px;font-family:'BIZ UDPGothic',sans-serif;font-size:.8em;color:var(--text-sub);cursor:pointer;white-space:nowrap;}
-.expr{font-size:clamp(1em,3vw,1.2em);font-weight:700;line-height:2.2;}
-.calc-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;padding:7px 10px;border-radius:8px;margin-bottom:5px;font-size:.88em;font-weight:700;line-height:2.2;}
-.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
-.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
-.clbl{font-size:.7em;font-weight:700;border-radius:6px;padding:2px 7px;white-space:nowrap;flex-shrink:0;}
-.clbl.y{background:var(--warn);color:#fff;}
-.clbl.g{background:var(--success);color:#fff;}
-.problem-card{margin-bottom:14px;}
-.p-num{display:inline-block;background:var(--primary);color:#fff;border-radius:6px;padding:2px 9px;font-size:.78em;font-weight:700;margin-bottom:8px;}
-.q-text{font-size:clamp(1em,3vw,1.2em);font-weight:700;margin-bottom:12px;line-height:2.2;}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 14px;}
-.choice-btn{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--bg);border:2.5px solid var(--border);border-radius:10px;padding:14px 8px;font-size:.92em;font-weight:700;color:var(--text);cursor:pointer;transition:all .18s;text-align:center;line-height:2;}
-.choice-btn:hover:not(:disabled){background:var(--primary-light);border-color:var(--primary);color:var(--primary);}
-.choice-btn.selected{background:var(--primary-light);border-color:var(--primary);color:var(--primary);}
-.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.q-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;padding:16px;}
+.q-num{font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.q-text{font-size:1.08em;font-weight:700;margin-bottom:13px;line-height:2;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choice-btn{background:#f1f5f9;border:2px solid var(--border);border-radius:10px;padding:12px 8px;font-family:'BIZ UDPGothic',sans-serif;font-size:.95em;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;line-height:1.6;min-height:52px;}
+.choice-btn:hover{background:var(--primary-light);border-color:var(--primary);}
+.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:#15803d;}
 .choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.choice-btn.show-ans{background:var(--success-light);border-color:var(--success);color:#15803d;}
 .choice-btn:disabled{cursor:default;}
-.expl-area{display:none;padding:0 14px 14px;}
-.score-box{display:none;background:var(--card);border:3px solid var(--primary);border-radius:var(--radius);padding:20px 24px;text-align:center;}
-.score-box.visible{display:block;}
-.score-label{font-size:.9em;color:var(--text-sub);margin-bottom:6px;}
-.score-num{font-size:clamp(1.8em,5vw,2.6em);font-weight:700;color:var(--primary);}
-.score-msg{margin-top:8px;font-size:.9em;color:var(--text-sub);}
-.btn-submit{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;background:var(--primary);color:#fff;font-size:clamp(1em,3vw,1.15em);font-weight:700;padding:14px clamp(36px,10vw,80px);border:none;border-radius:50px;cursor:pointer;box-shadow:0 4px 14px rgba(26,86,160,.3);transition:transform .15s;letter-spacing:.05em;}
-.confetti-piece{position:fixed;top:-20px;border-radius:3px;opacity:0;animation:confettiFall linear forwards;pointer-events:none;z-index:9999;}
-@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1;}80%{opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+.result-panel{margin-top:13px;padding:11px 14px;border-radius:9px;font-size:.9em;font-weight:700;display:none;line-height:1.8;}
+.result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;}
+.result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);color:var(--accent);}
+.score-box{background:linear-gradient(135deg,#15803d,#059669);color:#fff;border-radius:var(--radius);padding:22px;text-align:center;margin-top:22px;display:none;box-shadow:0 5px 18px rgba(21,128,61,.3);}
+.score-box .sc{font-size:2.2em;font-weight:700;margin-bottom:5px;}
+.score-box .sc-msg{font-size:.93em;opacity:.95;}
+.btn-retry{background:#fff;color:#15803d;margin-top:14px;width:100%;font-family:'BIZ UDPGothic',sans-serif;font-size:.95em;font-weight:700;padding:12px;border-radius:50px;border:none;cursor:pointer;}
+.btn-retry:hover{background:var(--primary-light);}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
 </style>
 </head>
 <body>
+<canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none"></canvas>
 <div class="page-header">
-  <div class="unit-code">MD02</div>
-  <h1>aχ＝○，<span class="frac"><span class="fn">a</span><span class="fd">b</span></span>χ＝△　【確認テスト】</h1>
+  <div class="unit-code">SQ02</div>
+  <h1>平方根の性質<br><small style="font-size:.75em;opacity:.85;">確認テスト</small></h1>
 </div>
-<nav class="step-nav"><div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div><span class="step-arrow">›</span><div class="step-item active"><span class="step-circle">④</span><span>確認</span></div></nav>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">④</span><span>確認</span></div>
+</nav>
 <main class="g-container">
-
-  <div class="instruction" style="border-left-color:var(--accent);"><strong>【確認テスト】</strong>　全問正解で合格！正しい答えをひとつ選ぼう。</div>
-  <div style="background:linear-gradient(135deg,#fef3c7,#fffbeb);border:2px solid var(--warn);border-radius:12px;padding:10px 14px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-    <div style="background:var(--primary-light);border-radius:8px;padding:7px;color:var(--primary);font-size:.88em;font-weight:700;text-align:center;">かけ算はわり算にする</div>
-    <div style="background:var(--accent-light);border-radius:8px;padding:7px;color:var(--accent);font-size:.88em;font-weight:700;text-align:center;">符号は変わらない</div>
-  </div>
-  <div id="problems-area"></div>
-  <div style="text-align:center;margin-top:28px;">
-    <button onclick="judgeAll()" class="btn-submit">判定する</button>
-  </div>
-  <div id="result-area" class="score-box" style="margin-top:24px;"></div>
-  <div class="nav-btns">
-    <a href="../../index.html" class="btn-nav btn-home">🏠 単元一覧へ</a>
-    <a href="drill.html" class="btn-nav btn-back">← 演習にもどる</a>
-    <a id="btn-next" href="../../index.html" class="btn-nav btn-success" style="display:none;">単元一覧へ →</a>
-  </div>
+<div class="instruction"><strong>【確認テスト】</strong>　選択肢をタップして答えを選ぼう！全問正解を目指せ！</div>
+<div id="quiz-area"></div>
+<div class="score-box" id="score-box">
+  <div class="sc" id="sc-text"></div>
+  <div class="sc-msg" id="sc-msg"></div>
+  <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
+</div>
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="drill.html" class="btn-nav btn-b">← 演習</a>
+  <a href="../sq03/intro.html" class="btn-nav btn-f">SQ03 へ →</a>
+</div>
 </main>
+
 <script>
-const _CHECK=[
-  {set_id:1,problems:[
-    {id:'Q1',q:'3χ＝21 を解きなさい',choices:['χ＝7','χ＝63','χ＝－7','χ＝－63'],ans:0,hint:'χ＝21÷3＝7'},
-    {id:'Q2',q:'－6χ＝9 を解きなさい',choices:['χ＝<span class="frac"><span class="fn">3</span><span class="fd">2</span></span>','χ＝54','χ＝－<span class="frac"><span class="fn">3</span><span class="fd">2</span></span>','χ＝－54'],ans:2,hint:'χ＝9÷（－6）＝－<span class="frac"><span class="fn">3</span><span class="fd">2</span></span>'},
-    {id:'Q3',q:'<span class="frac"><span class="fn">2</span><span class="fd">3</span></span>χ＝6 を解きなさい',choices:['χ＝4','χ＝9','χ＝－9','χ＝<span class="frac"><span class="fn">4</span><span class="fd">3</span></span>'],ans:1,hint:'χ＝6÷<span class="frac"><span class="fn">2</span><span class="fd">3</span></span>＝6×<span class="frac"><span class="fn">3</span><span class="fd">2</span></span>＝9'},
-    {id:'Q4',q:'－χ＝－<span class="frac"><span class="fn">2</span><span class="fd">3</span></span> を解きなさい',choices:['χ＝<span class="frac"><span class="fn">2</span><span class="fd">3</span></span>','χ＝－<span class="frac"><span class="fn">2</span><span class="fd">3</span></span>','χ＝<span class="frac"><span class="fn">3</span><span class="fd">2</span></span>','χ＝－<span class="frac"><span class="fn">3</span><span class="fd">2</span></span>'],ans:0,hint:'χ＝（－<span class="frac"><span class="fn">2</span><span class="fd">3</span></span>）÷（－1）＝<span class="frac"><span class="fn">2</span><span class="fd">3</span></span>'},
-  ]},
-  {set_id:2,problems:[
-    {id:'Q1',q:'－3χ＝－8 を解きなさい',choices:['χ＝<span class="frac"><span class="fn">8</span><span class="fd">3</span></span>','χ＝－<span class="frac"><span class="fn">8</span><span class="fd">3</span></span>','χ＝24','χ＝－24'],ans:0,hint:'χ＝（－8）÷（－3）＝<span class="frac"><span class="fn">8</span><span class="fd">3</span></span>'},
-    {id:'Q2',q:'<span class="frac"><span class="fn">χ</span><span class="fd">5</span></span>＝－1 を解きなさい',choices:['χ＝5','χ＝－5','χ＝<span class="frac"><span class="fn">1</span><span class="fd">5</span></span>','χ＝－<span class="frac"><span class="fn">1</span><span class="fd">5</span></span>'],ans:1,hint:'<span class="frac"><span class="fn">1</span><span class="fd">5</span></span>χ＝－1　→　χ＝－1×5＝－5'},
-    {id:'Q3',q:'－<span class="frac"><span class="fn">2</span><span class="fd">3</span></span>χ＝－10 を解きなさい',choices:['χ＝15','χ＝－15','χ＝<span class="frac"><span class="fn">20</span><span class="fd">3</span></span>','χ＝－<span class="frac"><span class="fn">20</span><span class="fd">3</span></span>'],ans:0,hint:'χ＝（－10）÷（－<span class="frac"><span class="fn">2</span><span class="fd">3</span></span>）＝10×<span class="frac"><span class="fn">3</span><span class="fd">2</span></span>＝15'},
-    {id:'Q4',q:'4χ＝－28 を解きなさい',choices:['χ＝7','χ＝－7','χ＝112','χ＝－112'],ans:1,hint:'χ＝（－28）÷4＝－7'},
-  ]},
+const QS=[
+  {
+    q:"$\\sqrt{9^2}$ を計算すると？",
+    choices:["$3$","$9$","$81$","$\\pm 9$"],
+    ans:1,
+    exp:"$\\sqrt{a^2} = a$($a \\geq 0$)を使って，$\\sqrt{9^2} = 9$。$\\pm$ はつかない！"
+  },
+  {
+    q:"$\\sqrt{(-4)^2}$ を計算すると？",
+    choices:["$-4$","$4$","$16$","$\\pm 4$"],
+    ans:1,
+    exp:"まず $(-4)^2 = 16$，次に $\\sqrt{16} = 4$。ルートの値は必ず $0$ 以上なので $-4$ ではない！"
+  },
+  {
+    q:"$-\\sqrt{6^2}$ を計算すると？",
+    choices:["$6$","$36$","$-6$","$-36$"],
+    ans:2,
+    exp:"$\\sqrt{6^2} = 6$ で，<strong>外のマイナス</strong>をつけて $-6$。外のマイナスは残る！"
+  },
+  {
+    q:"$|-12|$ の値は？",
+    choices:["$-12$","$12$","$0$","$\\pm 12$"],
+    ans:1,
+    exp:"絶対値は「$0$ からの距離」。$-12$ から $0$ までの距離は $12$。符号を取り除くだけなので $|-12| = 12$。"
+  },
+  {
+    q:"$\\sqrt{(-7)^2}$ と $\\sqrt{-7}$ について正しいのは？",
+    choices:[
+      "両方とも $7$",
+      "両方とも存在しない",
+      "$\\sqrt{(-7)^2}=7$，$\\sqrt{-7}$ は存在しない",
+      "$\\sqrt{(-7)^2}=-7$，$\\sqrt{-7}=7$"
+    ],
+    ans:2,
+    exp:"$\\sqrt{(-7)^2}$ はまず $2$ 乗して $49$ → $\\sqrt{49}=7$。$\\sqrt{-7}$ はルートの中がマイナスなので存在しない(実数の範囲では)。"
+  },
 ];
-const setIndex=Math.floor(Math.random()*_CHECK.length);
-const problems=_CHECK[setIndex].problems;
-let startTime=Date.now();
-const state=[];
-function buildProblems(){
-  const area=document.getElementById('problems-area');
+
+let answers=[];
+let answered=new Array(QS.length).fill(false);
+
+function buildQuiz(){
+  const area=document.getElementById('quiz-area');
   area.innerHTML='';
-  problems.forEach((p,i)=>{
-    const idx=p.choices.map((_,j)=>j);
-    for(let j=idx.length-1;j>0;j--){const k=Math.floor(Math.random()*(j+1));[idx[j],idx[k]]=[idx[k],idx[j]];}
-    const shuffled=idx.map(j=>p.choices[j]);
-    const ci=idx.indexOf(p.ans);
-    state[i]={chosenIdx:-1,correctIdx:ci,shuffled,p};
-    const btns=shuffled.map((c,j)=>'<button class="choice-btn" onclick="selectChoice('+i+','+j+')">'+c+'</button>').join('');
-    area.innerHTML+='<div class="problem-card" id="card'+i+'">'
-      +'<div style="padding:16px 18px 10px;">'
-      +'<div class="p-num">問 '+(i+1)+'</div>'
-      +'<div class="q-text">'+p.q+'</div></div>'
-      +'<div class="choices">'+btns+'</div>'
-      +'<div class="expl-area" id="expl'+i+'"></div></div>';
+  QS.forEach((q,i)=>{
+    const choicesHtml=q.choices.map((c,j)=>
+      '<button class="choice-btn" id="c'+i+'_'+j+'" onclick="choose('+i+','+j+')">'+c+'</button>'
+    ).join('');
+    area.innerHTML+='<div class="q-card" id="qc'+i+'">'
+      +'<div class="q-num">問'+(i+1)+'</div>'
+      +'<div class="q-text">'+q.q+'</div>'
+      +'<div class="choices">'+choicesHtml+'</div>'
+      +'<div class="result-panel" id="rp'+i+'"></div>'
+      +'</div>';
   });
+  renderAllMath();
 }
-function selectChoice(qi,ci){
-  if(state[qi].locked)return;
-  state[qi].chosenIdx=ci;
-  document.getElementById('card'+qi).querySelectorAll('.choice-btn')
-    .forEach((b,bi)=>b.classList.toggle('selected',bi===ci));
-}
-function judgeAll(){
-  let correct=0;
-  problems.forEach((p,i)=>{
-    const s=state[i];
-    document.getElementById('card'+i).querySelectorAll('.choice-btn').forEach((b,bi)=>{
-      b.disabled=true;b.classList.remove('selected');
-      if(bi===s.correctIdx)b.classList.add('correct');
-      else if(bi===s.chosenIdx&&s.chosenIdx!==s.correctIdx)b.classList.add('wrong');
+
+function choose(qi,ci){
+  if(answered[qi])return;
+  answered[qi]=true;
+  answers[qi]=ci;
+  const q=QS[qi];
+  const correct=(ci===q.ans);
+  for(let j=0;j<q.choices.length;j++){
+    const btn=document.getElementById('c'+qi+'_'+j);
+    btn.disabled=true;
+    if(j===q.ans)btn.classList.add('show-ans');
+  }
+  document.getElementById('c'+qi+'_'+ci).classList.add(correct?'correct':'wrong');
+  const rp=document.getElementById('rp'+qi);
+  rp.style.display='block';
+  rp.className='result-panel '+(correct?'ok':'ng');
+  rp.innerHTML=(correct?'✅ 正解！':'❌ 不正解…　正解は【'+q.choices[q.ans]+'】')
+    +'<br><span style="font-weight:400;">'+q.exp+'</span>';
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(rp,{
+      delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+      throwOnError:false
     });
-    const isOk=s.chosenIdx===s.correctIdx;
-    if(isOk)correct++;
-    const ans=s.shuffled[s.correctIdx];
-    const expl=document.getElementById('expl'+i);
-    let html=isOk
-      ?'<div style="background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-weight:700;color:var(--success);">⭕ 正解！　<strong>'+ans+'</strong></div>'
-      :'<div style="background:var(--accent-light);border:2px solid var(--accent);border-radius:8px;padding:8px 12px;margin-bottom:8px;font-weight:700;color:var(--accent);">❌ 正解は <strong style="font-size:1.1em;">'+ans+'</strong>'+(s.chosenIdx<0?'（未選択）':'')+'</div>';
-    html+='<div class="calc-row y"><span class="clbl y">解説</span>'+p.hint+'</div>';
-    html+='<div class="calc-row g"><span class="clbl g">答え</span><strong style="color:var(--primary)">'+ans+'</strong></div>';
-    expl.innerHTML=html;expl.style.display='block';state[i].locked=true;
-  });
-  const isPassed=correct===problems.length;
-  const ra=document.getElementById('result-area');ra.classList.add('visible');
-  const msg=isPassed?'完璧！マスターです 🎉':correct>=problems.length*0.75?'あと少し！もう一度確認しよう。':'解説を見てルールを復習しよう！';
-  ra.innerHTML='<div class="score-label">合計点</div><div class="score-num">'+correct+' / '+problems.length+' 正解</div><div class="score-msg">'+msg+'</div>'+(isPassed?'<div style="margin-top:12px;font-size:.95em;color:#16a34a;font-weight:700;">✅ 合格！</div>':'');
-  if(isPassed){
+  }
+  if(answered.every(v=>v))showScore();
+}
+
+function showScore(){
+  const box=document.getElementById('score-box');
+  const correct=answers.filter((a,i)=>a===QS[i].ans).length;
+  box.style.display='block';
+  document.getElementById('sc-text').textContent=correct+' / '+QS.length+' 問正解';
+  const msgs=[
+    'もう一度チャレンジ！💪',
+    'あと少し！復習しよう📖',
+    'なかなか良い！✨',
+    'ほぼ完璧！🌟',
+    'おしい！あと1問！🔥',
+    '満点！すばらしい🎉'
+  ];
+  document.getElementById('sc-msg').textContent=msgs[Math.min(correct,5)];
+  // 満点の場合は合格登録 + 花吹雪
+  if(correct===QS.length){
+    if(typeof markPassed==='function'){
+      try{markPassed('SQ02');}catch(e){}
+    }
     launchConfetti();
-    document.getElementById('btn-next').style.display='inline-block';
-    localStorage.setItem('gamba_prog_MD02','pass');
   }
-  ra.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
+
+function retry(){
+  answered=new Array(QS.length).fill(false);
+  answers=[];
+  document.getElementById('score-box').style.display='none';
+  buildQuiz();
+}
+
+function renderAllMath(){
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(document.body,{
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+/* ── 花吹雪エフェクト ── */
 function launchConfetti(){
-  const colors=['#e8372d','#1a56a0','#16a34a','#d97706','#7c3aed','#ec4899','#0ea5e9','#f59e0b'];
-  for(let i=0;i<120;i++){
-    setTimeout(()=>{
-      const el=document.createElement('div');
-      el.className='confetti-piece';
-      const sz=Math.random()*10+6;
-      el.style.cssText='left:'+(Math.random()*100)+'vw;width:'+sz+'px;height:'+sz+'px;background:'+colors[Math.floor(Math.random()*colors.length)]+';border-radius:50%;animation-duration:'+(Math.random()*2+2)+'s;animation-delay:0s';
-      document.body.appendChild(el);setTimeout(()=>el.remove(),5000);
-    },i*30);
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.style.display = 'block';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const colors = ['#fbbf24','#f59e0b','#dc2626','#16a34a','#2563eb','#9333ea','#ec4899','#15803d'];
+  const particles = [];
+  const particleCount = 200;
+
+  for(let i = 0; i < particleCount; i++){
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: -Math.random() * canvas.height * 0.5 - 20,
+      w: Math.random() * 8 + 6,
+      h: Math.random() * 4 + 3,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      vx: (Math.random() - 0.5) * 4,
+      vy: Math.random() * 3 + 2,
+      rot: Math.random() * Math.PI * 2,
+      vrot: (Math.random() - 0.5) * 0.2
+    });
   }
+
+  let startTime = Date.now();
+  const duration = 5000;
+
+  function animate(){
+    const elapsed = Date.now() - startTime;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p=>{
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.08;
+      p.vx *= 0.99;
+      p.rot += p.vrot;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+
+    if(elapsed < duration){
+      requestAnimationFrame(animate);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.display = 'none';
+    }
+  }
+
+  animate();
 }
-buildProblems();
+
+buildQuiz();
 </script>
-<script src="../../gamba_support.js"></script>
+<script src="../gamba_support.js"></script>
 </body>
 </html>
