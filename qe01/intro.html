@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QE01 二次方程式とは 【導入】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#4338ca;--primary-light:#e0e7ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#eef2ff;--card:#ffffff;--border:#c7d2fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(67,56,202,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.1em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.1em;line-height:2.4;font-weight:700;}
+.split-vis .arrow{color:var(--primary);font-size:1.3em;display:inline-block;margin:0 8px;}
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.compare-side{border:2px solid var(--border);border-radius:10px;padding:12px;text-align:center;background:var(--success-light);border-color:var(--success);}
+.compare-side .lbl{font-size:.78em;font-weight:700;margin-bottom:6px;color:var(--success);}
+.compare-side .val{font-size:1.05em;font-weight:700;line-height:2;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#4338ca;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">QE01</div>
+  <h1>二次方程式とは<br><small style="font-size:.75em;opacity:.85;">$x^2 = a$ の形を解く</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① 二次方程式とは？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 これまでとちがう新しい方程式</div>
+  <div class="rbody">
+    一次方程式：$3x + 5 = 11$ のように $x$ が <strong>1乗</strong> の方程式<br>
+    二次方程式：$x^2 - x - 6 = 0$ のように $x$ の <strong>2乗</strong> が出てくる方程式<br>
+    <strong>「$x^2$ がある」のが特徴</strong>です！
+  </div>
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 二次方程式の特徴</div>
+  <div class="rbody">
+    一次方程式の解は普通 <strong>1個</strong>（$x = 3$ など）<br>
+    二次方程式の解は普通 <strong>2個</strong>（$x = -2, 3$ など）<br>
+    なぜ2個になるのか？　その理由はこのあとわかります！
+  </div>
+</div>
+
+<div class="sec">② 二次方程式の3つの解き方</div>
+<div class="rule-box">
+  <div class="rtitle">📌 これから学ぶ流れ</div>
+  <div class="rbody">
+    二次方程式には <strong>3通りの解き方</strong> があります：<br>
+    ① <strong>$x^2 = a$ や $(x+a)^2 = b$ の形</strong>（QE01・QE02）<br>
+    ② <strong>因数分解で解く</strong>（QE03・QE04）<br>
+    ③ <strong>解の公式</strong>（QE05・QE06）<br>
+    今回(QE01)はいちばん基本の <strong>$x^2 = a$ の形</strong> から始めます。
+  </div>
+</div>
+
+<div class="sec">③ $x^2 = a$ を解こう</div>
+<div class="formula-box">
+  <div class="ftitle">📌 基本の考え方</div>
+  $x^2 = a$ ならば $x = \pm\sqrt{a}$<br>
+  <span style="font-size:.82em;color:var(--text-sub);font-weight:400;">($a \geq 0$ のとき)</span>
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 平方根のおさらい(SQ01)</div>
+  <div class="rbody">
+    $x^2 = 4$ になる $x$ を考えると…<br>
+    $2^2 = 4$ なので $x = 2$<br>
+    でも $(-2)^2 = 4$ でもあるので $x = -2$ も解！<br>
+    だから <strong>$x = \pm 2$</strong> と書きます。
+  </div>
+</div>
+
+<div class="split-vis">
+  $x^2 = 4$ <span class="arrow">→</span> $x = \pm 2$
+</div>
+
+<div class="pop-note">
+  「$\pm$」は「プラスマイナス」と読む。<strong>解が2つある</strong> ことをまとめて表す記号！
+</div>
+
+<div class="sec">④ 答えにルートが残るとき</div>
+<div class="rule-box">
+  <div class="rtitle">📌 たとえば $x^2 = 5$ の場合</div>
+  <div class="rbody">
+    $5$ は平方数ではないので，2乗して $5$ になるきれいな数はない。<br>
+    でも，<strong>平方根の記号 $\sqrt{\phantom{x}}$ を使えば書ける</strong>！
+  </div>
+</div>
+
+<div class="split-vis">
+  $x^2 = 5$ <span class="arrow">→</span> $x = \pm\sqrt{5}$
+</div>
+
+<div class="pop-note">
+  $\sqrt{5}$ がそのまま答えとして OK！　無理に近似値にしなくてよい。
+</div>
+
+<div class="sec">⑤ 係数がある場合</div>
+<div class="rule-box">
+  <div class="rtitle">📌 たとえば $4x^2 = 9$</div>
+  <div class="rbody">
+    まず両辺を $4$ でわって，$x^2 = \dfrac{9}{4}$ の形にする。<br>
+    次に，$x = \pm\sqrt{\dfrac{9}{4}} = \pm\dfrac{3}{2}$
+  </div>
+</div>
+
+<div class="split-vis">
+  $4x^2 = 9$ <span class="arrow">→</span> $x^2 = \dfrac{9}{4}$ <span class="arrow">→</span> $x = \pm\dfrac{3}{2}$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 移項が必要な場合</div>
+  <div class="rbody">
+    $4x^2 - 49 = 0$ のような形は，まず <strong>$-49$ を移項</strong> して $4x^2 = 49$ の形にしてから解く。
+  </div>
+</div>
+
+<div class="sec">⑥ 例で確認しよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">例１)$x^2 = 9$ を解く</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">考え方</span><div>$\pm\sqrt{9}$ を求める</div></div>
+    <div class="sr b"><span class="sl b">計算</span><div>$\sqrt{9} = 3$ なので $x = \pm 3$</div></div>
+    <div class="ans-box">$x = \pm 3$（つまり $x = 3$ と $x = -3$）</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例２)$x^2 = 2$ を解く</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">確認</span><div>$2$ は平方数ではない → ルートが残る</div></div>
+    <div class="sr b"><span class="sl b">答え</span><div>$x = \pm\sqrt{2}$</div></div>
+    <div class="ans-box">$x = \pm\sqrt{2}$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例３)$x^2 = 6$ を解く</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">確認</span><div>$6$ も平方数ではない</div></div>
+    <div class="sr b"><span class="sl b">答え</span><div>$x = \pm\sqrt{6}$</div></div>
+    <div class="ans-box">$x = \pm\sqrt{6}$</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>二次方程式は $x^2$ が出てくる方程式</li>
+    <li>解は普通 <strong>2つ</strong>（$\pm$ で表す）</li>
+    <li>$x^2 = a$ ならば <strong>$x = \pm\sqrt{a}$</strong></li>
+    <li>$a$ が平方数なら整数の解，そうでなければ $\sqrt{\phantom{x}}$ が残る</li>
+    <li>係数がある場合は，まず <strong>$x^2 = \square$ の形</strong> にする</li>
+    <li>$\square$ の中が分数になることもある</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

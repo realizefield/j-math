@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QE02 (x+a)²=bの形 【演習】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderAllMath();"></script>
+
+<style>
+:root{--primary:#4338ca;--primary-light:#e0e7ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#eef2ff;--card:#ffffff;--border:#c7d2fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(67,56,202,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.tip2 div{border-radius:8px;padding:8px;font-size:.84em;font-weight:700;text-align:center;line-height:1.5;}
+.set-badge{background:var(--warn-light);border:1.5px solid var(--warn);border-radius:10px;padding:8px 12px;margin-bottom:14px;font-size:.85em;font-weight:700;color:#92400e;text-align:center;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.problem-head{display:flex;align-items:center;padding:13px 15px;gap:11px;flex-wrap:wrap;font-weight:700;font-size:1em;}
+.p-badge{background:var(--primary);color:#fff;font-size:.72em;font-weight:700;border-radius:6px;padding:3px 9px;white-space:nowrap;flex-shrink:0;}
+.p-text{flex:1;min-width:0;font-size:1.02em;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.78em;color:var(--text-sub);cursor:pointer;white-space:nowrap;}
+.ans-toggle:hover{border-color:var(--primary);color:var(--primary);}
+.ans-area{display:none;padding:0 13px 12px;}
+.ans-result{background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:9px 13px;margin-bottom:7px;font-weight:700;color:var(--primary);font-size:1.02em;}
+.calc-row{display:flex;align-items:flex-start;gap:6px;padding:8px 11px;border-radius:8px;margin-bottom:5px;font-size:.86em;font-weight:700;line-height:2;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.g{background:var(--success-light);border:1.5px solid var(--success);}
+.clbl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.g{background:var(--success);color:#fff;}
+.retry-bar{text-align:center;margin:22px 0 10px;}
+.btn-retry-set{background:var(--card);border:1.5px solid var(--primary);color:var(--primary);border-radius:50px;padding:8px 20px;font-family:'BIZ UDPGothic',sans-serif;font-size:.88em;font-weight:700;cursor:pointer;}
+.btn-retry-set:hover{background:var(--primary-light);}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#4338ca;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">QE02</div>
+  <h1>$(x+a)^2 = b$ の形<br><small style="font-size:.75em;opacity:.85;">演習</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">③</span><span>演習</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+<div class="instruction"><strong>【演習】</strong>　① 自分で考える　②「答を見る」で確認しよう</div>
+<div class="tip2">
+  <div style="background:var(--primary-light);color:var(--primary);">$(x+a)^2 = b$ → $x+a = \pm\sqrt{b}$<br>移項して $x = $ の形に</div>
+  <div style="background:var(--accent-light);color:var(--accent);">マイナス記号<br>移項時の符号注意！</div>
+</div>
+
+<div class="set-badge" id="set-label">セット準備中…</div>
+<div id="drill-area"></div>
+
+<div class="retry-bar">
+  <button class="btn-retry-set" onclick="reloadSet()">🔄 別のセットに切り替え</button>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-b">← 例題</a>
+  <a href="check.html" class="btn-nav btn-f">④ 確認テストへ →</a>
+</div>
+</main>
+
+<script>
+const SETS=[
+  {
+    set_id:1,
+    label:"セット1：ルートが残るパターン",
+    problems:[
+      {q:"$(x+2)^2 = 5$",ans:"$x = -2 \\pm\\sqrt{5}$",hint:"$x+2 = \\pm\\sqrt{5}$ → $x = -2 \\pm\\sqrt{5}$"},
+      {q:"$(x-3)^2 = 7$",ans:"$x = 3 \\pm\\sqrt{7}$",hint:"$x-3 = \\pm\\sqrt{7}$ → $x = 3 \\pm\\sqrt{7}$（$-3$ は $+3$ に！）"},
+      {q:"$(x-7)^2 = 11$",ans:"$x = 7 \\pm\\sqrt{11}$",hint:"$x-7 = \\pm\\sqrt{11}$ → $x = 7 \\pm\\sqrt{11}$"},
+      {q:"$(x-2)^2 = 27$",ans:"$x = 2 \\pm 3\\sqrt{3}$",hint:"$\\sqrt{27} = 3\\sqrt{3}$ → $x-2 = \\pm 3\\sqrt{3}$ → $x = 2 \\pm 3\\sqrt{3}$"},
+    ]
+  },
+  {
+    set_id:2,
+    label:"セット2：整数の解になる",
+    problems:[
+      {q:"$(x-1)^2 = 81$",ans:"$x = 10, -8$",hint:"$x-1 = \\pm 9$ → $x = 1 \\pm 9$ → $x = 10, -8$"},
+      {q:"$(x-3)^2 = 1$",ans:"$x = 4, 2$",hint:"$x-3 = \\pm 1$ → $x = 3 \\pm 1$ → $x = 4, 2$"},
+      {q:"$(x+1)^2 - 16 = 0$",ans:"$x = 3, -5$",hint:"$(x+1)^2 = 16$ → $x+1 = \\pm 4$ → $x = -1 \\pm 4$ → $x = 3, -5$"},
+      {q:"$(x+7)^2 - 25 = 0$",ans:"$x = -2, -12$",hint:"$(x+7)^2 = 25$ → $x+7 = \\pm 5$ → $x = -7 \\pm 5$ → $x = -2, -12$"},
+    ]
+  },
+  {
+    set_id:3,
+    label:"セット3：簡単化が必要",
+    problems:[
+      {q:"$(x+5)^2 = 8$",ans:"$x = -5 \\pm 2\\sqrt{2}$",hint:"$\\sqrt{8} = 2\\sqrt{2}$ → $x = -5 \\pm 2\\sqrt{2}$"},
+      {q:"$(x-1)^2 = 12$",ans:"$x = 1 \\pm 2\\sqrt{3}$",hint:"$\\sqrt{12} = 2\\sqrt{3}$ → $x = 1 \\pm 2\\sqrt{3}$"},
+      {q:"$(x+3)^2 = 18$",ans:"$x = -3 \\pm 3\\sqrt{2}$",hint:"$\\sqrt{18} = 3\\sqrt{2}$ → $x = -3 \\pm 3\\sqrt{2}$"},
+      {q:"$(x-4)^2 - 50 = 0$",ans:"$x = 4 \\pm 5\\sqrt{2}$",hint:"$(x-4)^2 = 50$ → $\\sqrt{50} = 5\\sqrt{2}$ → $x = 4 \\pm 5\\sqrt{2}$"},
+    ]
+  },
+];
+
+let currentSet=null;
+
+function pickSet(){
+  const idx=Math.floor(Math.random()*SETS.length);
+  currentSet=SETS[idx];
+}
+
+function build(){
+  document.getElementById('set-label').textContent='📚 '+currentSet.label;
+  const area=document.getElementById('drill-area');
+  area.innerHTML='';
+  currentSet.problems.forEach((p,i)=>{
+    const card=document.createElement('div');
+    card.className='problem-card';
+    card.id='dc'+i;
+    card.innerHTML='<div class="problem-head">'
+      +'<span class="p-badge">問'+(i+1)+'</span>'
+      +'<span class="p-text">'+p.q+' を解きなさい</span>'
+      +'<button class="ans-toggle" onclick="togDrill('+i+')">答を見る</button>'
+      +'</div>'
+      +'<div class="ans-area" id="da'+i+'"></div>';
+    area.appendChild(card);
+  });
+  renderAllMath();
+}
+
+function togDrill(i){
+  const p=currentSet.problems[i];
+  const d=document.getElementById('da'+i);
+  const btn=document.querySelector('#dc'+i+' .ans-toggle');
+  if(d.style.display==='block'){
+    d.style.display='none';
+    btn.textContent='答を見る';
+    return;
+  }
+  d.innerHTML='<div class="ans-result">正解：'+p.ans+'</div>'
+    +'<div class="calc-row y"><span class="clbl y">考え方</span><div>'+p.hint+'</div></div>'
+    +'<div class="calc-row g"><span class="clbl g">答え</span><div>'+p.ans+'</div></div>';
+  d.style.display='block';
+  btn.textContent='答を隠す';
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(d,{
+      delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+      throwOnError:false
+    });
+  }
+}
+
+function reloadSet(){
+  const prev=currentSet;
+  do{
+    pickSet();
+  }while(SETS.length>1 && currentSet===prev);
+  build();
+}
+
+function renderAllMath(){
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(document.body,{
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+pickSet();
+build();
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QE09 道幅を求める問題 【例題】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderAllMath();"></script>
+
+<style>
+:root{--primary:#4338ca;--primary-light:#e0e7ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#eef2ff;--card:#ffffff;--border:#c7d2fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(67,56,202,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.tip2 div{border-radius:8px;padding:8px;font-size:.84em;font-weight:700;text-align:center;line-height:1.5;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.ex-head{padding:10px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;background:var(--primary);color:#fff;}
+.ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
+.ex-body{padding:14px 16px 8px;}
+.q-text{font-size:.93em;font-weight:700;margin-bottom:12px;color:var(--primary);line-height:1.9;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2.2;animation:fadeIn .3s ease;}
+.next-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:11px;transition:background .15s;}
+.next-btn:hover{background:#3730a3;}
+.done-badge{text-align:center;padding:6px;font-size:.84em;font-weight:700;color:var(--success);margin-bottom:10px;}
+.mini-svg{display:flex;justify-content:center;margin:8px 0;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#4338ca;font-size:.83em;padding:9px 18px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">QE09</div>
+  <h1>道幅を求める問題<br><small style="font-size:.75em;opacity:.85;">例題</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+<div class="instruction"><strong>【例題】</strong>　道を端に寄せて，$($縦$-x)($横$-x)=$ 花壇の面積　で考える！</div>
+<div class="tip2">
+  <div style="background:var(--primary-light);color:var(--primary);">花壇 = $($縦$-x)($横$-x)$</div>
+  <div style="background:var(--accent-light);color:var(--accent);">$0 < x <$ 短い辺<br>で吟味！</div>
+</div>
+<div id="ex-area"></div>
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="intro.html" class="btn-nav btn-b">← 導入</a>
+  <a href="drill.html" class="btn-nav btn-f">③ 演習へ →</a>
+</div>
+</main>
+
+<script>
+const EXAMPLES=[
+  {
+    title:"基本：12×16の土地",
+    q:"縦$12$m，横$16$mの土地に幅$x$mの道を縦横につくり花壇を作る。花壇の面積の合計が$140$m²のとき，道幅を求めよ。",
+    steps:[
+      {cls:"y",lbl:"道を端に寄せる",txt:"花壇は $(12-x)(16-x)$ の長方形"},
+      {cls:"b",lbl:"方程式",txt:"$(12-x)(16-x) = 140$"},
+      {cls:"b",lbl:"展開",txt:"$192 - 28x + x^2 = 140$"},
+      {cls:"b",lbl:"整理",txt:"$x^2 - 28x + 52 = 0$"},
+      {cls:"b",lbl:"因数分解",txt:"$(x-2)(x-26) = 0$ → $x = 2, 26$"},
+      {cls:"r",lbl:"吟味",txt:"$0 < x < 12$ → $x = 2$（$x=26$は不適）"},
+      {cls:"g",lbl:"答え",txt:"$x = 2$ m"},
+    ],
+    ans:"$x = 2$ m"
+  },
+  {
+    title:"23×48の土地",
+    q:"縦$23$m，横$48$mの土地に幅$x$mの道を作る。道以外の面積が$900$m²のとき，道幅を求めよ。",
+    steps:[
+      {cls:"y",lbl:"道を端に寄せる",txt:"残りは $(23-x)(48-x)$"},
+      {cls:"b",lbl:"方程式",txt:"$(23-x)(48-x) = 900$"},
+      {cls:"b",lbl:"展開",txt:"$1104 - 71x + x^2 = 900$"},
+      {cls:"b",lbl:"整理",txt:"$x^2 - 71x + 204 = 0$"},
+      {cls:"b",lbl:"因数分解",txt:"道幅は1〜4m → $-3$ で試す → $(x-3)(x-68) = 0$"},
+      {cls:"r",lbl:"吟味",txt:"$0 < x < 23$ → $x = 3$"},
+      {cls:"g",lbl:"答え",txt:"$x = 3$ m"},
+    ],
+    ans:"$x = 3$ m"
+  },
+  {
+    title:"6×10の土地",
+    q:"縦$6$m，横$10$mの土地。花壇の面積が$32$m²のとき，道幅$x$mを求めよ。",
+    steps:[
+      {cls:"y",lbl:"道を端に寄せる",txt:"花壇は $(6-x)(10-x)$"},
+      {cls:"b",lbl:"方程式",txt:"$(6-x)(10-x) = 32$"},
+      {cls:"b",lbl:"展開",txt:"$60 - 16x + x^2 = 32$"},
+      {cls:"b",lbl:"整理",txt:"$x^2 - 16x + 28 = 0$"},
+      {cls:"b",lbl:"因数分解",txt:"$(x-2)(x-14) = 0$ → $x = 2, 14$"},
+      {cls:"r",lbl:"吟味",txt:"$0 < x < 6$ → $x = 2$"},
+      {cls:"g",lbl:"答え",txt:"$x = 2$ m"},
+    ],
+    ans:"$x = 2$ m"
+  },
+  {
+    title:"15×24の土地",
+    q:"縦$15$m，横$24$mの土地。残りの面積の総和が$286$m²のとき，道幅を求めよ。",
+    steps:[
+      {cls:"y",lbl:"道を端に寄せる",txt:"残りは $(15-x)(24-x)$"},
+      {cls:"b",lbl:"方程式",txt:"$(15-x)(24-x) = 286$"},
+      {cls:"b",lbl:"展開",txt:"$360 - 39x + x^2 = 286$"},
+      {cls:"b",lbl:"整理",txt:"$x^2 - 39x + 74 = 0$"},
+      {cls:"b",lbl:"因数分解",txt:"$(x-2)(x-37) = 0$ → $x = 2, 37$"},
+      {cls:"r",lbl:"吟味",txt:"$0 < x < 15$ → $x = 2$"},
+      {cls:"g",lbl:"答え",txt:"$x = 2$ m"},
+    ],
+    ans:"$x = 2$ m"
+  },
+  {
+    title:"8×12の土地",
+    q:"縦$8$m，横$12$mの土地。花壇の面積の合計が$60$m²のとき，道幅を求めよ。",
+    steps:[
+      {cls:"y",lbl:"道を端に寄せる",txt:"花壇は $(8-x)(12-x)$"},
+      {cls:"b",lbl:"方程式",txt:"$(8-x)(12-x) = 60$"},
+      {cls:"b",lbl:"展開",txt:"$96 - 20x + x^2 = 60$"},
+      {cls:"b",lbl:"整理",txt:"$x^2 - 20x + 36 = 0$"},
+      {cls:"b",lbl:"因数分解",txt:"$(x-2)(x-18) = 0$ → $x = 2, 18$"},
+      {cls:"r",lbl:"吟味",txt:"$0 < x < 8$ → $x = 2$"},
+      {cls:"g",lbl:"答え",txt:"$x = 2$ m"},
+    ],
+    ans:"$x = 2$ m"
+  },
+  {
+    title:"10×14の土地",
+    q:"縦$10$m，横$14$mの土地。花壇の面積の合計が$77$m²のとき，道幅を求めよ。",
+    steps:[
+      {cls:"y",lbl:"道を端に寄せる",txt:"花壇は $(10-x)(14-x)$"},
+      {cls:"b",lbl:"方程式",txt:"$(10-x)(14-x) = 77$"},
+      {cls:"b",lbl:"展開",txt:"$140 - 24x + x^2 = 77$"},
+      {cls:"b",lbl:"整理",txt:"$x^2 - 24x + 63 = 0$"},
+      {cls:"b",lbl:"因数分解",txt:"$(x-3)(x-21) = 0$ → $x = 3, 21$"},
+      {cls:"r",lbl:"吟味",txt:"$0 < x < 10$ → $x = 3$"},
+      {cls:"g",lbl:"答え",txt:"$x = 3$ m"},
+    ],
+    ans:"$x = 3$ m"
+  },
+];
+
+const state=EXAMPLES.map(()=>0);
+
+function buildAll(){
+  const area=document.getElementById('ex-area');
+  EXAMPLES.forEach((ex,i)=>{
+    const div=document.createElement('div');
+    div.className='ex-card';div.id='ec'+i;
+    div.innerHTML='<div class="ex-head">'
+      +'<span class="ex-num">'+(i+1)+'</span>'+ex.title+'</div>'
+      +'<div class="ex-body"><div class="q-text">'+ex.q+'</div>'
+      +'<div id="steps'+i+'"></div>'
+      +'<button class="next-btn" id="btn'+i+'" onclick="nextStep('+i+')">💡 考え方を見る</button>'
+      +'<div id="done'+i+'" class="done-badge" style="display:none;">✅ 完了！</div>'
+      +'</div>';
+    area.appendChild(div);
+  });
+}
+
+function nextStep(i){
+  const ex=EXAMPLES[i],cur=state[i];
+  const sd=document.getElementById('steps'+i);
+  const btn=document.getElementById('btn'+i);
+  const done=document.getElementById('done'+i);
+  if(cur<ex.steps.length){
+    const s=ex.steps[cur];
+    const row=document.createElement('div');
+    row.className='sr '+s.cls;
+    row.innerHTML='<span class="sl '+s.cls+'">'+s.lbl+'</span><div>'+s.txt+'</div>';
+    sd.appendChild(row);
+    state[i]++;
+    btn.textContent=state[i]<ex.steps.length?'➡ 次のステップへ':'✅ 答えを見る';
+    if(typeof renderMathInElement==='function'){
+      renderMathInElement(row,{
+        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+        throwOnError:false
+      });
+    }
+  }else{
+    const ab=document.createElement('div');
+    ab.className='ans-box';
+    ab.innerHTML='答え：'+ex.ans;
+    sd.appendChild(ab);
+    btn.style.display='none';
+    done.style.display='block';
+    if(typeof renderMathInElement==='function'){
+      renderMathInElement(ab,{
+        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+        throwOnError:false
+      });
+    }
+  }
+}
+
+function renderAllMath(){
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(document.body,{
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+buildAll();
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QE09 道幅を求める問題 【確認テスト】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderAllMath();"></script>
+
+<style>
+:root{--primary:#4338ca;--primary-light:#e0e7ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#eef2ff;--card:#ffffff;--border:#c7d2fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(67,56,202,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.q-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;padding:16px;}
+.q-num{font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.q-text{font-size:.97em;font-weight:700;margin-bottom:13px;line-height:1.9;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.choice-btn{background:#f1f5f9;border:2px solid var(--border);border-radius:10px;padding:12px 8px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;line-height:1.6;min-height:52px;}
+.choice-btn:hover{background:var(--primary-light);border-color:var(--primary);}
+.choice-btn.correct{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
+.choice-btn.show-ans{background:var(--success-light);border-color:var(--success);color:var(--success);}
+.choice-btn:disabled{cursor:default;}
+.result-panel{margin-top:13px;padding:11px 14px;border-radius:9px;font-size:.9em;font-weight:700;display:none;line-height:1.8;}
+.result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);color:var(--success);}
+.result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);color:var(--accent);}
+.score-box{background:linear-gradient(135deg,#4338ca,#7c3aed,#3730a3);color:#fff;border-radius:var(--radius);padding:22px;text-align:center;margin-top:22px;display:none;box-shadow:0 5px 18px rgba(67,56,202,.3);}
+.score-box .sc{font-size:2.2em;font-weight:700;margin-bottom:5px;}
+.score-box .sc-msg{font-size:.93em;opacity:.95;}
+.score-box .qe-complete{background:rgba(255,255,255,.2);border:2px solid #fff;border-radius:10px;padding:11px;margin-top:13px;font-size:1em;font-weight:700;line-height:1.7;}
+.btn-retry{background:#fff;color:#4338ca;margin-top:14px;width:100%;font-family:'BIZ UDPGothic',sans-serif;font-size:.95em;font-weight:700;padding:12px;border-radius:50px;border:none;cursor:pointer;}
+.btn-retry:hover{background:var(--primary-light);}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:linear-gradient(135deg,#4338ca,#7c3aed);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#4338ca;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none"></canvas>
+<div class="page-header">
+  <div class="unit-code">QE09</div>
+  <h1>道幅を求める問題<br><small style="font-size:.75em;opacity:.85;">確認テスト 🎓 QE最終単元！</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">④</span><span>確認</span></div>
+</nav>
+<main class="g-container">
+<div class="instruction"><strong>【確認テスト】</strong>　最終単元！　全問正解で QE シリーズ完全制覇 🎓✨</div>
+<div id="quiz-area"></div>
+<div class="score-box" id="score-box">
+  <div class="sc" id="sc-text"></div>
+  <div class="sc-msg" id="sc-msg"></div>
+  <div class="qe-complete" id="qe-complete" style="display:none;">
+    🎉 QEシリーズ全9単元 完全制覇！<br>
+    <span style="font-size:.85em;font-weight:400;">二次方程式マスターおめでとう！🎓</span>
+  </div>
+  <button class="btn-retry" onclick="retry()">🔄 もう一度チャレンジ</button>
+</div>
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="drill.html" class="btn-nav btn-b">← 演習</a>
+  <a href="../gamba_chugaku.html" class="btn-nav btn-f">🎓 完走！単元一覧へ</a>
+</div>
+</main>
+
+<script>
+const QS=[
+  {
+    q:"縦$8$m，横$10$mの土地に幅$x$mの道を作るとき，花壇（道以外）の面積を $x$ で表すと？",
+    choices:["$8 \\times 10 - x$","$(8-x)(10-x)$","$8 \\times 10 - 2x$","$(8+x)(10+x)$"],
+    ans:1,
+    exp:"道を端に寄せると花壇は $(8-x)(10-x)$ の長方形！"
+  },
+  {
+    q:"縦$12$m，横$16$mの土地。花壇の合計面積$140$m²のとき，道幅 $x$ は？",
+    choices:["$x = 1$","$x = 2$","$x = 3$","$x = 4$"],
+    ans:1,
+    exp:"$(12-x)(16-x) = 140$ → $x^2 - 28x + 52 = 0$ → $(x-2)(x-26) = 0$ → $0 < x < 12$ なので $x = 2$。"
+  },
+  {
+    q:"縦$10$m，横$14$mの土地。花壇の面積$77$m²のとき，道幅 $x$ は？",
+    choices:["$x = 2$","$x = 3$","$x = 4$","$x = 7$"],
+    ans:1,
+    exp:"$(10-x)(14-x) = 77$ → $x^2 - 24x + 63 = 0$ → $(x-3)(x-21) = 0$ → $0 < x < 10$ なので $x = 3$。"
+  },
+  {
+    q:"道幅 $x$ の解として 2 つ出てきた。$x = 2$ と $x = 26$。土地は $12 \\times 16$ m。正しい答えは？",
+    choices:["どちらも正解","$x = 26$ のみ","$x = 2$ のみ","解なし"],
+    ans:2,
+    exp:"道幅は土地の短い辺より小さい必要がある（$0 < x < 12$）。$x = 26$ は不適。$x = 2$ が正解。"
+  },
+  {
+    q:"縦$23$m，横$48$mの土地。道以外の面積が$900$m²のとき，道幅は？",
+    choices:["$x = 2$ m","$x = 3$ m","$x = 4$ m","$x = 5$ m"],
+    ans:1,
+    exp:"$(23-x)(48-x) = 900$ → $x^2 - 71x + 204 = 0$ → $(x-3)(x-68) = 0$ → $0 < x < 23$ なので $x = 3$。"
+  },
+];
+
+let answers=[];
+let answered=new Array(QS.length).fill(false);
+
+function buildQuiz(){
+  const area=document.getElementById('quiz-area');
+  area.innerHTML='';
+  QS.forEach((q,i)=>{
+    const choicesHtml=q.choices.map((c,j)=>
+      '<button class="choice-btn" id="c'+i+'_'+j+'" onclick="choose('+i+','+j+')">'+c+'</button>'
+    ).join('');
+    area.innerHTML+='<div class="q-card" id="qc'+i+'">'
+      +'<div class="q-num">問'+(i+1)+'</div>'
+      +'<div class="q-text">'+q.q+'</div>'
+      +'<div class="choices">'+choicesHtml+'</div>'
+      +'<div class="result-panel" id="rp'+i+'"></div>'
+      +'</div>';
+  });
+  renderAllMath();
+}
+
+function choose(qi,ci){
+  if(answered[qi])return;
+  answered[qi]=true;
+  answers[qi]=ci;
+  const q=QS[qi];
+  const correct=(ci===q.ans);
+  for(let j=0;j<q.choices.length;j++){
+    const btn=document.getElementById('c'+qi+'_'+j);
+    btn.disabled=true;
+    if(j===q.ans)btn.classList.add('show-ans');
+  }
+  document.getElementById('c'+qi+'_'+ci).classList.add(correct?'correct':'wrong');
+  const rp=document.getElementById('rp'+qi);
+  rp.style.display='block';
+  rp.className='result-panel '+(correct?'ok':'ng');
+  rp.innerHTML=(correct?'✅ 正解！':'❌ 不正解…　正解は【'+q.choices[q.ans]+'】')
+    +'<br><span style="font-weight:400;">'+q.exp+'</span>';
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(rp,{
+      delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+      throwOnError:false
+    });
+  }
+  if(answered.every(v=>v))showScore();
+}
+
+function showScore(){
+  const box=document.getElementById('score-box');
+  const correct=answers.filter((a,i)=>a===QS[i].ans).length;
+  box.style.display='block';
+  document.getElementById('sc-text').textContent=correct+' / '+QS.length+' 問正解';
+  const msgs=[
+    'もう一度チャレンジ！💪',
+    'あと少し！復習しよう📖',
+    'なかなか良い！✨',
+    'ほぼ完璧！🌟',
+    'おしい！あと1問！🔥',
+    '満点！QEシリーズ完全制覇！🎓'
+  ];
+  document.getElementById('sc-msg').textContent=msgs[Math.min(correct,5)];
+  if(correct===QS.length){
+    document.getElementById('qe-complete').style.display='block';
+    if(typeof markPassed==='function'){
+      try{markPassed('QE09');}catch(e){}
+    }
+    launchSuperConfetti();
+  }
+}
+
+function retry(){
+  answered=new Array(QS.length).fill(false);
+  answers=[];
+  document.getElementById('score-box').style.display='none';
+  document.getElementById('qe-complete').style.display='none';
+  buildQuiz();
+}
+
+function renderAllMath(){
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(document.body,{
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+/* ── 特別豪華！花吹雪エフェクト（QE完走お祝い版）── */
+function launchSuperConfetti(){
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.style.display = 'block';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  // 8色のカラフルな粒子
+  const colors = ['#fbbf24','#f59e0b','#dc2626','#ec4899','#16a34a','#2563eb','#9333ea','#4338ca','#06b6d4','#f97316'];
+  const particles = [];
+  const particleCount = 350; // 通常の200より多め
+
+  for(let i = 0; i < particleCount; i++){
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: -Math.random() * canvas.height * 0.8 - 20,
+      w: Math.random() * 10 + 7,
+      h: Math.random() * 5 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      vx: (Math.random() - 0.5) * 5,
+      vy: Math.random() * 3 + 2,
+      rot: Math.random() * Math.PI * 2,
+      vrot: (Math.random() - 0.5) * 0.25,
+      sparkle: Math.random() > 0.7 // 30%の確率できらきら
+    });
+  }
+
+  // 中央から放射状の特別粒子
+  const burstParticles = [];
+  for(let i = 0; i < 60; i++){
+    const angle = (i / 60) * Math.PI * 2;
+    burstParticles.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      vx: Math.cos(angle) * (Math.random() * 10 + 6),
+      vy: Math.sin(angle) * (Math.random() * 10 + 6),
+      w: Math.random() * 8 + 5,
+      h: Math.random() * 8 + 5,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * Math.PI * 2,
+      vrot: (Math.random() - 0.5) * 0.3,
+      life: 1.0
+    });
+  }
+
+  let startTime = Date.now();
+  const duration = 7000; // 通常の5秒より長め
+
+  function animate(){
+    const elapsed = Date.now() - startTime;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 通常の花吹雪
+    particles.forEach(p=>{
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.08;
+      p.vx *= 0.99;
+      p.rot += p.vrot;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      if(p.sparkle && Math.sin(elapsed/100 + p.x) > 0){
+        ctx.globalAlpha = 0.6;
+      }
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+
+    // 中央バースト
+    burstParticles.forEach(p=>{
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.15;
+      p.vx *= 0.96;
+      p.rot += p.vrot;
+      p.life -= 0.005;
+
+      if(p.life > 0){
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        ctx.restore();
+      }
+    });
+
+    if(elapsed < duration){
+      requestAnimationFrame(animate);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.display = 'none';
+    }
+  }
+
+  animate();
+}
+
+buildQuiz();
+</script>
+<script src="../gamba_support.js"></script>
+</body>
+</html>

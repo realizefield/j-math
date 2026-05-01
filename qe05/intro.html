@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QE05 解の公式 【導入】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#4338ca;--primary-light:#e0e7ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#eef2ff;--card:#ffffff;--border:#c7d2fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(67,56,202,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--success);border-radius:14px;padding:18px 16px;margin-bottom:14px;text-align:center;font-size:1.3em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.7em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.05em;line-height:2.4;font-weight:700;}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+.abc-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.95em;}
+.abc-table th,.abc-table td{padding:9px 10px;border:1.5px solid var(--border);text-align:center;}
+.abc-table th{background:var(--primary);color:#fff;font-weight:700;}
+.abc-table td{background:#fff;font-weight:700;font-size:1.1em;}
+.abc-table tr:nth-child(even) td{background:var(--primary-light);}
+.proof-toggle{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px dashed #f59e0b;border-radius:14px;padding:12px 16px;margin:14px 0;cursor:pointer;font-weight:700;color:#92400e;font-size:.95em;text-align:center;transition:all .2s;display:block;width:100%;font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;line-height:1.6;}
+.proof-toggle:hover{background:linear-gradient(135deg,#fde68a,#fcd34d);transform:translateY(-1px);box-shadow:0 3px 10px rgba(245,158,11,.25);}
+.proof-toggle .arrow{display:inline-block;transition:transform .3s;margin-left:5px;}
+.proof-toggle.open .arrow{transform:rotate(180deg);}
+.proof-content{max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.proof-content.open{max-height:5000px;}
+.proof-inner{background:#fffbeb;border:2px solid #f59e0b;border-radius:14px;padding:14px 17px;margin-top:10px;}
+.proof-step{display:flex;align-items:center;gap:11px;padding:14px 14px;border-radius:8px;margin-bottom:6px;font-size:.95em;font-weight:700;line-height:1.6;background:#fff;border:1.5px solid #fcd34d;}
+.proof-step > div{flex:1;text-align:center;overflow-x:auto;}
+.proof-step .pn{background:#f59e0b;color:#fff;font-size:.7em;font-weight:700;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.proof-arrow{text-align:center;font-size:1.2em;color:#f59e0b;margin:3px 0;font-weight:700;}
+.proof-final{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border:2px solid var(--success);border-radius:10px;padding:12px;text-align:center;font-size:1.05em;font-weight:700;color:var(--success);margin-top:8px;line-height:2.2;}
+.proof-intro-msg{background:#fef3c7;border-radius:8px;padding:9px 12px;margin-bottom:10px;font-size:.85em;font-weight:700;color:#92400e;line-height:1.8;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#4338ca;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">QE05</div>
+  <h1>解の公式<br><small style="font-size:.75em;opacity:.85;">どんな二次方程式でも解ける魔法の公式</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① こんな二次方程式，どう解く？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 たとえば $2x^2 - 3x - 1 = 0$</div>
+  <div class="rbody">
+    QE03 の「たして・かける」で因数分解しようとしても…<br>
+    たして $-\dfrac{3}{2}$ かけて $-\dfrac{1}{2}$？　すっきりしない！<br>
+    実は，こういう <strong>因数分解できない式</strong> を解くための <strong>魔法の公式</strong> があります 🧙
+  </div>
+</div>
+
+<div class="sec">② 解の公式とは</div>
+<div class="formula-box">
+  <div class="ftitle">📌 解の公式</div>
+  $ax^2 + bx + c = 0$ のとき<br>
+  $x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 大事なこと</div>
+  <div class="rbody">
+    この公式は <strong>どんな二次方程式でも解ける</strong>！<br>
+    ただし，<strong>因数分解できる場合は QE03・QE04 のほうが楽</strong> なので，<br>
+    解の公式は <strong>因数分解できないとき</strong> に使います。
+  </div>
+</div>
+
+<div class="pop-note">
+  解の公式は <strong>必ず暗記</strong>！　高認や入試で何度も使う！
+</div>
+
+<button class="proof-toggle" onclick="toggleProof()" id="proofBtn">
+  🤔 公式の証明を見る（クリック！）<span class="arrow">▼</span>
+</button>
+<div class="proof-content" id="proofContent">
+  <div class="proof-inner">
+    <div class="proof-intro-msg">
+      💡 これは <strong>覚えなくてもOK</strong> ！　でも「なぜこの公式になるの？」を知ると面白い！<br>
+      $(x+a)^2 = b$ の形にする「<strong>平方完成</strong>」がポイントです 🌟
+    </div>
+
+    <div class="proof-step">
+      <span class="pn">1</span>
+      <div>$$ax^2 + bx + c = 0$$ から出発</div>
+    </div>
+    <div class="proof-arrow">↓ 両辺を $a$ でわる</div>
+
+    <div class="proof-step">
+      <span class="pn">2</span>
+      <div>$$x^2 + \dfrac{b}{a}x + \dfrac{c}{a} = 0$$</div>
+    </div>
+    <div class="proof-arrow">↓ $\left(\dfrac{b}{2a}\right)^2$ を足して引く（平方完成のテクニック）</div>
+
+    <div class="proof-step">
+      <span class="pn">3</span>
+      <div>$$x^2 + \dfrac{b}{a}x + \left(\dfrac{b}{2a}\right)^2 - \left(\dfrac{b}{2a}\right)^2 + \dfrac{c}{a} = 0$$</div>
+    </div>
+    <div class="proof-arrow">↓ 前半3つは $(x+a)^2$ の形にできる！</div>
+
+    <div class="proof-step">
+      <span class="pn">4</span>
+      <div>$$\left(x + \dfrac{b}{2a}\right)^2 - \dfrac{b^2}{4a^2} + \dfrac{c}{a} = 0$$</div>
+    </div>
+    <div class="proof-arrow">↓ 残りの項を整理（通分）</div>
+
+    <div class="proof-step">
+      <span class="pn">5</span>
+      <div>$$\left(x + \dfrac{b}{2a}\right)^2 = \dfrac{b^2 - 4ac}{4a^2}$$</div>
+    </div>
+    <div class="proof-arrow">↓ ルートを取る（QE02 の形！）</div>
+
+    <div class="proof-step">
+      <span class="pn">6</span>
+      <div>$$x + \dfrac{b}{2a} = \pm\dfrac{\sqrt{b^2 - 4ac}}{2a}$$</div>
+    </div>
+    <div class="proof-arrow">↓ $\dfrac{b}{2a}$ を移項</div>
+
+    <div class="proof-step">
+      <span class="pn">7</span>
+      <div>$$x = -\dfrac{b}{2a} \pm \dfrac{\sqrt{b^2 - 4ac}}{2a}$$</div>
+    </div>
+    <div class="proof-arrow">↓ 分母が同じなのでまとめる</div>
+
+    <div class="proof-final">
+      $$x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$ 🎉<br>
+      <span style="font-size:.78em;font-weight:400;">つまり，解の公式は <strong>$(x+a)^2 = b$ の形に変形して解いた結果</strong> なんです！</span>
+    </div>
+  </div>
+</div>
+
+<div class="sec">③ $a, b, c$ の見つけ方</div>
+<div class="rule-box">
+  <div class="rtitle">📌 標準形 $ax^2 + bx + c = 0$ と比べる</div>
+  <div class="rbody">
+    たとえば $2x^2 - 3x - 1 = 0$ なら：<br>
+    $a = 2$（$x^2$ の係数）<br>
+    $b = -3$（$x$ の係数 ← <strong>マイナスも忘れずに</strong>！）<br>
+    $c = -1$（定数項 ← マイナスも忘れずに！）
+  </div>
+</div>
+
+<table class="abc-table">
+  <tr><th>式</th><th>$a$</th><th>$b$</th><th>$c$</th></tr>
+  <tr><td>$2x^2 - 3x - 1 = 0$</td><td>$2$</td><td>$-3$</td><td>$-1$</td></tr>
+  <tr><td>$3x^2 + 5x + 2 = 0$</td><td>$3$</td><td>$5$</td><td>$2$</td></tr>
+  <tr><td>$x^2 - 4x - 7 = 0$</td><td>$1$</td><td>$-4$</td><td>$-7$</td></tr>
+</table>
+
+<div class="warn-note">
+  $b$ と $c$ の <strong>符号（プラス・マイナス）を間違えやすい</strong>！　慎重に！
+</div>
+
+<div class="sec">④ 解の公式を使ってみよう</div>
+<div class="rule-box">
+  <div class="rtitle">📌 例：$2x^2 - 3x - 1 = 0$ を解く</div>
+  <div class="rbody">
+    $a = 2$，$b = -3$，$c = -1$ を公式に代入！
+  </div>
+</div>
+
+<div class="split-vis">
+  $x = \dfrac{-(-3) \pm \sqrt{(-3)^2 - 4 \times 2 \times (-1)}}{2 \times 2}$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 中身を計算</div>
+  <div class="rbody">
+    $-(-3) = 3$<br>
+    $(-3)^2 = 9$<br>
+    $4 \times 2 \times (-1) = -8$<br>
+    $b^2 - 4ac = 9 - (-8) = 9 + 8 = 17$<br>
+    $2a = 4$
+  </div>
+</div>
+
+<div class="split-vis">
+  $x = \dfrac{3 \pm \sqrt{17}}{4}$
+</div>
+
+<div class="ans-box">$x = \dfrac{3 \pm \sqrt{17}}{4}$</div>
+
+<div class="sec">⑤ 計算のコツ</div>
+<div class="tech-box">
+  <div class="ttl">💡 ステップで考えよう</div>
+  <div class="body">
+    ① $a, b, c$ <strong>を見つける</strong>（符号に注意！）<br>
+    ② <strong>$-b$</strong> を計算<br>
+    ③ <strong>$b^2$</strong> を計算<br>
+    ④ <strong>$4ac$</strong> を計算<br>
+    ⑤ <strong>$b^2 - 4ac$</strong> を計算（ルートの中身）<br>
+    ⑥ <strong>$2a$</strong> を計算（分母）<br>
+    ⑦ 全部組み合わせる
+  </div>
+</div>
+
+<div class="warn-note">
+  <strong>$-b$ と $b^2$</strong> は別の計算！　$b = -3$ なら $-b = 3$，$b^2 = 9$。
+</div>
+
+<div class="sec">⑥ ルートが整数になるとき</div>
+<div class="rule-box">
+  <div class="rtitle">📌 例：$5x^2 + 7x + 2 = 0$</div>
+  <div class="rbody">
+    $a = 5$，$b = 7$，$c = 2$<br>
+    $b^2 - 4ac = 49 - 40 = 9$<br>
+    $\sqrt{9} = 3$（整数！）<br>
+    $x = \dfrac{-7 \pm 3}{10}$<br>
+    プラスとマイナスを別々に計算：<br>
+    $x = \dfrac{-7+3}{10} = -\dfrac{4}{10} = -\dfrac{2}{5}$<br>
+    $x = \dfrac{-7-3}{10} = -\dfrac{10}{10} = -1$
+  </div>
+</div>
+
+<div class="ans-box">$x = -\dfrac{2}{5}, -1$</div>
+
+<div class="pop-note">
+  $\sqrt{\square}$ の中が <strong>平方数</strong> になったら，整数や分数の解になる！
+</div>
+
+<div class="sec">⑦ 例で確認しよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 + 3x + 1 = 0$ を解く</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">$a, b, c$</span><div>$a = 1$，$b = 3$，$c = 1$</div></div>
+    <div class="sr b"><span class="sl b">$b^2 - 4ac$</span><div>$3^2 - 4 \times 1 \times 1 = 9 - 4 = 5$</div></div>
+    <div class="sr b"><span class="sl b">公式へ代入</span><div>$x = \dfrac{-3 \pm \sqrt{5}}{2}$</div></div>
+    <div class="ans-box">$x = \dfrac{-3 \pm \sqrt{5}}{2}$</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>解の公式：<strong>$x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$</strong></li>
+    <li><strong>因数分解できないとき</strong> に使う</li>
+    <li>$ax^2 + bx + c = 0$ から $a, b, c$ を見つける（符号に注意！）</li>
+    <li>計算の順序：$-b$ → $b^2$ → $4ac$ → $b^2-4ac$ → $2a$</li>
+    <li>$\sqrt{\phantom{x}}$ の中が平方数なら，整数や分数の解になる</li>
+    <li>解の公式は <strong>必ず暗記</strong>！</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+<script>
+function toggleProof(){
+  const btn = document.getElementById('proofBtn');
+  const content = document.getElementById('proofContent');
+  btn.classList.toggle('open');
+  content.classList.toggle('open');
+  if(btn.classList.contains('open')){
+    btn.innerHTML = '✨ 公式の証明（閉じる）<span class="arrow" style="transform:rotate(180deg);display:inline-block;margin-left:5px;">▼</span>';
+  } else {
+    btn.innerHTML = '🤔 公式の証明を見る（クリック！）<span class="arrow">▼</span>';
+  }
+}
+</script>
+</body>
+</html>

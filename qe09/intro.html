@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QE09 道幅を求める問題 【導入】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#4338ca;--primary-light:#e0e7ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#eef2ff;--card:#ffffff;--border:#c7d2fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(67,56,202,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.05em;line-height:2.4;font-weight:700;}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+.svg-box{background:#fff;border:2px solid var(--border);border-radius:12px;padding:14px;margin:14px 0;text-align:center;}
+.svg-box .cap{font-size:.83em;color:var(--text-sub);margin-top:7px;font-weight:700;}
+.svg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:13px 0;}
+.svg-cell{background:#fff;border:2px solid var(--border);border-radius:10px;padding:10px;text-align:center;}
+.svg-cell .lbl{font-size:.78em;font-weight:700;color:var(--primary);margin-bottom:5px;}
+.flow-box{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border:2px solid var(--success);border-radius:12px;padding:13px 16px;margin:13px 0;}
+.flow-box .ttl{font-size:.85em;font-weight:700;color:var(--success);margin-bottom:9px;}
+.flow-step{display:flex;align-items:center;gap:11px;padding:9px 11px;background:#fff;border-radius:8px;margin-bottom:6px;font-size:.93em;font-weight:700;line-height:1.8;}
+.flow-step .stno{background:var(--success);color:#fff;font-size:.7em;font-weight:700;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#4338ca;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">QE09</div>
+  <h1>道幅を求める問題<br><small style="font-size:.75em;opacity:.85;">図形の文章題！</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① こんな問題</div>
+<div class="rule-box">
+  <div class="rtitle">📌 道幅問題とは</div>
+  <div class="rbody">
+    「縦$12$m，横$16$mの長方形の土地に，$x$mの幅の道を縦横に作って，4つの花壇ア・イ・ウ・エを作ります。<br>
+    花壇の面積の合計が$140$m²のとき，道幅$x$は何mか？」
+  </div>
+</div>
+
+<div class="svg-box">
+  <svg viewBox="0 0 320 240" width="100%" style="max-width:320px;">
+    <!-- 全体の長方形 -->
+    <rect x="20" y="20" width="280" height="200" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <!-- 縦の道 -->
+    <rect x="155" y="20" width="30" height="200" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <!-- 横の道 -->
+    <rect x="20" y="105" width="280" height="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <!-- 花壇ラベル -->
+    <text x="87" y="70" font-size="14" font-weight="bold" fill="#16a34a" text-anchor="middle">ア</text>
+    <text x="87" y="180" font-size="14" font-weight="bold" fill="#16a34a" text-anchor="middle">イ</text>
+    <text x="240" y="70" font-size="14" font-weight="bold" fill="#16a34a" text-anchor="middle">ウ</text>
+    <text x="240" y="180" font-size="14" font-weight="bold" fill="#16a34a" text-anchor="middle">エ</text>
+    <!-- 寸法 -->
+    <text x="160" y="14" font-size="11" font-weight="bold" fill="#1e293b" text-anchor="middle">16m</text>
+    <text x="10" y="125" font-size="11" font-weight="bold" fill="#1e293b" text-anchor="middle" transform="rotate(-90 10 125)">12m</text>
+    <text x="170" y="237" font-size="10" font-weight="bold" fill="#d97706" text-anchor="middle">$x$m</text>
+    <text x="312" y="125" font-size="10" font-weight="bold" fill="#d97706" text-anchor="middle" transform="rotate(-90 312 125)">$x$m</text>
+  </svg>
+  <div class="cap">緑：花壇　黄：道</div>
+</div>
+
+<div class="sec">② うまい考え方：道を端に寄せる！</div>
+<div class="rule-box">
+  <div class="rtitle">📌 アイデア</div>
+  <div class="rbody">
+    道を <strong>端に寄せても，花壇の合計面積は変わらない</strong>！<br>
+    なぜ？　花壇は4つに分かれてるけど，<strong>合計の縦と横は同じ</strong>だから 💡
+  </div>
+</div>
+
+<div class="svg-grid">
+  <div class="svg-cell">
+    <div class="lbl">📌 元の図</div>
+    <svg viewBox="0 0 200 150" width="100%">
+      <rect x="10" y="10" width="180" height="130" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+      <rect x="95" y="10" width="20" height="130" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+      <rect x="10" y="65" width="180" height="20" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    </svg>
+  </div>
+  <div class="svg-cell">
+    <div class="lbl">📌 道を端に寄せた図</div>
+    <svg viewBox="0 0 200 150" width="100%">
+      <rect x="10" y="10" width="180" height="130" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+      <rect x="170" y="10" width="20" height="130" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+      <rect x="10" y="120" width="180" height="20" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="80" y="75" font-size="12" font-weight="bold" fill="#16a34a" text-anchor="middle">花壇</text>
+    </svg>
+  </div>
+</div>
+
+<div class="pop-note">
+  道を端に寄せると，花壇は <strong>1つの長方形</strong> になる！
+</div>
+
+<div class="sec">③ 花壇の縦と横は？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 道を端に寄せた花壇</div>
+  <div class="rbody">
+    花壇の<strong>縦</strong>は，元の縦から道幅$x$を引いた → <strong>$12 - x$</strong><br>
+    花壇の<strong>横</strong>は，元の横から道幅$x$を引いた → <strong>$16 - x$</strong>
+  </div>
+</div>
+
+<div class="svg-box">
+  <svg viewBox="0 0 320 220" width="100%" style="max-width:320px;">
+    <!-- 全体 -->
+    <rect x="20" y="20" width="280" height="180" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,2"/>
+    <!-- 花壇（道を端に寄せた状態） -->
+    <rect x="20" y="20" width="240" height="150" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+    <!-- 道 -->
+    <rect x="260" y="20" width="40" height="180" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect x="20" y="170" width="280" height="30" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <!-- ラベル -->
+    <text x="140" y="100" font-size="13" font-weight="bold" fill="#16a34a" text-anchor="middle">花壇（１つの長方形）</text>
+    <!-- 寸法 -->
+    <text x="140" y="14" font-size="10" font-weight="bold" fill="#1e293b" text-anchor="middle">$16 - x$</text>
+    <text x="280" y="14" font-size="10" font-weight="bold" fill="#d97706" text-anchor="middle">$x$</text>
+    <text x="11" y="95" font-size="10" font-weight="bold" fill="#1e293b" text-anchor="middle" transform="rotate(-90 11 95)">$12 - x$</text>
+    <text x="11" y="185" font-size="10" font-weight="bold" fill="#d97706" text-anchor="middle" transform="rotate(-90 11 185)">$x$</text>
+  </svg>
+  <div class="cap">↑ 花壇は (12-x) × (16-x) の長方形！</div>
+</div>
+
+<div class="sec">④ 方程式を立てよう</div>
+<div class="formula-box">
+  <div class="ftitle">📌 花壇の面積</div>
+  $(12 - x)(16 - x) = 140$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 展開して整理</div>
+  <div class="rbody">
+    $(12 - x)(16 - x) = 140$<br>
+    $192 - 12x - 16x + x^2 = 140$<br>
+    $192 - 28x + x^2 = 140$<br>
+    $x^2 - 28x + 52 = 0$
+  </div>
+</div>
+
+<div class="sec">⑤ 解を求めよう</div>
+<div class="rule-box">
+  <div class="rtitle">📌 因数分解（少しコツが必要）</div>
+  <div class="rbody">
+    $x^2 - 28x + 52 = 0$<br>
+    たして $-28$，かけて $52$ → $-2$ と $-26$<br>
+    $(x-2)(x-26) = 0$<br>
+    $x = 2, 26$
+  </div>
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 因数分解のコツ</div>
+  <div class="body">
+    道幅は普通 <strong>1m, 2m, 3m, 4m</strong> くらい。<br>
+    だから因数分解で「$-1$ と $\square$」「$-2$ と $\square$」「$-3$ と $\square$」… と試すとよい！
+  </div>
+</div>
+
+<div class="sec">⑥ 解の吟味（とても大事！）</div>
+<div class="warn-note">
+  道幅が $26$m？　でも土地は <strong>$12$m × $16$m</strong>。道は土地より広くなれない！
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 道幅の条件</div>
+  <div class="rbody">
+    道は土地の中に作るので，<strong>$0 < x < 12$</strong>（短い辺より小さい）<br>
+    $x = 26$ は不適！　$x = 2$ が答え。
+  </div>
+</div>
+
+<div class="ans-box">道幅 $x = 2$ m</div>
+
+<div class="sec">⑦ 解き方の流れ</div>
+<div class="flow-box">
+  <div class="ttl">📌 道幅問題の手順（5ステップ）</div>
+  <div class="flow-step"><span class="stno">1</span><div>道を <strong>端に寄せる</strong>イメージで考える</div></div>
+  <div class="flow-step"><span class="stno">2</span><div>花壇の縦・横は <strong>$($縦$-x)$，$($横$-x)$</strong></div></div>
+  <div class="flow-step"><span class="stno">3</span><div>面積 = $($縦$-x) \times ($横$-x)$ で <strong>方程式</strong></div></div>
+  <div class="flow-step"><span class="stno">4</span><div>展開・整理して <strong>因数分解</strong> で解く</div></div>
+  <div class="flow-step"><span class="stno">5</span><div><strong>$0 < x < $（短い辺）</strong>で吟味</div></div>
+</div>
+
+<div class="sec">⑧ 「花壇の面積」と「残りの面積」の言い方</div>
+<div class="rule-box">
+  <div class="rtitle">📌 同じことを違う言い方</div>
+  <div class="rbody">
+    ✅ 「花壇の面積の合計が$140$m²」<br>
+    ✅ 「道以外の部分の面積が$140$m²」<br>
+    ✅ 「残りの面積の総和が$140$m²」<br>
+    どれも <strong>同じ意味</strong>！　$($縦$-x)($横$-x) = 140$
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>道は <strong>端に寄せて</strong>考える（面積は変わらない）</li>
+    <li>花壇は <strong>$($縦$-x) \times ($横$-x)$</strong> の長方形</li>
+    <li>これを花壇の面積と等しいとおく</li>
+    <li>展開・整理して因数分解</li>
+    <li>道幅の条件 <strong>$0 < x < $（短い辺）</strong>で吟味</li>
+    <li>道幅は普通 1m〜4m くらいなので，<strong>小さい数で因数分解を試す</strong></li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

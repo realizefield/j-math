@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QE07 1つの解→aを求める 【導入】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#4338ca;--primary-light:#e0e7ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#eef2ff;--card:#ffffff;--border:#c7d2fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(67,56,202,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.05em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.05em;line-height:2.4;font-weight:700;}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+.flow-box{background:linear-gradient(135deg,#dcfce7,#bbf7d0);border:2px solid var(--success);border-radius:12px;padding:13px 16px;margin:13px 0;}
+.flow-box .ttl{font-size:.85em;font-weight:700;color:var(--success);margin-bottom:9px;}
+.flow-step{display:flex;align-items:center;gap:11px;padding:9px 11px;background:#fff;border-radius:8px;margin-bottom:6px;font-size:.93em;font-weight:700;line-height:1.8;}
+.flow-step .stno{background:var(--success);color:#fff;font-size:.7em;font-weight:700;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#4338ca;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">QE07</div>
+  <h1>1つの解→$a$ を求める<br><small style="font-size:.75em;opacity:.85;">代入してパズルを解こう</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① ちょっと変わった二次方程式</div>
+<div class="rule-box">
+  <div class="rtitle">📌 こんな問題</div>
+  <div class="rbody">
+    「二次方程式 $x^2 + ax - 6 = 0$ の <strong>解の1つが $x=2$</strong> である。<br>
+    このとき，<strong>$a$ の値</strong> と <strong>もう1つの解</strong> を求めよ。」<br>
+    式に <strong>$a$ という未知の係数</strong> が混じっている！　どう解く？
+  </div>
+</div>
+
+<div class="sec">② 大事な考え方</div>
+<div class="formula-box">
+  <div class="ftitle">📌 解の意味を思い出そう</div>
+  「解」とは<br>
+  <strong>その値を $x$ に代入すると式が成り立つ</strong> 数のこと！
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 つまり…</div>
+  <div class="rbody">
+    解の1つが $x = 2$ なら，$x^2 + ax - 6 = 0$ に <strong>$x = 2$ を代入</strong> してOK！<br>
+    そうすると，$a$ についての方程式（一次方程式）になる！<br>
+    あとは $a$ について解くだけ 💡
+  </div>
+</div>
+
+<div class="sec">③ 実際にやってみよう</div>
+<div class="rule-box">
+  <div class="rtitle">📌 ステップ１：$x = 2$ を代入</div>
+  <div class="rbody">
+    $x^2 + ax - 6 = 0$ に $x = 2$ を入れる：
+  </div>
+</div>
+
+<div class="split-vis">
+  $2^2 + a \times 2 - 6 = 0$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 ステップ２：計算する</div>
+  <div class="rbody">
+    $4 + 2a - 6 = 0$<br>
+    $2a - 2 = 0$<br>
+    $2a = 2$<br>
+    $a = 1$
+  </div>
+</div>
+
+<div class="ans-box">$a = 1$ が求まった！</div>
+
+<div class="sec">④ もう1つの解を求めよう</div>
+<div class="rule-box">
+  <div class="rtitle">📌 ステップ３：$a$ を方程式に戻す</div>
+  <div class="rbody">
+    $a = 1$ なので，元の方程式は：<br>
+    $x^2 + 1 \times x - 6 = 0$<br>
+    つまり $x^2 + x - 6 = 0$
+  </div>
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 ステップ４：因数分解で解く（QE03）</div>
+  <div class="rbody">
+    たして $1$，かけて $-6$ → $3$ と $-2$<br>
+    $(x+3)(x-2) = 0$<br>
+    $x = -3, 2$
+  </div>
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 ステップ５：もう1つの解を答える</div>
+  <div class="rbody">
+    解の1つが $x = 2$ なのは <strong>問題文に書いてある</strong>。<br>
+    だから，<strong>もう1つの解は $x = -3$</strong>！
+  </div>
+</div>
+
+<div class="ans-box">$a = 1$，もう1つの解は $x = -3$</div>
+
+<div class="sec">⑤ 解き方の流れ</div>
+<div class="flow-box">
+  <div class="ttl">📌 全体の流れ（5ステップ）</div>
+  <div class="flow-step"><span class="stno">1</span><div>分かっている解を <strong>方程式に代入</strong></div></div>
+  <div class="flow-step"><span class="stno">2</span><div><strong>$a$ について解く</strong>（一次方程式）</div></div>
+  <div class="flow-step"><span class="stno">3</span><div>$a$ を <strong>元の方程式に戻す</strong></div></div>
+  <div class="flow-step"><span class="stno">4</span><div>普通の二次方程式として解く</div></div>
+  <div class="flow-step"><span class="stno">5</span><div>2つの解のうち，<strong>分かってない方</strong>がもう1つの解</div></div>
+</div>
+
+<div class="sec">⑥ 注意：マイナスの解の場合</div>
+<div class="rule-box">
+  <div class="rtitle">📌 たとえば「解の1つが $x = -2$」</div>
+  <div class="rbody">
+    代入するときに $\color{red}{-2}$ を入れる。<br>
+    $x^2$ に代入するときは $(-2)^2 = 4$ になることに注意！<br>
+    $x^2 + mx - 12 = 0$ なら：<br>
+    $(-2)^2 + m \times (-2) - 12 = 0$<br>
+    $4 - 2m - 12 = 0$
+  </div>
+</div>
+
+<div class="warn-note">
+  マイナスを代入するときは，<strong>必ずカッコをつける</strong>！　$(-2)^2 = 4$（正）！
+</div>
+
+<div class="sec">⑦ 例で確認しよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">例)$x^2 + ax - 8 = 0$ の解の1つが $x = 4$</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">代入</span><div>$4^2 + a \times 4 - 8 = 0$</div></div>
+    <div class="sr b"><span class="sl b">計算</span><div>$16 + 4a - 8 = 0$ → $4a = -8$ → $a = -2$</div></div>
+    <div class="sr b"><span class="sl b">$a$ を戻す</span><div>$x^2 - 2x - 8 = 0$</div></div>
+    <div class="sr b"><span class="sl b">因数分解</span><div>$(x-4)(x+2) = 0$ → $x = 4, -2$</div></div>
+    <div class="sr g"><span class="sl g">答え</span><div>$a = -2$，もう1つの解 $x = -2$</div></div>
+    <div class="ans-box">$a = -2$，もう1つの解 $x = -2$</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>未知の係数 $a$ を含む式 → <strong>分かっている解を代入</strong></li>
+    <li>$a$ について <strong>一次方程式を解く</strong></li>
+    <li>$a$ が求まったら <strong>元の式に戻す</strong></li>
+    <li>QE03 などで普通に解く</li>
+    <li>2つの解のうち，<strong>問題文にない方</strong>がもう1つの解</li>
+    <li>マイナスを代入するときは <strong>カッコをつける</strong>！</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QE03 因数分解で解く 【導入】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#4338ca;--primary-light:#e0e7ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#eef2ff;--card:#ffffff;--border:#c7d2fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(67,56,202,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.1em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.08em;line-height:2.4;font-weight:700;}
+.split-vis .arrow{color:var(--primary);font-size:1.3em;display:inline-block;margin:0 8px;}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+.principle-box{background:#fef2f2;border:2px solid var(--accent);border-radius:12px;padding:13px 16px;margin:13px 0;text-align:center;}
+.principle-box .ttl{font-size:.83em;font-weight:700;color:var(--accent);margin-bottom:7px;}
+.principle-box .body{font-size:1.08em;font-weight:700;line-height:2;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#4338ca;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">QE03</div>
+  <h1>因数分解で解く<br><small style="font-size:.75em;opacity:.85;">$x^2 + bx + c = 0$ を因数分解！</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① これまでとちがう新しい解き方</div>
+<div class="rule-box">
+  <div class="rtitle">📌 たとえば $x^2 - 6x + 8 = 0$</div>
+  <div class="rbody">
+    QE01・QE02 のやり方では解けない！　$x^2$ と $x$ がまざっているから…<br>
+    でも，<strong>因数分解</strong> を使うとあっという間に解ける！<br>
+    EF（展開と因数分解）で勉強した <strong>たして・かける</strong> のテクニックが大活躍します 💪
+  </div>
+</div>
+
+<div class="sec">② 大事なルール</div>
+<div class="principle-box">
+  <div class="ttl">📌 ゼロ積の法則</div>
+  <div class="body">$AB = 0$ ならば，$A = 0$ または $B = 0$</div>
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 たとえば</div>
+  <div class="rbody">
+    $\bigcirc \times \square = 0$ になるとき，<br>
+    <strong>$\bigcirc$ が $0$ か，$\square$ が $0$ か</strong>，どちらかは必ず成り立つ！<br>
+    これは当たり前のことだけど，二次方程式を解くカギになります。
+  </div>
+</div>
+
+<div class="pop-note">
+  「かけて $0$ になるなら，どちらかは $0$」　← この考えがすべて！
+</div>
+
+<div class="sec">③ $x^2 - 6x + 8 = 0$ を解こう</div>
+<div class="rule-box">
+  <div class="rtitle">📌 ステップ１：因数分解する</div>
+  <div class="rbody">
+    $x^2 - 6x + 8$ を因数分解すると…？<br>
+    たして $-6$，かけて $+8$ になる2つの数を探す。<br>
+    → $-4$ と $-2$ がぴったり！
+  </div>
+</div>
+
+<div class="split-vis">
+  $x^2 - 6x + 8 = (x-4)(x-2)$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 ステップ２：「ゼロ積」を使う</div>
+  <div class="rbody">
+    式は $(x-4)(x-2) = 0$ になっている。<br>
+    これは「<strong>$\bigcirc \times \square = 0$</strong>」の形！<br>
+    だから，<strong>$x-4 = 0$ または $x-2 = 0$</strong> ということ！
+  </div>
+</div>
+
+<div class="split-vis">
+  $x - 4 = 0$ → $x = 4$<br>
+  $x - 2 = 0$ → $x = 2$
+</div>
+
+<div class="ans-box">$x = 2, 4$</div>
+
+<div class="pop-note">
+  二次方程式の解は普通 <strong>2つ</strong>！　$+a, -a$ ではなく <strong>$a, b$</strong> のように違う数になる。
+</div>
+
+<div class="sec">④ 解き方のまとめ</div>
+<div class="formula-box">
+  <div class="ftitle">📌 因数分解で解く方法</div>
+  ① <strong>因数分解</strong> する<br>
+  ② <strong>$( \ )( \ ) = 0$</strong> の形にする<br>
+  ③ <strong>それぞれを $= 0$</strong> として解く
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 因数分解のおさらい(EF06)</div>
+  <div class="body">
+    $x^2 + bx + c$ の因数分解：<br>
+    たして <strong>$b$</strong>，かけて <strong>$c$</strong> になる2数を探す！<br>
+    例：$x^2 + 5x + 6$ → たして $5$，かけて $6$ → $2$ と $3$ → $(x+2)(x+3)$
+  </div>
+</div>
+
+<div class="sec">⑤ 解が1つだけになる場合（重解）</div>
+<div class="rule-box">
+  <div class="rtitle">📌 たとえば $x^2 - 6x + 9 = 0$</div>
+  <div class="rbody">
+    たして $-6$，かけて $9$ → $-3$ と $-3$（同じ数！）<br>
+    $(x-3)(x-3) = (x-3)^2 = 0$<br>
+    → $x - 3 = 0$ → $x = 3$ <strong>（解は1つだけ）</strong>
+  </div>
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 これを「重解」という</div>
+  <div class="rbody">
+    本来は2つあるはずの解が，<strong>同じ値で重なっている</strong> のでこう呼びます。<br>
+    $(x+a)^2 = 0$ や $(x-a)^2 = 0$ の形になったら，解は1つ！
+  </div>
+</div>
+
+<div class="sec">⑥ 例で確認しよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">例１)$x^2 + 5x + 6 = 0$ を解く</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">因数分解</span><div>たして $5$，かけて $6$ → $2$ と $3$ → $(x+2)(x+3) = 0$</div></div>
+    <div class="sr b"><span class="sl b">それぞれ$=0$</span><div>$x+2 = 0$ または $x+3 = 0$</div></div>
+    <div class="sr b"><span class="sl b">解く</span><div>$x = -2, -3$</div></div>
+    <div class="ans-box">$x = -2, -3$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例２)$x^2 - 7x + 12 = 0$ を解く</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">因数分解</span><div>たして $-7$，かけて $12$ → $-3$ と $-4$ → $(x-3)(x-4) = 0$</div></div>
+    <div class="sr b"><span class="sl b">解く</span><div>$x = 3, 4$</div></div>
+    <div class="ans-box">$x = 3, 4$</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li><strong>$AB = 0$ ならば $A = 0$ または $B = 0$</strong></li>
+    <li>因数分解して $( \ )( \ ) = 0$ の形にする</li>
+    <li>それぞれ $= 0$ として解く</li>
+    <li>因数分解は <strong>「たして・かける」</strong>(EF06)を活用</li>
+    <li>$(x+a)^2 = 0$ の形なら，<strong>解は1つ（重解）</strong></li>
+    <li>QE01・QE02 と組み合わせて使うと，色々な式が解ける！</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>

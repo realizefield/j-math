@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QE02 (x+a)²=bの形 【導入】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });"></script>
+
+<style>
+:root{--primary:#4338ca;--primary-light:#e0e7ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#eef2ff;--card:#ffffff;--border:#c7d2fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(67,56,202,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.92em;line-height:2.3;}
+.formula-box{background:linear-gradient(135deg,#eef2ff,#e0e7ff);border:2px solid var(--success);border-radius:14px;padding:13px 16px;margin-bottom:14px;text-align:center;font-size:1.1em;font-weight:700;line-height:2.5;}
+.formula-box .ftitle{font-size:.83em;font-weight:700;color:var(--success);margin-bottom:9px;text-align:left;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;margin-bottom:14px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.warn-note{background:#fef2f2;border:1.5px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:.9em;color:var(--accent);font-weight:700;margin:10px 0;line-height:1.9;}
+.warn-note::before{content:"⚠️ ";}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2;}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.08em;line-height:2.4;font-weight:700;}
+.split-vis .arrow{color:var(--primary);font-size:1.3em;display:inline-block;margin:0 8px;}
+.tech-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:12px;padding:13px 16px;margin:13px 0;}
+.tech-box .ttl{font-size:.85em;font-weight:700;color:#b45309;margin-bottom:7px;}
+.tech-box .body{font-size:.92em;line-height:2;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#4338ca;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">QE02</div>
+  <h1>$(x+a)^2 = b$ の形<br><small style="font-size:.75em;opacity:.85;">かたまりを作って解く</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">① 前回(QE01)のおさらい</div>
+<div class="rule-box">
+  <div class="rtitle">📌 $x^2 = a$ の形は解けるようになった</div>
+  <div class="rbody">
+    $x^2 = 5$ → $x = \pm\sqrt{5}$<br>
+    $4x^2 = 9$ → $x = \pm\dfrac{3}{2}$<br>
+    では，<strong>$(x+1)^2 = 7$</strong> のような問題はどう解く？
+  </div>
+</div>
+
+<div class="sec">② $(x+1)^2 = 7$ をどう解く？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 アイデア：$x+1$ を「かたまり」として見る</div>
+  <div class="rbody">
+    $x+1$ を <strong>$A$ という1つの文字</strong> に置きかえてみよう。<br>
+    $A^2 = 7$ になる！　これなら QE01 で習った形！
+  </div>
+</div>
+
+<div class="split-vis">
+  $A^2 = 7$ <span class="arrow">→</span> $A = \pm\sqrt{7}$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 $A$ を $x+1$ に戻す</div>
+  <div class="rbody">
+    $A = x + 1$ だったので，<br>
+    $x + 1 = \pm\sqrt{7}$<br>
+    $-1$ を移項して：$x = -1 \pm\sqrt{7}$
+  </div>
+</div>
+
+<div class="ans-box">$x = -1 \pm\sqrt{7}$</div>
+
+<div class="pop-note">
+  <strong>$A$ と置きかえて考える</strong> と，知っている形にできる！
+</div>
+
+<div class="sec">③ 慣れたら一気に解こう</div>
+<div class="formula-box">
+  <div class="ftitle">📌 $(x+a)^2 = b$ の解き方</div>
+  $(x+a)^2 = b$ → $x+a = \pm\sqrt{b}$ → $x = -a \pm\sqrt{b}$
+</div>
+
+<div class="rule-box">
+  <div class="rtitle">📌 慣れたら $A$ なしで一気に！</div>
+  <div class="rbody">
+    $(x+1)^2 = 7$ を見たら…<br>
+    すぐに「$x+1 = \pm\sqrt{7}$」と書く！<br>
+    あとは移項して $x = -1 \pm\sqrt{7}$
+  </div>
+</div>
+
+<div class="split-vis">
+  $(x+1)^2 = 7$ <span class="arrow">→</span> $x+1 = \pm\sqrt{7}$ <span class="arrow">→</span> $x = -1 \pm\sqrt{7}$
+</div>
+
+<div class="sec">④ 整数の解になることもある</div>
+<div class="rule-box">
+  <div class="rtitle">📌 $b$ が平方数のとき</div>
+  <div class="rbody">
+    $(x+1)^2 = 4$ を解くと：<br>
+    $x + 1 = \pm 2$<br>
+    $x = -1 \pm 2$<br>
+    つまり $x = -1 + 2 = 1$ と $x = -1 - 2 = -3$<br>
+    答えは <strong>2つの整数</strong>！
+  </div>
+</div>
+
+<div class="ans-box">$x = 1, -3$</div>
+
+<div class="pop-note">
+  $\pm$ の答えが整数になるときは，<strong>$+$ と $-$ を別々に計算</strong> して，2つの値を書く。
+</div>
+
+<div class="sec">⑤ マイナス記号にも注意</div>
+<div class="rule-box">
+  <div class="rtitle">📌 $(x-1)^2 = 5$ の場合</div>
+  <div class="rbody">
+    かっこの中が $x - 1$ なので…<br>
+    $x - 1 = \pm\sqrt{5}$<br>
+    $-1$ を移項（プラスにして反対側へ）：<br>
+    $x = 1 \pm\sqrt{5}$
+  </div>
+</div>
+
+<div class="warn-note">
+  $(x \color{red}{-} 1)^2$ の場合，移項したら <strong>$+1$</strong> になる！　符号のミスに注意！
+</div>
+
+<div class="sec">⑥ 移項が必要な場合</div>
+<div class="rule-box">
+  <div class="rtitle">📌 $(x+1)^2 - 16 = 0$ の形</div>
+  <div class="rbody">
+    まず $-16$ を移項：$(x+1)^2 = 16$<br>
+    あとは普通に：$x + 1 = \pm 4$<br>
+    $x = -1 \pm 4$<br>
+    つまり $x = 3, -5$
+  </div>
+</div>
+
+<div class="tech-box">
+  <div class="ttl">💡 解き方の流れ</div>
+  <div class="body">
+    ① <strong>$(x+a)^2 = b$ の形</strong>に整える（移項する）<br>
+    ② かたまりに <strong>$\pm\sqrt{\phantom{x}}$</strong> をつけて外す<br>
+    ③ <strong>$x = $</strong> の形にする（移項）<br>
+    ④ 答えが整数2つになる場合は <strong>$+$ と $-$ を別々に計算</strong>
+  </div>
+</div>
+
+<div class="sec">⑦ 例で確認しよう</div>
+
+<div class="ex-card">
+  <div class="ex-head">例１)$(x+2)^2 = 9$ を解く</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">ルートを取る</span><div>$x + 2 = \pm 3$</div></div>
+    <div class="sr b"><span class="sl b">移項</span><div>$x = -2 \pm 3$</div></div>
+    <div class="sr b"><span class="sl b">$+$ と $-$ を計算</span><div>$x = -2+3 = 1$，$x = -2-3 = -5$</div></div>
+    <div class="ans-box">$x = 1, -5$</div>
+  </div>
+</div>
+
+<div class="ex-card">
+  <div class="ex-head">例２)$(x-3)^2 = 11$ を解く</div>
+  <div class="ex-body">
+    <div class="sr y"><span class="sl y">ルートを取る</span><div>$x - 3 = \pm\sqrt{11}$</div></div>
+    <div class="sr b"><span class="sl b">移項</span><div>$x = 3 \pm\sqrt{11}$　（$\sqrt{11}$ は簡単化できないのでそのまま）</div></div>
+    <div class="ans-box">$x = 3 \pm\sqrt{11}$</div>
+  </div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>$(x+a)^2 = b$ の形は，<strong>かたまりとして見る</strong></li>
+    <li>$(x+a)^2 = b$ → <strong>$x+a = \pm\sqrt{b}$</strong> → $x = -a \pm\sqrt{b}$</li>
+    <li>$b$ が平方数なら，<strong>整数2つ</strong> が解</li>
+    <li>$b$ が平方数じゃなければ，<strong>ルートが残る</strong></li>
+    <li>$(x+a)^2 = b$ の形になるよう <strong>まず移項</strong> する場合もある</li>
+    <li>$\sqrt{b}$ は <strong>簡単化できるか</strong> もチェック！(SQ04)</li>
+  </ul>
+</div>
+
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+
+<script src="../gamba_support.js"></script>
+</body>
+</html>
