@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MF02 加減法② 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.9em;line-height:2.6;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sys{display:inline-flex;align-items:center;gap:0;margin:5px 0 10px;}
+.sys.g .sys-brace{color:#15803d;}
+.sys-brace{font-size:2.8em;line-height:1;color:var(--primary);font-weight:300;font-family:'Times New Roman','Georgia',serif;margin-right:4px;align-self:center;}
+.sys-lines{display:inline-grid;gap:0;}
+.sys-eq{font-size:.94em;font-weight:700;line-height:2.2;}
+.eq-no{font-size:.7em;color:var(--text-sub);margin-left:7px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2.}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#3730a3;font-size:.83em;padding:9px 18px;}
+.bwrap{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px 10px 10px;margin-bottom:13px;text-align:center;}
+.bwrap.green{border-color:#16a34a;background:#f0fdf4;}
+.btitle{font-size:.8em;font-weight:700;color:var(--primary);margin-bottom:5px;}
+.bwrap.green .btitle{color:#15803d;}
+.bnote{font-size:.8em;font-weight:700;color:var(--text-sub);margin-top:7px;line-height:1.85;}
+.bwrap.green .bnote{color:#15803d;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;line-height:1.1;}
+.frac .fn{border-bottom:2px solid currentColor;padding:0 4px 1px;text-align:center;min-width:1.1em;}
+.frac .fd{padding:1px 4px 0;text-align:center;min-width:1.1em;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">MF02</div>
+  <h1>加減法②<br><small style="font-size:.75em;opacity:.85;">「ひいて消す」（①－②）</small></h1>
+</div>
+<nav class="step-nav"><div class="step-item"><span class="step-circle">①</span><a href="../mf01/intro.html">連立・①＋②</a></div><span class="step-arrow">›</span><div class="step-item active"><span class="step-circle">②</span><span>①－②</span></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">③</span><a href="../mf03/intro.html">係数そろえ</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">④</span><a href="../mf04/intro.html">分数・小数</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">⑤</span><a href="../mf05/intro.html">代入法</a></div></nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);"><div class="step-item active"><span class="step-circle">①</span><span>導入</span></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div></nav>
+<main class="g-container">
+
+<div class="sec">① 天秤でイメージ！「両辺から同じ量を引いてもつり合う」</div>
+<div class="bwrap green">
+  <div class="btitle" style="font-size:.82em;color:#15803d;">
+    両辺200gのケーキが乗った天秤から，両辺100gずつ食べても → まだつり合う！（①－②の意味）
+  </div>
+  <svg viewBox="0 0 380 290" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:370px;">
+  <!-- ===== 天秤①（両辺200g） ===== -->
+  <text x="4" y="22" fill="#1a56a0" font-size="12" font-weight="bold">①</text>
+  <rect x="68" y="24" width="12" height="34" rx="3" fill="#94a3b8"/>
+  <ellipse cx="74" cy="59" rx="18" ry="5" fill="#64748b"/>
+  <line x1="8" y1="26" x2="140" y2="26" stroke="#1a56a0" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="74" cy="26" r="5" fill="#1a56a0"/>
+  <line x1="14" y1="26" x2="8" y2="46" stroke="#64748b" stroke-width="2"/>
+  <line x1="50" y1="26" x2="56" y2="46" stroke="#64748b" stroke-width="2"/>
+  <path d="M2 46 Q30 56 62 46" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="98" y1="26" x2="92" y2="46" stroke="#64748b" stroke-width="2"/>
+  <line x1="132" y1="26" x2="138" y2="46" stroke="#64748b" stroke-width="2"/>
+  <path d="M86 46 Q114 56 144 46" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- 左ケーキ①（大） -->
+  <rect x="4" y="28" width="56" height="20" rx="5" fill="#f9a8d4"/>
+  <rect x="4" y="22" width="56" height="10" rx="3" fill="#ec4899" opacity=".7"/>
+  <text x="32" y="42" text-anchor="middle" fill="#831843" font-size="9" font-weight="bold">ケーキ 200g</text>
+  <!-- 右ケーキ①（大） -->
+  <rect x="90" y="28" width="56" height="20" rx="5" fill="#f9a8d4"/>
+  <rect x="90" y="22" width="56" height="10" rx="3" fill="#ec4899" opacity=".7"/>
+  <text x="118" y="42" text-anchor="middle" fill="#831843" font-size="9" font-weight="bold">ケーキ 200g</text>
+  <text x="74" y="74" text-anchor="middle" fill="#64748b" font-size="9">（5χ＋2ｙ＝−1）</text>
+
+  <!-- ===== ②の重み →「両辺100gずつ食べる」 ===== -->
+  <text x="4" y="108" fill="#e8372d" font-size="12" font-weight="bold">②</text>
+  <text x="4" y="122" fill="#e8372d" font-size="9" font-weight="bold">食べる量</text>
+  <rect x="68" y="110" width="12" height="34" rx="3" fill="#94a3b8"/>
+  <ellipse cx="74" cy="145" rx="18" ry="5" fill="#64748b"/>
+  <line x1="8" y1="112" x2="140" y2="112" stroke="#e8372d" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="74" cy="112" r="5" fill="#e8372d"/>
+  <line x1="14" y1="112" x2="8" y2="132" stroke="#64748b" stroke-width="2"/>
+  <line x1="50" y1="112" x2="56" y2="132" stroke="#64748b" stroke-width="2"/>
+  <path d="M2 132 Q30 142 62 132" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="98" y1="112" x2="92" y2="132" stroke="#64748b" stroke-width="2"/>
+  <line x1="132" y1="112" x2="138" y2="132" stroke="#64748b" stroke-width="2"/>
+  <path d="M86 132 Q114 142 144 132" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- 左：食べる100g -->
+  <rect x="14" y="116" width="42" height="18" rx="5" fill="#fca5a5"/>
+  <text x="35" y="129" text-anchor="middle" fill="#7f1d1d" font-size="9" font-weight="bold">100g食べる</text>
+  <!-- 右：食べる100g -->
+  <rect x="100" y="116" width="42" height="18" rx="5" fill="#fca5a5"/>
+  <text x="121" y="129" text-anchor="middle" fill="#7f1d1d" font-size="9" font-weight="bold">100g食べる</text>
+  <text x="74" y="160" text-anchor="middle" fill="#64748b" font-size="9">（3χ＋2ｙ＝1）</text>
+  <!-- 引き算マーク -->
+  <text x="74" y="94" text-anchor="middle" fill="#e8372d" font-size="22" font-weight="bold">−</text>
+  <text x="74" y="86" text-anchor="middle" fill="#e8372d" font-size="9" font-weight="bold">両辺から引く</text>
+
+  <!-- 矢印 -->
+  <text x="164" y="128" text-anchor="middle" fill="#16a34a" font-size="22" font-weight="bold">→</text>
+
+  <!-- ===== 残ったケーキ天秤 ===== -->
+  <text x="188" y="14" fill="#16a34a" font-size="12" font-weight="bold">①－② （残ったケーキ）</text>
+  <rect x="294" y="86" width="12" height="44" rx="3" fill="#94a3b8"/>
+  <ellipse cx="300" cy="132" rx="22" ry="7" fill="#64748b"/>
+  <line x1="190" y1="90" x2="370" y2="90" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="300" cy="90" r="6" fill="#16a34a"/>
+  <!-- 左紐 -->
+  <line x1="204" y1="90" x2="196" y2="116" stroke="#64748b" stroke-width="2.5"/>
+  <line x1="258" y1="90" x2="266" y2="116" stroke="#64748b" stroke-width="2.5"/>
+  <path d="M188 116 Q230 132 272 116" fill="none" stroke="#64748b" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- 右紐 -->
+  <line x1="330" y1="90" x2="322" y2="116" stroke="#64748b" stroke-width="2.5"/>
+  <line x1="364" y1="90" x2="372" y2="116" stroke="#64748b" stroke-width="2.5"/>
+  <path d="M314 116 Q348 132 378 116" fill="none" stroke="#64748b" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- 左：残り100g (5x+2y)-(3x+2y)=2x -->
+  <rect x="194" y="96" width="68" height="24" rx="6" fill="#f9a8d4"/>
+  <text x="228" y="112" text-anchor="middle" fill="#831843" font-size="12" font-weight="bold">2χ</text>
+  <!-- 2yが消えた -->
+  <text x="228" y="150" text-anchor="middle" fill="#e8372d" font-size="9" font-weight="bold">2ｙが消えた！</text>
+  <!-- 右：残り -1-1=-2 -->
+  <rect x="320" y="96" width="56" height="24" rx="6" fill="#fca5a5"/>
+  <text x="348" y="112" text-anchor="middle" fill="#7f1d1d" font-size="12" font-weight="bold">−1−1＝−2</text>
+  <!-- 結果 -->
+  <rect x="188" y="160" width="184" height="30" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="280" y="180" text-anchor="middle" fill="#15803d" font-size="13" font-weight="bold">2χ＝−2 → χ＝−1</text>
+  <!-- ⚖つり合い -->
+  <text x="300" y="46" text-anchor="middle" fill="#16a34a" font-size="11" font-weight="bold">⚖️ まだつり合ってる！</text>
+  <!-- 枠 -->
+  <rect x="184" y="4" width="192" height="198" rx="10" fill="none" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="5,3"/>
+</svg>
+  <div class="bnote">
+    <strong>【ポイント】</strong>つり合っている①の天秤の両辺から，<br>
+    同じくつり合っている②の量を<strong>それぞれ引いても</strong>天秤は必ずつり合ったまま！<br>
+    2ｙ と 2ｙ が打ち消し合って消え，<strong>2χ＝−2 → χ＝−1</strong> が求まる！
+  </div>
+</div>
+
+<div class="sec">② ルールを確認しよう</div>
+<div class="rule-box">
+  <div class="rtitle">📌 加減法「①－②」の手順</div>
+  <div class="rbody">
+    ❶ 一方の文字の係数が <strong>同じ符号・同じ値</strong> になっているか確認<br>
+    ❷ 2つの式を<strong>引く（①－②）</strong> → その文字が消える<br>
+    ❸ 解いて，求めた値をもとの式へ代入 → もう一方を求める
+  </div>
+</div>
+<div class="tip2">
+  <div style="background:var(--accent-light);color:var(--accent);">①－②でひいて消す</div>
+  <div style="background:var(--primary-light);color:var(--primary);">同じ符号・同じ係数！→ 引くと0になる</div>
+</div>
+
+<div class="sec">③ 例で確認しよう</div>
+<div class="ex-card">
+  <div class="ex-head">例１）ｙの係数が両方＋3</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">4χ＋3ｙ＝17<span class="eq-no">……①</span></div><div class="sys-eq">7χ＋3ｙ＝23<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">着目</span><div>ｙの係数が両方 <strong>＋3</strong> → ①－② でｙが消える</div></div><div class="sr b"><span class="sl b">①－②</span><div>(4χ＋3ｙ)－(7χ＋3ｙ)＝17－23　→　<strong>－3χ＝－6　→　χ＝2</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>χ＝2 を①へ：8＋3ｙ＝17　→　<strong>ｙ＝3</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(2，3)</strong></div></div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例２）ｙの係数が両方－1</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">5χ－ｙ＝ 3<span class="eq-no">……①</span></div><div class="sys-eq">χ－ｙ＝－5<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">着目</span><div>ｙの係数が両方 <strong>－1</strong> → ①－② でｙが消える</div></div><div class="sr b"><span class="sl b">①－②</span><div>4χ＝8　→　<strong>χ＝2</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>χ＝2 を②へ：2－ｙ＝－5　→　<strong>ｙ＝7</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(2，7)</strong></div></div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例３）χの係数が両方＋3</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">3χ＋ｙ＝5<span class="eq-no">……①</span></div><div class="sys-eq">3χ＋2ｙ＝4<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">着目</span><div>χの係数が両方 <strong>＋3</strong> → ①－② でχが消える</div></div><div class="sr b"><span class="sl b">①－②</span><div>ｙ－2ｙ＝5－4　→　<strong>－ｙ＝1　→　ｙ＝－1</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>ｙ＝－1 を①へ：3χ－1＝5　→　<strong>χ＝2</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(2，－1)</strong></div></div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例４）χの係数が両方＋2（負の係数も同じルール）</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">2χ－ｙ＝2<span class="eq-no">……①</span></div><div class="sys-eq">6χ－ｙ＝－2<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">着目</span><div>ｙの係数が両方 <strong>－1</strong> → ①－② でｙが消える</div></div><div class="sr b"><span class="sl b">①－②</span><div>2χ－6χ＝2－(－2)　→　<strong>－4χ＝4　→　χ＝－1</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>χ＝－1 を①へ：－2－ｙ＝2　→　<strong>ｙ＝－4</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(－1，－4)</strong></div></div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>天秤の両辺から同じ量を引いてもつり合いは変わらない → これが<strong>①－②</strong>の意味</li>
+    <li>同じ文字の係数が<strong>同じ符号・同じ値</strong>のとき，①－②でその文字が消える</li>
+    <li>消えた後は1文字の方程式 → 解いてもう一方の式へ代入</li>
+  </ul>
+</div>
+<div class="nav-btns"><a href="https://realizefield.github.io/gamba-chugaku/gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a><a href="../mf01/intro.html" class="btn-nav btn-b">← ← ①＋②</a><a href="example.html" class="btn-nav btn-f">② 例題へ →</a></div>
+
+</main>
+<script src="../../gamba_support.js"></script>
+</body>
+</html>

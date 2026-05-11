@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MF03 加減法③ 【導入】</title>
+<style>
+:root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(26,86,160,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.rule-box{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid var(--primary);border-radius:14px;padding:13px 16px;margin-bottom:14px;}
+.rule-box .rtitle{font-size:.83em;font-weight:700;color:var(--primary);margin-bottom:9px;}
+.rule-box .rbody{font-size:.9em;line-height:2.6;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.tip2 div{border-radius:8px;padding:9px;font-size:.86em;font-weight:700;text-align:center;line-height:1.5;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:13px;overflow:hidden;}
+.ex-head{background:var(--primary);color:#fff;padding:7px 15px;font-size:.83em;font-weight:700;}
+.ex-body{padding:13px 16px;}
+.sys{display:inline-flex;align-items:center;gap:0;margin:5px 0 10px;}
+.sys.g .sys-brace{color:#15803d;}
+.sys-brace{font-size:2.8em;line-height:1;color:var(--primary);font-weight:300;font-family:'Times New Roman','Georgia',serif;margin-right:4px;align-self:center;}
+.sys-lines{display:inline-grid;gap:0;}
+.sys-eq{font-size:.94em;font-weight:700;line-height:2.2;}
+.eq-no{font-size:.7em;color:var(--text-sub);margin-left:7px;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:11px 14px;margin-top:9px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2.}
+.sum-box{background:var(--warn-light);border:2px solid var(--warn);border-radius:var(--radius);padding:14px 17px;margin-bottom:22px;font-size:.93em;line-height:2.1;}
+.sum-box .st{font-weight:700;color:var(--warn);margin-bottom:7px;}
+.sum-box ul{padding-left:17px;}
+.sum-box li{margin-bottom:3px;}
+.sum-box strong{color:var(--primary);}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#e0e7ff;color:#3730a3;font-size:.83em;padding:9px 18px;}
+.bwrap{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px 10px 10px;margin-bottom:13px;text-align:center;}
+.bwrap.green{border-color:#16a34a;background:#f0fdf4;}
+.btitle{font-size:.8em;font-weight:700;color:var(--primary);margin-bottom:5px;}
+.bwrap.green .btitle{color:#15803d;}
+.bnote{font-size:.8em;font-weight:700;color:var(--text-sub);margin-top:7px;line-height:1.85;}
+.bwrap.green .bnote{color:#15803d;}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px;line-height:1.1;}
+.frac .fn{border-bottom:2px solid currentColor;padding:0 4px 1px;text-align:center;min-width:1.1em;}
+.frac .fd{padding:1px 4px 0;text-align:center;min-width:1.1em;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">MF03</div>
+  <h1>加減法③<br><small style="font-size:.75em;opacity:.85;">係数をそろえてから消す</small></h1>
+</div>
+<nav class="step-nav"><div class="step-item"><span class="step-circle">①</span><a href="../mf01/intro.html">連立・①＋②</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">②</span><a href="../mf02/intro.html">①－②</a></div><span class="step-arrow">›</span><div class="step-item active"><span class="step-circle">③</span><span>係数そろえ</span></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">④</span><a href="../mf04/intro.html">分数・小数</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">⑤</span><a href="../mf05/intro.html">代入法</a></div></nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);"><div class="step-item active"><span class="step-circle">①</span><span>導入</span></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div><span class="step-arrow">›</span><div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div></nav>
+<main class="g-container">
+
+<div class="sec">① なぜ係数をそろえるの？</div>
+<div class="rule-box">
+  <div class="rtitle">📌 係数をそろえる理由</div>
+  <div class="rbody">
+    ①＋② や ①－② は「<strong>消したい文字の係数が同じ大きさ</strong>」のときだけ使える。<br>
+    係数が違う場合は，<strong>両辺に同じ数をかけて係数をそろえてから</strong>加減する。<br><br>
+    方程式の両辺に同じ数をかけても，方程式の解は変わらない！
+  </div>
+</div>
+<div class="tip2">
+  <div style="background:var(--primary-light);color:var(--primary);">消したい文字の係数の<br>最小公倍数を求める</div>
+  <div style="background:var(--warn-light);color:var(--warn);">両辺に整数をかけて<br>係数をそろえる</div>
+</div>
+
+<div class="sec">② 例で確認しよう</div>
+<div class="ex-card">
+  <div class="ex-head">例１）χの係数をそろえる（3と2 → 6）</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">3χ－5ｙ＝4<span class="eq-no">……①</span></div><div class="sys-eq">2χ＋3ｙ＝9<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">方針</span><div>χを消去したい → χの係数LCM：lcm(3,2)＝<strong>6</strong> → ①×2，②×3</div></div><div class="sr b"><span class="sl b">変形</span><div>①×2：6χ－10ｙ＝8　　②×3：6χ＋9ｙ＝27</div></div><div class="sr b"><span class="sl b">①×2－②×3</span><div>(6χ－10ｙ)－(6χ＋9ｙ)＝8－27　→　<strong>－19ｙ＝－19　→　ｙ＝1</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>ｙ＝1 を②へ：2χ＋3＝9　→　2χ＝6　→　<strong>χ＝3</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(3，1)</strong></div></div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例２）ｙの係数をそろえる（2と3 → 6）</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">9χ＋2ｙ＝24<span class="eq-no">……①</span></div><div class="sys-eq">17χ－3ｙ＝25<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">方針</span><div>ｙを消去したい → lcm(2,3)＝<strong>6</strong> → ①×3，②×2</div></div><div class="sr b"><span class="sl b">変形</span><div>①×3：27χ＋6ｙ＝72　　②×2：34χ－6ｙ＝50</div></div><div class="sr b"><span class="sl b">①×3＋②×2</span><div>ｙの符号が逆なので<strong>足す</strong>：61χ＝122　→　<strong>χ＝2</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>χ＝2 を①へ：18＋2ｙ＝24　→　<strong>ｙ＝3</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(2，3)</strong></div></div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例３）ｙの係数をそろえる（6と7 → 42）</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">5χ＋6ｙ＝3<span class="eq-no">……①</span></div><div class="sys-eq">4χ＋7ｙ＝－2<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">方針</span><div>ｙを消去 → lcm(6,7)＝<strong>42</strong> → ①×7，②×6</div></div><div class="sr b"><span class="sl b">変形</span><div>①×7：35χ＋42ｙ＝21　　②×6：24χ＋42ｙ＝－12</div></div><div class="sr b"><span class="sl b">①×7－②×6</span><div>11χ＝33　→　<strong>χ＝3</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>χ＝3 を①へ：15＋6ｙ＝3　→　<strong>ｙ＝－2</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(3，－2)</strong></div></div>
+</div>
+<div class="ex-card">
+  <div class="ex-head">例４）ｙの係数をそろえる（3と2 → 6）</div>
+  <div class="ex-body"><div class="sys"><span class="sys-brace">&#123;</span><div class="sys-lines"><div class="sys-eq">2χ＋3ｙ＝－1<span class="eq-no">……①</span></div><div class="sys-eq">3χ＋2ｙ＝ 1<span class="eq-no">……②</span></div></div></div><div class="sr y"><span class="sl y">方針</span><div>ｙを消去 → lcm(3,2)＝<strong>6</strong> → ①×2，②×3</div></div><div class="sr b"><span class="sl b">変形</span><div>①×2：4χ＋6ｙ＝－2　　②×3：9χ＋6ｙ＝3</div></div><div class="sr b"><span class="sl b">①×2－②×3</span><div>(4χ＋6ｙ)－(9χ＋6ｙ)＝－2－3　→　<strong>－5χ＝－5　→　χ＝1</strong></div></div><div class="sr g"><span class="sl g">代入</span><div>χ＝1 を①へ：2＋3ｙ＝－1　→　<strong>ｙ＝－1</strong></div></div><div class="ans-box">答え：<strong>(χ，ｙ)＝(1，－1)</strong></div></div>
+</div>
+
+<div class="sum-box">
+  <div class="st">📌 まとめ</div>
+  <ul>
+    <li>係数が違う → <strong>両辺に整数をかけて係数をそろえる</strong></li>
+    <li>係数の<strong>最小公倍数（LCM）</strong>を求めて，それぞれの式にかける</li>
+    <li>そろったら ①±② でその文字を消去 → 1文字の方程式へ</li>
+  </ul>
+</div>
+<div class="nav-btns"><a href="https://realizefield.github.io/gamba-chugaku/gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a><a href="../mf02/intro.html" class="btn-nav btn-b">← ← ①－②</a><a href="example.html" class="btn-nav btn-f">② 例題へ →</a></div>
+
+</main>
+<script src="../../gamba_support.js"></script>
+</body>
+</html>
