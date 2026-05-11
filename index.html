@@ -83,6 +83,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .c-mb{background:var(--warn-light);color:var(--warn);}
 .c-mc{background:#f3e8ff;color:#7c3aed;}
 .c-md{background:#dcfce7;color:#15803d;}
+.c-mf{background:#fff1f0;color:#e8372d;}
 
 /* 単元名 */
 .u-name{flex:1;font-size:.9em;font-weight:700;line-height:1.4;min-width:0;}
@@ -164,6 +165,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
     <div class="section-title">⚖️ MD　一次方程式</div>
     <div class="unit-list" id="list-md"></div>
+
+    <div class="section-title">🔗 MF　連立方程式</div>
+    <div class="unit-list" id="list-mf"></div>
   </main>
 </div>
 
@@ -207,6 +211,11 @@ const UNITS = [
   {code:'MD06',name:'分数を含む方程式',           sub:'最小公倍数を両辺にかける',               g:'md',path:'md06/intro.html'},
   {code:'MD07',name:'小数を含む方程式',           sub:'×10・×100で整数にする',               g:'md',path:'md07/intro.html'},
   {code:'MD08',name:'比例式',                    sub:'内項の積＝外項の積',                    g:'md',path:'md08/intro.html'},
+  {code:'MF01',name:'連立方程式・加減法①', sub:'「たして消す」（①＋②）',          g:'mf',path:'mf01/intro.html'},
+  {code:'MF02',name:'加減法②',             sub:'「ひいて消す」（①－②）',            g:'mf',path:'mf02/intro.html'},
+  {code:'MF03',name:'加減法③',             sub:'係数をそろえてから消す',              g:'mf',path:'mf03/intro.html'},
+  {code:'MF04',name:'分数・小数の連立方程式', sub:'整数に直してから解く',               g:'mf',path:'mf04/intro.html'},
+  {code:'MF05',name:'代入法',               sub:'一方の式を代入して解く',              g:'mf',path:'mf05/intro.html'},
 ];
 const TOTAL = UNITS.length;
 
@@ -248,13 +257,15 @@ function render(){
   const mbList = document.getElementById('list-mb');
   const mcList = document.getElementById('list-mc');
   const mdList = document.getElementById('list-md');
-  maList.innerHTML=''; mbList.innerHTML=''; mcList.innerHTML=''; mdList.innerHTML='';
+  const mfList = document.getElementById('list-mf');
+  maList.innerHTML=''; mbList.innerHTML=''; mcList.innerHTML=''; mdList.innerHTML=''; mfList.innerHTML='';
   UNITS.forEach(u=>{
     const card = makeCard(u);
     if(u.g==='ma') maList.appendChild(card);
     else if(u.g==='mb') mbList.appendChild(card);
     else if(u.g==='mc') mcList.appendChild(card);
-    else mdList.appendChild(card);
+    else if(u.g==='md') mdList.appendChild(card);
+    else mfList.appendChild(card);
   });
 }
 
@@ -263,7 +274,7 @@ function makeCard(u){
   const div = document.createElement('div');
   div.className = 'unit-card s-'+st;
 
-  const codeClass = u.g==='ma'?'c-ma':u.g==='mb'?'c-mb':u.g==='mc'?'c-mc':'c-md';
+  const codeClass = u.g==='ma'?'c-ma':u.g==='mb'?'c-mb':u.g==='mc'?'c-mc':u.g==='md'?'c-md':'c-mf';
   const badgeMap = {
     pass:  '<span class="u-badge b-pass">✅ 合格</span>',
     review:'<span class="u-badge b-review">🔁 復習中</span>',
