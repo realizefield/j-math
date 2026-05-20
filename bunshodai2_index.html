@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>GAMBA 文章題 連立方程式</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'BIZ UDGothic','Hiragino Kaku Gothic Pro','Meiryo',sans-serif;background:#eef2f7;color:#1a1a2e;min-height:100vh;font-size:15px}
+.top-header{background:linear-gradient(135deg,#2055b0 0%,#3a7bd5 100%);color:#fff;padding:16px 16px 0;text-align:center}
+.top-header h1{font-size:18px;font-weight:700;letter-spacing:.05em}
+.top-header p{font-size:12px;margin-top:3px;opacity:.85}
+.summary-bar{background:rgba(0,0,0,.25);margin-top:12px;padding:9px 14px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:12px;color:#fff}
+.sum-item{display:flex;align-items:center;gap:5px;white-space:nowrap}
+.sum-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.sum-dot-a{background:#4caf50}
+.sum-dot-b{background:#f9a825}
+.sum-dot-c{background:#e53935}
+.sum-dot-n{background:#aaa}
+.sum-count{font-weight:700;font-size:15px;min-width:18px;text-align:center}
+.wrap{max-width:920px;margin:0 auto;padding:16px 12px 48px}
+
+.unit{background:#fff;border-radius:14px;border:1px solid #dde3ee;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden}
+.unit-hd{padding:12px 16px;display:flex;align-items:center;gap:10px;color:#fff}
+.unit-hd-2{background:linear-gradient(90deg,#2055b0,#3a7bd5)}
+.unit-num{background:rgba(255,255,255,.2);border-radius:8px;padding:3px 10px;font-size:13px;font-weight:700;white-space:nowrap}
+.unit-title{font-size:16px;font-weight:700;flex:1}
+.unit-badge{font-size:11px;background:rgba(255,255,255,.3);border-radius:10px;padding:2px 8px;white-space:nowrap;font-weight:700}
+.unit-body{padding:14px 16px}
+
+.group-label{font-size:12px;font-weight:700;color:#666;margin:14px 0 8px;letter-spacing:.05em;padding-bottom:4px;border-bottom:1.5px dashed #ccc;display:flex;align-items:center;gap:8px}
+.group-label:first-child{margin-top:0}
+
+.sec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-bottom:4px}
+.sec-card{border-radius:10px;border:1.5px solid #dde3ee;overflow:hidden;transition:.2s;background:#fff}
+.sec-card:hover{box-shadow:0 3px 12px rgba(0,0,0,.1);transform:translateY(-1px)}
+.sec-card a{text-decoration:none;color:inherit;display:block}
+
+/* 中2: blue */
+.sec-card.grade-2 .sc-hd{background:#eaf0fb;border-bottom:2px solid #2055b0}
+.sec-card.grade-2 .sc-num{background:#2055b0}
+.sec-card.grade-2 .sc-title{color:#153a80}
+.sec-card.grade-2 .sc-btn-learn{background:#2055b0}
+.sec-card.grade-2 .sc-btn-learn:hover{background:#153a80}
+
+.sc-hd{padding:9px 12px;display:flex;align-items:center;gap:8px}
+.sc-num{color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;padding:3px 8px;min-width:42px;text-align:center}
+.sc-title{font-size:13px;font-weight:700;flex:1;line-height:1.3}
+.sc-stars{font-size:11px;color:#f9a825;letter-spacing:-1px;flex-shrink:0}
+.sc-body{padding:9px 12px;background:#fff}
+.sc-topics{list-style:none;margin:0;padding:0}
+.sc-topics li{font-size:12px;color:#555;padding:2px 0;border-bottom:1px solid #f0f0f5;line-height:1.5}
+.sc-topics li:last-child{border-bottom:none}
+.sc-topics li::before{content:"・";color:#2055b0}
+
+.sc-btn-row{display:flex;gap:6px;margin-top:8px}
+.sc-btn{flex:1;text-align:center;padding:7px 4px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;transition:.15s;font-family:inherit;border:none;cursor:pointer;display:block;color:#fff}
+.sc-btn-soon{background:#bbb;color:#fff;cursor:not-allowed;pointer-events:none}
+
+.abc-row{display:flex;gap:6px;padding:8px 12px 10px}
+.abc-btn{flex:1;padding:7px 2px;border-radius:20px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:.15s;border:2px solid;text-align:center;background:#fff}
+.abc-btn-a{border-color:#2e7d32;color:#fff;background:#43a047}
+.abc-btn-b{border-color:#f9a825;color:#fff;background:#f9a825}
+.abc-btn-c{border-color:#e53935;color:#fff;background:#e53935}
+.abc-btn:hover{opacity:.85}
+.abc-btn-a.sel{background:#1b5e20;border-color:#1b5e20}
+.abc-btn-b.sel{background:#bf360c;color:#fff;border-color:#bf360c}
+.abc-btn-c.sel{background:#b71c1c;color:#fff;border-color:#b71c1c}
+
+.sec-card.status-a{border-color:#2e7d32}
+.sec-card.status-a .sc-hd{background:#e8f5e9 !important;border-bottom-color:#2e7d32 !important}
+.sec-card.status-b{border-color:#f9a825}
+.sec-card.status-b .sc-hd{background:#fff9e6 !important;border-bottom-color:#f9a825 !important}
+.sec-card.status-c{border-color:#e53935}
+.sec-card.status-c .sc-hd{background:#fce8e8 !important;border-bottom-color:#e53935 !important}
+
+.flow{background:#fff;border-radius:14px;border:1px solid #dde3ee;padding:14px 16px;margin-bottom:20px}
+.flow-title{font-size:14px;font-weight:700;color:#2055b0;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #3a7bd5}
+.flow-steps{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.flow-step{background:#eaf0fb;border:1px solid #2055b0;border-radius:8px;padding:7px 12px;font-size:12px;color:#2055b0;font-weight:700;white-space:nowrap}
+.flow-arrow{color:#3a7bd5;font-size:16px;font-weight:700}
+
+.nav-links{display:flex;gap:10px;justify-content:center;margin:24px 0 8px;flex-wrap:wrap}
+.nav-link{padding:10px 18px;border-radius:10px;border:1.5px solid #dde3ee;background:#fff;color:#0d4f7a;font-size:13px;font-weight:700;text-decoration:none;transition:.15s}
+.nav-link:hover{border-color:#2055b0;color:#2055b0;background:#eaf0fb}
+.nav-link.active{background:#2055b0;color:#fff;border-color:#2055b0}
+
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;display:none}
+</style>
+</head>
+<body>
+<canvas id="cc"></canvas>
+
+<div class="top-header">
+  <h1>📐 GAMBA 連立方程式の文章題</h1>
+  <p>中学数学・江原予備校 ― 2つの文字で式を立てよう ―</p>
+  <div class="summary-bar">
+    <div class="sum-item"><span class="sum-dot sum-dot-a"></span>A わかった <span class="sum-count" id="cnt-a">0</span> 単元</div>
+    <div class="sum-item"><span class="sum-dot sum-dot-b"></span>B 要復習 <span class="sum-count" id="cnt-b">0</span> 単元</div>
+    <div class="sum-item"><span class="sum-dot sum-dot-c"></span>C 何度も復習 <span class="sum-count" id="cnt-c">0</span> 単元</div>
+    <div class="sum-item"><span class="sum-dot sum-dot-n"></span>未実施 <span class="sum-count" id="cnt-n">8</span> 単元</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="nav-links">
+    <a href="bunshou_index.html" class="nav-link">← 全体の単元表へ</a>
+    <a href="bunshodai2_index.html" class="nav-link active">📐 連立方程式</a>
+  </div>
+
+  <div class="flow">
+    <div class="flow-title">📖 学習の流れ</div>
+    <div class="flow-steps">
+      <div class="flow-step">① 例題で考え方を学ぶ</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">② 基本演習</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">③ 応用演習</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">④ 確認問題</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">⑤ A/B/C で自己評価</div>
+    </div>
+  </div>
+
+  <!-- Unit: 中2 連立方程式の文章題 -->
+  <div class="unit">
+    <div class="unit-hd unit-hd-2"><span class="unit-num">中2</span><span class="unit-title">連立方程式の文章題</span><span class="unit-badge">🔢 2つの式で解く</span></div>
+    <div class="unit-body">
+
+      <div class="group-label">🎯 基本問題</div>
+      <div class="sec-grid">
+        <div class="sec-card grade-2" data-id="MR1">
+          <a href="MR1.html"><div class="sc-hd"><span class="sc-num">MR-1</span><span class="sc-title">個数と代金</span><span class="sc-stars">★☆☆</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>連立方程式の基本</li><li>2つの文字を使う</li><li>表で整理</li></ul></div></a>
+          <div class="sc-body" style="padding-top:0"><div class="sc-btn-row"><a class="sc-btn sc-btn-learn" href="MR1.html">学習を始める</a></div></div>
+          <div class="abc-row"><button class="abc-btn abc-btn-a" onclick="setABC('MR1','a',this)">A OK</button><button class="abc-btn abc-btn-b" onclick="setABC('MR1','b',this)">B 要復習</button><button class="abc-btn abc-btn-c" onclick="setABC('MR1','c',this)">C 何度も</button></div>
+        </div>
+        <div class="sec-card grade-2" data-id="MR2">
+          <a href="MR2.html"><div class="sc-hd"><span class="sc-num">MR-2</span><span class="sc-title">速さの問題</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>追いつき・出会い</li><li>速さ×時間＝道のり</li><li>図を使って整理</li></ul></div></a>
+          <div class="sc-body" style="padding-top:0"><div class="sc-btn-row"><a class="sc-btn sc-btn-learn" href="MR2.html">学習を始める</a></div></div>
+          <div class="abc-row"><button class="abc-btn abc-btn-a" onclick="setABC('MR2','a',this)">A OK</button><button class="abc-btn abc-btn-b" onclick="setABC('MR2','b',this)">B 要復習</button><button class="abc-btn abc-btn-c" onclick="setABC('MR2','c',this)">C 何度も</button></div>
+        </div>
+        <div class="sec-card grade-2" data-id="MR3">
+          <a href="MR3.html"><div class="sc-hd"><span class="sc-num">MR-3</span><span class="sc-title">平均点の問題</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>(合計点)÷(人数)＝平均</li><li>2つの科目の平均</li><li>全体と個別の関係</li></ul></div></a>
+          <div class="sc-body" style="padding-top:0"><div class="sc-btn-row"><a class="sc-btn sc-btn-learn" href="MR3.html">学習を始める</a></div></div>
+          <div class="abc-row"><button class="abc-btn abc-btn-a" onclick="setABC('MR3','a',this)">A OK</button><button class="abc-btn abc-btn-b" onclick="setABC('MR3','b',this)">B 要復習</button><button class="abc-btn abc-btn-c" onclick="setABC('MR3','c',this)">C 何度も</button></div>
+        </div>
+        <div class="sec-card grade-2" data-id="MR4">
+          <a href="MR4.html"><div class="sc-hd"><span class="sc-num">MR-4</span><span class="sc-title">整数の問題</span><span class="sc-stars">★★☆</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>10x + y で表す</li><li>位を入れ替える</li><li>各位の和との関係</li></ul></div></a>
+          <div class="sc-body" style="padding-top:0"><div class="sc-btn-row"><a class="sc-btn sc-btn-learn" href="MR4.html">学習を始める</a></div></div>
+          <div class="abc-row"><button class="abc-btn abc-btn-a" onclick="setABC('MR4','a',this)">A OK</button><button class="abc-btn abc-btn-b" onclick="setABC('MR4','b',this)">B 要復習</button><button class="abc-btn abc-btn-c" onclick="setABC('MR4','c',this)">C 何度も</button></div>
+        </div>
+        <div class="sec-card grade-2" data-id="MR5">
+          <a href="MR5.html"><div class="sc-hd"><span class="sc-num">MR-5</span><span class="sc-title">割合の問題</span><span class="sc-stars">★★★</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>％を小数で表す</li><li>全体の何％か</li><li>増減を式で表す</li></ul></div></a>
+          <div class="sc-body" style="padding-top:0"><div class="sc-btn-row"><a class="sc-btn sc-btn-learn" href="MR5.html">学習を始める</a></div></div>
+          <div class="abc-row"><button class="abc-btn abc-btn-a" onclick="setABC('MR5','a',this)">A OK</button><button class="abc-btn abc-btn-b" onclick="setABC('MR5','b',this)">B 要復習</button><button class="abc-btn abc-btn-c" onclick="setABC('MR5','c',this)">C 何度も</button></div>
+        </div>
+      </div>
+
+      <div class="group-label">🧂 食塩水・割合・整数</div>
+      <div class="sec-grid">
+        <div class="sec-card grade-2" data-id="MR6">
+          <a href="MR6.html"><div class="sc-hd"><span class="sc-num">MR-6</span><span class="sc-title">食塩水の濃度</span><span class="sc-stars">★★★</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>2種類の食塩水を混ぜる</li><li>食塩の量に注目</li><li>連立で解く</li></ul></div></a>
+          <div class="sc-body" style="padding-top:0"><div class="sc-btn-row"><a class="sc-btn sc-btn-learn" href="MR6.html">学習を始める</a></div></div>
+          <div class="abc-row"><button class="abc-btn abc-btn-a" onclick="setABC('MR6','a',this)">A OK</button><button class="abc-btn abc-btn-b" onclick="setABC('MR6','b',this)">B 要復習</button><button class="abc-btn abc-btn-c" onclick="setABC('MR6','c',this)">C 何度も</button></div>
+        </div>
+        <div class="sec-card grade-2" data-id="MR7">
+          <a href="MR7.html"><div class="sc-hd"><span class="sc-num">MR-7</span><span class="sc-title">生徒数の増減</span><span class="sc-stars">★★★★</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>増加率・減少率</li><li>パーセントの計算</li><li>複数年の変化</li></ul></div></a>
+          <div class="sc-body" style="padding-top:0"><div class="sc-btn-row"><a class="sc-btn sc-btn-learn" href="MR7.html">学習を始める</a></div></div>
+          <div class="abc-row"><button class="abc-btn abc-btn-a" onclick="setABC('MR7','a',this)">A OK</button><button class="abc-btn abc-btn-b" onclick="setABC('MR7','b',this)">B 要復習</button><button class="abc-btn abc-btn-c" onclick="setABC('MR7','c',this)">C 何度も</button></div>
+        </div>
+        <div class="sec-card grade-2" data-id="MR8">
+          <a href="MR8.html"><div class="sc-hd"><span class="sc-num">MR-8</span><span class="sc-title">整数問題</span><span class="sc-stars">★★★★</span></div>
+          <div class="sc-body"><ul class="sc-topics"><li>2桁・3桁の自然数</li><li>位の入れかえ</li><li>各位の和の関係</li></ul></div></a>
+          <div class="sc-body" style="padding-top:0"><div class="sc-btn-row"><a class="sc-btn sc-btn-learn" href="MR8.html">学習を始める</a></div></div>
+          <div class="abc-row"><button class="abc-btn abc-btn-a" onclick="setABC('MR8','a',this)">A OK</button><button class="abc-btn abc-btn-b" onclick="setABC('MR8','b',this)">B 要復習</button><button class="abc-btn abc-btn-c" onclick="setABC('MR8','c',this)">C 何度も</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <a href="bunshou_index.html" class="nav-link">← 全体の単元表へ</a>
+  </div>
+
+</div>
+
+<script>
+var STORAGE_KEY = 'gamba_bunshou_mr_status_v1';
+var status = {};
+var activeIds = ['MR1','MR2','MR3','MR4','MR5','MR6','MR7','MR8'];
+
+try {
+  var saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) status = JSON.parse(saved);
+} catch(e) {}
+
+function applyStoredStatus() {
+  Object.keys(status).forEach(function(id) {
+    var grade = status[id];
+    var card = document.querySelector('[data-id="'+id+'"]');
+    if (!card) return;
+    card.classList.add('status-' + grade);
+    var btnClass = 'abc-btn-' + grade;
+    var btn = card.querySelector('.' + btnClass);
+    if (btn) btn.classList.add('sel');
+  });
+}
+
+function saveStatus() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(status)); } catch(e) {}
+}
+
+function setABC(id, grade, btn) {
+  var card = document.querySelector('[data-id="'+id+'"]');
+  if (!card) return;
+  if (status[id] === grade) {
+    delete status[id];
+    card.className = card.className.replace(/ ?status-[abc]/g,'');
+    card.querySelectorAll('.abc-btn').forEach(function(b){b.classList.remove('sel');});
+    saveStatus();
+    updateSummary();
+    return;
+  }
+  status[id] = grade;
+  card.className = card.className.replace(/ ?status-[abc]/g,'');
+  card.classList.add('status-' + grade);
+  card.querySelectorAll('.abc-btn').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');
+  saveStatus();
+  if (grade === 'a') confetti();
+  updateSummary();
+}
+
+function updateSummary() {
+  var ca=0, cb=0, cc=0, cn=0;
+  activeIds.forEach(function(id) {
+    var s = status[id];
+    if (s === 'a') ca++;
+    else if (s === 'b') cb++;
+    else if (s === 'c') cc++;
+    else cn++;
+  });
+  document.getElementById('cnt-a').textContent = ca;
+  document.getElementById('cnt-b').textContent = cb;
+  document.getElementById('cnt-c').textContent = cc;
+  document.getElementById('cnt-n').textContent = cn;
+}
+
+function confetti() {
+  var cv = document.getElementById('cc');
+  cv.width = window.innerWidth;
+  cv.height = window.innerHeight;
+  cv.style.display = 'block';
+  var ctx = cv.getContext('2d');
+  var cols = ['#f9a825','#0d9478','#2055b0','#7d3eb0','#e53935','#2e7d32','#ff6f00','#ff4081'];
+  var ps = [];
+  for (var k=0; k<130; k++) {
+    ps.push({
+      x: Math.random() * cv.width,
+      y: -20 - Math.random() * 180,
+      w: 7 + Math.random() * 9,
+      h: 3 + Math.random() * 5,
+      c: cols[Math.floor(Math.random() * cols.length)],
+      s: 2 + Math.random() * 4,
+      a: Math.random() * 360,
+      sp: 3 - Math.random() * 6,
+      d: (Math.random() - 0.5) * 2.5
+    });
+  }
+  var fr = 0;
+  function draw() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ps.forEach(function(p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.a * Math.PI / 180);
+      ctx.fillStyle = p.c;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+      p.y += p.s;
+      p.x += p.d;
+      p.a += p.sp;
+    });
+    fr++;
+    if (fr < 100) requestAnimationFrame(draw);
+    else {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      cv.style.display = 'none';
+    }
+  }
+  draw();
+}
+
+applyStoredStatus();
+updateSummary();
+</script>
+</body>
+</html>
