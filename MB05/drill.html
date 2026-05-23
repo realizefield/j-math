@@ -86,8 +86,8 @@ function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a;}
 
 function fracHTML(neg, n, d, color=''){
   const c = color || (neg ? 'var(--accent)' : 'var(--text)');
-  return `${neg?`<span style="font-size:clamp(1em,2.5vw,1.4em);font-weight:700;color:${c};">−</span>`:''}
-    <span class="frac"><span class="fn" style="color:${c};">${n}</span><span class="fb"></span><span class="fd">${d}</span></span>`;
+  const sign = neg ? '<span style="font-size:clamp(1em,2.5vw,1.4em);font-weight:700;color:' + c + ';">−</span>' : '';
+  return sign + '<span class="frac"><span class="fn" style="color:' + c + ';">' + n + '</span><span class="fb"></span><span class="fd">' + d + '</span></span>';
 }
 
 function buildProblems() {
@@ -139,7 +139,7 @@ function explainHTML(p, isOk, hasInput) {
   }
   html += `
     <div class="step-row y"><span class="tag y">通分</span> 最小公倍数 → <strong style="color:var(--warn);">${p.lcm}</strong></div>
-    <div class="step-row b"><span class="tag b">計算</span> ${p.a_num} ${p.type==='B'?'−':'＋'} ${p.type==='B'?p.b_num:Math.abs(p.b_num)} ＝ <strong style="color:var(--accent);">${p.a_num+(p.type==='B'?-p.b_num:p.b_num)}</strong></div>
+    <div class="step-row b"><span class="tag b">計算</span><span style="font-size:.78em;color:var(--primary);font-weight:700;margin-left:8px;white-space:nowrap;">← 分子どうしの計算</span> ${p.a_num} ${p.type==='B'?'−':'＋'} ${p.type==='B'?p.b_num:Math.abs(p.b_num)} ＝ <strong style="color:var(--accent);">${p.a_num+(p.type==='B'?-p.b_num:p.b_num)}</strong></div>
     <div class="step-row g"><span class="tag g">答え</span>
       ${ansNeg
         ? `<span style="color:var(--accent);font-weight:700;font-size:1.1em;">−</span><span class="frac" style="display:inline-flex;"><span class="fn" style="color:var(--accent);">${p.ans_n}</span><span class="fb"></span><span class="fd">${p.ans_d}</span></span>`
