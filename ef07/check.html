@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="../../gamba_support.js"></script>
 <title>EF06 因数分解② 【確認テスト】</title>
 <style>
 :root{--primary:#0e7490;--primary-light:#cffafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#ecfeff;--card:#ffffff;--border:#a5f3fc;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
@@ -113,6 +114,15 @@ function showScore(){
   const msgs=['もう一度チャレンジ！💪','あと少し！📖','なかなか良い！✨','ほぼ完璧！🌟','満点！すばらしい🎉'];
   document.getElementById('sc-msg').textContent=msgs[Math.min(correct,4)];
 }
+  if(correct===QS.length){
+    setTimeout(function(){
+      try{
+        if(typeof markPassed==='function') markPassed('EF07');
+        else if(window.markPassed) window.markPassed('EF07');
+      }catch(e){console.warn('markPassed error:',e);}
+    },100);
+    if(typeof launchConfetti==='function') launchConfetti();
+  }
 function retry(){answered=new Array(QS.length).fill(false);answers=[];document.getElementById('score-box').style.display='none';buildQuiz();}
 buildQuiz();
 </script>

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="../../gamba_support.js"></script>
 <title>EF05-0 因数分解①差の積 【確認テスト】</title>
 <style>
 :root{--primary:#7c3aed;--primary-light:#ede9fe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f5f3ff;--card:#ffffff;--border:#ddd6fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
@@ -111,6 +112,15 @@ function showScore(){
   const msgs=['もう一度チャレンジ！💪','あと少し！📖','なかなか良い！✨','ほぼ完璧！🌟','満点！すばらしい🎉'];
   document.getElementById('sc-msg').textContent=msgs[Math.min(correct,4)];
 }
+  if(correct===QS.length){
+    setTimeout(function(){
+      try{
+        if(typeof markPassed==='function') markPassed('EF05');
+        else if(window.markPassed) window.markPassed('EF05');
+      }catch(e){console.warn('markPassed error:',e);}
+    },100);
+    if(typeof launchConfetti==='function') launchConfetti();
+  }
 function retry(){answered=new Array(QS.length).fill(false);answers=[];document.getElementById('score-box').style.display='none';buildQuiz();}
 buildQuiz();
 </script>
