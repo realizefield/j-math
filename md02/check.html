@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MD02 aχ＝○，(a/b)χ＝△ 【確認テスト】</title>
+<script src="../gamba_support.js"></script>
 <style>
 :root{--primary:#1a56a0;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0f6ff;--card:#ffffff;--border:#c7d9f5;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -186,9 +187,12 @@ function showScore(){
   ];
   document.getElementById('sc-msg').textContent=msgs[Math.min(correct,QS.length)];
   if(correct===QS.length){
-    if(typeof markPassed==='function'){
-      try{markPassed('MD02');}catch(e){}
-    }
+    setTimeout(function(){
+      try{
+        if(typeof markPassed==='function') markPassed('MD02');
+        else if(window.markPassed) window.markPassed('MD02');
+      }catch(e){console.warn('markPassed error:',e);}
+    },100);
     launchConfetti();
   }
 }
@@ -237,6 +241,5 @@ function launchConfetti(){
 
 buildQuiz();
 </script>
-<script src="../../gamba_support.js"></script>
 </body>
 </html>
