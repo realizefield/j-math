@@ -131,7 +131,6 @@ function showScore(){
   document.getElementById('sc-text').textContent=`${correct} / ${QS.length} 問正解`;
   const msgs=['もう一度チャレンジ！💪','あと少し！復習しよう📖','なかなか良い！✨','ほぼ完璧！🌟','満点！すばらしい🎉'];
   document.getElementById('sc-msg').textContent=msgs[Math.min(correct,4)];
-}
   if(correct===QS.length){
     setTimeout(function(){
       try{
@@ -141,6 +140,7 @@ function showScore(){
     },100);
     if(typeof launchConfetti==='function') launchConfetti();
   }
+}
 function retry(){answered=new Array(QS.length).fill(false);answers=[];document.getElementById('score-box').style.display='none';buildQuiz();}
 buildQuiz();
 </script>

@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="../../gamba_support.js"></script>
 <title>EF05-2 パターン2【例題・類題・確認】</title>
 <style>
 :root{--primary:#2563eb;--primary-light:#dbeafe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#eff6ff;--card:#ffffff;--border:#bfdbfe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
@@ -259,6 +260,15 @@ function showScore(){
   document.getElementById('sc-text').textContent=`${correct} / ${QS.length} 問正解`;
   const msgs=['もう一度！💪','あと少し！📖','なかなか良い！✨','ほぼ完璧！🌟','満点！🎉'];
   document.getElementById('sc-msg').textContent=msgs[Math.min(correct,4)];
+  if(correct===QS.length){
+    setTimeout(function(){
+      try{
+        if(typeof markPassed==='function') markPassed('EF05-2');
+        else if(window.markPassed) window.markPassed('EF05-2');
+      }catch(e){console.warn('markPassed error:',e);}
+    },100);
+    if(typeof launchConfetti==='function') launchConfetti();
+  }
 }
 function retry(){answered=new Array(QS.length).fill(false);answers=[];document.getElementById('score-box').style.display='none';buildQuiz();}
 buildExamples();buildDrills();buildQuiz();
