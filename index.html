@@ -76,6 +76,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .unit-card.s-pass  {border-color:#86efac;background:#f0fdf4;}
 .unit-card.s-review{border-color:var(--warn);background:var(--warn-light);}
 .unit-card.s-none  {border-color:var(--border);}
+.c-ef{background:#dbeafe;color:#1a56a0;}
+.c-ef2{background:#ede9fe;color:#7c3aed;}
+.c-ef3{background:#d1fae5;color:#065f46;}
 
 /* コードバッジ */
 .u-code{font-size:.72em;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
@@ -168,6 +171,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 
     <div class="section-title">🔗 MF　連立方程式</div>
     <div class="unit-list" id="list-mf"></div>
+
+    <div class="section-title">📐 EF　展開と因数分解</div>
+    <div class="unit-list" id="list-ef"></div>
   </main>
 </div>
 
@@ -216,6 +222,19 @@ const UNITS = [
   {code:'MF03',name:'加減法③',             sub:'係数をそろえてから消す',              g:'mf',path:'mf03/intro.html'},
   {code:'MF04',name:'分数・小数の連立方程式', sub:'整数に直してから解く',               g:'mf',path:'mf04/intro.html'},
   {code:'MF05',name:'代入法',               sub:'一方の式を代入して解く',              g:'mf',path:'mf05/intro.html'},
+
+  {code:'EF01',name:'展開の基本',              sub:'(χ＋a)(χ＋b) の展開',               g:'ef',path:'ef01/intro.html'},
+  {code:'EF02',name:'平方公式',                sub:'(χ＋a)²，(χ－a)² の展開',           g:'ef',path:'ef02/intro.html'},
+  {code:'EF03',name:'和と差の積',              sub:'(χ＋a)(χ－a) の展開',               g:'ef',path:'ef03/intro.html'},
+  {code:'EF04-1',name:'公式の組み合わせ展開',  sub:'公式①②③を見分けて使い分ける',       g:'ef',path:'ef04-1/ef04-1_intro.html'},
+  {code:'EF04-2',name:'展開の置き換え',        sub:'カタマリを A に置き換えて展開',        g:'ef',path:'ef04-2/ef04-2_intro.html'},
+  {code:'EF05',  name:'因数分解①　差の積',              sub:'χ²－a²＝(χ＋a)(χ－a)',        g:'ef',path:'ef05/intro.html'},
+  {code:'EF06-1',name:'因数分解②　パターン1　(χ＋)(χ＋)', sub:'定数項＋・係数＋ → 両プラス',   g:'ef',path:'ef06-1/ef06-1_intro.html'},
+  {code:'EF06-2',name:'因数分解②　パターン2　(χ－)(χ－)', sub:'定数項＋・係数－ → 両マイナス', g:'ef',path:'ef06-2/ef06-2_intro.html'},
+  {code:'EF06-3',name:'因数分解②　パターン3　(χ＋)(χ－)', sub:'定数項－ → 符号が逆',          g:'ef',path:'ef06-3/ef06-3_intro.html'},
+  {code:'EF07',name:'因数分解③　完全平方',    sub:'χ²±2aχ＋a²＝(χ±a)²',              g:'ef',path:'ef07/intro.html'},
+  {code:'EF08',name:'因数分解④　共通因数',    sub:'共通因数をくくり出す',                g:'ef',path:'ef08/intro.html'},
+  {code:'EF09',name:'因数分解⑤　置き換え',    sub:'カタマリを A に置き換えて因数分解',   g:'ef',path:'ef09/intro.html'},
 ];
 const TOTAL = UNITS.length;
 
@@ -258,13 +277,15 @@ function render(){
   const mcList = document.getElementById('list-mc');
   const mdList = document.getElementById('list-md');
   const mfList = document.getElementById('list-mf');
-  maList.innerHTML=''; mbList.innerHTML=''; mcList.innerHTML=''; mdList.innerHTML=''; mfList.innerHTML='';
+  const efList = document.getElementById('list-ef');
+  maList.innerHTML=''; mbList.innerHTML=''; mcList.innerHTML=''; mdList.innerHTML=''; mfList.innerHTML=''; efList.innerHTML='';
   UNITS.forEach(u=>{
     const card = makeCard(u);
     if(u.g==='ma') maList.appendChild(card);
     else if(u.g==='mb') mbList.appendChild(card);
     else if(u.g==='mc') mcList.appendChild(card);
     else if(u.g==='md') mdList.appendChild(card);
+    else if(u.g==='ef') efList.appendChild(card);
     else mfList.appendChild(card);
   });
 }
@@ -274,7 +295,7 @@ function makeCard(u){
   const div = document.createElement('div');
   div.className = 'unit-card s-'+st;
 
-  const codeClass = u.g==='ma'?'c-ma':u.g==='mb'?'c-mb':u.g==='mc'?'c-mc':u.g==='md'?'c-md':'c-mf';
+  const codeClass = u.g==='ma'?'c-ma':u.g==='mb'?'c-mb':u.g==='mc'?'c-mc':u.g==='md'?'c-md':u.g==='ef'?(u.cls||'c-ef'):'c-mf';
   const badgeMap = {
     pass:  '<span class="u-badge b-pass">✅ 合格</span>',
     review:'<span class="u-badge b-review">🔁 復習中</span>',
