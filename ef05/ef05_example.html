@@ -4,34 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="../gamba_support.js"></script>
-<title>EF04-1 公式の組み合わせ展開 【例題】</title>
+<title>EF05 因数分解① 【例題】</title>
 <style>
-:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+:root{--primary:#7c3aed;--primary-light:#ede9fe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f5f3ff;--card:#ffffff;--border:#ddd6fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
 .g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
-.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(124,58,237,.25);}
 .page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
 .page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
 .step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
 .step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
 .step-item a{color:inherit;text-decoration:none;}
-.step-item a:hover{color:var(--primary);}
 .step-item.active{color:var(--primary);font-weight:700;}
 .step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .step-item.active .step-circle{background:var(--primary);color:#fff;}
 .step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
 .step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
-.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:#0f766e;line-height:1.7;}
-.tip-box{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
-.tip-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:9px 13px;}
-.fb{font-size:.72em;font-weight:700;border-radius:6px;padding:3px 9px;white-space:nowrap;flex-shrink:0;color:#fff;}
-.fb1{background:#1a56a0;}.fb2{background:#15803d;}.fb3{background:#0369a1;}
-.tip-text{font-size:.87em;font-weight:700;line-height:1.7;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.tip-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.9em;font-weight:700;color:var(--primary);text-align:center;}
 .ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
 .ex-head{padding:10px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;background:var(--primary);color:#fff;}
 .ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:21px;height:21px;display:flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
-.ex-type{background:rgba(255,255,255,.2);border-radius:5px;font-size:.75em;padding:2px 8px;}
 .ex-body{padding:14px 16px 8px;}
 .sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
 .sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
@@ -44,17 +38,16 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .done-badge{text-align:center;padding:6px;font-size:.84em;font-weight:700;color:var(--success);margin-bottom:10px;}
 .nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
 .btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
-.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
 .btn-f{background:var(--primary);color:#fff;}
 .btn-b{background:#f1f5f9;color:var(--text-sub);}
-.btn-h{background:#ccfbf1;color:#0f766e;font-size:.83em;padding:9px 18px;}
+.btn-h{background:#ede9fe;color:#5b21b6;font-size:.83em;padding:9px 18px;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
 </style>
 </head>
 <body>
 <div class="page-header">
-  <div class="unit-code">EF04-1</div>
-  <h1>公式の組み合わせ展開<br><small style="font-size:.75em;opacity:.85;">例題</small></h1>
+  <div class="unit-code">EF05</div>
+  <h1>因数分解①<br><small style="font-size:.75em;opacity:.85;">χ²－a² の因数分解</small></h1>
 </div>
 <nav class="step-nav">
   <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
@@ -63,76 +56,44 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <span class="step-arrow">›</span>
   <div class="step-item"><span class="step-circle">③</span><a href="../ef03/intro.html">和と差の積</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item active"><span class="step-circle">④</span><span>組み合わせ展開</span></div>
+  <div class="step-item"><span class="step-circle">④</span><a href="../ef04-2/ef04-2_intro.html">展開の置き換え</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">⑤</span><a href="../ef04-2/ef04-2_intro.html">展開・置き換え</a></div>
+  <div class="step-item active"><span class="step-circle">⑤</span><span>因数分解①</span></div>
   <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef05/intro.html">因数分解①</a></div>
+  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef06-1/ef06-1_intro.html">因数分解②</a></div>
 </nav>
 <nav class="step-nav" style="border-top:1px solid var(--border);">
-  <div class="step-item"><span class="step-circle">①</span><a href="ef04-1_intro.html">導入</a></div>
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
   <span class="step-arrow">›</span>
   <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
   <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">③</span><a href="ef04-1_drill.html">演習</a></div>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">④</span><a href="ef04-1_check.html">確認</a></div>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
 </nav>
 <main class="g-container">
 <div class="instruction"><strong>【例題】</strong>　ボタンをタップして，考え方 → 答えの順に確認しよう！</div>
-<div class="tip-box">
-  <div class="tip-row"><span class="fb fb1">公式①</span><div class="tip-text">(χ＋a)(χ＋b)＝χ²＋(a＋b)χ＋ab　← たして・かける</div></div>
-  <div class="tip-row"><span class="fb fb2">公式②</span><div class="tip-text">(χ＋a)²＝χ²＋2aχ＋a²　← 前²＋前×後×2＋後²</div></div>
-  <div class="tip-row"><span class="fb fb3">公式③</span><div class="tip-text">(χ＋a)(χ－a)＝χ²－a²　← 真ん中が消える</div></div>
-</div>
+<div class="tip-box">📌 χ²－a²＝(χ＋a)(χ－a)　　○²－□² の形を見つけたらこの公式！</div>
 <div id="ex-area"></div>
 <div class="nav-btns">
   <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
-  <a href="ef04-1_intro.html" class="btn-nav btn-b">← 導入</a>
-  <a href="ef04-1_drill.html" class="btn-nav btn-f">③ 演習へ →</a>
+  <a href="intro.html" class="btn-nav btn-b">← 導入</a>
+  <a href="drill.html" class="btn-nav btn-f">③ 演習へ →</a>
 </div>
 </main>
 <script>
 const EXAMPLES=[
-  {title:"公式①と②の見分け",type:"①vs②",type_cls:"#1a56a0",q:"(χ＋3)(χ＋5)",
-    steps:[
-      {cls:"y",lbl:"確認",txt:"後ろが3と5，<strong>違う数</strong> → 公式①"},
-      {cls:"b",lbl:"公式①",txt:"たして：3＋5＝<strong style='color:var(--accent);'>8</strong>　かけて：3×5＝<strong style='color:var(--accent);'>15</strong>"},
-    ],ans:"χ²＋8χ＋15"},
-  {title:"公式②の確認",type:"②",type_cls:"#15803d",q:"(χ＋4)²",
-    steps:[
-      {cls:"y",lbl:"確認",txt:"同じ数が2回 → 公式②"},
-      {cls:"b",lbl:"公式②",txt:"χ²＋2×4×χ＋4²＝χ²＋<strong style='color:var(--accent);'>8χ＋16</strong>"},
-    ],ans:"χ²＋8χ＋16"},
-  {title:"公式③の確認",type:"③",type_cls:"#0369a1",q:"(χ＋4)(χ－4)",
-    steps:[
-      {cls:"y",lbl:"確認",txt:"前が同じ（χ），符号が逆（＋と－）→ 公式③"},
-      {cls:"b",lbl:"公式③",txt:"χ²－4²＝χ²－<strong style='color:var(--accent);'>16</strong>　← 真ん中が消える！"},
-    ],ans:"χ²－16"},
-  {title:"①と③の見分け（片方マイナス）",type:"①vs③",type_cls:"#0f766e",q:"(χ＋6)(χ－2)",
-    steps:[
-      {cls:"y",lbl:"確認",txt:"前はχ＋6とχ－2，<strong>前が違う</strong> → 公式③ではない → 公式①"},
-      {cls:"b",lbl:"公式①",txt:"a＝6，b＝－2　たして：6＋(－2)＝<strong style='color:var(--accent);'>4</strong>　かけて：6×(－2)＝<strong style='color:var(--accent);'>－12</strong>"},
-    ],ans:"χ²＋4χ－12"},
-  {title:"②マイナスパターン",type:"②",type_cls:"#15803d",q:"(χ－5)²",
-    steps:[
-      {cls:"y",lbl:"確認",txt:"同じ(χ－5)が2回 → 公式②　a＝<strong style='color:var(--accent);'>－5</strong>"},
-      {cls:"y",lbl:"注意",txt:"2aχ＝2×(－5)×χ＝<strong style='color:var(--accent);'>－10χ</strong>　　後²＝(－5)²＝<strong style='color:var(--accent);'>25</strong>"},
-      {cls:"b",lbl:"公式②",txt:"χ²－10χ＋25"},
-    ],ans:"χ²－10χ＋25"},
-  {title:"前がχ以外の③",type:"③",type_cls:"#0369a1",q:"(2χ＋3)(2χ－3)",
-    steps:[
-      {cls:"y",lbl:"確認",txt:"前が同じ（2χ），符号が逆 → 公式③"},
-      {cls:"b",lbl:"公式③",txt:"(2χ)²－3²＝<strong style='color:var(--accent);'>4χ²－9</strong>"},
-    ],ans:"4χ²－9"},
+  {title:"χ²－a²（基本①）",q:"χ²－36",steps:[{cls:"y",lbl:"形",txt:"χ²－36＝χ²－<strong style='color:var(--accent);'>6</strong>²　→ a＝6"},{cls:"b",lbl:"公式",txt:"χ²－a²＝(χ＋a)(χ－a)　→　a＝6"}],ans:"<strong>(χ＋6)(χ－6)</strong>"},
+  {title:"χ²－a²（基本②）",q:"χ²－49",steps:[{cls:"y",lbl:"形",txt:"χ²－49＝χ²－<strong style='color:var(--accent);'>7</strong>²　→ a＝7"},{cls:"b",lbl:"公式",txt:"χ²－a²＝(χ＋a)(χ－a)　→　a＝7"}],ans:"<strong>(χ＋7)(χ－7)</strong>"},
+  {title:"χ²－a²（前がχ²以外）",q:"4χ²－49",steps:[{cls:"y",lbl:"形",txt:"4χ²＝(2χ)²，49＝7²"},{cls:"b",lbl:"公式",txt:"(2χ)²－7²＝(2χ＋7)(2χ－7)"}],ans:"<strong>(2χ＋7)(2χ－7)</strong>"},
+  {title:"χ²－a²（文字がa）",q:"a²－81",steps:[{cls:"y",lbl:"形",txt:"a²－81＝a²－<strong style='color:var(--accent);'>9</strong>²　→ 9の2乗"},{cls:"b",lbl:"公式",txt:"a²－9²＝(a＋9)(a－9)"}],ans:"<strong>(a＋9)(a－9)</strong>"},
 ];
 const state=EXAMPLES.map(function(){return 0;});
 function buildAll(){
   const area=document.getElementById('ex-area');
   EXAMPLES.forEach(function(ex,i){
     const div=document.createElement('div');div.className='ex-card';div.id='ec'+i;
-    div.innerHTML='<div class="ex-head"><span class="ex-num">'+(i+1)+'</span>'
-      +'<span class="ex-type" style="background:'+ex.type_cls+';">'+ex.type+'</span>'+ex.title+'</div>'
+    div.innerHTML='<div class="ex-head"><span class="ex-num">'+(i+1)+'</span>'+ex.title+'</div>'
       +'<div class="ex-body"><div style="font-size:1.1em;font-weight:700;margin-bottom:10px;color:var(--primary);">'+ex.q+'</div>'
       +'<div id="steps'+i+'"></div>'
       +'<button class="next-btn" id="btn'+i+'" onclick="nextStep('+i+')">💡 考え方を見る</button>'
@@ -148,7 +109,7 @@ function nextStep(i){
     row.innerHTML='<span class="sl '+s.cls+'">'+s.lbl+'</span><div>'+s.txt+'</div>';
     sd.appendChild(row);state[i]++;btn.textContent=state[i]<ex.steps.length?'➡ 次のステップへ':'✅ 答えを見る';
   }else{
-    const ab=document.createElement('div');ab.className='ans-box';ab.innerHTML='答え：<strong>'+ex.ans+'</strong>';
+    const ab=document.createElement('div');ab.className='ans-box';ab.innerHTML='答え：'+ex.ans;
     sd.appendChild(ab);btn.style.display='none';done.style.display='block';
   }
 }
