@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="../gamba_support.js"></script>
-<title>EF05 因数分解① 【演習】</title>
+<title>EF06-1 因数分解② パターン1 【演習】</title>
 <style>
 :root{--primary:#7c3aed;--primary-light:#ede9fe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f5f3ff;--card:#ffffff;--border:#ddd6fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -19,11 +19,11 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .step-item a:hover{color:var(--primary);}
 .step-item.active{color:var(--primary);font-weight:700;}
 .step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
 .step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
 .step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
-.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
-.tip-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.9em;font-weight:700;color:var(--primary);text-align:center;}
+.instruction{background:var(--success-light);border-left:4px solid var(--success);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:#15803d;line-height:1.7;}
+.tip-box{background:var(--success-light);border:2px solid var(--success);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.9em;font-weight:700;color:#15803d;text-align:center;}
 .problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
 .problem-head{display:flex;align-items:center;padding:13px 15px;gap:11px;flex-wrap:wrap;font-weight:700;font-size:.97em;}
 .ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.78em;color:var(--text-sub);cursor:pointer;white-space:nowrap;touch-action:manipulation;}
@@ -41,8 +41,8 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 </head>
 <body>
 <div class="page-header">
-  <div class="unit-code">EF05</div>
-  <h1>因数分解①<br><small style="font-size:.75em;opacity:.85;">演習</small></h1>
+  <div class="unit-code">EF06-1</div>
+  <h1>因数分解② パターン1<br><small style="font-size:.75em;opacity:.85;">演習</small></h1>
 </div>
 <nav class="step-nav">
   <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
@@ -53,9 +53,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <span class="step-arrow">›</span>
   <div class="step-item"><span class="step-circle">④</span><a href="../ef04-2/intro.html">展開の置き換え</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item active"><span class="step-circle">⑤</span><span>因数分解①</span></div>
+  <div class="step-item"><span class="step-circle">⑤</span><a href="../ef05/intro.html">因数分解①</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef06/intro.html">因数分解②</a></div>
+  <div class="step-item active"><span class="step-circle">⑥</span><span>因数分解②</span></div>
 </nav>
 <nav class="step-nav" style="border-top:1px solid var(--border);">
   <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
@@ -68,7 +68,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 </nav>
 <main class="g-container">
 <div class="instruction"><strong>【演習】</strong>　自分で考えてから「答を見る」で確認しよう</div>
-<div class="tip-box">📌 χ²－a²＝(χ＋a)(χ－a)　　○²－□² の形を見つけたらこの公式！</div>
+<div class="tip-box">📌 χ²＋bχ＋c → かけてc，たしてb になる正の整数の組を探す！</div>
 <div id="drill-area"></div>
 <div class="nav-btns">
   <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
@@ -77,27 +77,27 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 </div>
 </main>
 <script>
-// intro:χ²－25, 9χ²－16
-// example:χ²－36, χ²－49, 4χ²－49, a²－81
-// drill(以下)とcheck で重複なし
+// intro：χ²＋5χ＋6, χ²＋7χ＋12
+// example：χ²＋8χ＋15, χ²＋9χ＋14, χ²＋11χ＋24, χ²＋13χ＋30
+// drill(以下)：重複なし
 const SETS=[
   {problems:[
-    {q:"χ²－4",ans:"(χ＋2)(χ－2)",hint:"χ²－2²の形 → a＝2"},
-    {q:"χ²－100",ans:"(χ＋10)(χ－10)",hint:"χ²－10²の形 → a＝10"},
-    {q:"9χ²－1",ans:"(3χ＋1)(3χ－1)",hint:"(3χ)²－1²の形 → (3χ＋1)(3χ－1)"},
-    {q:"b²－64",ans:"(b＋8)(b－8)",hint:"b²－8²の形 → (b＋8)(b－8)"},
+    {q:"χ²＋6χ＋8",ans:"(χ＋2)(χ＋4)",hint:"かけて8，たして6 → 2と4"},
+    {q:"χ²＋10χ＋21",ans:"(χ＋3)(χ＋7)",hint:"かけて21，たして10 → 3と7"},
+    {q:"χ²＋12χ＋35",ans:"(χ＋5)(χ＋7)",hint:"かけて35，たして12 → 5と7"},
+    {q:"χ²＋14χ＋45",ans:"(χ＋5)(χ＋9)",hint:"かけて45，たして14 → 5と9"},
   ]},
   {problems:[
-    {q:"χ²－121",ans:"(χ＋11)(χ－11)",hint:"χ²－11²の形 → a＝11"},
-    {q:"χ²－144",ans:"(χ＋12)(χ－12)",hint:"χ²－12²の形 → a＝12"},
-    {q:"16χ²－1",ans:"(4χ＋1)(4χ－1)",hint:"(4χ)²－1²の形 → (4χ＋1)(4χ－1)"},
-    {q:"a²－196",ans:"(a＋14)(a－14)",hint:"a²－14²の形 → (a＋14)(a－14)"},
+    {q:"χ²＋4χ＋3",ans:"(χ＋1)(χ＋3)",hint:"かけて3，たして4 → 1と3"},
+    {q:"χ²＋11χ＋18",ans:"(χ＋2)(χ＋9)",hint:"かけて18，たして11 → 2と9"},
+    {q:"χ²＋15χ＋56",ans:"(χ＋7)(χ＋8)",hint:"かけて56，たして15 → 7と8"},
+    {q:"χ²＋16χ＋63",ans:"(χ＋7)(χ＋9)",hint:"かけて63，たして16 → 7と9"},
   ]},
   {problems:[
-    {q:"χ²－169",ans:"(χ＋13)(χ－13)",hint:"χ²－13²の形 → a＝13"},
-    {q:"χ²－225",ans:"(χ＋15)(χ－15)",hint:"χ²－15²の形 → a＝15"},
-    {q:"25χ²－4",ans:"(5χ＋2)(5χ－2)",hint:"(5χ)²－2²の形 → (5χ＋2)(5χ－2)"},
-    {q:"b²－256",ans:"(b＋16)(b－16)",hint:"b²－16²の形 → (b＋16)(b－16)"},
+    {q:"χ²＋7χ＋10",ans:"(χ＋2)(χ＋5)",hint:"かけて10，たして7 → 2と5"},
+    {q:"χ²＋10χ＋16",ans:"(χ＋2)(χ＋8)",hint:"かけて16，たして10 → 2と8"},
+    {q:"χ²＋12χ＋27",ans:"(χ＋3)(χ＋9)",hint:"かけて27，たして12 → 3と9"},
+    {q:"χ²＋17χ＋72",ans:"(χ＋8)(χ＋9)",hint:"かけて72，たして17 → 8と9"},
   ]},
 ];
 const si=Math.floor(Math.random()*SETS.length);
@@ -113,7 +113,7 @@ function build(){
 function tog(i){
   const p=probs[i];const d=document.getElementById('de'+i);const btn=document.querySelector('#dc'+i+' .ans-toggle');
   if(d.style.display==='block'){d.style.display='none';btn.textContent='答を見る';return;}
-  let h='<div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:7px 11px;margin-bottom:7px;font-weight:700;color:var(--primary);">正解：<strong>'+p.ans+'</strong></div>';
+  let h='<div style="background:var(--success-light);border:2px solid var(--success);border-radius:8px;padding:7px 11px;margin-bottom:7px;font-weight:700;color:#15803d;">正解：<strong>'+p.ans+'</strong></div>';
   h+='<div class="calc-row y"><span class="clbl y">考え方</span><div>'+p.hint+'</div></div>';
   d.innerHTML=h;d.style.display='block';btn.textContent='答を隠す';
 }

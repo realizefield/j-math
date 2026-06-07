@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="../gamba_support.js"></script>
-<title>EF05 因数分解① 【確認テスト】</title>
+<title>EF04-2 展開の置き換え 【確認テスト】</title>
 <style>
-:root{--primary:#7c3aed;--primary-light:#ede9fe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f5f3ff;--card:#ffffff;--border:#ddd6fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+:root{--primary:#7e22ce;--primary-light:#f3e8ff;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#faf5ff;--card:#ffffff;--border:#e9d5ff;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
 .g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
-.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(124,58,237,.25);}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(126,34,206,.25);}
 .page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
 .page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
 .step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
@@ -22,33 +22,33 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .step-item.active .step-circle{background:var(--primary);color:#fff;}
 .step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
 .step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
-.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:#7e22ce;line-height:1.7;}
 .q-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;padding:16px;}
 .q-num{font-size:.82em;font-weight:700;color:var(--primary);margin-bottom:9px;}
 .q-text{font-size:1.05em;font-weight:700;margin-bottom:13px;}
 .choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.choice-btn{background:#f1f5f9;border:2px solid var(--border);border-radius:10px;padding:11px 8px;font-family:'BIZ UDPGothic',sans-serif;font-size:.88em;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;touch-action:manipulation;user-select:none;-webkit-tap-highlight-color:transparent;}
+.choice-btn{background:#f1f5f9;border:2px solid var(--border);border-radius:10px;padding:11px 8px;font-family:'BIZ UDPGothic',sans-serif;font-size:.86em;font-weight:700;cursor:pointer;text-align:center;transition:all .15s;touch-action:manipulation;user-select:none;-webkit-tap-highlight-color:transparent;line-height:1.6;}
 .choice-btn.correct{background:var(--success-light);border-color:var(--success);color:#15803d;}
 .choice-btn.wrong{background:var(--accent-light);border-color:var(--accent);color:var(--accent);}
 .choice-btn.show-ans{background:var(--success-light);border-color:var(--success);color:#15803d;}
 .result-panel{margin-top:13px;padding:10px 14px;border-radius:9px;font-size:.9em;font-weight:700;display:none;}
 .result-panel.ok{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;}
 .result-panel.ng{background:var(--accent-light);border:1.5px solid var(--accent);color:var(--accent);}
-.score-box{background:linear-gradient(135deg,#7c3aed,#9333ea);color:#fff;border-radius:var(--radius);padding:20px;text-align:center;margin-top:22px;display:none;}
+.score-box{background:linear-gradient(135deg,#7e22ce,#9333ea);color:#fff;border-radius:var(--radius);padding:20px;text-align:center;margin-top:22px;display:none;}
 .score-box .sc{font-size:2.2em;font-weight:700;margin-bottom:5px;}
 .nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
 .btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
 .btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
 .btn-f{background:var(--primary);color:#fff;}
 .btn-b{background:#f1f5f9;color:var(--text-sub);}
-.btn-h{background:#ede9fe;color:#5b21b6;font-size:.83em;padding:9px 18px;}
-.btn-retry{background:var(--success);color:#fff;margin-top:14px;width:100%;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;padding:12px;border-radius:50px;border:none;cursor:pointer;touch-action:manipulation;}
+.btn-h{background:#f3e8ff;color:#7e22ce;font-size:.83em;padding:9px 18px;}
+.btn-retry{background:#fff;color:#7e22ce;margin-top:14px;width:100%;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;padding:12px;border-radius:50px;border:none;cursor:pointer;touch-action:manipulation;}
 </style>
 </head>
 <body>
 <div class="page-header">
-  <div class="unit-code">EF05</div>
-  <h1>因数分解①<br><small style="font-size:.75em;opacity:.85;">確認テスト</small></h1>
+  <div class="unit-code">EF04-2</div>
+  <h1>展開の置き換え<br><small style="font-size:.75em;opacity:.85;">確認テスト</small></h1>
 </div>
 <nav class="step-nav">
   <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
@@ -57,11 +57,11 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <span class="step-arrow">›</span>
   <div class="step-item"><span class="step-circle">③</span><a href="../ef03/intro.html">和と差の積</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">④</span><a href="../ef04-2/intro.html">展開の置き換え</a></div>
+  <div class="step-item"><span class="step-circle">④</span><a href="../ef04-1/intro.html">組み合わせ展開</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item active"><span class="step-circle">⑤</span><span>因数分解①</span></div>
+  <div class="step-item active"><span class="step-circle">⑤</span><span>展開・置き換え</span></div>
   <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef06/intro.html">因数分解②</a></div>
+  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef05/intro.html">因数分解①</a></div>
 </nav>
 <nav class="step-nav" style="border-top:1px solid var(--border);">
   <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
@@ -83,37 +83,37 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 <div class="nav-btns">
   <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
   <a href="drill.html" class="btn-nav btn-b">← 演習</a>
-  <a href="../ef06/intro.html" class="btn-nav btn-f">因数分解②へ →</a>
+  <a href="../ef05/intro.html" class="btn-nav btn-f">EF05へ →</a>
 </div>
 </main>
 <script>
-// intro:χ²－25, 9χ²－16
-// example:χ²－36, χ²－49, 4χ²－49, a²－81
-// drill:χ²－4,χ²－100,9χ²－1,b²－64 / χ²－121,χ²－144,16χ²－1,a²－196 / χ²－169,χ²－225,25χ²－4,b²－256
-// check(以下)：全て重複なし
 const QS=[
-  {q:"χ²－16 を因数分解すると？",
-    choices:["(χ＋4)²","(χ－4)²","(χ＋4)(χ－4)","(χ＋8)(χ－2)"],
-    ans:2,exp:"χ²－4²＝(χ＋4)(χ－4)"},
-  {q:"χ²－64 を因数分解すると？",
-    choices:["(χ＋8)²","(χ＋8)(χ－8)","(χ－8)²","(χ＋4)(χ－16)"],
-    ans:1,exp:"χ²－8²＝(χ＋8)(χ－8)"},
-  {q:"χ²－9 を因数分解すると？",
-    choices:["(χ＋3)²","(χ－3)²","(χ＋9)(χ－1)","(χ＋3)(χ－3)"],
-    ans:3,exp:"χ²－3²＝(χ＋3)(χ－3)"},
-  {q:"4χ²－25 を因数分解すると？",
-    choices:["(2χ＋5)²","(2χ－5)²","(2χ＋5)(2χ－5)","(4χ＋1)(χ－25)"],
-    ans:2,exp:"(2χ)²－5²＝(2χ＋5)(2χ－5)"},
-  {q:"a²－100 を因数分解すると？",
-    choices:["(a＋10)²","(a＋10)(a－10)","(a－10)²","(a＋50)(a－2)"],
-    ans:1,exp:"a²－10²＝(a＋10)(a－10)"},
+  {q:"(χ＋y＋4)(χ＋y－4) を展開すると？",
+    choices:["χ²＋2χy＋y²－16","(χ＋y)²－4","χ²＋y²－16","χ²＋2χy＋y²＋8χ＋8y＋16"],
+    ans:0,exp:"A＝χ＋y → A²－16＝(χ＋y)²－16＝χ²＋2χy＋y²－16"},
+  {q:"(χ＋y＋1)² を展開すると？",
+    choices:["χ²＋y²＋1","χ²＋2χy＋y²＋1","χ²＋2χy＋y²＋2χ＋2y＋1","(χ＋y)²＋1"],
+    ans:2,exp:"A＝χ＋y → A²＋2A＋1＝(χ＋y)²＋2(χ＋y)＋1＝χ²＋2χy＋y²＋2χ＋2y＋1"},
+  {q:"(χ－2＋y)(χ－2－y) を展開すると？",
+    choices:["χ²－4χ＋4－y²","χ²－y²－4","(χ－2)²－y","χ²－2χ＋4－y²"],
+    ans:0,exp:"A＝χ－2 → A²－y²＝(χ－2)²－y²＝χ²－4χ＋4－y²"},
+  {q:"(a＋b＋2)(a＋b－5) を展開すると？",
+    choices:["a²＋2ab＋b²－3a－3b－10","a²＋b²－10","a²＋2ab＋b²－3","(a＋b)²－10"],
+    ans:0,exp:"A＝a＋b → (A＋2)(A－5)＝A²－3A－10＝(a＋b)²－3(a＋b)－10＝a²＋2ab＋b²－3a－3b－10"},
+  {q:"(χ＋y＋3)² を展開すると？",
+    choices:["χ²＋2χy＋y²＋6χ＋6y＋9","χ²＋y²＋9","(χ＋y)²＋9","χ²＋2χy＋y²＋9"],
+    ans:0,exp:"A＝χ＋y → A²＋6A＋9＝(χ＋y)²＋6(χ＋y)＋9＝χ²＋2χy＋y²＋6χ＋6y＋9"},
 ];
 let answers=[],answered=new Array(QS.length).fill(false);
 function buildQuiz(){
   const area=document.getElementById('quiz-area');area.innerHTML='';
   QS.forEach(function(q,i){
     let cHtml=q.choices.map(function(c,j){return '<button class="choice-btn" id="c'+i+'_'+j+'" onclick="choose('+i+','+j+')">'+c+'</button>';}).join('');
-    area.innerHTML+='<div class="q-card" id="qc'+i+'"><div class="q-num">問'+(i+1)+'</div><div class="q-text">'+q.q+'</div><div class="choices">'+cHtml+'</div><div class="result-panel" id="rp'+i+'"></div></div>';
+    area.innerHTML+='<div class="q-card" id="qc'+i+'">'
+      +'<div class="q-num">問'+(i+1)+'</div>'
+      +'<div class="q-text">'+q.q+'</div>'
+      +'<div class="choices">'+cHtml+'</div>'
+      +'<div class="result-panel" id="rp'+i+'"></div></div>';
   });
 }
 function choose(qi,ci){
@@ -135,8 +135,8 @@ function showScore(){
   if(correct===QS.length){
     setTimeout(function(){
       try{
-        if(typeof markPassed==='function') markPassed('EF05');
-        else if(window.markPassed) window.markPassed('EF05');
+        if(typeof markPassed==='function') markPassed('EF04-2');
+        else if(window.markPassed) window.markPassed('EF04-2');
       }catch(e){console.warn('markPassed error:',e);}
     },100);
     if(typeof launchConfetti==='function') launchConfetti();

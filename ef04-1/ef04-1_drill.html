@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="../gamba_support.js"></script>
+<title>EF04-1 公式の組み合わせ展開 【演習】</title>
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:#0f766e;line-height:1.7;}
+.tip-box{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
+.tip-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:9px 13px;}
+.fb{font-size:.72em;font-weight:700;border-radius:6px;padding:3px 9px;white-space:nowrap;flex-shrink:0;color:#fff;}
+.fb1{background:#1a56a0;}.fb2{background:#15803d;}.fb3{background:#0369a1;}
+.tip-text{font-size:.87em;font-weight:700;line-height:1.7;}
+.problem-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.problem-head{display:flex;align-items:center;padding:13px 15px;gap:10px;flex-wrap:wrap;font-weight:700;font-size:.97em;}
+.p-badge{font-size:.72em;font-weight:700;border-radius:6px;padding:3px 9px;white-space:nowrap;color:#fff;flex-shrink:0;}
+.ans-toggle{margin-left:auto;background:none;border:1.5px solid #94a3b8;border-radius:20px;padding:5px 13px;font-family:'BIZ UDPGothic',sans-serif;font-size:.78em;color:var(--text-sub);cursor:pointer;white-space:nowrap;touch-action:manipulation;}
+.calc-row{display:flex;align-items:flex-start;gap:6px;padding:8px 11px;border-radius:8px;margin-bottom:5px;font-size:.86em;font-weight:700;line-height:2.1;}
+.calc-row.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.calc-row.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.clbl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:3px;}
+.clbl.y{background:var(--warn);color:#fff;}
+.clbl.b{background:var(--primary);color:#fff;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#ccfbf1;color:#0f766e;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF04-1</div>
+  <h1>公式の組み合わせ展開<br><small style="font-size:.75em;opacity:.85;">演習</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef02/intro.html">平方公式</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="../ef03/intro.html">和と差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">④</span><span>組み合わせ展開</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑤</span><a href="../ef04-2/intro.html">展開・置き換え</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef05/intro.html">因数分解①</a></div>
+</nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">③</span><span>演習</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+<div class="instruction"><strong>【演習】</strong>　自分で考えてから「答を見る」で確認しよう</div>
+<div class="tip-box">
+  <div class="tip-row"><span class="fb fb1">公式①</span><div class="tip-text">(χ＋a)(χ＋b)＝χ²＋(a＋b)χ＋ab</div></div>
+  <div class="tip-row"><span class="fb fb2">公式②</span><div class="tip-text">(χ＋a)²＝χ²＋2aχ＋a²</div></div>
+  <div class="tip-row"><span class="fb fb3">公式③</span><div class="tip-text">(χ＋a)(χ－a)＝χ²－a²</div></div>
+</div>
+<div id="drill-area"></div>
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="example.html" class="btn-nav btn-b">← 例題</a>
+  <a href="check.html" class="btn-nav btn-f">④ 確認テストへ →</a>
+</div>
+</main>
+<script>
+const SETS=[
+  {problems:[
+    {badge:"①",bg:"#1a56a0",q:"(χ＋2)(χ＋7)",ans:"χ²＋9χ＋14",
+      steps:[{cls:"y",lbl:"確認",txt:"後ろが2と7，違う数 → 公式①"},{cls:"b",lbl:"公式①",txt:"たして9，かけて14 → χ²＋9χ＋14"}]},
+    {badge:"②",bg:"#15803d",q:"(χ＋6)²",ans:"χ²＋12χ＋36",
+      steps:[{cls:"y",lbl:"確認",txt:"同じ数2回 → 公式②"},{cls:"b",lbl:"公式②",txt:"χ²＋2×6×χ＋36 → χ²＋12χ＋36"}]},
+    {badge:"③",bg:"#0369a1",q:"(χ＋9)(χ－9)",ans:"χ²－81",
+      steps:[{cls:"y",lbl:"確認",txt:"前同じ・符号逆 → 公式③"},{cls:"b",lbl:"公式③",txt:"χ²－9²＝χ²－81"}]},
+    {badge:"①",bg:"#1a56a0",q:"(χ－3)(χ＋8)",ans:"χ²＋5χ－24",
+      steps:[{cls:"y",lbl:"確認",txt:"前が違う → 公式①　a＝－3，b＝8"},{cls:"b",lbl:"公式①",txt:"たして5，かけて－24 → χ²＋5χ－24"}]},
+  ]},
+  {problems:[
+    {badge:"②",bg:"#15803d",q:"(χ－7)²",ans:"χ²－14χ＋49",
+      steps:[{cls:"y",lbl:"確認",txt:"同じ数2回 → 公式②　a＝－7"},{cls:"b",lbl:"公式②",txt:"χ²＋2×(－7)×χ＋49 → χ²－14χ＋49"}]},
+    {badge:"③",bg:"#0369a1",q:"(3χ＋1)(3χ－1)",ans:"9χ²－1",
+      steps:[{cls:"y",lbl:"確認",txt:"前同じ（3χ）・符号逆 → 公式③"},{cls:"b",lbl:"公式③",txt:"(3χ)²－1²＝9χ²－1"}]},
+    {badge:"①",bg:"#1a56a0",q:"(χ＋5)(χ－3)",ans:"χ²＋2χ－15",
+      steps:[{cls:"y",lbl:"確認",txt:"前が違う → 公式①　a＝5，b＝－3"},{cls:"b",lbl:"公式①",txt:"たして2，かけて－15 → χ²＋2χ－15"}]},
+    {badge:"②",bg:"#15803d",q:"(2χ＋3)²",ans:"4χ²＋12χ＋9",
+      steps:[{cls:"y",lbl:"確認",txt:"同じ数2回・前が2χ → 公式②"},{cls:"b",lbl:"公式②",txt:"(2χ)²＋2×2χ×3＋9 → 4χ²＋12χ＋9"}]},
+  ]},
+  {problems:[
+    {badge:"①",bg:"#1a56a0",q:"(χ－4)(χ－6)",ans:"χ²－10χ＋24",
+      steps:[{cls:"y",lbl:"確認",txt:"前が違う → 公式①　a＝－4，b＝－6"},{cls:"b",lbl:"公式①",txt:"たして－10，かけて24 → χ²－10χ＋24"}]},
+    {badge:"③",bg:"#0369a1",q:"(χ＋2y)(χ－2y)",ans:"χ²－4y²",
+      steps:[{cls:"y",lbl:"確認",txt:"前同じ（χ）・符号逆（＋2yと－2y）→ 公式③"},{cls:"b",lbl:"公式③",txt:"χ²－(2y)²＝χ²－4y²"}]},
+    {badge:"②",bg:"#15803d",q:"(χ－3y)²",ans:"χ²－6χy＋9y²",
+      steps:[{cls:"y",lbl:"確認",txt:"同じ数2回 → 公式②　a＝－3y"},{cls:"b",lbl:"公式②",txt:"χ²＋2×(－3y)×χ＋9y² → χ²－6χy＋9y²"}]},
+    {badge:"③",bg:"#0369a1",q:"(χ＋1)(χ－1)",ans:"χ²－1",
+      steps:[{cls:"y",lbl:"確認",txt:"前同じ（χ）・符号逆（＋1と－1）→ 公式③"},{cls:"b",lbl:"公式③",txt:"χ²－1²＝χ²－1"}]},
+  ]},
+];
+const si=Math.floor(Math.random()*SETS.length);
+const probs=SETS[si].problems;
+function build(){
+  const area=document.getElementById('drill-area');area.innerHTML='';
+  probs.forEach(function(p,i){
+    area.innerHTML+='<div class="problem-card" id="dc'+i+'">'
+      +'<div class="problem-head"><span class="p-badge" style="background:'+p.bg+';">'+p.badge+'</span>'+p.q
+      +'<button class="ans-toggle" onclick="tog('+i+')">答を見る</button></div>'
+      +'<div id="de'+i+'" style="display:none;padding:0 13px 12px;"></div></div>';
+  });
+}
+function tog(i){
+  const p=probs[i];const d=document.getElementById('de'+i);const btn=document.querySelector('#dc'+i+' .ans-toggle');
+  if(d.style.display==='block'){d.style.display='none';btn.textContent='答を見る';return;}
+  let h='<div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:8px;padding:7px 11px;margin-bottom:7px;font-weight:700;color:var(--primary);">正解：<strong>'+p.ans+'</strong></div>';
+  p.steps.forEach(function(s){h+='<div class="calc-row '+s.cls+'"><span class="clbl '+s.cls+'">'+s.lbl+'</span><div>'+s.txt+'</div></div>';});
+  d.innerHTML=h;d.style.display='block';btn.textContent='答を隠す';
+}
+build();
+</script>
+</body>
+</html>

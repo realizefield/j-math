@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="../gamba_support.js"></script>
-<title>EF05 因数分解① 【例題】</title>
+<title>EF06-1 因数分解② パターン1 【例題】</title>
 <style>
 :root{--primary:#7c3aed;--primary-light:#ede9fe;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f5f3ff;--card:#ffffff;--border:#ddd6fe;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -19,23 +19,23 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .step-item a:hover{color:var(--primary);}
 .step-item.active{color:var(--primary);font-weight:700;}
 .step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
 .step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
 .step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
-.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
-.tip-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.9em;font-weight:700;color:var(--primary);text-align:center;}
+.instruction{background:var(--success-light);border-left:4px solid var(--success);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:#15803d;line-height:1.7;}
+.tip-box{background:var(--success-light);border:2px solid var(--success);border-radius:10px;padding:10px 14px;margin-bottom:18px;font-size:.9em;font-weight:700;color:#15803d;text-align:center;}
 .ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
-.ex-head{padding:10px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;background:var(--primary);color:#fff;}
+.ex-head{padding:10px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;background:#16a34a;color:#fff;}
 .ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:21px;height:21px;display:flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
 .ex-body{padding:14px 16px 8px;}
 .sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
 .sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
-.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.b{background:var(--success-light);border:1.5px solid var(--success);}
 .sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
 .sl.y{background:var(--warn);color:#fff;}
-.sl.b{background:var(--primary);color:#fff;}
-.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.05em;font-weight:700;color:var(--primary);text-align:center;line-height:2.1;animation:fadeIn .3s ease;}
-.next-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:11px;touch-action:manipulation;}
+.sl.b{background:var(--success);color:#fff;}
+.ans-box{background:var(--success-light);border:2px solid var(--success);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.05em;font-weight:700;color:#15803d;text-align:center;line-height:2.1;animation:fadeIn .3s ease;}
+.next-btn{width:100%;background:#16a34a;color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:11px;touch-action:manipulation;}
 .done-badge{text-align:center;padding:6px;font-size:.84em;font-weight:700;color:var(--success);margin-bottom:10px;}
 .nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
 .btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
@@ -48,8 +48,8 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 </head>
 <body>
 <div class="page-header">
-  <div class="unit-code">EF05</div>
-  <h1>因数分解①<br><small style="font-size:.75em;opacity:.85;">χ²－a² の因数分解</small></h1>
+  <div class="unit-code">EF06-1</div>
+  <h1>因数分解② パターン1<br><small style="font-size:.75em;opacity:.85;">例題</small></h1>
 </div>
 <nav class="step-nav">
   <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
@@ -60,9 +60,9 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   <span class="step-arrow">›</span>
   <div class="step-item"><span class="step-circle">④</span><a href="../ef04-2/intro.html">展開の置き換え</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item active"><span class="step-circle">⑤</span><span>因数分解①</span></div>
+  <div class="step-item"><span class="step-circle">⑤</span><a href="../ef05/intro.html">因数分解①</a></div>
   <span class="step-arrow">›</span>
-  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef06/intro.html">因数分解②</a></div>
+  <div class="step-item active"><span class="step-circle">⑥</span><span>因数分解②</span></div>
 </nav>
 <nav class="step-nav" style="border-top:1px solid var(--border);">
   <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
@@ -75,7 +75,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 </nav>
 <main class="g-container">
 <div class="instruction"><strong>【例題】</strong>　ボタンをタップして，考え方 → 答えの順に確認しよう！</div>
-<div class="tip-box">📌 χ²－a²＝(χ＋a)(χ－a)　　○²－□² の形を見つけたらこの公式！</div>
+<div class="tip-box">📌 χ²＋bχ＋c（b＞0，c＞0）→ かけてc，たしてb になる正の整数の組を探す！</div>
 <div id="ex-area"></div>
 <div class="nav-btns">
   <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
@@ -84,27 +84,29 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 </div>
 </main>
 <script>
+// intro例題：χ²＋5χ＋6, χ²＋7χ＋12
+// example(以下)：重複なし
 const EXAMPLES=[
-  {title:"χ²－a²（基本①）",q:"χ²－36",
+  {title:"かけて・たして（基本①）",q:"χ²＋8χ＋15",
     steps:[
-      {cls:"y",lbl:"形",txt:"χ²－36＝χ²－<strong style='color:var(--accent);'>6</strong>²　→ a＝6"},
-      {cls:"b",lbl:"公式",txt:"χ²－a²＝(χ＋a)(χ－a)　→　a＝6"},
-    ],ans:"<strong>(χ＋6)(χ－6)</strong>"},
-  {title:"χ²－a²（基本②）",q:"χ²－49",
+      {cls:"y",lbl:"STEP1",txt:"かけて15 になる正の整数の組：(1,15)，(3,5)"},
+      {cls:"b",lbl:"STEP2",txt:"たして8 になるのは → <strong style='color:#15803d;'>3と5</strong>"},
+    ],ans:"<strong>(χ＋3)(χ＋5)</strong>"},
+  {title:"かけて・たして（基本②）",q:"χ²＋9χ＋14",
     steps:[
-      {cls:"y",lbl:"形",txt:"χ²－49＝χ²－<strong style='color:var(--accent);'>7</strong>²　→ a＝7"},
-      {cls:"b",lbl:"公式",txt:"χ²－a²＝(χ＋a)(χ－a)　→　a＝7"},
-    ],ans:"<strong>(χ＋7)(χ－7)</strong>"},
-  {title:"χ²－a²（前がχ²以外）",q:"4χ²－49",
+      {cls:"y",lbl:"STEP1",txt:"かけて14 になる正の整数の組：(1,14)，(2,7)"},
+      {cls:"b",lbl:"STEP2",txt:"たして9 になるのは → <strong style='color:#15803d;'>2と7</strong>"},
+    ],ans:"<strong>(χ＋2)(χ＋7)</strong>"},
+  {title:"かけて・たして（組が多い）",q:"χ²＋11χ＋24",
     steps:[
-      {cls:"y",lbl:"形",txt:"4χ²＝(2χ)²，49＝7²"},
-      {cls:"b",lbl:"公式",txt:"(2χ)²－7²＝(2χ＋7)(2χ－7)"},
-    ],ans:"<strong>(2χ＋7)(2χ－7)</strong>"},
-  {title:"χ²－a²（文字がa）",q:"a²－81",
+      {cls:"y",lbl:"STEP1",txt:"かけて24 になる正の整数の組：(1,24)，(2,12)，(3,8)，(4,6)"},
+      {cls:"b",lbl:"STEP2",txt:"たして11 になるのは → <strong style='color:#15803d;'>3と8</strong>"},
+    ],ans:"<strong>(χ＋3)(χ＋8)</strong>"},
+  {title:"かけて・たして（係数が大きい）",q:"χ²＋13χ＋30",
     steps:[
-      {cls:"y",lbl:"形",txt:"a²－81＝a²－<strong style='color:var(--accent);'>9</strong>²　→ 9の2乗"},
-      {cls:"b",lbl:"公式",txt:"a²－9²＝(a＋9)(a－9)"},
-    ],ans:"<strong>(a＋9)(a－9)</strong>"},
+      {cls:"y",lbl:"STEP1",txt:"かけて30 になる正の整数の組：(1,30)，(2,15)，(3,10)，(5,6)"},
+      {cls:"b",lbl:"STEP2",txt:"たして13 になるのは → <strong style='color:#15803d;'>3と10</strong>"},
+    ],ans:"<strong>(χ＋3)(χ＋10)</strong>"},
 ];
 const state=EXAMPLES.map(function(){return 0;});
 function buildAll(){
@@ -112,7 +114,7 @@ function buildAll(){
   EXAMPLES.forEach(function(ex,i){
     const div=document.createElement('div');div.className='ex-card';div.id='ec'+i;
     div.innerHTML='<div class="ex-head"><span class="ex-num">'+(i+1)+'</span>'+ex.title+'</div>'
-      +'<div class="ex-body"><div style="font-size:1.1em;font-weight:700;margin-bottom:10px;color:var(--primary);">'+ex.q+'</div>'
+      +'<div class="ex-body"><div style="font-size:1.1em;font-weight:700;margin-bottom:10px;color:#15803d;">'+ex.q+'</div>'
       +'<div id="steps'+i+'"></div>'
       +'<button class="next-btn" id="btn'+i+'" onclick="nextStep('+i+')">💡 考え方を見る</button>'
       +'<div id="done'+i+'" class="done-badge" style="display:none;">✅ 完了！</div></div>';

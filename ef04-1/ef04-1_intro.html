@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="../gamba_support.js"></script>
+<title>EF04-1 公式の組み合わせ展開 【導入】</title>
+<style>
+:root{--primary:#0f766e;--primary-light:#ccfbf1;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(15,118,110,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.sec{font-size:1.02em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin-bottom:13px;margin-top:24px;}
+.sec:first-of-type{margin-top:0;}
+.formula-grid{display:flex;flex-direction:column;gap:7px;margin-bottom:18px;}
+.formula-row{display:flex;align-items:center;gap:10px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;}
+.fb{font-size:.75em;font-weight:700;border-radius:6px;padding:3px 10px;white-space:nowrap;flex-shrink:0;color:#fff;}
+.fb1{background:#1a56a0;}.fb2{background:#15803d;}.fb3{background:#0369a1;}
+.formula-text{font-size:.9em;font-weight:700;line-height:1.8;}
+.why-box{background:linear-gradient(135deg,#fef9c3,#fef08a);border:2px solid #ca8a04;border-radius:14px;padding:15px 17px;margin-bottom:18px;}
+.why-badge{display:inline-block;background:#ca8a04;color:#fff;font-size:.75em;font-weight:700;border-radius:20px;padding:3px 12px;margin-bottom:10px;}
+.why-step{display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:9px;padding:9px 12px;margin-bottom:8px;font-size:.88em;font-weight:700;line-height:2.0;border:1.5px solid #fde68a;}
+.why-num{background:#ca8a04;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72em;flex-shrink:0;margin-top:2px;}
+.pop-note{background:#fff7ed;border:1.5px dashed #fb923c;border-radius:10px;padding:9px 13px;font-size:.87em;color:#9a3412;font-weight:700;margin-top:10px;line-height:1.8;}
+.pop-note::before{content:"💡 ";}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#ccfbf1;color:#0f766e;font-size:.83em;padding:9px 18px;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">EF04-1</div>
+  <h1>公式の組み合わせ展開<br><small style="font-size:.75em;opacity:.85;">公式①②③を見分けて使い分ける</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="../ef01/intro.html">展開の基本</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="../ef02/intro.html">平方公式</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="../ef03/intro.html">和と差の積</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">④</span><span>組み合わせ展開</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑤</span><a href="../ef04-2/intro.html">展開・置き換え</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">⑥</span><a href="../ef05/intro.html">因数分解①</a></div>
+</nav>
+<nav class="step-nav" style="border-top:1px solid var(--border);">
+  <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">②</span><a href="example.html">例題</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+
+<div class="sec">公式の早見表</div>
+<div class="formula-grid">
+  <div class="formula-row">
+    <span class="fb fb1">公式①</span>
+    <div class="formula-text">(χ＋a)(χ＋b)＝χ²＋(a＋b)χ＋ab　← たして・かける</div>
+  </div>
+  <div class="formula-row">
+    <span class="fb fb2">公式②</span>
+    <div class="formula-text">(χ＋a)²＝χ²＋2aχ＋a²　← 前²＋前×後×2＋後²</div>
+  </div>
+  <div class="formula-row">
+    <span class="fb fb3">公式③</span>
+    <div class="formula-text">(χ＋a)(χ－a)＝χ²－a²　← 真ん中が消える</div>
+  </div>
+</div>
+
+<div class="why-box">
+  <div class="why-badge">🔑 どの公式を使うか見分けるコツ</div>
+  <div class="why-step">
+    <div class="why-num">1</div>
+    <div><strong>まず形を確認する</strong><br>
+    同じ文字が2回 → 公式②か③を疑う<br>
+    (　＋　)(　＋　) で同じ符号 → 公式①か②<br>
+    (　＋　)(　－　) で同じ前 → 公式③</div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">2</div>
+    <div><strong>公式②と①の見分け方</strong><br>
+    後ろ2つが同じ数 → 公式②（例：(χ＋3)²）<br>
+    後ろ2つが違う数 → 公式①（例：(χ＋3)(χ＋5)）</div>
+  </div>
+  <div class="why-step">
+    <div class="why-num">3</div>
+    <div><strong>公式③の決め手</strong><br>
+    前が同じで符号だけ違う → 必ず公式③（例：(χ＋4)(χ－4)）</div>
+  </div>
+  <div class="pop-note">迷ったら「前が同じで符号が逆」→公式③、「2乗」→公式②、それ以外→公式① の順に確認しよう！</div>
+</div>
+
+<div class="nav-btns">
+  <a href="../ef_index.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="../ef03/intro.html" class="btn-nav btn-b">← EF03</a>
+  <a href="example.html" class="btn-nav btn-f">② 例題へ →</a>
+</div>
+</main>
+<script>markPassed('EF04-1');</script>
+</body>
+</html>
