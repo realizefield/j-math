@@ -118,6 +118,10 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   .unit-card{padding:11px 10px;gap:8px;}
 }
 </style>
+<script>
+/* 未作成の単元（2026-09-04） */
+var GAMBA_SOON = ['sq04/intro.html'];
+</script>
 </head>
 <body>
 
@@ -361,8 +365,10 @@ function makeCard(u){
   // カードタップで単元へ
   div.onclick = e => {
     if(e.target.classList.contains('btn-review-toggle')) return;
+    if (GAMBA_SOON.indexOf(u.path) !== -1) { alert('この単元は準備中です'); return; }
     window.location.href = u.path;
   };
+  if (typeof GAMBA_SOON !== 'undefined' && GAMBA_SOON.indexOf(u.path) !== -1) { div.style.opacity = '.45'; }
   return div;
 }
 
@@ -412,5 +418,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 </script>
 <script src="gamba_support.js"></script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
 </body>
 </html>
