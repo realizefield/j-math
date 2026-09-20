@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高認数学　基礎 GAMBA ─ 単元一覧</title>
+<style>
+:root{
+  --primary:#0f766e;--primary-light:#ccfbf1;--primary-mid:#14b8a6;
+  --accent:#e8372d;--accent-light:#fff1f0;
+  --success:#16a34a;--success-light:#dcfce7;
+  --warn:#d97706;--warn-light:#fffbeb;
+  --bg:#f0fdfa;--card:#ffffff;--border:#99f6e4;
+  --text:#1e293b;--text-sub:#64748b;--radius:12px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+
+/* ── ログイン画面 ── */
+#login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;background:linear-gradient(160deg,#0f766e 0%,#0d9488 100%);}
+.login-box{background:#fff;border-radius:20px;padding:36px 28px;width:100%;max-width:380px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.25);}
+.login-logo{font-size:3em;margin-bottom:4px;}
+.login-title{font-size:1.6em;font-weight:700;color:var(--primary);margin-bottom:4px;}
+.login-tagline{font-size:.85em;color:var(--text-sub);margin-bottom:20px;line-height:1.6;}
+.login-links{display:flex;gap:12px;justify-content:center;margin-bottom:16px;flex-wrap:wrap;}
+.login-links a{font-size:.83em;color:#0f766e;font-weight:700;text-decoration:none;}
+.login-label{display:block;font-size:.85em;font-weight:700;color:var(--text-sub);text-align:left;margin-bottom:8px;}
+.login-input{width:100%;padding:14px 16px;border:2px solid var(--border);border-radius:12px;font-size:1.05em;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s;margin-bottom:20px;}
+.login-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(15,118,110,.15);}
+.btn-login{width:100%;background:var(--primary);color:#fff;border:none;border-radius:50px;padding:16px;font-size:1.05em;font-weight:700;font-family:inherit;cursor:pointer;box-shadow:0 4px 14px rgba(15,118,110,.35);transition:transform .15s,box-shadow .15s;letter-spacing:.05em;}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,118,110,.4);}
+
+/* ── メイン画面 ── */
+#main-screen{display:none;}
+
+/* ── ヘッダー ── */
+.top-header{background:var(--primary);color:#fff;padding:16px 16px 14px;box-shadow:0 4px 16px rgba(15,118,110,.3);}
+.header-row{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.header-logo{font-size:1.2em;font-weight:700;flex:1;min-width:140px;}
+.header-logo small{font-size:.62em;opacity:.8;display:block;letter-spacing:.06em;}
+.student-badge{background:rgba(255,255,255,.2);border-radius:20px;padding:5px 12px;font-size:.82em;font-weight:700;white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;}
+.btn-change{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:20px;padding:5px 11px;font-size:.75em;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;}
+.hdr-link{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);color:#fff;border-radius:20px;padding:5px 11px;font-size:.75em;font-weight:700;text-decoration:none;white-space:nowrap;}
+
+/* 進捗エリア */
+.progress-area{max-width:760px;margin:10px auto 0;padding:0 2px;}
+.progress-row{display:flex;justify-content:space-between;font-size:.76em;color:rgba(255,255,255,.85);margin-bottom:5px;}
+.progress-bar-bg{background:rgba(255,255,255,.25);border-radius:8px;height:9px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:#fff;border-radius:8px;transition:width .7s ease;}
+.progress-chips{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.prog-chip{background:rgba(255,255,255,.18);border-radius:8px;padding:3px 10px;font-size:.76em;font-weight:700;color:#fff;}
+
+/* ── コンテナ ── */
+.g-container{max-width:760px;margin:0 auto;padding:18px 14px 60px;}
+
+/* ── お知らせ ── */
+.notice{border-radius:var(--radius);padding:12px 16px;margin-bottom:18px;font-size:.88em;line-height:1.75;}
+.notice-default{background:var(--primary-light);border:1.5px solid var(--primary-mid);color:var(--primary);}
+.notice-progress{background:var(--warn-light);border:1.5px solid var(--warn);color:#92400e;}
+.notice-complete{background:var(--success-light);border:1.5px solid var(--success);color:#15803d;}
+
+/* ── セクション見出し（折りたたみ） ── */
+.section-title{font-size:1em;font-weight:700;color:var(--primary);border-left:4px solid var(--primary);padding-left:11px;margin:22px 0 10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
+.section-title:first-of-type{margin-top:0;}
+.section-title .sec-count{font-size:.78em;font-weight:700;color:var(--text-sub);background:#f1f5f9;border-radius:10px;padding:2px 9px;margin-left:8px;}
+.section-title .sec-toggle{font-size:.8em;color:var(--text-sub);margin-left:auto;}
+.unit-list.collapsed{display:none;}
+
+/* ── 単元カード ── */
+.unit-list{display:flex;flex-direction:column;gap:7px;}
+.unit-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);display:flex;align-items:center;gap:10px;padding:12px 14px;text-decoration:none;color:var(--text);transition:box-shadow .18s,border-color .18s;cursor:pointer;position:relative;}
+.unit-card:active{opacity:.85;}
+.unit-card.s-pass  {border-color:#86efac;background:#f0fdf4;}
+.unit-card.s-review{border-color:var(--warn);background:var(--warn-light);}
+.unit-card.s-none  {border-color:var(--border);}
+
+/* コードバッジ（グループごとの色） */
+.u-code{font-size:.7em;font-weight:700;padding:3px 7px;border-radius:6px;white-space:nowrap;flex-shrink:0;}
+.c-ma{background:#e0f2fe;color:#0369a1;}
+.c-mb{background:#fff7ed;color:#c2410c;}
+.c-mc{background:#f3e8ff;color:#7c3aed;}
+.c-md{background:#fce7f3;color:#be185d;}
+.c-mf{background:#e0e7ff;color:#4338ca;}
+.c-ef{background:var(--primary-light);color:var(--primary);}
+.c-sq{background:#cffafe;color:#0e7490;}
+.c-qe{background:#fee2e2;color:#b91c1c;}
+
+/* 単元名 */
+.u-name{flex:1;font-size:.88em;font-weight:700;line-height:1.4;min-width:0;}
+.u-sub{font-size:.74em;color:var(--text-sub);font-weight:400;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* 状態バッジ */
+.u-badge{font-size:.7em;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.b-pass  {background:var(--success-light);color:var(--success);}
+.b-review{background:var(--warn-light);color:var(--warn);border:1px solid var(--warn);}
+.b-none  {background:#f1f5f9;color:#94a3b8;}
+
+.u-arrow{color:#cbd5e1;font-size:1.05em;flex-shrink:0;}
+.btn-review-toggle{background:none;border:1.5px solid #86efac;color:var(--success);border-radius:12px;padding:3px 9px;font-size:.7em;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.unit-card.s-review .btn-review-toggle{border-color:var(--success);color:var(--success);}
+
+@media(max-width:400px){
+  .u-sub{display:none;}
+  .unit-card{padding:11px 10px;gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ログイン画面 -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">📘</div>
+    <div class="login-title">GAMBA</div>
+    <div class="login-tagline">高認数学　基礎<br>分数・小数から二次方程式まで、ゼロから固めよう！</div>
+    <div class="login-links">
+      <a href="gamba_kounin.html">🔺 高認数学（因数分解）はこちら →</a>
+      <a href="gamba_chugaku.html">📐 中学数学（全単元）はこちら →</a>
+    </div>
+    <label class="login-label" for="name-input">あなたの名前を入力してください</label>
+    <input class="login-input" type="text" id="name-input" placeholder="例：山田 花子" maxlength="20" autocomplete="name">
+    <button class="btn-login" onclick="doLogin()">スタート！ →</button>
+  </div>
+</div>
+
+<!-- メイン画面 -->
+<div id="main-screen">
+  <div class="top-header">
+    <div class="header-row">
+      <div class="header-logo">📘 GAMBA <small>高認数学　基礎</small></div>
+      <div class="student-badge" id="badge-name">---</div>
+      <a href="gamba_kounin.html" class="hdr-link">因数分解→</a>
+      <button class="btn-change" onclick="doLogout()">名前変更</button>
+    </div>
+    <div class="progress-area">
+      <div class="progress-row">
+        <span>学習進捗</span>
+        <span id="prog-text">0 / 0 単元合格</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
+      </div>
+      <div class="progress-chips" id="prog-chips"></div>
+    </div>
+  </div>
+
+  <main class="g-container">
+    <div class="notice notice-default" id="notice-msg">
+      📌 単元をタップして「導入→例題→演習→確認テスト」の順に学習しよう！　見出しをタップするとグループの開閉ができます。
+    </div>
+
+    <div class="section-title" data-g="ma">📊 分数・小数の計算<span class="sec-count" id="cnt-ma"></span><span class="sec-toggle" id="tg-ma">▾</span></div>
+    <div class="unit-list" id="list-ma"></div>
+
+    <div class="section-title" data-g="mb">➕ 正負の数の計算<span class="sec-count" id="cnt-mb"></span><span class="sec-toggle" id="tg-mb">▾</span></div>
+    <div class="unit-list" id="list-mb"></div>
+
+    <div class="section-title" data-g="mc">🔤 文字式の計算<span class="sec-count" id="cnt-mc"></span><span class="sec-toggle" id="tg-mc">▾</span></div>
+    <div class="unit-list" id="list-mc"></div>
+
+    <div class="section-title" data-g="md">⚖️ 一次方程式<span class="sec-count" id="cnt-md"></span><span class="sec-toggle" id="tg-md">▾</span></div>
+    <div class="unit-list" id="list-md"></div>
+
+    <div class="section-title" data-g="mf">🔗 連立方程式<span class="sec-count" id="cnt-mf"></span><span class="sec-toggle" id="tg-mf">▾</span></div>
+    <div class="unit-list" id="list-mf"></div>
+
+    <div class="section-title" data-g="ef">📐 展開と因数分解<span class="sec-count" id="cnt-ef"></span><span class="sec-toggle" id="tg-ef">▾</span></div>
+    <div class="unit-list" id="list-ef"></div>
+
+    <div class="section-title" data-g="sq">√ 平方根<span class="sec-count" id="cnt-sq"></span><span class="sec-toggle" id="tg-sq">▾</span></div>
+    <div class="unit-list" id="list-sq"></div>
+
+    <div class="section-title" data-g="qe">🔺 二次方程式（計算編）<span class="sec-count" id="cnt-qe"></span><span class="sec-toggle" id="tg-qe">▾</span></div>
+    <div class="unit-list" id="list-qe"></div>
+  </main>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   高認数学「基礎」── 分数・小数〜二次方程式(計算編)
+   QE07〜09（文章題・図形の文章題）は対象外
+   単元フォルダは中学数学(gamba_chugaku.html)・
+   高認数学(gamba_kounin.html)と完全に共有しており，
+   ファイルは複製していない。このページは
+   「どの単元を表示するか」を選んでいるだけ。
+   ══════════════════════════════════════════ */
+const UNITS = [
+  /* ── 分数・小数の計算 ── */
+  {code:'MA01',name:'分数の性質・通分',sub:'分母をそろえる（通分）',g:'ma',cls:'c-ma',path:'MA01/intro.html'},
+  {code:'MA02',name:'約分',sub:'分母・分子を同じ数でわる',g:'ma',cls:'c-ma',path:'MA02/intro.html'},
+  {code:'MA03',name:'分数をたす・ひく',sub:'分母が同じ分数の計算',g:'ma',cls:'c-ma',path:'MA03/intro.html'},
+  {code:'MA04',name:'通分する計算',sub:'分母が違う分数のたし算・ひき算',g:'ma',cls:'c-ma',path:'MA04/intro.html'},
+  {code:'MA05',name:'1と分数の計算',sub:'1 ＋ 分数、1 − 分数',g:'ma',cls:'c-ma',path:'MA05/intro.html'},
+  {code:'MA06',name:'整数と分数の計算',sub:'整数と分数のたし算・ひき算',g:'ma',cls:'c-ma',path:'MA06/intro.html'},
+  {code:'MA07',name:'帯分数と仮分数',sub:'帯分数⇔仮分数の変換',g:'ma',cls:'c-ma',path:'MA07/intro.html'},
+  {code:'MA08',name:'帯分数の計算',sub:'帯分数のたし算・ひき算',g:'ma',cls:'c-ma',path:'MA08/intro.html'},
+  {code:'MA09',name:'整数 × 分数',sub:'整数と分数のかけ算',g:'ma',cls:'c-ma',path:'MA09/intro.html'},
+  {code:'MA10',name:'分数 × 分数',sub:'ななめ約分・帯分数にも対応',g:'ma',cls:'c-ma',path:'MA10/intro.html'},
+  {code:'MA11',name:'整数 ÷ 分数',sub:'整数を分数でわる計算',g:'ma',cls:'c-ma',path:'MA11/intro.html'},
+  {code:'MA12',name:'分数 ÷ 分数',sub:'逆数を使ったわり算',g:'ma',cls:'c-ma',path:'MA12/intro.html'},
+  {code:'MA13',name:'混合計算',sub:'四則が混ざった計算',g:'ma',cls:'c-ma',path:'MA13/intro.html'},
+  {code:'MA14',name:'小数のたし算・ひき算',sub:'小数点をそろえて計算する',g:'ma',cls:'c-ma',path:'MA14/intro.html'},
+  {code:'MA15',name:'小数のかけ算',sub:'小数点の移動でかけ算する',g:'ma',cls:'c-ma',path:'MA15/intro.html'},
+  {code:'MA16',name:'小数のわり算',sub:'わる数を整数にして計算する',g:'ma',cls:'c-ma',path:'MA16/intro.html'},
+  /* ── 正負の数の計算 ── */
+  {code:'MB01',name:'正負の数の計算①',sub:'数直線・損と得の考え方',g:'mb',cls:'c-mb',path:'MB01/intro.html'},
+  {code:'MB02',name:'正負の数の計算②',sub:'正−正・負＋正の計算',g:'mb',cls:'c-mb',path:'MB02/intro.html'},
+  {code:'MB03',name:'正負の数の計算③',sub:'負−正の計算（損＋損）',g:'mb',cls:'c-mb',path:'MB03/intro.html'},
+  {code:'MB04',name:'正負の数の計算④',sub:'負−(負)の計算（マイナス×マイナス＝プラス）',g:'mb',cls:'c-mb',path:'MB04/intro.html'},
+  {code:'MB05',name:'分数の正負の計算',sub:'通分＋正負の計算の組み合わせ',g:'mb',cls:'c-mb',path:'MB05/intro.html'},
+  {code:'MB06',name:'混合計算',sub:'カッコをはずしてまとめて計算する',g:'mb',cls:'c-mb',path:'MB06/intro.html'},
+  {code:'MB07',name:'かけ算・わり算',sub:'正負の数のかけ算・わり算（符号のルール）',g:'mb',cls:'c-mb',path:'MB07/intro.html'},
+  /* ── 文字式の計算 ── */
+  {code:'MC01',name:'文字式の表し方',sub:'×÷の省略・係数・指数',g:'mc',cls:'c-mc',path:'MC01/intro.html'},
+  {code:'MC02',name:'同類項の計算',sub:'同じ文字の係数をまとめる',g:'mc',cls:'c-mc',path:'MC02/intro.html'},
+  {code:'MC03',name:'文字式の乗除・分配法則',sub:'数×文字式、カッコをはずす',g:'mc',cls:'c-mc',path:'MC03/intro.html'},
+  {code:'MC04',name:'カッコをはずす計算',sub:'－(  )の展開と同類項',g:'mc',cls:'c-mc',path:'MC04/intro.html'},
+  {code:'MC05',name:'単項式の乗除',sub:'2x×3y、12xy÷4y、累乗',g:'mc',cls:'c-mc',path:'MC05/intro.html'},
+  {code:'MC06',name:'文字式の通分・加減',sub:'分数の文字式の加減',g:'mc',cls:'c-mc',path:'MC06/intro.html'},
+  /* ── 一次方程式 ── */
+  {code:'MD01',name:'χ＋a＝○，χ－a＝△',sub:'移項の基本・符号の変わり方',g:'md',cls:'c-md',path:'md01/intro.html'},
+  {code:'MD02',name:'aχ＝○　係数でわる',sub:'かけ算はわり算に・分数係数',g:'md',cls:'c-md',path:'md02/intro.html'},
+  {code:'MD03',name:'aχ＋b＝○',sub:'文字は左・数字は右の2ステップ',g:'md',cls:'c-md',path:'md03/intro.html'},
+  {code:'MD04',name:'aχ＋b＝cχ＋d',sub:'両辺にχがある式',g:'md',cls:'c-md',path:'md04/intro.html'},
+  {code:'MD05',name:'かっこをはずす方程式',sub:'－(　)の展開・符号注意',g:'md',cls:'c-md',path:'md05/intro.html'},
+  {code:'MD06',name:'分数を含む方程式',sub:'最小公倍数を両辺にかける',g:'md',cls:'c-md',path:'md06/intro.html'},
+  {code:'MD07',name:'小数を含む方程式',sub:'×10・×100で整数にする',g:'md',cls:'c-md',path:'md07/intro.html'},
+  {code:'MD08',name:'比例式',sub:'内項の積＝外項の積',g:'md',cls:'c-md',path:'md08/intro.html'},
+  /* ── 連立方程式 ── */
+  {code:'MF01',name:'連立方程式・加減法①',sub:'「たして消す」（①＋②）',g:'mf',cls:'c-mf',path:'mf01/intro.html'},
+  {code:'MF02',name:'加減法②',sub:'「ひいて消す」（①－②）',g:'mf',cls:'c-mf',path:'mf02/intro.html'},
+  {code:'MF03',name:'加減法③',sub:'係数をそろえてから消す',g:'mf',cls:'c-mf',path:'mf03/intro.html'},
+  {code:'MF04',name:'分数・小数の連立方程式',sub:'整数に直してから解く',g:'mf',cls:'c-mf',path:'mf04/intro.html'},
+  {code:'MF05',name:'代入法',sub:'一方の式を代入して解く',g:'mf',cls:'c-mf',path:'mf05/intro.html'},
+  /* ── 展開と因数分解 ── */
+  {code:'EF01',name:'展開の基本',sub:'(χ＋a)(χ＋b) の展開・たして×かける',g:'ef',cls:'c-ef',path:'ef01/intro.html'},
+  {code:'EF02',name:'平方公式',sub:'(χ＋a)²，(χ－a)² の展開',g:'ef',cls:'c-ef',path:'ef02/intro_a.html'},
+  {code:'EF03',name:'和と差の積',sub:'(χ＋a)(χ－a)＝χ²－a²',g:'ef',cls:'c-ef',path:'ef03/intro.html'},
+  {code:'EF04-1',name:'公式の組み合わせ展開',sub:'公式①②③を見分けて使い分ける',g:'ef',cls:'c-ef',path:'ef04-1/ef04-1_intro.html'},
+  {code:'EF04-2',name:'展開の置き換え',sub:'カタマリをAに置き換えて展開する',g:'ef',cls:'c-ef',path:'ef04-2/ef04-2_intro.html'},
+  {code:'EF05',name:'因数分解①　差の積',sub:'χ²－a²＝(χ＋a)(χ－a)',g:'ef',cls:'c-ef',path:'ef05/intro.html'},
+  {code:'EF06-1',name:'因数分解②　パターン1　(χ＋)(χ＋)',sub:'定数項＋・係数＋ → 両プラス',g:'ef',cls:'c-ef',path:'ef06-1/ef06-1_intro.html'},
+  {code:'EF06-2',name:'因数分解②　パターン2　(χ－)(χ－)',sub:'定数項＋・係数－ → 両マイナス',g:'ef',cls:'c-ef',path:'ef06-2/ef06-2_intro.html'},
+  {code:'EF06-3',name:'因数分解②　パターン3　(χ＋)(χ－)',sub:'定数項－ → 符号が逆',g:'ef',cls:'c-ef',path:'ef06-3/ef06-3_intro.html'},
+  {code:'EF07',name:'因数分解③　完全平方',sub:'χ²±2aχ＋a²＝(χ±a)²',g:'ef',cls:'c-ef',path:'ef07/intro.html'},
+  {code:'EF08',name:'因数分解④　共通因数',sub:'まず「くくり出し」から！',g:'ef',cls:'c-ef',path:'ef08/intro.html'},
+  {code:'EF09',name:'因数分解⑤　置き換え',sub:'カタマリをAに置き換えて因数分解（高認頻出！）',g:'ef',cls:'c-ef',path:'ef09/intro.html'},
+  /* ── 平方根 ── */
+  {code:'SQ01',name:'平方根とは',sub:'2乗してaになる数・記号√の意味',g:'sq',cls:'c-sq',path:'sq01/intro.html'},
+  {code:'SQ02',name:'平方根の性質',sub:'√(a²)＝|a|・絶対値の考え方',g:'sq',cls:'c-sq',path:'sq02/intro.html'},
+  {code:'SQ03',name:'平方根のかけ算・わり算',sub:'√a×√b＝√(ab)・√a÷√b＝√(a/b)',g:'sq',cls:'c-sq',path:'sq03/intro.html'},
+  {code:'SQ04',name:'ルートの中を簡単にする',sub:'√(a²b)＝a√b・平方数を見つける',g:'sq',cls:'c-sq',path:'sq04/intro.html'},
+  {code:'SQ05',name:'分母の有理化',sub:'分母にルートがあるときの処理',g:'sq',cls:'c-sq',path:'sq05/intro.html'},
+  {code:'SQ06',name:'平方根のたし算・ひき算',sub:'同じルートをまとめる（同類項の考え方）',g:'sq',cls:'c-sq',path:'sq06/intro.html'},
+  {code:'SQ07',name:'平方根の四則計算',sub:'分配法則・展開公式の応用',g:'sq',cls:'c-sq',path:'sq07/intro.html'},
+  {code:'SQ08',name:'平方根の式の値',sub:'文字式に代入して値を求める',g:'sq',cls:'c-sq',path:'sq08/intro.html'},
+  /* ── 二次方程式（計算編） ── */
+  {code:'QE01',name:'二次方程式とは',sub:'χ²＝aの形を解く',g:'qe',cls:'c-qe',path:'qe01/intro.html'},
+  {code:'QE02',name:'(χ＋a)²＝bの形',sub:'かたまりを作って解く',g:'qe',cls:'c-qe',path:'qe02/intro.html'},
+  {code:'QE03',name:'因数分解で解く（基本）',sub:'ゼロ積の法則・たして×かける',g:'qe',cls:'c-qe',path:'qe03/intro.html'},
+  {code:'QE04',name:'因数分解で解く（共通因数）',sub:'χ²＋bχ＝0の形・χをくくり出す',g:'qe',cls:'c-qe',path:'qe04/intro.html'},
+  {code:'QE05',name:'解の公式',sub:'どんな二次方程式でも解ける魔法の公式',g:'qe',cls:'c-qe',path:'qe05/intro.html'},
+  {code:'QE06',name:'解の公式（約分）',sub:'√の簡単化と分子分母の約分',g:'qe',cls:'c-qe',path:'qe06/intro.html'},
+];
+const TOTAL = UNITS.length;
+const GROUP_ORDER = ['ma','mb','mc','md','mf','ef','sq','qe'];
+
+/* ── ストレージ ──
+   gamba_support.js（各単元のcheck.htmlが合格時に呼ぶ markPassed）と
+   同じキー方式 "gamba_prog_"+code を使う。
+   これにより，中学数学ページ／高認数学ページ／この基礎ページの
+   どこから解いても，合格状況が正しく共有される。 */
+function sKey(code){ return 'gamba_prog_'+code; }
+function getStatus(code){ return localStorage.getItem(sKey(code))||'none'; }
+function setStatus(code,st){ localStorage.setItem(sKey(code),st); }
+
+/* ── ログイン ── */
+function doLogin(){
+  const name = document.getElementById('name-input').value.trim();
+  if(!name){ alert('名前を入力してください'); return; }
+  localStorage.setItem('studentName', name);
+  showMain();
+}
+function doLogout(){
+  if(!confirm('名前を変更しますか？\n（学習記録はそのまま残ります）')) return;
+  localStorage.removeItem('studentName');
+  document.getElementById('main-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('name-input').value='';
+}
+
+/* ── メイン表示 ── */
+function showMain(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('main-screen').style.display='block';
+  const name = localStorage.getItem('studentName')||'ゲスト';
+  document.getElementById('badge-name').textContent = name+' さん';
+  render();
+  updateProgress();
+}
+
+/* ── 単元カード描画 ── */
+function render(){
+  GROUP_ORDER.forEach(g=>{
+    const list = document.getElementById('list-'+g);
+    list.innerHTML='';
+  });
+  UNITS.forEach(u=>{
+    const card = makeCard(u);
+    document.getElementById('list-'+u.g).appendChild(card);
+  });
+  GROUP_ORDER.forEach(g=>{
+    const n = UNITS.filter(u=>u.g===g).length;
+    document.getElementById('cnt-'+g).textContent = n+'単元';
+  });
+}
+
+function makeCard(u){
+  const st = getStatus(u.code);
+  const div = document.createElement('div');
+  div.className = 'unit-card s-'+st;
+  const badgeMap = {
+    pass:  '<span class="u-badge b-pass">✅ 合格</span>',
+    review:'<span class="u-badge b-review">🔁 復習中</span>',
+    none:  '<span class="u-badge b-none">📖 未修</span>'
+  };
+  div.innerHTML = `
+    <span class="u-code ${u.cls}">${u.code}</span>
+    <div class="u-name">${u.name}<div class="u-sub">${u.sub}</div></div>
+    ${badgeMap[st]}
+    <span class="u-arrow">›</span>`;
+
+  if(st==='pass'){
+    const btn = document.createElement('button');
+    btn.className='btn-review-toggle';
+    btn.textContent='🔁 復習';
+    btn.onclick = e => { e.stopPropagation(); setStatus(u.code,'review'); render(); updateProgress(); };
+    div.insertBefore(btn, div.querySelector('.u-arrow'));
+  }
+  if(st==='review'){
+    const btn = document.createElement('button');
+    btn.className='btn-review-toggle';
+    btn.textContent='✅ 済み';
+    btn.onclick = e => { e.stopPropagation(); setStatus(u.code,'pass'); render(); updateProgress(); };
+    div.insertBefore(btn, div.querySelector('.u-arrow'));
+  }
+  div.onclick = e => {
+    if(e.target.classList.contains('btn-review-toggle')) return;
+    window.location.href = u.path;
+  };
+  return div;
+}
+
+/* ── 進捗バー更新 ── */
+function updateProgress(){
+  let pass=0, review=0, none=0;
+  UNITS.forEach(u=>{
+    const s=getStatus(u.code);
+    if(s==='pass')pass++;
+    else if(s==='review')review++;
+    else none++;
+  });
+  const pct = Math.round(pass/TOTAL*100);
+  document.getElementById('prog-bar').style.width = pct+'%';
+  document.getElementById('prog-text').textContent = pass+' / '+TOTAL+' 単元合格';
+  document.getElementById('prog-chips').innerHTML =
+    `<span class="prog-chip">✅ 合格 ${pass}</span>
+     <span class="prog-chip">🔁 復習中 ${review}</span>
+     <span class="prog-chip">📖 未修 ${none}</span>`;
+
+  const notice = document.getElementById('notice-msg');
+  if(pass===TOTAL){
+    notice.className='notice notice-complete';
+    notice.innerHTML='🎉 <strong>全単元合格！</strong>　基礎は完璧！次は高認数学（因数分解）にも挑戦してみよう！';
+  } else if(pass===0 && review===0){
+    notice.className='notice notice-default';
+    notice.innerHTML='📌 単元をタップして「導入→例題→演習→確認テスト」の順に学習しよう！　見出しをタップするとグループの開閉ができます。';
+  } else {
+    const next = UNITS.find(u=>getStatus(u.code)==='none');
+    notice.className='notice notice-progress';
+    notice.innerHTML = `✨ <strong>${pass}単元</strong> 合格！すごい！${review>0?'<strong>🔁'+review+'単元</strong>が復習中。':''}${next?'次は <strong>'+next.name+'</strong> に挑戦しよう！':'あと少し！'}`;
+  }
+}
+
+/* ── セクションの開閉 ── */
+function initToggles(){
+  document.querySelectorAll('.section-title').forEach(st=>{
+    st.addEventListener('click', ()=>{
+      const g = st.dataset.g;
+      const list = document.getElementById('list-'+g);
+      const tg = document.getElementById('tg-'+g);
+      const collapsed = list.classList.toggle('collapsed');
+      tg.textContent = collapsed ? '▸' : '▾';
+    });
+  });
+}
+
+/* ── 起動 ── */
+document.addEventListener('DOMContentLoaded', ()=>{
+  initToggles();
+  if(localStorage.getItem('studentName')) showMain();
+  document.getElementById('name-input').addEventListener('keydown', e=>{
+    if(e.key==='Enter') doLogin();
+  });
+});
+</script>
+<script src="gamba_support.js"></script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
+</body>
+</html>
