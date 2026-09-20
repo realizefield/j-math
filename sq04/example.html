@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQ04 √の中を簡単にする 【例題】</title>
+
+<!-- KaTeX(ローカル配置) -->
+<link rel="stylesheet" href="../lib/katex/katex.min.css">
+<script defer src="../lib/katex/katex.min.js"></script>
+<script defer src="../lib/katex/contrib/auto-render.min.js"
+  onload="renderAllMath();"></script>
+
+<style>
+:root{--primary:#15803d;--primary-light:#dcfce7;--accent:#e8372d;--accent-light:#fff1f0;--success:#16a34a;--success-light:#dcfce7;--warn:#d97706;--warn-light:#fffbeb;--bg:#f0fdf4;--card:#ffffff;--border:#bbf7d0;--text:#1e293b;--text-sub:#64748b;--radius:12px;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+.g-container{max-width:760px;margin:0 auto;padding:22px 15px 60px;}
+.page-header{background:var(--primary);color:#fff;padding:16px 20px 12px;text-align:center;box-shadow:0 3px 10px rgba(21,128,61,.25);}
+.page-header .unit-code{font-size:.8em;opacity:.8;letter-spacing:.1em;margin-bottom:3px;}
+.page-header h1{font-size:clamp(.98em,3vw,1.38em);font-weight:700;margin:0;line-height:1.4;}
+.step-nav{display:flex;align-items:center;justify-content:center;padding:9px 6px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:nowrap;overflow-x:auto;position:sticky;top:0;z-index:10;gap:1px;}
+.step-item{display:flex;align-items:center;gap:3px;font-size:clamp(.62em,1.6vw,.78em);color:#94a3b8;white-space:nowrap;padding:2px 4px;}
+.step-item a{color:inherit;text-decoration:none;}
+.step-item a:hover{color:var(--primary);}
+.step-item.active{color:var(--primary);font-weight:700;}
+.step-circle{width:19px;height:19px;border-radius:50%;font-size:.68em;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-item.active .step-circle{background:var(--primary);color:#fff;box-shadow:0 0 0 2px var(--primary-light);}
+.step-item:not(.active) .step-circle{background:#94a3b8;color:#fff;}
+.step-arrow{color:#cbd5e1;font-size:.9em;padding:0;}
+.instruction{background:var(--primary-light);border-left:4px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:12px 15px;margin-bottom:18px;font-size:.93em;color:var(--primary);line-height:1.7;}
+.tip2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.tip2 div{border-radius:8px;padding:8px;font-size:.84em;font-weight:700;text-align:center;line-height:1.5;}
+.ex-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:16px;overflow:hidden;}
+.ex-head{padding:10px 15px;font-size:.86em;font-weight:700;display:flex;align-items:center;gap:8px;background:var(--primary);color:#fff;}
+.ex-num{background:rgba(255,255,255,.25);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.78em;flex-shrink:0;}
+.ex-body{padding:14px 16px 8px;}
+.q-text{font-size:1.1em;font-weight:700;margin-bottom:12px;color:var(--primary);line-height:2;}
+.sr{display:flex;align-items:flex-start;gap:9px;padding:9px 12px;border-radius:8px;margin-bottom:7px;font-size:.88em;font-weight:700;line-height:2.1;animation:fadeIn .3s ease;}
+.sr.y{background:var(--warn-light);border:1.5px solid var(--warn);}
+.sr.b{background:var(--primary-light);border:1.5px solid var(--primary);}
+.sr.r{background:var(--accent-light);border:1.5px solid var(--accent);}
+.sr.g{background:var(--success-light);border:1.5px solid var(--success);}
+.sl{font-size:.68em;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.sl.y{background:var(--warn);color:#fff;}
+.sl.b{background:var(--primary);color:#fff;}
+.sl.r{background:var(--accent);color:#fff;}
+.sl.g{background:var(--success);color:#fff;}
+.ans-box{background:var(--primary-light);border:2px solid var(--primary);border-radius:9px;padding:10px 14px;margin-bottom:8px;font-size:1.1em;font-weight:700;color:var(--primary);text-align:center;line-height:2.2;animation:fadeIn .3s ease;}
+.next-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-family:'BIZ UDPGothic',sans-serif;font-size:.93em;font-weight:700;cursor:pointer;margin-bottom:11px;transition:background .15s;}
+.next-btn:hover{background:#166534;}
+.done-badge{text-align:center;padding:6px;font-size:.84em;font-weight:700;color:var(--success);margin-bottom:10px;}
+.nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
+.btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.btn-f{background:var(--primary);color:#fff;}
+.btn-b{background:#f1f5f9;color:var(--text-sub);}
+.btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="unit-code">SQ04</div>
+  <h1>√の中を簡単にする<br><small style="font-size:.75em;opacity:.85;">例題</small></h1>
+</div>
+<nav class="step-nav">
+  <div class="step-item"><span class="step-circle">①</span><a href="intro.html">導入</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item active"><span class="step-circle">②</span><span>例題</span></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">③</span><a href="drill.html">演習</a></div>
+  <span class="step-arrow">›</span>
+  <div class="step-item"><span class="step-circle">④</span><a href="check.html">確認</a></div>
+</nav>
+<main class="g-container">
+<div class="instruction"><strong>【例題】</strong>　ボタンをタップして，「平方数を見つけて外に出す」手順を確認しよう！</div>
+<div class="tip2">
+  <div style="background:var(--primary-light);color:var(--primary);">$\sqrt{a^2 \times b} = a\sqrt{b}$<br>平方数を外に出す</div>
+  <div style="background:var(--accent-light);color:var(--accent);">できるだけ大きい<br>平方数を選ぶ！</div>
+</div>
+<div id="ex-area"></div>
+<div class="nav-btns">
+  <a href="../gamba_chugaku.html" class="btn-nav btn-h">🏠 単元一覧へ</a>
+  <a href="intro.html" class="btn-nav btn-b">← 導入</a>
+  <a href="drill.html" class="btn-nav btn-f">③ 演習へ →</a>
+</div>
+</main>
+
+<script>
+const EXAMPLES=[
+  {
+    title:"基本パターン",
+    q:"$\\sqrt{12}$ を簡単にする",
+    steps:[
+      {cls:"y",lbl:"分解",txt:"$12$ を「平方数 $\\times$ 何か」に分ける → $12 = 4 \\times 3$"},
+      {cls:"b",lbl:"分ける",txt:"$\\sqrt{12} = \\sqrt{4 \\times 3} = \\sqrt{4} \\times \\sqrt{3}$"},
+      {cls:"g",lbl:"外に出す",txt:"$\\sqrt{4} = 2$ なので $2\\sqrt{3}$"},
+    ],
+    ans:"$\\sqrt{12} = 2\\sqrt{3}$"
+  },
+  {
+    title:"平方数が9のパターン",
+    q:"$\\sqrt{45}$ を簡単にする",
+    steps:[
+      {cls:"y",lbl:"分解",txt:"$45 = 9 \\times 5$（$9$ は平方数）"},
+      {cls:"b",lbl:"分ける",txt:"$\\sqrt{45} = \\sqrt{9 \\times 5} = \\sqrt{9} \\times \\sqrt{5}$"},
+      {cls:"g",lbl:"外に出す",txt:"$\\sqrt{9} = 3$ なので $3\\sqrt{5}$"},
+    ],
+    ans:"$\\sqrt{45} = 3\\sqrt{5}$"
+  },
+  {
+    title:"平方数の選び方に注意",
+    q:"$\\sqrt{48}$ を簡単にする",
+    steps:[
+      {cls:"r",lbl:"注意",txt:"$48 = 4 \\times 12$ と分けると，まだ $\\sqrt{12}$ の中に平方数が残ってしまう"},
+      {cls:"y",lbl:"やり直し",txt:"もっと大きい平方数を探す → $48 = 16 \\times 3$（$16$ は平方数）"},
+      {cls:"b",lbl:"分ける",txt:"$\\sqrt{48} = \\sqrt{16 \\times 3} = \\sqrt{16} \\times \\sqrt{3}$"},
+      {cls:"g",lbl:"外に出す",txt:"$\\sqrt{16} = 4$ なので $4\\sqrt{3}$"},
+    ],
+    ans:"$\\sqrt{48} = 4\\sqrt{3}$"
+  },
+  {
+    title:"係数がすでについている場合",
+    q:"$3\\sqrt{8}$ を簡単にする",
+    steps:[
+      {cls:"y",lbl:"まず中だけ",txt:"$\\sqrt{8} = \\sqrt{4 \\times 2} = 2\\sqrt{2}$"},
+      {cls:"b",lbl:"係数をかける",txt:"$3\\sqrt{8} = 3 \\times 2\\sqrt{2}$"},
+      {cls:"g",lbl:"まとめる",txt:"$3 \\times 2 = 6$ なので $6\\sqrt{2}$"},
+    ],
+    ans:"$3\\sqrt{8} = 6\\sqrt{2}$"
+  },
+  {
+    title:"素因数分解で解く（数が大きい）",
+    q:"$\\sqrt{72}$ を簡単にする",
+    steps:[
+      {cls:"y",lbl:"素因数分解",txt:"$72 = 2 \\times 2 \\times 2 \\times 3 \\times 3 = 2^3 \\times 3^2$"},
+      {cls:"b",lbl:"ペアを探す",txt:"$2^2$ と $3^2$ がペア → まとめて $72 = (2^2 \\times 3^2) \\times 2$"},
+      {cls:"b",lbl:"外に出す",txt:"ペアの部分を外に出す → $2 \\times 3 = 6$"},
+      {cls:"g",lbl:"残り",txt:"ペアになれなかった $2$ が1個 → ルートの中に残る"},
+    ],
+    ans:"$\\sqrt{72} = 6\\sqrt{2}$"
+  },
+  {
+    title:"これ以上簡単にできないパターン",
+    q:"$\\sqrt{15}$ を簡単にする",
+    steps:[
+      {cls:"y",lbl:"確認",txt:"$15 = 3 \\times 5$ ── どちらの組み合わせにも平方数が含まれない"},
+      {cls:"r",lbl:"平方数を探す",txt:"$1,4,9,16,25\\ldots$ の中に，$15$ を割り切れる平方数はない（$1$ 以外）"},
+      {cls:"g",lbl:"結論",txt:"これ以上簡単にできないので，そのままが答え"},
+    ],
+    ans:"$\\sqrt{15}$（これ以上簡単にできない）"
+  },
+];
+
+const state=EXAMPLES.map(()=>0);
+
+function buildAll(){
+  const area=document.getElementById('ex-area');
+  EXAMPLES.forEach((ex,i)=>{
+    const div=document.createElement('div');
+    div.className='ex-card';div.id='ec'+i;
+    div.innerHTML='<div class="ex-head">'
+      +'<span class="ex-num">'+(i+1)+'</span>'+ex.title+'</div>'
+      +'<div class="ex-body"><div class="q-text">'+ex.q+'</div>'
+      +'<div id="steps'+i+'"></div>'
+      +'<button class="next-btn" id="btn'+i+'" onclick="nextStep('+i+')">💡 考え方を見る</button>'
+      +'<div id="done'+i+'" class="done-badge" style="display:none;">✅ 完了！</div>'
+      +'</div>';
+    area.appendChild(div);
+  });
+}
+
+function nextStep(i){
+  const ex=EXAMPLES[i],cur=state[i];
+  const sd=document.getElementById('steps'+i);
+  const btn=document.getElementById('btn'+i);
+  const done=document.getElementById('done'+i);
+  if(cur<ex.steps.length){
+    const s=ex.steps[cur];
+    const row=document.createElement('div');
+    row.className='sr '+s.cls;
+    row.innerHTML='<span class="sl '+s.cls+'">'+s.lbl+'</span><div>'+s.txt+'</div>';
+    sd.appendChild(row);
+    state[i]++;
+    btn.textContent=state[i]<ex.steps.length?'➡ 次のステップへ':'✅ 答えを見る';
+    if(typeof renderMathInElement==='function'){
+      renderMathInElement(row,{
+        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+        throwOnError:false
+      });
+    }
+  }else{
+    const ab=document.createElement('div');
+    ab.className='ans-box';
+    ab.innerHTML='答え：'+ex.ans;
+    sd.appendChild(ab);
+    btn.style.display='none';
+    done.style.display='block';
+    if(typeof renderMathInElement==='function'){
+      renderMathInElement(ab,{
+        delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],
+        throwOnError:false
+      });
+    }
+  }
+}
+
+function renderAllMath(){
+  if(typeof renderMathInElement==='function'){
+    renderMathInElement(document.body,{
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false}
+      ],
+      throwOnError:false
+    });
+  }
+}
+
+buildAll();
+</script>
+<script src="../gamba_support.js"></script>
+<script src="https://realizefield.github.io/gamba-kounin-seito/gamba-ai.js" defer></script>
+</body>
+</html>
