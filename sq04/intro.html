@@ -68,19 +68,23 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 .sum-box li{margin-bottom:3px;}
 .sum-box strong{color:var(--primary);}
 .split-vis{background:#fff;border:2px dashed var(--primary);border-radius:10px;padding:12px;margin:10px 0;text-align:center;font-size:1.05em;line-height:2.4;font-weight:700;}
+.ft-wrap{display:flex;justify-content:center;margin:4px 0 12px;}
+.ft-box{background:#fff;border:2px solid var(--primary);border-radius:10px;padding:12px 26px;font-family:'Courier New',monospace;font-size:1.12em;line-height:1.85;color:var(--text);text-align:left;white-space:pre;box-shadow:0 2px 6px rgba(21,128,61,.12);}
+.note-box{background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:10px;padding:11px 15px;font-size:.87em;line-height:1.9;color:var(--text-sub);margin-bottom:14px;}
+.note-box strong{color:var(--text);}
 .nav-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;margin-top:26px;}
 .btn-nav{font-family:'BIZ UDPGothic','BIZ UDP Gothic',sans-serif;font-size:.93em;font-weight:700;padding:11px 24px;border-radius:50px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .15s,box-shadow .15s;}
 .btn-nav:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
 .btn-f{background:var(--primary);color:#fff;}
 .btn-b{background:#f1f5f9;color:var(--text-sub);}
 .btn-h{background:#dcfce7;color:#15803d;font-size:.83em;padding:9px 18px;}
-@media (max-width:600px){.ex-grid{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:600px){.ex-grid{grid-template-columns:repeat(3,1fr);}.ft-box{padding:10px 16px;font-size:1.02em;}}
 </style>
 </head>
 <body>
 <div class="page-header">
   <div class="unit-code">SQ04</div>
-  <h1>√の中を簡単にする<br><small style="font-size:.75em;opacity:.85;">平方数を見つけて a√b の形にしよう</small></h1>
+  <h1>√の中を簡単にする<br><small style="font-size:.75em;opacity:.85;">素因数分解で a√b の形にしよう</small></h1>
 </div>
 <nav class="step-nav">
   <div class="step-item active"><span class="step-circle">①</span><span>導入</span></div>
@@ -106,7 +110,7 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
   数学では，ルートの中はできるだけ小さい数にするのが基本のマナー。$\sqrt{12}$ より $2\sqrt{3}$ の方が「簡単な形」！
 </div>
 
-<div class="sec">② SQ03の公式を逆から使う</div>
+<div class="sec">② $\sqrt{12}$ が $2\sqrt{3}$ になる仕組み</div>
 <div class="rule-box">
   <div class="rtitle">📌 SQ03で学んだこと</div>
   <div class="rbody">
@@ -121,79 +125,110 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 <div class="rule-box">
   <div class="rtitle">📌 言葉でいうと</div>
   <div class="rbody">
-    ルートの中に「<strong>2乗の数（平方数）</strong>」が隠れていたら，その数だけルートの<strong>外に出せる</strong>！
+    ルートの中に「<strong>2乗の数</strong>」が隠れていたら，その数だけルートの<strong>外に出せる</strong>！<br>
+    では，その「隠れた2乗」を見つけるにはどうすればいいでしょうか。
   </div>
 </div>
 
-<div class="sec">③ まず「平方数」を覚えよう</div>
+<div class="sec">③ 見つけ方は「素因数分解」が確実</div>
 <div class="rule-box">
-  <div class="rtitle">📌 平方数 = 整数を2乗した数</div>
-  <div class="rbody">よく使う平方数を覚えておくと，見つけるスピードが上がります。</div>
+  <div class="rtitle">📌 素因数分解とは</div>
+  <div class="rbody">
+    数を，<strong>素数（それ以上分けられない数）だけの積</strong>に分けることです。<br>
+    √の中の数を素因数分解すると，「同じ数が2個ペア」になっている部分が必ず見えてきます。<strong>このペアが，外に出せる「隠れた2乗」</strong>です。
+  </div>
 </div>
-<div class="ex-grid">
-  <div class="ex-item">$1^2{=}1$</div>
-  <div class="ex-item">$2^2{=}4$</div>
-  <div class="ex-item">$3^2{=}9$</div>
-  <div class="ex-item">$4^2{=}16$</div>
-  <div class="ex-item">$5^2{=}25$</div>
-  <div class="ex-item">$6^2{=}36$</div>
-  <div class="ex-item">$7^2{=}49$</div>
-  <div class="ex-item">$8^2{=}64$</div>
-  <div class="ex-item">$9^2{=}81$</div>
-  <div class="ex-item">$10^2{=}100$</div>
+<div class="rule-box">
+  <div class="rtitle">📌 手順はいつも同じ4ステップ</div>
+  <div class="rbody">
+    <strong>①</strong> √の中の数を，素数で割り続けて素因数分解する（筆算を使う）<br>
+    <strong>②</strong> 同じ数が2個ペアになっている部分を探す<br>
+    <strong>③</strong> ペア1組につき，その数を1個だけ√の外に出す<br>
+    <strong>④</strong> ペアになれずに1個だけ余った数は，そのまま√の中に残す
+  </div>
+</div>
+<div class="note-box">
+  注）<strong>素数</strong>とは，1と自分自身以外に約数をもたない数のことです。<br>
+  （例）3 → 約数は1と3　　11 → 約数は1と11　　17 → 約数は1と17<br>
+  素因数分解では，2・3・5・7・11…という素数で，小さい方から順に割っていきます。
 </div>
 
-<div class="sec">④ 手順を確認しよう：$\sqrt{12}$ の場合</div>
+<div class="sec">④ 例題①：$\sqrt{12}$ を素因数分解で解く</div>
 <div class="ex-card">
-  <div class="ex-head">$\sqrt{12}$ を簡単にする</div>
+  <div class="ex-head">$\sqrt{12}$ を素因数分解で簡単にする</div>
   <div class="ex-body">
-    <div class="sr y"><span class="sl y">手順①</span><div>$12$ を「平方数 $\times$ 何か」に分ける → $12 = 4 \times 3$</div></div>
-    <div class="sr b"><span class="sl b">手順②</span><div>$\sqrt{12} = \sqrt{4 \times 3} = \sqrt{4} \times \sqrt{3}$</div></div>
-    <div class="sr g"><span class="sl g">手順③</span><div>$\sqrt{4} = 2$ なので，$\sqrt{4} \times \sqrt{3} = 2\sqrt{3}$</div></div>
+    <div class="ft-wrap"><pre class="ft-box">2 ) 12
+2 )  6
+     3</pre></div>
+    <div class="sr y"><span class="sl y">①分解</span><div>筆算より，$12 = 2 \times 2 \times 3 = 2^2 \times 3$</div></div>
+    <div class="sr b"><span class="sl b">②ペア</span><div>$2^2$（2が2個）が見つかった。$3$ は1個だけ余る</div></div>
+    <div class="sr g"><span class="sl g">③外に出す</span><div>$\sqrt{12} = \sqrt{2^2 \times 3} = \sqrt{2^2} \times \sqrt{3}$</div></div>
+    <div class="sr r"><span class="sl r">④仕上げ</span><div>$\sqrt{2^2} = 2$ なので，$\sqrt{2^2} \times \sqrt{3} = 2\sqrt{3}$</div></div>
     <div class="ans-box">$\sqrt{12} = 2\sqrt{3}$</div>
   </div>
 </div>
 
-<div class="split-vis">
-  $\sqrt{8} = \sqrt{4 \times 2} = 2\sqrt{2}$<br>
-  $\sqrt{18} = \sqrt{9 \times 2} = 3\sqrt{2}$<br>
-  $\sqrt{50} = \sqrt{25 \times 2} = 5\sqrt{2}$
-</div>
-
-<div class="sec">⑤ ⚠️ 平方数は「できるだけ大きい」ものを選ぶ</div>
-<div class="warn-box">
-  <div class="rtitle">❗ 小さい平方数で分けると，2回計算が必要になる</div>
-  <div class="rbody">
-    $\sqrt{72}$ を，小さい平方数 $4$ で分けると…<br>
-    $\sqrt{72} = \sqrt{4 \times 18} = 2\sqrt{18}$ ← まだ $\sqrt{18}$ の中に $9$ が隠れている！<br>
-    さらに $\sqrt{18} = 3\sqrt{2}$ なので，$2\sqrt{18} = 2 \times 3\sqrt{2} = 6\sqrt{2}$
+<div class="sec">⑤ 例題②：$\sqrt{18}$ を素因数分解で解く</div>
+<div class="ex-card">
+  <div class="ex-head">$\sqrt{18}$ を素因数分解で簡単にする</div>
+  <div class="ex-body">
+    <div class="ft-wrap"><pre class="ft-box">2 ) 18
+3 )  9
+     3</pre></div>
+    <div class="sr y"><span class="sl y">①分解</span><div>筆算より，$18 = 2 \times 3 \times 3 = 2 \times 3^2$</div></div>
+    <div class="sr b"><span class="sl b">②ペア</span><div>$3^2$（3が2個）が見つかった。$2$ は1個だけ余る</div></div>
+    <div class="sr g"><span class="sl g">③外に出す</span><div>$\sqrt{18} = \sqrt{3^2 \times 2} = \sqrt{3^2} \times \sqrt{2}$</div></div>
+    <div class="sr r"><span class="sl r">④仕上げ</span><div>$\sqrt{3^2} = 3$ なので，$\sqrt{3^2} \times \sqrt{2} = 3\sqrt{2}$</div></div>
+    <div class="ans-box">$\sqrt{18} = 3\sqrt{2}$</div>
   </div>
 </div>
-<div class="rule-box">
-  <div class="rtitle">📌 最初から一番大きい平方数を見つければ1回で済む</div>
-  <div class="rbody">
-    $72 = 36 \times 2$（$36$ は平方数）なので，<br>
-    $\sqrt{72} = \sqrt{36 \times 2} = 6\sqrt{2}$ ← 一発で完了！
+
+<div class="sec">⑥ 例題③：ペアが2組になる場合（$\sqrt{144}$）</div>
+<div class="ex-card">
+  <div class="ex-head">$\sqrt{144}$ を素因数分解で簡単にする</div>
+  <div class="ex-body">
+    <div class="ft-wrap"><pre class="ft-box">2 ) 144
+2 )  72
+2 )  36
+2 )  18
+3 )   9
+      3</pre></div>
+    <div class="sr y"><span class="sl y">①分解</span><div>筆算より，$144 = 2^4 \times 3^2$</div></div>
+    <div class="sr b"><span class="sl b">②ペア</span><div>$2^4 = 2^2 \times 2^2$ と $3^2$ ── ペアが<strong>2組</strong>できる。余りはなし</div></div>
+    <div class="sr g"><span class="sl g">③外に出す</span><div>ペアごとに1個ずつ外に出す → $2 \times 2 \times 3 = 12$</div></div>
+    <div class="ans-box">$\sqrt{144} = 12$（√がとれて整数になる）</div>
   </div>
 </div>
 <div class="pop-note">
-  途中で終わってしまってもOK！何回か繰り返して，<strong>もう分けられなくなるまで</strong>続ければ同じ答えになります。
+  ペアが余りなくすべて外に出せると，ルートが消えて整数になります。これは「$144$ 自体が平方数だった」ということです。
 </div>
 
-<div class="sec">⑥ 数が大きいときは「素因数分解」が便利</div>
-<div class="rule-box">
-  <div class="rtitle">📌 素因数分解でペアを探す</div>
+<div class="sec">⑦ 数が大きくても迷わない</div>
+<div class="warn-box">
+  <div class="rtitle">❗ 「勘」で平方数を探すと，やり直しになることがある</div>
   <div class="rbody">
-    $72$ を素因数分解すると $72 = 2 \times 2 \times 2 \times 3 \times 3 = 2^3 \times 3^2$<br>
-    <strong>同じ数が2個ペア</strong>になっていたら，1つ外に出せます。
+    もし $\sqrt{72}$ を，見た感じで小さい平方数 $4$ を使って分けると…<br>
+    $\sqrt{72} = \sqrt{4 \times 18} = 2\sqrt{18}$ ← まだ $\sqrt{18}$ の中に $9$ が隠れていて，もう一度やり直しになる。
+  </div>
+</div>
+<div class="rule-box">
+  <div class="rtitle">📌 素因数分解なら，1回の筆算で全部見つかる</div>
+  <div class="rbody">
+    どんな数も，素数で割り続ければ必ず「これ以上割れない」形にたどり着きます。<strong>勘で探す必要がなく，やり直しも起きません。</strong>
   </div>
 </div>
 <div class="ex-card">
-  <div class="ex-head">素因数分解を使って $\sqrt{72}$ を簡単にする</div>
+  <div class="ex-head">$\sqrt{72}$ を素因数分解で簡単にする</div>
   <div class="ex-body">
-    <div class="sr y"><span class="sl y">分解</span><div>$72 = 2^3 \times 3^2 = (2^2 \times 3^2) \times 2$</div></div>
-    <div class="sr b"><span class="sl b">ペアを出す</span><div>$2^2$ と $3^2$ はペア → 外に出すと $2 \times 3 = 6$</div></div>
-    <div class="sr g"><span class="sl g">残り</span><div>ペアになれなかった $2$ が1個 → ルートの中に残る</div></div>
+    <div class="ft-wrap"><pre class="ft-box">2 ) 72
+2 ) 36
+2 ) 18
+3 )  9
+     3</pre></div>
+    <div class="sr y"><span class="sl y">①分解</span><div>筆算より，$72 = 2^3 \times 3^2 = (2^2 \times 2) \times 3^2$</div></div>
+    <div class="sr b"><span class="sl b">②ペア</span><div>$2^2$ と $3^2$ がペア。$2$ が1個だけ余る</div></div>
+    <div class="sr g"><span class="sl g">③外に出す</span><div>ペアの $2^2$ と $3^2$ → $2 \times 3 = 6$ が外に出る</div></div>
+    <div class="sr r"><span class="sl r">④仕上げ</span><div>余った $2$ はそのまま中に残る</div></div>
     <div class="ans-box">$\sqrt{72} = 6\sqrt{2}$</div>
   </div>
 </div>
@@ -202,11 +237,11 @@ body{font-family:'BIZ UDPGothic','BIZ UDP Gothic','Meiryo',sans-serif;background
 <div class="sum-box">
   <div class="st">📌 まとめ</div>
   <ul>
-    <li>$\sqrt{a^2 \times b} = a\sqrt{b}$ ── ルートの中の平方数は外に出せる</li>
-    <li>まず「よく使う平方数」（$4,9,16,25,36,49,64,81,100$…）を思い出す</li>
-    <li><strong>できるだけ大きい平方数</strong>で分けると1回で終わる</li>
-    <li>数が大きいときは<strong>素因数分解</strong>してペアを探す方法も使える</li>
-    <li>これ以上分けられない形が「もっとも簡単な形」</li>
+    <li>$\sqrt{a^2 \times b} = a\sqrt{b}$ ── ルートの中の「2個ペア」は外に出せる</li>
+    <li>ペアを見つける確実な方法は<strong>素因数分解</strong>（素数で割り続ける筆算）</li>
+    <li>手順はいつも同じ：<strong>①分解 → ②ペアを探す → ③外に出す → ④余りは中に残す</strong></li>
+    <li>ペアが余りなく全部出せると，√がとれて<strong>整数</strong>になる</li>
+    <li>数が大きくても，勘で探さず素因数分解すれば必ず解ける</li>
   </ul>
 </div>
 
