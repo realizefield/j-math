@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>平行線と角 | GAMBA 中学数学</title>
+<style>
+:root{--red:#e03131;--green:#2f9e44;--blue:#1971c2;--bg:#f4f7fb;--ink:#222;--mut:#666;--line:#d9e0ea;--main:#1c7ed6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;font-size:17px;line-height:1.85}
+header{background:linear-gradient(135deg,#1c7ed6,#12b886);color:#fff;padding:28px 16px;text-align:center}
+header h1{margin:0;font-size:28px}
+header p{margin:6px 0 0;opacity:.95}
+main{max-width:980px;margin:0 auto;padding:16px}
+section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin:22px 0;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+h2{margin:0 0 12px;font-size:23px;border-left:8px solid var(--main);padding-left:12px}
+h3{margin:18px 0 8px;font-size:19px}
+.index{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:16px 0}
+.index a{display:block;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:0 2px 6px rgba(0,0,0,.05);transition:.15s}
+.index a:hover{transform:translateY(-2px);border-color:var(--main)}
+.index b{display:block;color:var(--main);font-size:14px}
+.box{background:#fff9db;border:2px solid #fcc419;border-radius:12px;padding:12px 16px;margin:12px 0}
+.box.blue{background:#e7f5ff;border-color:#74c0fc}
+.fig svg{width:100%;height:auto;max-width:380px;background:#fff;border:1px solid var(--line);border-radius:10px}
+.row{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.row>.col{flex:1 1 300px}
+.btn{font:inherit;cursor:pointer;border:none;border-radius:10px;padding:8px 16px;background:var(--main);color:#fff;margin:4px 4px 4px 0}
+.btn.ghost{background:#e9ecef;color:#333}
+.btn.small{font-size:14px;padding:4px 12px;background:#f08c00}
+.btn.sel{background:#0b7285}
+.btn:disabled{opacity:.6;cursor:default}
+input[type=range]{width:100%;max-width:380px}
+.step{display:flex;flex-wrap:wrap;gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0;background:#fcfdff;animation:fi .35s}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.step .stxt{flex:1 1 280px}
+.step .sfig{flex:1 1 260px}
+.step .sfig svg{width:100%;max-width:340px;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+.badge{display:inline-block;background:var(--main);color:#fff;border-radius:999px;padding:0 12px;font-size:14px;margin-right:8px}
+.q{font-weight:700;background:#f1f3f5;border-radius:8px;padding:8px 12px}
+.sub{margin-top:22px;padding-top:6px;border-top:2px dashed var(--line)}
+.sub h3 span{background:#fd7e14;color:#fff;border-radius:6px;padding:1px 10px;font-size:15px;margin-right:8px}
+.sub.k h3 span{background:#7048e8}
+.prob{display:flex;flex-wrap:wrap;gap:14px;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.prob .pfig{flex:1 1 260px}
+.prob .pfig svg{width:100%;max-width:340px;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+.prob .pbody{flex:1 1 280px}
+.pq{font-weight:700;margin:0 0 6px}
+.choices button{display:block;width:100%;max-width:340px;text-align:left;font:inherit;background:#fff;border:2px solid #adb5bd;border-radius:10px;padding:6px 14px;margin:6px 0;cursor:pointer}
+.choices button:hover:not(:disabled){border-color:var(--main);background:#e7f5ff}
+.choices button.ok{background:#d3f9d8;border-color:var(--green)}
+.choices button.ng{background:#ffe3e3;border-color:var(--red);opacity:.7}
+.hint{color:#e67700;font-size:16px;margin-top:4px}
+.okt{color:var(--green)}.ngt{color:var(--red)}
+.sum{margin-top:10px;padding:12px 16px;border-radius:12px;background:#f3f0ff;font-weight:700}
+.tbl td,.tbl th{border:1px solid var(--line);padding:4px 10px}
+canvas#cf{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;display:none;z-index:99}
+.mini{display:flex;flex-wrap:wrap;gap:12px}
+.mini div{flex:1 1 200px;text-align:center;font-size:15px}
+.mini svg{width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+footer{text-align:center;color:var(--mut);font-size:14px;padding:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>平行線と角</h1>
+  <p>中学数学 2年　図形　― 角の名前を覚えて、平行線の性質を使いこなそう ―</p>
+</header>
+<main>
+  <div class="index" id="index"></div>
+  <section id="s1"></section>
+  <section id="s2"></section>
+  <section id="e1"></section>
+  <section id="e2"></section>
+  <section id="e3"></section>
+  <section id="e4"></section>
+  <section id="pr"></section>
+  <section id="fin"></section>
+</main>
+<footer>江原予備校 GAMBA　※ 図は問題の角度に合わせて描いていますが、分度器で測らず、性質を使って求めましょう。</footer>
+<canvas id="cf"></canvas>
+
+<script>
+/* ========== 図を描く道具 ========== */
+const COL={given:'#e03131',find:'#2f9e44',mid:'#1971c2'};
+const RAD=Math.PI/180;
+function pol(c,r,deg){const a=deg*RAD;return [c[0]+r*Math.cos(a),c[1]-r*Math.sin(a)];}
+function sec(c,r,a1,a2,col,lab,lr,fs){
+  const p1=pol(c,r,a1),p2=pol(c,r,a2),lg=(a2-a1)>180?1:0;
+  const f=v=>v.toFixed(1);
+  const p=`<path d="M${f(c[0])},${f(c[1])} L${f(p1[0])},${f(p1[1])} A${r},${r} 0 ${lg} 0 ${f(p2[0])},${f(p2[1])} Z" fill="${col}" fill-opacity=".28" stroke="${col}" stroke-width="1.6"/>`;
+  let t='';
+  if(lab){const q=pol(c,lr,(a1+a2)/2);
+    t=`<text x="${f(q[0])}" y="${f(q[1])}" text-anchor="middle" dominant-baseline="central" font-size="${fs||14}" font-weight="700" fill="${col}" stroke="#fff" stroke-width="3.5" paint-order="stroke">${lab}</text>`;}
+  return [p,t];
+}
+function chev(x,y){return `<path d="M${x-5},${y-6} L${x+2},${y} L${x-5},${y+6}" fill="none" stroke="#333" stroke-width="2" />`;}
+function bounds(base,th,reg){return [[base,th],[th,base+180],[base+180,th+180],[th+180,base+360]][reg];}
+
+/* 2直線 l, m と、それを横切る直線 */
+function figPar(s){
+  const th=s.theta,de=s.delta||0;
+  const cot=Math.cos(th*RAD)/Math.sin(th*RAD);
+  const P=[180+50*cot,70],Q=[180-50*cot,170];
+  const d=[Math.cos(th*RAD),-Math.sin(th*RAD)];
+  const top=[P[0]+48*d[0],P[1]+48*d[1]],bot=[Q[0]-48*d[0],Q[1]-48*d[1]];
+  const L1=Q[0]-8,L2=352-Q[0],dm=[Math.cos(de*RAD),-Math.sin(de*RAD)];
+  const mL=[Q[0]-L1*dm[0],Q[1]-L1*dm[1]],mR=[Q[0]+L2*dm[0],Q[1]+L2*dm[1]];
+  let paths='',labs='';
+  (s.marks||[]).forEach(mk=>{
+    const base=mk.at==='P'?0:de;
+    const [a1,a2]=bounds(base,th,mk.reg);
+    const c=COL[mk.c||'given'];
+    const o=sec(mk.at==='P'?P:Q,26,a1,a2,c,mk.l,(a2-a1)<50?50:43,(mk.l&&mk.l.length>5)?11.5:14);
+    paths+=o[0];labs+=o[1];
+  });
+  let o=`<svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg">`+paths;
+  o+=`<line x1="8" y1="70" x2="352" y2="70" stroke="#333" stroke-width="2"/>`;
+  o+=`<line x1="${mL[0].toFixed(1)}" y1="${mL[1].toFixed(1)}" x2="${mR[0].toFixed(1)}" y2="${mR[1].toFixed(1)}" stroke="#333" stroke-width="2"/>`;
+  o+=`<line x1="${bot[0].toFixed(1)}" y1="${bot[1].toFixed(1)}" x2="${top[0].toFixed(1)}" y2="${top[1].toFixed(1)}" stroke="#555" stroke-width="2"/>`;
+  if(s.arrows&&de===0){o+=chev(318,70)+chev(318,170);}
+  o+=`<text x="346" y="58" text-anchor="end" font-size="16" font-style="italic" fill="#333">l</text>`;
+  o+=`<text x="${(mR[0]-4).toFixed(1)}" y="${(mR[1]-10).toFixed(1)}" text-anchor="end" font-size="16" font-style="italic" fill="#333">m</text>`;
+  o+=`<text x="${(top[0]+10).toFixed(1)}" y="${(top[1]+2).toFixed(1)}" font-size="15" font-style="italic" fill="#555">n</text>`;
+  o+=labs+`</svg>`;
+  return o;
+}
+
+/* くの字に折れた線（l∥m にはさまれる） */
+function figKink(s){
+  const a=s.a,b=s.b,V=[240,120],l=s.l||{};
+  const A=[V[0]-60*Math.cos(a*RAD)/Math.sin(a*RAD),60];
+  const B=[V[0]-60*Math.cos(b*RAD)/Math.sin(b*RAD),180];
+  const parts=s.parts||['x'];
+  let paths='',labs='';
+  const add=o=>{paths+=o[0];labs+=o[1];};
+  add(sec(A,26,-a,0,'#e03131',l.a,(a<50?52:44),14));
+  add(sec(B,26,0,b,'#1971c2',l.b,(b<50?52:44),14));
+  if(parts.includes('x')) add(sec(V,32,180-a,180+b,'#2f9e44',l.x,52,15));
+  if(parts.includes('a2')) add(sec(V,32,180-a,180,'#e03131',l.a2,(a<50?58:50),14));
+  if(parts.includes('b2')) add(sec(V,32,180,180+b,'#1971c2',l.b2,(b<50?58:50),14));
+  let o=`<svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg">`+paths;
+  o+=`<line x1="8" y1="60" x2="352" y2="60" stroke="#333" stroke-width="2"/><line x1="8" y1="180" x2="352" y2="180" stroke="#333" stroke-width="2"/>`;
+  if(s.aux) o+=`<line x1="8" y1="120" x2="352" y2="120" stroke="#7048e8" stroke-width="2" stroke-dasharray="7 5"/><text x="346" y="110" text-anchor="end" font-size="13" fill="#7048e8">補助線</text>`;
+  o+=`<polyline points="${A[0].toFixed(1)},60 240,120 ${B[0].toFixed(1)},180" fill="none" stroke="#555" stroke-width="2.5"/>`;
+  o+=chev(325,60)+chev(325,180);
+  o+=`<text x="346" y="48" text-anchor="end" font-size="16" font-style="italic" fill="#333">l</text><text x="346" y="170" text-anchor="end" font-size="16" font-style="italic" fill="#333">m</text>`;
+  o+=labs+`</svg>`;
+  return o;
+}
+function renderFig(s){return s.k==='kink'?figKink(s):figPar(s);}
+const par=(th,marks,o)=>Object.assign({k:'par',theta:th,marks},o||{});
+const M=(at,reg,l,c)=>({at,reg,l,c});
+const kink=(a,b,l,o)=>Object.assign({k:'kink',a,b,l},o||{});
+
+/* ========== 花吹雪 ========== */
+function confetti(){
+  const cv=document.getElementById('cf'),ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;cv.style.display='block';
+  const cols=['#ff6b6b','#ffd43b','#51cf66','#339af0','#cc5de8','#ff922b','#f783ac'];
+  const ps=Array.from({length:190},()=>({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.6,vx:(Math.random()-.5)*3,vy:2+Math.random()*4,s:7+Math.random()*9,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[Math.floor(Math.random()*cols.length)]}));
+  let f=0;
+  (function step(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ps.forEach(p=>{p.x+=p.vx+Math.sin(f/18+p.r);p.y+=p.vy;p.r+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);ctx.restore();});
+    f++;
+    if(f<280)requestAnimationFrame(step);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
+  })();
+}
+
+/* ========== step表示の例題 ========== */
+function exampleBlock(el,title,qtext,steps){
+  el.insertAdjacentHTML('beforeend',`<h3>${title}</h3><p class="q">${qtext}</p><div class="steps"></div><button class="btn next">次のstepへ ▶</button><button class="btn ghost reset">最初からやり直す</button>`);
+  const box=el.querySelector('.steps'),nb=el.querySelector('.next');
+  let n=0;
+  function show(){
+    const s=steps[n];
+    const d=document.createElement('div');d.className='step';
+    d.innerHTML=`<div class="stxt"><span class="badge">step ${n+1}</span>${s.t}</div><div class="sfig">${renderFig(s.f)}</div>`;
+    box.appendChild(d);n++;
+    if(n>=steps.length)nb.style.display='none';
+    d.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  show();
+  nb.onclick=show;
+  el.querySelector('.reset').onclick=()=>{box.innerHTML='';n=0;nb.style.display='';show();};
+}
+
+/* ========== 問題（4択）グループ ========== */
+function group(el,label,cls,probs,opts){
+  opts=opts||{};
+  const wrap=document.createElement('div');wrap.className='sub '+cls;
+  wrap.innerHTML=`<h3><span>${label}</span>${opts.note||''}</h3><div class="plist"></div><div class="gsum"></div>`;
+  el.appendChild(wrap);
+  const list=wrap.querySelector('.plist'),gsum=wrap.querySelector('.gsum');
+  let first,solved,t0;
+  function build(){
+    list.innerHTML='';gsum.innerHTML='';
+    first=probs.map(()=>null);solved=probs.map(()=>false);t0=null;
+    probs.forEach((p,i)=>{
+      const d=document.createElement('div');d.className='prob';
+      d.innerHTML=`<div class="pfig">${renderFig(p.f)}</div><div class="pbody"><p class="pq">(${i+1}) ${p.q}</p><div class="choices"></div><button class="btn small hb">ヒントを見る</button><div class="hint"></div><div class="res"></div></div>`;
+      const ch=d.querySelector('.choices'),hint=d.querySelector('.hint'),res=d.querySelector('.res'),hb=d.querySelector('.hb');
+      function showHint(){
+        hint.innerHTML='💡 '+p.hint;hb.style.display='none';
+        if(p.f.k==='kink')d.querySelector('.pfig').innerHTML=renderFig(Object.assign({},p.f,{aux:true}));
+      }
+      hb.onclick=showHint;
+      p.ch.forEach((c,k)=>{
+        const b=document.createElement('button');b.textContent=c;
+        b.onclick=()=>{
+          if(solved[i])return;
+          if(t0===null)t0=Date.now();
+          const ok=(k===p.an);
+          if(first[i]===null)first[i]=ok;
+          if(ok){
+            solved[i]=true;b.classList.add('ok');
+            ch.querySelectorAll('button').forEach(x=>x.disabled=true);
+            res.innerHTML=`<b class="okt">◯ 正解！</b> ${p.exp}`;
+            check();
+          }else{
+            b.classList.add('ng');b.disabled=true;
+            res.innerHTML='<b class="ngt">× おしい！</b> ヒントを見て、もう一度考えてみましょう。';
+            showHint();
+          }
+        };
+        ch.appendChild(b);
+      });
+      list.appendChild(d);
+    });
+  }
+  function check(){
+    if(!solved.every(x=>x))return;
+    const perfect=first.every(x=>x===true);
+    const sec=Math.round((Date.now()-t0)/1000);
+    const tm=opts.timer?`（かかった時間 ${Math.floor(sec/60)}分${sec%60}秒／目標 ${opts.timer}分）`:'';
+    if(perfect){
+      confetti();
+      gsum.innerHTML=`<div class="sum">🎉 全問正解！おめでとうございます！${tm}</div>`;
+    }else{
+      gsum.innerHTML=`<div class="sum">最後まで解けました。間違えた問題の解説をもう一度読んで、ぜんぶ一回で正解する「満点」を目指しましょう。${tm}<br><button class="btn" id="rt">もう一度チャレンジ</button></div>`;
+      gsum.querySelector('#rt').onclick=()=>{build();wrap.scrollIntoView({behavior:'smooth'});};
+    }
+    gsum.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  build();
+}
+
+/* ========== INDEX ========== */
+const IDX=[['s1','1','角の名前'],['s2','2','平行線の性質'],['e1','例題1','平行線と角を求める（同位角・対頂角）'],['e2','例題2','同側内角を使う'],['e3','例題3','平行になる条件（逆）'],['e4','例題4','補助線をひく（くの字）'],['pr','実践演習','5問'],['fin','総合確認','3問・時間つき']];
+document.getElementById('index').innerHTML=IDX.map(x=>`<a href="#${x[0]}"><b>${x[1]}</b>${x[2]}</a>`).join('');
+
+/* ========== 1 角の名前 ========== */
+(function(){
+  const el=document.getElementById('s1');
+  el.innerHTML=`<h2>1　角の名前を覚えよう</h2>
+  <p>2本の直線 <b><i>l</i></b>、<b><i>m</i></b> を、もう1本の直線 <b><i>n</i></b> が横切ると、交点のまわりに<b>8個の角</b>ができます。この角には、位置によって名前がついています。ボタンを押して、色のついた2つの角を見てみましょう。</p>
+  <div class="row"><div class="col fig" id="x1fig"></div>
+  <div class="col">
+    <div id="x1btn"></div>
+    <p>角度（直線 n のかたむき）を変えてみましょう。<br><input type="range" id="x1th" min="35" max="145" value="65"></p>
+    <div class="box" id="x1txt"></div>
+  </div></div>`;
+  const KINDS={
+    vert:{n:'対頂角',pairs:[[['P',0],['P',2]],[['P',1],['P',3]],[['Q',0],['Q',2]],[['Q',1],['Q',3]]],t:'向かい合った角です。<b>平行でなくても、いつも等しい</b>角です。'},
+    corr:{n:'同位角',pairs:[[['P',0],['Q',0]],[['P',1],['Q',1]],[['P',2],['Q',2]],[['P',3],['Q',3]]],t:'<b>同じ位置</b>にある角です（上の交点と下の交点で、同じ場所）。<b>l∥m のとき等しく</b>なります。'},
+    alt:{n:'錯角',pairs:[[['P',3],['Q',1]],[['P',2],['Q',0]]],t:'2直線の<b>内側</b>で、<b>ななめ向かい</b>（アルファベットのＺの形）にある角です。<b>l∥m のとき等しく</b>なります。'},
+    coi:{n:'同側内角',pairs:[[['P',3],['Q',0]],[['P',2],['Q',1]]],t:'2直線の<b>内側</b>で、<b>同じ側</b>（コの字の形）にある角です。<b>l∥m のとき、足して180°</b>になります。'}
+  };
+  let kind='vert',idx=0,th=65;
+  const val=(reg)=>reg%2===0?th:180-th;
+  function draw(){
+    const K=KINDS[kind],pr=K.pairs[idx%K.pairs.length];
+    const marks=[M(pr[0][0],pr[0][1],val(pr[0][1])+'°','given'),M(pr[1][0],pr[1][1],val(pr[1][1])+'°','mid')];
+    document.getElementById('x1fig').innerHTML=figPar({k:'par',theta:th,marks,arrows:true});
+    const a=val(pr[0][1]),b=val(pr[1][1]);
+    let rel;
+    if(kind==='coi')rel=`${a}° ＋ ${b}° ＝ ${a+b}°（足して180°）`;
+    else rel=a===b?`${a}° ＝ ${b}°（等しい）`:`${a}° と ${b}°`;
+    document.getElementById('x1txt').innerHTML=`<b>${K.n}</b>：${K.t}<br>いま見ている<span style="color:#e03131">赤</span>と<span style="color:#1971c2">青</span>の角 → ${rel}`;
+    document.getElementById('x1btn').innerHTML=Object.keys(KINDS).map(k=>`<button class="btn ${k===kind?'sel':''}" data-k="${k}">${KINDS[k].n}</button>`).join('')+`<button class="btn ghost" id="x1next">ほかの組を見る</button>`;
+    document.querySelectorAll('#x1btn [data-k]').forEach(b=>b.onclick=()=>{kind=b.dataset.k;idx=0;draw();});
+    document.getElementById('x1next').onclick=()=>{idx++;draw();};
+  }
+  document.getElementById('x1th').oninput=e=>{th=+e.target.value;draw();};
+  draw();
+})();
+
+/* ========== 2 平行線の性質 ========== */
+(function(){
+  const el=document.getElementById('s2');
+  el.innerHTML=`<h2>2　平行線の性質</h2>
+  <div class="box"><b>平行線の性質</b>（<i>l</i>∥<i>m</i> のとき）
+    <ol style="margin:6px 0 0">
+      <li><b>同位角</b>は等しい</li>
+      <li><b>錯角</b>は等しい</li>
+      <li><b>同側内角</b>の和は180°</li>
+    </ol>
+    <p style="margin:6px 0 0">（対頂角は、平行でなくても、いつも等しい）</p></div>
+  <div class="mini">
+    <div>${figPar({theta:65,marks:[M('P',0,'a°','given'),M('Q',0,'a°','given')],arrows:true})}同位角は等しい</div>
+    <div>${figPar({theta:65,marks:[M('P',3,'a°','given'),M('Q',1,'a°','given')],arrows:true})}錯角は等しい</div>
+    <div>${figPar({theta:65,marks:[M('P',3,'a°','given'),M('Q',0,'b°','mid')],arrows:true})}同側内角は a＋b＝180°</div>
+  </div>
+  <div class="box blue"><b>逆も成り立ちます。</b>同位角が等しい、または錯角が等しい、または同側内角の和が180°ならば、2直線は平行です。</div>
+  <h3>なぜ「平行」のとき角が等しいのか、確かめてみよう</h3>
+  <p>下の「直線 <i>m</i> の傾き」を動かしてみましょう。<b>0</b>のとき <i>l</i>∥<i>m</i> です。同位角（赤と青）が、どうなるかに注目です。</p>
+  <div class="row"><div class="col fig" id="x2fig"></div>
+  <div class="col"><p>直線 m の傾き：<b id="x2v">0</b>°<br><input type="range" id="x2d" min="-18" max="18" value="0"></p><div class="box" id="x2txt"></div></div></div>`;
+  const th=68;
+  function draw(){
+    const de=+document.getElementById('x2d').value;
+    const a=th,b=th-de;
+    document.getElementById('x2v').textContent=de;
+    document.getElementById('x2fig').innerHTML=figPar({k:'par',theta:th,delta:de,arrows:true,marks:[M('P',0,a+'°','given'),M('Q',0,b+'°','mid')]});
+    document.getElementById('x2txt').innerHTML=de===0
+      ?`同位角が ${a}° と ${b}° で<b>等しい</b>。このとき <i>l</i>∥<i>m</i> です。`
+      :`同位角が ${a}° と ${b}° で<b>等しくありません</b>。このとき <i>l</i> と <i>m</i> は<b>平行ではありません</b>（右のほうで近づいたり離れたりします）。`;
+  }
+  document.getElementById('x2d').oninput=draw;
+  draw();
+})();
+
+/* ========== 例題＋練習＋確認 ========== */
+const E1=document.getElementById('e1');
+E1.innerHTML='<h2>例題1　平行線と角を求める（同位角・対頂角・一直線）</h2>';
+exampleBlock(E1,'例題1','図で <i>l</i>∥<i>m</i> のとき、∠<i>x</i> の大きさを求めなさい。',[
+  {t:'図を見ましょう。<span style="color:#e03131">赤い65°</span>が与えられた角、<span style="color:#2f9e44">緑の <i>x</i></span>が求める角です。<i>l</i>∥<i>m</i> なので、平行線の性質が使えます。',f:par(65,[M('P',0,'65°','given'),M('Q',3,'x','find')],{arrows:true})},
+  {t:'まず、<span style="color:#e03131">赤い65°</span>と<span style="color:#1971c2">青い角</span>は<b>同位角</b>（同じ位置の角）です。<i>l</i>∥<i>m</i> だから同位角は等しく、青い角も <b>65°</b> です。',f:par(65,[M('P',0,'65°','given'),M('Q',0,'65°','mid'),M('Q',3,'x','find')],{arrows:true})},
+  {t:'<span style="color:#2f9e44">∠<i>x</i></span>と<span style="color:#1971c2">青い65°</span>は、並んで<b>一直線（180°）</b>をつくっています。だから<br><b>∠<i>x</i> ＝ 180° − 65° ＝ 115°</b><br>答え　<b>115°</b>',f:par(65,[M('P',0,'65°','given'),M('Q',0,'65°','mid'),M('Q',3,'115°','find')],{arrows:true})}
+]);
+group(E1,'練習','',[
+  {f:par(70,[M('P',1,'110°','given'),M('Q',1,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['70°','80°','110°','120°'],an:2,hint:'110°の角と ∠x は、同じ位置にある角（同位角）です。',exp:'110°の角と ∠x は同位角。l∥m なので等しく、x＝110°。'},
+  {f:par(58,[M('Q',0,'58°','given'),M('P',3,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['58°','112°','122°','132°'],an:2,hint:'∠x の錯角は、下の交点の「左上の角」です。その角は 58°と並んで一直線になっています。',exp:'∠x の錯角は、58°と並んで180°になる角なので 180°−58°＝122°。錯角は等しいので x＝122°。'}
+],{note:'例題1のそっくり問題（2問）'});
+group(E1,'確認','k',[
+  {f:par(125,[M('P',0,'125°','given'),M('Q',1,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['35°','55°','65°','125°'],an:1,hint:'まず、125°の同位角を探します。その角と ∠x は並んで一直線です。',exp:'125°の同位角（下の交点の右上）も125°。∠x はそれと並んで一直線なので 180°−125°＝55°。'},
+  {f:par(80,[M('P',2,'80°','given'),M('Q',3,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['80°','90°','100°','110°'],an:2,hint:'80°の錯角は、下の交点の右上の角です。',exp:'80°の錯角（下の交点の右上）は80°。∠x はそれと並んで一直線なので 180°−80°＝100°。'}
+],{note:'力だめし（2問）'});
+
+const E2=document.getElementById('e2');
+E2.innerHTML='<h2>例題2　同側内角を使う</h2>';
+exampleBlock(E2,'例題2','図で <i>l</i>∥<i>m</i> のとき、∠<i>x</i> の大きさを求めなさい。',[
+  {t:'<span style="color:#e03131">52°</span>の角と<span style="color:#2f9e44"><i>x</i></span>の角は、2直線の<b>内側</b>で<b>同じ側</b>にあります。',f:par(128,[M('P',3,'52°','given'),M('Q',0,'x','find')],{arrows:true})},
+  {t:'この位置関係の角を<b>同側内角</b>といいます。<i>l</i>∥<i>m</i> のとき、同側内角は<b>足して180°</b>になります。<br>52° ＋ ∠<i>x</i> ＝ 180°',f:par(128,[M('P',3,'52°','given'),M('Q',0,'x','find')],{arrows:true})},
+  {t:'∠<i>x</i> ＝ 180° − 52° ＝ <b>128°</b><br>答え　<b>128°</b>',f:par(128,[M('P',3,'52°','given'),M('Q',0,'128°','find')],{arrows:true})}
+]);
+group(E2,'練習','',[
+  {f:par(40,[M('P',3,'140°','given'),M('Q',0,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['40°','50°','130°','140°'],an:0,hint:'140°の角と ∠x は同側内角です。足して180°。',exp:'同側内角なので 140°＋x＝180°、x＝40°。'},
+  {f:par(115,[M('Q',1,'65°','given'),M('P',2,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['65°','105°','115°','125°'],an:2,hint:'2つの角は、どちらも内側で、左側にあります。',exp:'同側内角なので 65°＋x＝180°、x＝115°。'}
+],{note:'例題2のそっくり問題（2問）'});
+group(E2,'確認','k',[
+  {f:par(75,[M('Q',0,'75°','given'),M('P',3,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['75°','95°','105°','115°'],an:2,hint:'同じ側の内側にある角。足して180°です。',exp:'同側内角なので 75°＋x＝180°、x＝105°。'},
+  {f:par(100,[M('P',3,'80°','given'),M('Q',0,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['80°','90°','100°','110°'],an:2,hint:'80°の角と ∠x は、内側の同じ側にあります。',exp:'同側内角なので 80°＋x＝180°、x＝100°。'}
+],{note:'力だめし（2問）'});
+
+const E3=document.getElementById('e3');
+E3.innerHTML='<h2>例題3　平行になる条件（逆）</h2>';
+exampleBlock(E3,'例題3','図で、<span style="color:#e03131">70°</span>と<span style="color:#1971c2">70°</span>の角を見て、<i>l</i> と <i>m</i> は平行といえるか答えなさい。',[
+  {t:'これまでは「平行だと分かっていて、角を求める」問題でした。今度は<b>逆</b>に、「角を見て、平行かどうかを判定する」問題です。',f:par(70,[M('P',2,'70°','given'),M('Q',0,'70°','mid')])},
+  {t:'<span style="color:#e03131">70°</span>と<span style="color:#1971c2">70°</span>の角は、内側でななめ向かい（Ｚの形）にあるので<b>錯角</b>です。',f:par(70,[M('P',2,'70°','given'),M('Q',0,'70°','mid')])},
+  {t:'<b>錯角が等しい</b>ので、<i>l</i>∥<i>m</i> といえます。<br>答え　<b>平行といえる</b><br><span style="font-size:15px">※ 同位角が等しいとき、同側内角の和が180°のときも、平行といえます。</span>',f:par(70,[M('P',2,'70°','given'),M('Q',0,'70°','mid')],{arrows:true})}
+]);
+const YES=['平行といえる','平行といえない','これだけでは決められない'];
+group(E3,'練習','',[
+  {f:par(65,[M('P',0,'65°','given'),M('Q',0,'65°','mid')]),q:'65°と65°の角は同位角です。<i>l</i> と <i>m</i> は平行といえますか？',ch:YES,an:0,hint:'同位角が等しいときは？',exp:'同位角が等しいので、l∥m といえる。'},
+  {f:par(70,[M('P',1,'110°','given'),M('Q',1,'118°','mid')],{delta:8}),q:'110°と118°の角は同位角です。<i>l</i> と <i>m</i> は平行といえますか？',ch:YES,an:1,hint:'同位角は等しいですか？',exp:'同位角が等しくない（110°と118°）ので、平行とはいえない。'}
+],{note:'例題3のそっくり問題（2問）'});
+group(E3,'確認','k',[
+  {f:par(60,[M('P',3,'120°','given'),M('Q',1,'110°','mid')],{delta:-10}),q:'120°と110°の角は錯角です。<i>l</i> と <i>m</i> は平行といえますか？',ch:YES,an:1,hint:'錯角が等しければ平行です。等しいかどうか見ましょう。',exp:'錯角が等しくない（120°と110°）ので、平行とはいえない。'},
+  {f:par(70,[M('P',3,'110°','given'),M('Q',0,'70°','mid')]),q:'110°と70°の角を見て、<i>l</i> と <i>m</i> は平行といえますか？',ch:YES,an:0,hint:'この2つの角は同側内角です。足すといくつ？',exp:'同側内角で 110°＋70°＝180°。同側内角の和が180°なので、平行といえる。'}
+],{note:'力だめし（2問）'});
+
+const E4=document.getElementById('e4');
+E4.innerHTML='<h2>例題4　補助線をひく（くの字に折れた線）</h2>';
+exampleBlock(E4,'例題4','図で <i>l</i>∥<i>m</i> のとき、∠<i>x</i> の大きさを求めなさい。',[
+  {t:'折れ曲がった線が <i>l</i> と <i>m</i> の間にあります。このままでは、平行線の性質が使えません。そこで<b>ひと工夫</b>します。',f:kink(32,48,{a:'32°',b:'48°',x:'x'})},
+  {t:'<b>折れ曲がった点を通って、<i>l</i> と <i>m</i> に平行な線（補助線）</b>をひきます。これで平行線が3本になりました。',f:kink(32,48,{a:'32°',b:'48°',x:'x'},{aux:true})},
+  {t:'<i>l</i> と補助線は平行なので、<span style="color:#e03131">32°</span>の<b>錯角</b>が、補助線の上側にできます。この角も <b>32°</b> です。',f:kink(32,48,{a:'32°',b:'48°',a2:'32°'},{aux:true,parts:['a2']})},
+  {t:'同じように、補助線と <i>m</i> は平行なので、<span style="color:#1971c2">48°</span>の<b>錯角</b>が、補助線の下側にできます。この角も <b>48°</b> です。',f:kink(32,48,{a:'32°',b:'48°',a2:'32°',b2:'48°'},{aux:true,parts:['a2','b2']})},
+  {t:'∠<i>x</i> は、この2つの角をあわせた角です。<br><b>∠<i>x</i> ＝ 32° ＋ 48° ＝ 80°</b><br>答え　<b>80°</b><br><span style="font-size:15px">コツ：折れた点を通る平行線をひいて、「錯角」を移す。</span>',f:kink(32,48,{a:'32°',b:'48°',x:'80°'},{aux:true})}
+]);
+group(E4,'練習','',[
+  {f:kink(40,30,{a:'40°',b:'30°',x:'x'}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['60°','70°','80°','110°'],an:1,hint:'折れた点を通る補助線をひくと、40°と30°が移ってきます。',exp:'補助線をひくと、錯角で 40°と30°が移る。x＝40°＋30°＝70°。'},
+  {f:kink(50,35,{a:'50°',b:'x',x:'85°'}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？（折れた点の角が85°）',ch:['25°','35°','45°','135°'],an:1,hint:'折れた点の85°は「50°＋∠x」になっています。',exp:'補助線をひくと 85°＝50°＋x。よって x＝85°−50°＝35°。'}
+],{note:'例題4のそっくり問題（2問）'});
+group(E4,'確認','k',[
+  {f:kink(28,57,{a:'28°',b:'57°',x:'x'}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['75°','85°','95°','105°'],an:1,hint:'折れた点を通る平行線（補助線）をひいてみましょう。',exp:'補助線をひくと、x＝28°＋57°＝85°。'},
+  {f:kink(65,45,{a:'x',b:'45°',x:'110°'}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？（折れた点の角が110°）',ch:['55°','65°','75°','155°'],an:1,hint:'折れた点の110°は「∠x＋45°」になっています。',exp:'補助線をひくと 110°＝x＋45°。よって x＝110°−45°＝65°。'}
+],{note:'力だめし（2問）'});
+
+/* ========== 実践演習 ========== */
+(function(){
+  const el=document.getElementById('pr');
+  el.innerHTML='<h2>実践演習</h2><p>ここまでのまとめです。どの性質を使うか、自分で見つけましょう。</p>';
+  group(el,'実践演習','',[
+    {f:par(130,[M('P',3,'(3x−10)°','given'),M('Q',1,'(x+30)°','mid')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、<i>x</i> の値は？',ch:['10','20','30','40'],an:1,hint:'2つの角は錯角です。錯角は等しいので、方程式にします。',exp:'錯角は等しいので 3x−10＝x+30。2x＝40、x＝20。'},
+    {f:par(110,[M('P',3,'(x+20)°','given'),M('Q',0,'(2x+10)°','mid')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、<i>x</i> の値は？',ch:['40','50','60','70'],an:1,hint:'2つの角は同側内角です。足して180°になる式をつくりましょう。',exp:'同側内角なので (x+20)＋(2x+10)＝180。3x＋30＝180、x＝50。'},
+    {f:kink(24,61,{a:'24°',b:'61°',x:'x'}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['75°','85°','95°','115°'],an:1,hint:'折れた点を通る補助線をひきます。',exp:'補助線をひくと、x＝24°＋61°＝85°。'},
+    {f:par(56,[M('P',1,'124°','given'),M('Q',3,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['56°','66°','124°','134°'],an:2,hint:'124°の同位角を見つけ、その対頂角を考えます。',exp:'124°の同位角は、下の交点の左上の角で124°。∠x はその対頂角なので 124°。'},
+    {f:kink(58,38,{a:'58°',b:'x',x:'96°'}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？（折れた点の角が96°）',ch:['28°','38°','48°','58°'],an:1,hint:'折れた点の96°は「58°＋∠x」です。',exp:'補助線をひくと 96°＝58°＋x。x＝96°−58°＝38°。'}
+  ],{note:'5問・全問正解で花吹雪'});
+})();
+
+/* ========== 総合確認 ========== */
+(function(){
+  const el=document.getElementById('fin');
+  el.innerHTML='<h2>総合確認</h2><p>目標時間は5分です。全問正解（やり直しなし）で花吹雪が出ます。</p>';
+  group(el,'総合確認','k',[
+    {f:par(65,[M('P',0,'(4x+5)°','given'),M('Q',0,'(2x+35)°','mid')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、<i>x</i> の値は？',ch:['10','15','20','25'],an:1,hint:'2つの角は同位角です。等しいので方程式にします。',exp:'同位角は等しいので 4x+5＝2x+35。2x＝30、x＝15。'},
+    {f:kink(47,33,{a:'47°',b:'33°',x:'x'}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ch:['70°','80°','90°','100°'],an:1,hint:'折れた点を通る補助線をひきます。',exp:'補助線をひくと、x＝47°＋33°＝80°。'},
+    {f:par(55,[M('P',0,'55°','given'),M('Q',3,'125°','mid')]),q:'55°と125°の角を見て、<i>l</i> と <i>m</i> は平行といえますか？',ch:YES,an:0,hint:'下の交点の125°の角と並んで一直線になる角は何度？',exp:'125°と並んで一直線になる角は 180°−125°＝55°。これは上の55°の同位角。同位角が等しいので、平行といえる。'}
+  ],{timer:5,note:'3問・時間つき'});
+})();
+</script>
+</body>
+</html>
