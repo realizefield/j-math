@@ -63,11 +63,12 @@ footer{text-align:center;color:var(--mut);font-size:14px;padding:20px}
 <body>
 <header>
   <h1>平行線と角</h1>
-  <p>中学数学 2年　図形　― 角の名前を覚えて、平行線の性質を使いこなそう ―</p>
+  <p>中学数学 2年　図形　基本編＋応用編（入試対策）</p>
 </header>
 <main>
   <div class="index" id="index"></div>
   <section id="s1"></section>
+  <section id="s1b"></section>
   <section id="s2"></section>
   <section id="e1"></section>
   <section id="e2"></section>
@@ -147,7 +148,8 @@ function figKink(s){
   o+=labs+`</svg>`;
   return o;
 }
-function renderFig(s){return s.k==='kink'?figKink(s):figPar(s);}
+const _ERR=[],ALLP=[],ALLR=[];
+function renderFig(s){const r=s.k==='kink'?figKink(s):(s.k==='g'?figG(s):figPar(s));ALLR.push(r);return r;}
 const par=(th,marks,o)=>Object.assign({k:'par',theta:th,marks},o||{});
 const M=(at,reg,l,c)=>({at,reg,l,c});
 const kink=(a,b,l,o)=>Object.assign({k:'kink',a,b,l},o||{});
@@ -175,7 +177,7 @@ function exampleBlock(el,title,qtext,steps){
   function show(){
     const s=steps[n];
     const d=document.createElement('div');d.className='step';
-    d.innerHTML=`<div class="stxt"><span class="badge">step ${n+1}</span>${s.t}</div><div class="sfig">${renderFig(s.f)}</div>`;
+    d.innerHTML=`<div class="stxt"><span class="badge">step ${n+1}</span>${s.t}</div>${s.f?'<div class="sfig">'+renderFig(s.f)+'</div>':''}`;
     box.appendChild(d);n++;
     if(n>=steps.length)nb.style.display='none';
     d.scrollIntoView({behavior:'smooth',block:'nearest'});
@@ -187,7 +189,7 @@ function exampleBlock(el,title,qtext,steps){
 
 /* ========== 問題（4択）グループ ========== */
 function group(el,label,cls,probs,opts){
-  opts=opts||{};
+  opts=opts||{};probs.forEach(p=>ALLP.push(p));
   const wrap=document.createElement('div');wrap.className='sub '+cls;
   wrap.innerHTML=`<h3><span>${label}</span>${opts.note||''}</h3><div class="plist"></div><div class="gsum"></div>`;
   el.appendChild(wrap);
@@ -198,11 +200,12 @@ function group(el,label,cls,probs,opts){
     first=probs.map(()=>null);solved=probs.map(()=>false);t0=null;
     probs.forEach((p,i)=>{
       const d=document.createElement('div');d.className='prob';
-      d.innerHTML=`<div class="pfig">${renderFig(p.f)}</div><div class="pbody"><p class="pq">(${i+1}) ${p.q}</p><div class="choices"></div><button class="btn small hb">ヒントを見る</button><div class="hint"></div><div class="res"></div></div>`;
+      d.innerHTML=`${p.f?'<div class="pfig">'+renderFig(p.f)+'</div>':''}<div class="pbody"><p class="pq">(${i+1}) ${p.q}</p><div class="choices"></div><button class="btn small hb">ヒントを見る</button><div class="hint"></div><div class="res"></div></div>`;
       const ch=d.querySelector('.choices'),hint=d.querySelector('.hint'),res=d.querySelector('.res'),hb=d.querySelector('.hb');
       function showHint(){
         hint.innerHTML='💡 '+p.hint;hb.style.display='none';
-        if(p.f.k==='kink')d.querySelector('.pfig').innerHTML=renderFig(Object.assign({},p.f,{aux:true}));
+        if(p.hf&&p.f)d.querySelector('.pfig').innerHTML=renderFig(p.hf);
+        else if(p.f&&p.f.k==='kink')d.querySelector('.pfig').innerHTML=renderFig(Object.assign({},p.f,{aux:true}));
       }
       hb.onclick=showHint;
       p.ch.forEach((c,k)=>{
@@ -246,7 +249,7 @@ function group(el,label,cls,probs,opts){
 }
 
 /* ========== INDEX ========== */
-const IDX=[['s1','1','角の名前'],['s2','2','平行線の性質'],['e1','例題1','平行線と角を求める（同位角・対頂角）'],['e2','例題2','同側内角を使う'],['e3','例題3','平行になる条件（逆）'],['e4','例題4','補助線をひく（くの字）'],['pr','実践演習','5問'],['fin','総合確認','3問・時間つき']];
+const IDX=[['s1','1','角の名前'],['s1b','1′','角の場所を答える'],['s2','2','平行線の性質'],['e1','例題1','平行線と角を求める（同位角・対頂角）'],['e2','例題2','同側内角を使う'],['e3','例題3','平行になる条件（逆）'],['e4','例題4','補助線をひく（くの字）'],['pr','実践演習','5問'],['fin','総合確認','3問・時間つき'],['oh','応用編','入試対策のはじめに'],['o1','応用1','三角形の外角'],['o2','応用2','へこんだ形（矢じり）'],['o3','応用3','平行線ではさまれた折れ線'],['o4','応用4','多角形の内角の和'],['o5','応用5','内角の和から何角形か'],['o6','応用6','外角の和・正多角形'],['o7','応用7','二等分線の交点（その1）'],['o8','応用8','二等分線の交点（その2）'],['o9','応用9','外角の二等分線'],['o10','応用10','星形の角の和'],['fin2','応用 総合確認','4問・時間つき']];
 document.getElementById('index').innerHTML=IDX.map(x=>`<a href="#${x[0]}"><b>${x[1]}</b>${x[2]}</a>`).join('');
 
 /* ========== 1 角の名前 ========== */
@@ -284,6 +287,129 @@ document.getElementById('index').innerHTML=IDX.map(x=>`<a href="#${x[0]}"><b>${x
   document.getElementById('x1th').oninput=e=>{th=+e.target.value;draw();};
   draw();
 })();
+
+/* ========== 1' 角の位置を答えよう ========== */
+(function(){
+  COL.gray='#868e96';
+  const el=document.getElementById('s1b');
+  el.innerHTML=`<h2>1′　角の場所を答えよう</h2>
+  <p>2本の直線を1本の直線が横切ると、8つの角ができます。<b>どの角とどの角が、同位角・錯角・対頂角なのか</b>を、場所で見分けられるようにしましょう。</p>
+  <div class="box"><b>見分け方</b>
+    <ul style="margin:6px 0 0">
+      <li><b>対頂角</b>：同じ交点で、<b>向かい合っている</b>角</li>
+      <li><b>同位角</b>：上と下の交点で、<b>同じ場所</b>（どちらも右上、など）にある角</li>
+      <li><b>錯角</b>：2直線の<b>内側</b>で、<b>反対側</b>（Ｚの形）にある角</li>
+      <li><b>同側内角</b>：2直線の<b>内側</b>で、<b>同じ側</b>（コの字の形）にある角</li>
+    </ul></div>
+  <p>この節では、<b>①同位角　②対頂角　③錯角</b>の3つのパターンに分けて、場所を答える練習をします。</p>
+  <p>下の図で、角に名前をつけます。上の交点のまわりが <b>a・b・c・d</b>、下の交点のまわりが <b>e・f・g・h</b> です。</p>
+  <div class="row"><div class="col fig" id="b1fig"></div>
+  <div class="col"><div id="b1btn"></div><div class="box" id="b1txt"></div></div></div>`;
+  const LET=['a','b','c','d','e','f','g','h'];
+  const POS=['右上','左上','左下','右下'];
+  const figLet=(th,roles)=>{const m=[];LET.forEach((L,i)=>m.push(M(i<4?'P':'Q',i%4,L,roles[L]||'gray')));return par(th,m,{arrows:true});};
+  /* 左上の図：aを選ぶと、その同位角・対頂角・錯角・同側内角を色で示す */
+  const REL={a:{corr:'e',vert:'c',alt:null,coi:null},b:{corr:'f',vert:'d',alt:null,coi:null},
+             c:{corr:'g',vert:'a',alt:'e',coi:'f'},d:{corr:'h',vert:'b',alt:'f',coi:'e'},
+             e:{corr:'a',vert:'g',alt:'c',coi:'d'},f:{corr:'b',vert:'h',alt:'d',coi:'c'},
+             g:{corr:'c',vert:'e',alt:null,coi:null},h:{corr:'d',vert:'f',alt:null,coi:null}};
+  const NAMES={corr:'同位角',vert:'対頂角',alt:'錯角',coi:'同側内角'};
+  let tgt='c',kind='corr';
+  function draw(){
+    const r=REL[tgt][kind],roles={};roles[tgt]='given';if(r)roles[r]='find';
+    $b('b1fig').innerHTML=renderFig(figLet(62,roles));
+    $b('b1btn').innerHTML='<p style="margin:0">調べたい角：</p>'+LET.map(L=>`<button class="btn ${L===tgt?'sel':'ghost'}" data-t="${L}">∠${L}</button>`).join('')+
+      '<p style="margin:6px 0 0">知りたい関係：</p>'+Object.keys(NAMES).map(k=>`<button class="btn ${k===kind?'sel':'ghost'}" data-k="${k}">${NAMES[k]}</button>`).join('');
+    $b('b1txt').innerHTML=r?`<span style="color:#e03131">∠${tgt}</span> の<b>${NAMES[kind]}</b>は <span style="color:#2f9e44"><b>∠${r}</b></span> です。`:`<span style="color:#e03131">∠${tgt}</span> は、2直線の外側の角なので、<b>${NAMES[kind]}</b>はありません。`;
+    document.querySelectorAll('#b1btn [data-t]').forEach(b=>b.onclick=()=>{tgt=b.dataset.t;draw();});
+    document.querySelectorAll('#b1btn [data-k]').forEach(b=>b.onclick=()=>{kind=b.dataset.k;draw();});
+  }
+  function $b(id){return document.getElementById(id);}
+  draw();
+
+  /* ----- 共通の道具 ----- */
+  const pr=(a,b,la,lb)=>par(62,[M(a[0],a[1],la||'ア','given'),M(b[0],b[1],lb||'イ','mid')],{arrows:true});
+  const REL4=['同位角','錯角','対頂角','同側内角'];
+  const v62=a=>(a[1]%2===0)?62:118;
+  const F=(a,b,ans,exp)=>{
+    if(ans==='同側内角')chk(v62(a)+v62(b),180,'F sum '+a+b);else chk(v62(a),v62(b),'F eq '+a+b);
+    return {f:pr(a,b),q:'<span style="color:#e03131">ア</span>と<span style="color:#1971c2">イ</span>の角は、何という角の関係ですか。',ch:REL4,an:REL4.indexOf(ans),hint:'向かい合っている？　同じ場所？　内側で反対側？　内側で同じ側？　の順に考えます。',exp:exp};
+  };
+  let _k=0;
+  const R=(t,rel,ans,wr,exp)=>{
+    const val=L=>((LET.indexOf(L)%4)%2===0)?62:118;
+    if(rel==='同側内角')chk(val(t)+val(ans),180,'R sum '+t+ans);else chk(val(t),val(ans),'R eq '+t+ans);
+    const pos=(_k++)%4,chs=wr.map(x=>'∠'+x);chs.splice(pos,0,'∠'+ans);
+    const roles={};roles[t]='given';
+    const rol2={};rol2[t]='given';rol2[ans]='find';
+    const hints={'同位角':'同じ場所にある角を探します。上の交点の角なら、下の交点の同じ場所を見ます。','対頂角':'同じ交点で、向かい合っている角です。','錯角':'内側で、反対側（Ｚの形）にある角です。','同側内角':'内側で、同じ側（コの字の形）にある角です。'};
+    return {f:figLet(62,roles),hf:figLet(62,rol2),q:`<span style="color:#e03131">∠${t}</span> の<b>${rel}</b>は、どれですか。`,ch:chs,an:pos,hint:hints[rel],exp:exp};
+  };
+  const sub=(title,color)=>{const d=document.createElement('div');d.className='sub';d.innerHTML=`<h3 style="font-size:21px;margin-top:8px"><span style="background:${color}">パターン</span>${title}</h3>`;el.appendChild(d);return d;};
+
+  /* ===== パターン1：同位角 ===== */
+  const c1=sub('1　同位角（同じ場所にある角）','#1c7ed6');
+  exampleBlock(c1,'例題','<span style="color:#e03131">∠c</span> の<b>同位角</b>は、∠a〜∠h のどれですか。',[
+    {t:'まず、<span style="color:#e03131">∠c</span> の場所を確かめます。∠c は、上の交点で<b>左下</b>にある角です。',f:figLet(62,{c:'given'})},
+    {t:'同位角は<b>同じ場所</b>にある角です。下の交点で<b>左下</b>にある角を探します。',f:figLet(62,{c:'given',g:'find'})},
+    {t:'下の交点の左下は <span style="color:#2f9e44"><b>∠g</b></span> です。<br>答え　<b>∠g</b>',f:figLet(62,{c:'given',g:'find'})}
+  ]);
+  group(c1,'練習','',[
+    R('b','同位角','f',['d','e','h'],'∠b は上の交点の左上。下の交点で左上にある角は ∠f。'),
+    R('d','同位角','h',['b','f','g'],'∠d は上の交点の右下。下の交点で右下にある角は ∠h。')
+  ],{note:'同位角を探す（2問）'});
+  group(c1,'確認','k',[
+    R('e','同位角','a',['c','f','h'],'∠e は下の交点の右上。上の交点で右上にある角は ∠a。'),
+    F(['P',3],['Q',3],'同位角','アとイは、どちらも<b>右下</b>。同じ場所にあるので同位角。')
+  ],{note:'力だめし（2問）'});
+
+  /* ===== パターン2：対頂角 ===== */
+  const c2=sub('2　対頂角（向かい合っている角）','#e8590c');
+  exampleBlock(c2,'例題','<span style="color:#e03131">∠b</span> の<b>対頂角</b>は、∠a〜∠h のどれですか。',[
+    {t:'まず、<span style="color:#e03131">∠b</span> の場所を確かめます。∠b は、上の交点で<b>左上</b>にある角です。',f:figLet(62,{b:'given'})},
+    {t:'対頂角は、<b>同じ交点</b>で<b>向かい合っている</b>角です。交点をはさんで反対側、つまり<b>右下</b>の角を探します。',f:figLet(62,{b:'given',d:'find'})},
+    {t:'上の交点の右下は <span style="color:#2f9e44"><b>∠d</b></span> です。<br>答え　<b>∠d</b><br><span style="font-size:15px">対頂角は、平行でなくても、いつも等しい角です。</span>',f:figLet(62,{b:'given',d:'find'})}
+  ]);
+  group(c2,'練習','',[
+    R('a','対頂角','c',['b','e','g'],'∠a は上の交点の右上。向かい合う（左下）の角は ∠c。'),
+    R('g','対頂角','e',['f','h','c'],'∠g は下の交点の左下。向かい合う（右上）の角は ∠e。')
+  ],{note:'対頂角を探す（2問）'});
+  group(c2,'確認','k',[
+    R('h','対頂角','f',['d','e','g'],'∠h は下の交点の右下。向かい合う（左上）の角は ∠f。'),
+    F(['Q',2],['Q',0],'対頂角','アとイは、同じ交点で<b>向かい合っている</b>角（左下と右上）。対頂角。')
+  ],{note:'力だめし（2問）'});
+
+  /* ===== パターン3：錯角 ===== */
+  const c3=sub('3　錯角（内側で反対側の角）','#7048e8');
+  exampleBlock(c3,'例題','<span style="color:#e03131">∠d</span> の<b>錯角</b>は、∠a〜∠h のどれですか。',[
+    {t:'まず、<span style="color:#e03131">∠d</span> の場所を確かめます。∠d は、2直線 <i>l</i>、<i>m</i> の<b>内側</b>で、直線 <i>n</i> の<b>右側</b>にある角です。',f:figLet(62,{d:'given'})},
+    {t:'錯角は、<b>内側</b>で<b>反対側</b>（Ｚの形）にある角です。<i>n</i> の<b>左側</b>で、もう一方の直線の内側の角を探します。',f:figLet(62,{d:'given',f:'find'})},
+    {t:'それは <span style="color:#2f9e44"><b>∠f</b></span> です（Ｚの形）。<br>答え　<b>∠f</b>',f:figLet(62,{d:'given',f:'find'})}
+  ]);
+  group(c3,'練習','',[
+    R('c','錯角','e',['a','f','g'],'∠c は内側の左下。内側で反対側（右上）にある角は ∠e。'),
+    R('f','錯角','d',['b','c','h'],'∠f は内側の左上。内側で反対側（右下）にある角は ∠d。')
+  ],{note:'錯角を探す（2問）'});
+  group(c3,'確認','k',[
+    R('e','錯角','c',['a','d','g'],'∠e は内側の右上。内側で反対側（左下）にある角は ∠c。'),
+    F(['P',2],['Q',0],'錯角','アは内側の左下、イは内側の右上で、<b>内側の反対側</b>。錯角。')
+  ],{note:'力だめし（2問）'});
+
+  /* ===== 3つのパターンの総合 ===== */
+  const c4=sub('の総合　どのパターンかを見分ける','#2f9e44');
+  c4.insertAdjacentHTML('beforeend','<p>ここまでの3つ（同位角・対頂角・錯角）を混ぜた問題です。最後の問いだけ、<b>同側内角</b>（内側で同じ側）も出ます。</p>');
+  group(c4,'総合','k',[
+    F(['P',0],['Q',0],'同位角','アとイは、どちらも<b>右上</b>。同じ場所にあるので同位角。'),
+    R('c','対頂角','a',['e','g','f'],'∠c は上の交点の左下。向かい合う（右上）の角は ∠a。'),
+    F(['P',3],['Q',1],'錯角','アは内側の右下、イは内側の左上で、<b>内側の反対側</b>（Ｚの形）。錯角。'),
+    R('a','同位角','e',['c','f','h'],'∠a は上の交点の右上。下の交点で右上にある角は ∠e。'),
+    F(['P',1],['P',3],'対頂角','アとイは、同じ交点で<b>向かい合っている</b>角（左上と右下）。対頂角。'),
+    R('f','錯角','d',['b','h','c'],'∠f は内側の左上。内側で反対側（右下）にある角は ∠d。'),
+    F(['P',2],['Q',1],'同側内角','アもイも、内側で<b>どちらも左側</b>（コの字の形）。同側内角。'),
+    R('d','同側内角','e',['f','h','b'],'∠d は内側の右下。内側で同じ側（右側）にある角は ∠e。')
+  ],{note:'8問・全問正解で花吹雪'});
+})();
+
 
 /* ========== 2 平行線の性質 ========== */
 (function(){
@@ -411,6 +537,492 @@ group(E4,'確認','k',[
     {f:par(55,[M('P',0,'55°','given'),M('Q',3,'125°','mid')]),q:'55°と125°の角を見て、<i>l</i> と <i>m</i> は平行といえますか？',ch:YES,an:0,hint:'下の交点の125°の角と並んで一直線になる角は何度？',exp:'125°と並んで一直線になる角は 180°−125°＝55°。これは上の55°の同位角。同位角が等しいので、平行といえる。'}
   ],{timer:5,note:'3問・時間つき'});
 })();
+
+/* ====================================================================
+   応用編（入試対策）
+   ==================================================================== */
+
+function chk(a,b,msg){if(Math.abs(a-b)>0.01)_ERR.push(msg+' geom='+a+' formula='+b);}
+COL.orange='#e8590c';COL.purple='#7048e8';COL.teal='#0b7285';
+
+/* ---------- ベクトルの道具 ---------- */
+const rot=(v,d)=>{const c=Math.cos(d*RAD),s=Math.sin(d*RAD);return [v[0]*c-v[1]*s,v[0]*s+v[1]*c];};
+const vadd=(p,v,t)=>{t=(t===undefined)?1:t;return [p[0]+v[0]*t,p[1]+v[1]*t];};
+const vsub=(a,b)=>[a[0]-b[0],a[1]-b[1]];
+const vnorm=v=>{const l=Math.hypot(v[0],v[1]);return [v[0]/l,v[1]/l];};
+const vdir=d=>[Math.cos(d*RAD),Math.sin(d*RAD)];
+function isect(p,u,q,w){const det=-u[0]*w[1]+u[1]*w[0];const dx=q[0]-p[0],dy=q[1]-p[1];const t=(-dx*w[1]+dy*w[0])/det;return vadd(p,u,t);}
+/* 数学座標（y上向き）→ 画面座標に収める */
+function fitPts(pts,o){
+  o=o||{};const W=360,H=240,m=o.m||36;
+  const ns=Object.keys(pts);let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  ns.forEach(n=>{const p=pts[n];x0=Math.min(x0,p[0]);x1=Math.max(x1,p[0]);y0=Math.min(y0,p[1]);y1=Math.max(y1,p[1]);});
+  const bw=(x1-x0)||1,bh=(y1-y0)||1,sc=Math.min((W-2*m)/bw,(H-2*m)/bh);
+  const ox=(W-bw*sc)/2,oy=(H-bh*sc)/2,out={};
+  ns.forEach(n=>{const p=pts[n];out[n]=[ox+(p[0]-x0)*sc,oy+(y1-p[1])*sc];});
+  return out;
+}
+/* 3点で決まる角（vの角、a側とb側の半直線のあいだの小さいほう） */
+function angInfo(P,g){
+  const v=P[g.v],a=P[g.a],b=P[g.b];
+  const A1=Math.atan2(-(a[1]-v[1]),a[0]-v[0])/RAD,B1=Math.atan2(-(b[1]-v[1]),b[0]-v[0])/RAD;
+  let d=((B1-A1)%360+360)%360,a1,a2;
+  if(d<=180){a1=A1;a2=A1+d;}else{a1=B1;a2=B1+(360-d);d=360-d;}
+  return {a1,a2,d};
+}
+function gval(s,id){return angInfo(s.pts,s.angs.find(x=>x.id===id)).d;}
+function gv3(P,v,a,b){return angInfo(P,{v,a,b}).d;}
+
+/* 汎用の図 */
+function figG(s){
+  const P=s.pts;let paths='',labs='',body='',extra='';
+  const inb=(n)=>{const p=P[n];if(!p||p[0]<2||p[0]>358||p[1]<2||p[1]>238)_ERR.push('out of box: '+n+' '+JSON.stringify(p));};
+  (s.hl||[]).forEach(h=>{body+=`<line x1="8" y1="${h.y.toFixed(1)}" x2="352" y2="${h.y.toFixed(1)}" stroke="#333" stroke-width="2"/>`+chev(322,h.y)+`<text x="346" y="${(h.y-9).toFixed(1)}" text-anchor="end" font-size="16" font-style="italic" fill="#333">${h.n||''}</text>`;});
+  (s.segs||[]).forEach(e=>{const a=P[e[0]],b=P[e[1]],o=e[2]||{};inb(e[0]);inb(e[1]);body+=`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${o.col||'#444'}" stroke-width="${o.w||2.4}"${o.dash?' stroke-dasharray="6 5"':''}/>`;});
+  (s.angs||[]).forEach(g=>{
+    inb(g.v);
+    const i=angInfo(P,g),col=COL[g.c||'given'],r=g.r||22;
+    let lab=g.l;if(lab==='auto')lab=Math.round(i.d)+'°';
+    const o=sec(P[g.v],r,i.a1,i.a2,col,lab,r+(i.d<45?30:19),(lab&&lab.length>5)?11.5:13.5);
+    paths+=o[0];labs+=o[1];
+  });
+  if(s.letters){const ns=s.letters;let cx=0,cy=0;ns.forEach(n=>{cx+=P[n][0];cy+=P[n][1];});cx/=ns.length;cy/=ns.length;
+    ns.forEach(n=>{const u=vnorm([P[n][0]-cx,P[n][1]-cy]);extra+=`<text x="${(P[n][0]+u[0]*14).toFixed(1)}" y="${(P[n][1]+u[1]*14).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="700" fill="#333">${(s.names&&s.names[n])||n}</text>`;});}
+  (s.txt||[]).forEach(t=>{const p=Array.isArray(t.p)?t.p:P[t.p];extra+=`<text x="${(p[0]+(t.dx||0)).toFixed(1)}" y="${(p[1]+(t.dy||0)).toFixed(1)}" text-anchor="${t.a||'middle'}" dominant-baseline="central" font-size="${t.s||14}" font-weight="700" fill="${t.c||'#333'}">${t.t}</text>`;});
+  return `<svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg">${paths}${body}${extra}${labs}</svg>`;
+}
+/* 底辺BCが水平な三角形（B,Cの内角から） */
+function triPts(B_,C_){
+  const A_=180-B_-C_,t=Math.sin(C_*RAD)/Math.sin(A_*RAD);
+  return {B:[0,0],C:[1,0],A:[t*Math.cos(B_*RAD),t*Math.sin(B_*RAD)]};
+}
+
+/* ---------- 三角形の外角 ---------- */
+function extTri(A_,B_,o){
+  o=o||{};const C_=180-A_-B_,p0=triPts(B_,C_);
+  p0.D=[1.6,0];p0.E=vadd(p0.C,vnorm(vsub(p0.A,p0.B)),0.7);
+  const P=fitPts(p0);
+  chk(gv3(P,'C','A','D'),A_+B_,'extTri exterior');
+  const segs=[['A','B'],['B','C'],['C','A'],['C','D']];
+  if(o.aux)segs.push(['C','E',{dash:true,col:'#7048e8'}]);
+  const angs=[];
+  if(o.lA)angs.push({v:'A',a:'B',b:'C',l:o.lA,c:o.cA||'given'});
+  if(o.lB)angs.push({v:'B',a:'A',b:'C',l:o.lB,c:o.cB||'mid'});
+  if(o.lX)angs.push({v:'C',a:'A',b:'D',l:o.lX,c:o.cX||'find',r:26});
+  if(o.lE1)angs.push({v:'C',a:'E',b:'D',l:o.lE1,c:'mid',r:30});
+  if(o.lE2)angs.push({v:'C',a:'A',b:'E',l:o.lE2,c:'given',r:30});
+  const txt=[{p:'D',t:'D',dx:4,dy:14}];
+  if(o.aux)txt.push({p:'E',t:'E',dx:8,dy:-8});
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C'],txt};
+}
+
+/* ---------- へこんだ形（矢じり） ---------- */
+function arrowFig(a,b,c,o){
+  o=o||{};
+  const A=[0,0],B=vadd(A,vdir(-90-a/2),o.LB||1),C=vadd(A,vdir(-90+a/2),o.LC||1);
+  const side=(F,T1,T2,ang)=>{const u=vnorm(vsub(T1,F)),w=vnorm(vsub(T2,F));const cr=u[0]*w[1]-u[1]*w[0];return rot(u,(cr>0?1:-1)*ang);};
+  const D=isect(B,side(B,A,C,b),C,side(C,A,B,c));
+  const E=vadd(D,vnorm(vsub(D,A)),0.45);
+  const P=fitPts({A,B,C,D,E});
+  chk(gv3(P,'D','B','C'),a+b+c,'arrow x=a+b+c');
+  chk(gv3(P,'B','A','D'),b,'arrow b');chk(gv3(P,'C','A','D'),c,'arrow c');
+  const segs=[['A','B'],['A','C'],['B','D'],['C','D']];
+  if(o.aux)segs.push(['A','E',{dash:true,col:'#7048e8'}]);
+  const angs=[];
+  if(o.lA)angs.push({v:'A',a:'B',b:'C',l:o.lA,c:o.cA||'given'});
+  if(o.lB)angs.push({v:'B',a:'A',b:'D',l:o.lB,c:o.cB||'mid',r:24});
+  if(o.lC)angs.push({v:'C',a:'A',b:'D',l:o.lC,c:o.cC||'orange',r:24});
+  if(o.lX)angs.push({v:'D',a:'B',b:'C',l:o.lX,c:o.cX||'find',r:24});
+  if(o.lP)angs.push({v:'D',a:'B',b:'E',l:o.lP,c:'purple',r:24});
+  if(o.lQ)angs.push({v:'D',a:'E',b:'C',l:o.lQ,c:'teal',r:30});
+  const txt=[{p:'A',t:'A',dy:-13},{p:'B',t:'B',dx:-12,dy:6},{p:'C',t:'C',dx:12,dy:6},{p:'D',t:'D',dy:-14}];
+  if(o.aux)txt.push({p:'E',t:'E',dy:12});
+  return {k:'g',pts:P,segs,angs,txt};
+}
+
+/* ---------- 平行線ではさまれた折れ線 ---------- */
+function zigFig(phis,o){
+  o=o||{};
+  const n=phis.length,Yt=34,Yb=206,gap=(Yb-Yt)/n,V=[[0,Yt]];
+  for(let i=0;i<n;i++){const cot=Math.cos(phis[i]*RAD)/Math.sin(phis[i]*RAD);V.push([V[i][0]-gap*cot,V[i][1]+gap]);}
+  let mn=1e9,mx=-1e9;V.forEach(v=>{mn=Math.min(mn,v[0]);mx=Math.max(mx,v[0]);});
+  const sh=180-(mn+mx)/2,P={};
+  if(mx-mn>230)_ERR.push('zig too wide '+JSON.stringify(phis));
+  V.forEach((v,i)=>{P['V'+i]=[v[0]+sh,v[1]];P['L'+i]=[v[0]+sh-52,v[1]];P['R'+i]=[v[0]+sh+52,v[1]];});
+  const segs=[];
+  for(let i=0;i<n;i++)segs.push(['V'+i,'V'+(i+1)]);
+  (o.aux||[]).forEach(i=>segs.push(['L'+i,'R'+i,{dash:true,col:'#7048e8',w:1.8}]));
+  const angs=[];
+  (o.marks||[]).forEach(mk=>{
+    let g;
+    if(mk.k==='top')g=mk.side==='R'?{v:'V0',a:'V1',b:'R0'}:{v:'V0',a:'L0',b:'V1'};
+    else if(mk.k==='bot')g=mk.side==='L'?{v:'V'+n,a:'V'+(n-1),b:'L'+n}:{v:'V'+n,a:'V'+(n-1),b:'R'+n};
+    else if(mk.k==='bend')g={v:'V'+mk.i,a:'V'+(mk.i-1),b:'V'+(mk.i+1)};
+    else g={v:mk.v,a:mk.a,b:mk.b};
+    g.l=mk.l;g.c=mk.c||'given';g.id=mk.id;g.r=mk.r||20;
+    angs.push(g);
+  });
+  return {k:'g',pts:P,segs,angs,hl:[{y:Yt,n:'l'},{y:Yb,n:'m'}]};
+}
+/* 折れ線(3本)の角を数式で */
+function zig3(phis){
+  const a=phis[0],p=180-Math.abs(phis[0]-phis[1]),q=180-Math.abs(phis[1]-phis[2]),x=phis[2];
+  const chkS=zigFig(phis,{marks:[{k:'top',side:'L',id:'a'},{k:'bend',i:1,id:'p'},{k:'bend',i:2,id:'q'},{k:'bot',side:'R',id:'x'}]});
+  chk(gval(chkS,'a'),a,'zig a');chk(gval(chkS,'p'),p,'zig p');chk(gval(chkS,'q'),q,'zig q');chk(gval(chkS,'x'),x,'zig x');
+  chk(a-p+q,x,'zig formula');
+  return {a,p,q,x};
+}
+function zigMarks(v,u){
+  const L=(k,val)=>({l:u===k?'x':val+'°',c:u===k?'find':'given'});
+  return [Object.assign({k:'top',side:'L'},L('a',v.a)),Object.assign({k:'bend',i:1},L('p',v.p)),Object.assign({k:'bend',i:2},L('q',v.q)),Object.assign({k:'bot',side:'R'},L('x',v.x))];
+}
+
+/* ---------- 多角形 ---------- */
+function polyFig(n,o){
+  o=o||{};const p0={};
+  for(let i=0;i<n;i++)p0['V'+i]=vdir(90+360*i/n);
+  if(o.ext)p0.X=vadd(p0.V1,vsub(p0.V1,p0.V0),0.6);
+  const P=fitPts(p0,{m:o.ext?44:38});
+  const segs=[];
+  for(let i=0;i<n;i++)segs.push(['V'+i,'V'+((i+1)%n)]);
+  if(o.diag)for(let i=2;i<n-1;i++)segs.push(['V0','V'+i,{dash:true,col:'#7048e8',w:1.8}]);
+  const angs=[];
+  if(o.ext){
+    chk(gv3(P,'V1','X','V2'),360/n,'polygon exterior=360/n');
+    chk(gv3(P,'V1','V0','V2'),180-360/n,'polygon interior');
+    if(o.lInt)angs.push({v:'V1',a:'V0',b:'V2',l:o.lInt,c:'given',r:20});
+    if(o.lExt)angs.push({v:'V1',a:'X',b:'V2',l:o.lExt,c:'find',r:24});
+    segs.push(['V1','X']);
+  }
+  const txt=o.center?[{p:[180,120],t:o.center,s:15,c:'#7048e8'}]:[];
+  return {k:'g',pts:P,segs,angs,txt};
+}
+
+/* ---------- 二等分線 ---------- */
+function bisFig(B_,C_,o){
+  o=o||{};const A_=180-B_-C_,p0=triPts(B_,C_);
+  p0.P=isect(p0.B,vdir(B_/2),p0.C,vdir(180-C_/2));
+  const P=fitPts(p0);
+  chk(gv3(P,'P','B','C'),90+A_/2,'incenter x=90+A/2');
+  const segs=[['A','B'],['B','C'],['C','A'],['B','P'],['C','P']];
+  const angs=[];
+  if(o.lA)angs.push({v:'A',a:'B',b:'C',l:o.lA,c:o.cA||'given'});
+  if(o.lX)angs.push({v:'P',a:'B',b:'C',l:o.lX,c:o.cX||'find',r:20});
+  if(o.mk){
+    angs.push({v:'B',a:'A',b:'P',l:'a',c:'mid',r:30},{v:'B',a:'P',b:'C',l:'a',c:'mid',r:36});
+    angs.push({v:'C',a:'A',b:'P',l:'b',c:'orange',r:30},{v:'C',a:'P',b:'B',l:'b',c:'orange',r:36});
+  }
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P']};
+}
+function extBisFig(B_,C_,o){
+  o=o||{};const A_=180-B_-C_,p0=triPts(B_,C_);
+  p0.D=[1.5,0];
+  p0.P=isect(p0.B,vdir(B_/2),p0.C,vdir((180-C_)/2));
+  const P=fitPts(p0);
+  chk(gv3(P,'P','B','C'),A_/2,'ext-bisector x=A/2');
+  const segs=[['A','B'],['B','C'],['C','A'],['C','D'],['B','P'],['C','P']];
+  const angs=[];
+  if(o.lA)angs.push({v:'A',a:'B',b:'C',l:o.lA,c:o.cA||'given'});
+  if(o.lX)angs.push({v:'P',a:'B',b:'C',l:o.lX,c:o.cX||'find',r:20});
+  if(o.mk){
+    angs.push({v:'B',a:'A',b:'P',l:'a',c:'mid',r:30},{v:'B',a:'P',b:'C',l:'a',c:'mid',r:36});
+    angs.push({v:'C',a:'A',b:'P',l:'b',c:'orange',r:26},{v:'C',a:'P',b:'D',l:'b',c:'orange',r:32});
+  }
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P'],txt:[{p:'D',t:'D',dx:4,dy:14}]};
+}
+
+/* ---------- 正三角形をはさむ問題 ---------- */
+function eqFig(o){
+  o=o||{};
+  const B=[0,0],C=vdir(12),A=rot(C,60),yl=0.62;
+  const Pp=isect(A,vsub(C,A),[0,yl],[1,0]);
+  const p0={A,B,C,P:Pp,Pl:[Pp[0]-0.35,Pp[1]],Br:[0.45,0],Cl:[C[0]-0.45,C[1]],Lm:[0,yl]};
+  const P=fitPts(p0,{m:40});
+  chk(gv3(P,'P','A','Pl'),48,'eq x=48');chk(gv3(P,'B','C','Br'),12,'eq 12');
+  const segs=[['A','B'],['B','C'],['C','A']];
+  if(o.aux)segs.push(['C','Cl',{dash:true,col:'#7048e8'}]);
+  const angs=[{v:'B',a:'C',b:'Br',l:'12°',c:'given',r:26}];
+  if(o.lx)angs.push({v:'P',a:'A',b:'Pl',l:o.lx,c:o.cx||'find',r:20});
+  if(o.aux){angs.push({v:'C',a:'B',b:'Cl',l:'12°',c:'mid',r:26},{v:'C',a:'A',b:'Cl',l:'48°',c:'orange',r:34});}
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C'],hl:[{y:P.Lm[1],n:'l'},{y:P.B[1],n:'m'}]};
+}
+
+/* ---------- 星形 ---------- */
+function starFig(o){
+  o=o||{};
+  const base={A:[0.05,1.05],E:[0.9,0.25],D:[0.65,-0.8],C:[-0.5,-0.85],B:[-1.0,0.35]};
+  const F=isect(base.A,vsub(base.C,base.A),base.B,vsub(base.E,base.B));
+  const G=isect(base.A,vsub(base.D,base.A),base.B,vsub(base.E,base.B));
+  const P=fitPts(Object.assign({},base,{F,G}),{m:30});
+  const tip={a:['A','D','C'],b:['B','D','E'],c:['C','E','A'],d:['D','A','B'],e:['E','B','C']};
+  const s=gv3(P,'A','D','C')+gv3(P,'B','D','E')+gv3(P,'C','E','A')+gv3(P,'D','A','B')+gv3(P,'E','B','C');
+  chk(s,180,'star sum');
+  chk(gv3(P,'F','A','E'),gv3(P,'C','E','A')+gv3(P,'E','B','C'),'star c+e');
+  chk(gv3(P,'G','A','B'),gv3(P,'B','D','E')+gv3(P,'D','A','B'),'star b+d');
+  const segs=[['A','D'],['D','B'],['B','E'],['E','C'],['C','A']];
+  const angs=[];
+  const T=o.tips||{};
+  Object.keys(tip).forEach(k=>{if(T[k])angs.push({v:tip[k][0],a:tip[k][1],b:tip[k][2],l:T[k].l,c:T[k].c||'given',r:18});});
+  if(o.lF)angs.push({v:'F',a:'A',b:'E',l:o.lF,c:'purple',r:16});
+  if(o.lG)angs.push({v:'G',a:'A',b:'B',l:o.lG,c:'teal',r:16});
+  const txt=[{p:'A',t:'A',dy:-13},{p:'B',t:'B',dx:-12},{p:'C',t:'C',dx:-10,dy:10},{p:'D',t:'D',dx:10,dy:10},{p:'E',t:'E',dx:12}];
+  if(o.fg){txt.push({p:'F',t:'F',dx:-9,dy:-8,c:'#7048e8'},{p:'G',t:'G',dx:9,dy:-8,c:'#0b7285'});}
+  return {k:'g',pts:P,segs,angs,txt};
+}
+
+/* ---------- 問題づくりの道具 ---------- */
+let _cc=0;
+const dg=v=>v+'°';
+function CH(c,w,fmt){fmt=fmt||dg;const o=w.map(fmt),cc=fmt(c),pos=_cc++%4;o.splice(pos,0,cc);return {ch:o,an:pos};}
+function PB(f,q,c,w,hint,exp,fmt,hf){const r=CH(c,w,fmt);return {f,q,ch:r.ch,an:r.an,hint,exp,hf};}
+function newSec(id,title,intro){const s=document.createElement('section');s.id=id;s.innerHTML=`<h2>${title}</h2>`+(intro||'');document.querySelector('main').appendChild(s);return s;}
+function boxHtml(el,html,cls){el.insertAdjacentHTML('beforeend',`<div class="box ${cls||''}">${html}</div>`);}
+
+/* ---------- 応用編のはじめに ---------- */
+(function(){
+  newSec('oh','応用編　入試対策',`<p>ここからは、高校入試によく出る「角度を求める問題」です。基本編で学んだ<b>平行線の性質</b>に、<b>三角形の外角</b>や<b>多角形の角</b>の知識を組み合わせます。</p>
+  <div class="box blue"><b>まず確認</b>（<i>l</i>∥<i>m</i> のとき）<br>同位角は等しい／錯角は等しい／対頂角は等しい（平行でなくても）。<br>三角形の内角の和は180°。</div>
+  <p style="font-size:15px;color:#666">※ 図は角度に合わせて描いていますが、星形の図だけは形のイメージです（角度は正確ではありません）。</p>`);
+})();
+
+/* ========== 応用1　三角形の外角 ========== */
+(function(){
+  const S=newSec('o1','応用1　三角形の外角');
+  exampleBlock(S,'例題','△ABCで、∠A＝62°、∠B＝48°です。辺BCをCの方へのばしたとき、∠xの大きさを求めなさい。',[
+    {t:'辺BCをのばしたとき、∠Cの外側にできる角（∠x）を<b>外角</b>といいます。平行線の性質を使って考えてみましょう。',f:extTri(62,48,{lA:'62°',lB:'48°',lX:'x'})},
+    {t:'点Cを通って、<b>辺BAに平行な線CE</b>をひきます。',f:extTri(62,48,{lA:'62°',lB:'48°',lX:'x',aux:true})},
+    {t:'BA∥CE なので、<span style="color:#1971c2">∠ECD</span>と<span style="color:#1971c2">∠B</span>は<b>同位角</b>です。だから ∠ECD＝<b>48°</b>。',f:extTri(62,48,{lA:'62°',lB:'48°',aux:true,lE1:'48°'})},
+    {t:'また、<span style="color:#e03131">∠ACE</span>と<span style="color:#e03131">∠A</span>は<b>錯角</b>です。だから ∠ACE＝<b>62°</b>。',f:extTri(62,48,{lA:'62°',lB:'48°',aux:true,lE1:'48°',lE2:'62°'})},
+    {t:'∠x＝∠ACE＋∠ECD＝62°＋48°＝<b>110°</b><br>答え <b>110°</b>',f:extTri(62,48,{lA:'62°',lB:'48°',lX:'110°',aux:true,lE1:'48°',lE2:'62°',cX:'find'})}
+  ]);
+  boxHtml(S,'<b>【重要】</b>三角形の1つの外角は、そのとなりあわない2つの内角の和に等しい。<br>（外角＝となりあわない2つの内角の和）');
+  const Q='∠<i>x</i> は？（辺BCをのばした外角）';
+  const h1='外角は、となりあわない2つの内角の和です。',h2='「外角＝となりあわない2つの内角の和」の式にあてはめます。';
+  group(S,'練習','',[
+    PB(extTri(70,45,{lA:'70°',lB:'45°',lX:'x'}),Q,115,[65,25,135],h1,'外角＝となりあわない2つの内角の和。x＝70°＋45°＝115°。'),
+    PB(extTri(80,50,{lA:'x',cA:'find',lB:'50°',lX:'130°',cX:'given'}),'△ABCで、∠x（∠A）は？（外角が130°）',80,[50,100,130],h2,'外角130°＝∠A＋50°。だから ∠A＝130°−50°＝80°。')
+  ],{note:'例題のそっくり問題（2問）'});
+  group(S,'確認','k',[
+    PB(extTri(38,67,{lA:'38°',lB:'67°',lX:'x'}),Q,105,[75,95,142],h1,'x＝38°＋67°＝105°。'),
+    PB(extTri(55,62,{lA:'55°',lB:'x',cB:'find',lX:'117°',cX:'given'}),'△ABCで、∠x（∠B）は？（外角が117°）',62,[55,63,125],h2,'外角117°＝55°＋∠B。だから ∠B＝117°−55°＝62°。')
+  ],{note:'力だめし（2問）'});
+})();
+
+/* ========== 応用2　へこんだ形（矢じり） ========== */
+(function(){
+  const S=newSec('o2','応用2　へこんだ形（矢じり型）');
+  const L={lA:'54°',lB:'38°',lC:'26°'};
+  exampleBlock(S,'例題','図の ∠x の大きさを求めなさい。',[
+    {t:'へこんだ形（矢じりの形）です。とがった先の角が54°、両側の角が38°と26°のとき、へこんだところの ∠x を求めます。',f:arrowFig(54,38,26,Object.assign({lX:'x'},L))},
+    {t:'点Aと点Dを結んで、Dの先までのばします（<b>補助線</b>）。',f:arrowFig(54,38,26,Object.assign({lX:'x',aux:true},L))},
+    {t:'<b>△ABD</b>で、<span style="color:#7048e8">∠p</span>は外角です。外角＝となりあわない2つの内角の和なので、∠p＝∠BAD＋38°。<br><b>△ACD</b>でも同じように、<span style="color:#0b7285">∠q</span>＝∠CAD＋26°。',f:arrowFig(54,38,26,Object.assign({lP:'p',lQ:'q',aux:true},L))},
+    {t:'∠x＝∠p＋∠q＝（∠BAD＋∠CAD）＋38°＋26°<br>∠BAD＋∠CAD＝54° だから<br><b>∠x＝54°＋38°＋26°＝118°</b><br>答え <b>118°</b>',f:arrowFig(54,38,26,Object.assign({lX:'118°',aux:true},L))}
+  ]);
+  boxHtml(S,'<b>【重要】</b>へこんだ形では、へこんだ角 ∠x ＝ <b>a＋b＋c</b>（とがった先の角と、両側の2つの角を全部たす）');
+  const h='へこんだ角は、3つの角（とがった先と両側）の和です。';
+  group(S,'練習','',[
+    PB(arrowFig(40,30,20,{lA:'40°',lB:'30°',lC:'20°',lX:'x'}),'∠<i>x</i> は？',90,[70,110,120],h,'x＝40°＋30°＋20°＝90°。',null,arrowFig(40,30,20,{lA:'40°',lB:'30°',lC:'20°',lX:'x',aux:true})),
+    PB(arrowFig(55,24,31,{lA:'x',cA:'find',lB:'24°',lC:'31°',lX:'110°',cX:'given'}),'∠<i>x</i>（とがった先の角）は？',55,[45,65,86],'へこんだ角110°＝（とがった先の角）＋24°＋31°',  '110°＝x＋24°＋31° だから x＝110°−55°＝55°。',null,arrowFig(55,24,31,{lA:'x',cA:'find',lB:'24°',lC:'31°',lX:'110°',cX:'given',aux:true}))
+  ],{note:'例題のそっくり問題（2問）'});
+  group(S,'確認','k',[
+    PB(arrowFig(62,15,28,{lA:'62°',lB:'15°',lC:'28°',lX:'x'}),'∠<i>x</i> は？',105,[77,95,118],h,'x＝62°＋15°＋28°＝105°。',null,arrowFig(62,15,28,{lA:'62°',lB:'15°',lC:'28°',lX:'x',aux:true})),
+    PB(arrowFig(48,52,25,{lA:'48°',lB:'x',cB:'find',lC:'25°',lX:'125°',cX:'given'}),'∠<i>x</i>（左側の角）は？',52,[42,48,77],'へこんだ角125°＝48°＋（左側の角）＋25°','125°＝48°＋x＋25° だから x＝125°−73°＝52°。',null,arrowFig(48,52,25,{lA:'48°',lB:'x',cB:'find',lC:'25°',lX:'125°',cX:'given',aux:true}))
+  ],{note:'力だめし（2問）'});
+})();
+
+/* ========== 応用3　平行線ではさまれた折れ線 ========== */
+(function(){
+  const S=newSec('o3','応用3　平行線ではさまれた折れ線（補助線を何本もひく）');
+  const v=zig3([70,130,55]);   // a=70,p=120,q=105,x=55
+  const base=[{k:'top',side:'L',l:v.a+'°',c:'given'},{k:'bend',i:1,l:v.p+'°',c:'given'},{k:'bend',i:2,l:v.q+'°',c:'given'}];
+  const X=(l)=>({k:'bot',side:'R',l:l,c:'find'});
+  const ph=[70,130,55];
+  exampleBlock(S,'例題','<i>l</i>∥<i>m</i> のとき、∠<i>x</i> の大きさを求めなさい。',[
+    {t:'折れ曲がった点が2つあります。<span style="color:#e03131">'+v.a+'°</span>、'+v.p+'°、'+v.q+'°が与えられています。基本編のくの字と同じように、<b>補助線</b>をひいて進めます。',f:zigFig(ph,{marks:base.concat([X('x')])})},
+    {t:'折れ曲がった2つの点を通る、<b>l と m に平行な補助線</b>を2本ひきます。',f:zigFig(ph,{aux:[1,2],marks:base.concat([X('x')])})},
+    {t:'上の点で、'+v.a+'°の<b>錯角</b>ができます。この角も <b>'+v.a+'°</b>。',f:zigFig(ph,{aux:[1,2],marks:base.concat([X('x'),{k:'g',v:'V1',a:'V0',b:'R1',l:v.a+'°',c:'mid',r:30}])})},
+    {t:'上の点の角は '+v.p+'°だから、残りは '+v.p+'°−'+v.a+'°＝<b>'+(v.p-v.a)+'°</b>。この角の<b>錯角</b>が、下の点にもできます。',f:zigFig(ph,{aux:[1,2],marks:base.concat([X('x'),{k:'g',v:'V1',a:'V0',b:'R1',l:v.a+'°',c:'mid',r:30},{k:'g',v:'V1',a:'V2',b:'R1',l:(v.p-v.a)+'°',c:'orange',r:30},{k:'g',v:'V2',a:'V1',b:'L2',l:(v.p-v.a)+'°',c:'orange',r:30}])})},
+    {t:'下の点の角は '+v.q+'°だから、残りは '+v.q+'°−'+(v.p-v.a)+'°＝<b>'+(v.q-(v.p-v.a))+'°</b>。この角の錯角が、∠x です。<br><b>∠x＝'+v.x+'°</b><br>答え <b>'+v.x+'°</b>',f:zigFig(ph,{aux:[1,2],marks:base.concat([{k:'bot',side:'R',l:v.x+'°',c:'find'},{k:'g',v:'V2',a:'V3',b:'L2',l:(v.q-(v.p-v.a))+'°',c:'teal',r:30}])})}
+  ]);
+  chk(v.q-(v.p-v.a),v.x,'zig example chain');
+  boxHtml(S,'<b>【コツ】</b>折れ線の角は、<b>左にひらいた角の和＝右にひらいた角の和</b>。上の図では、左にひらいているのが '+v.a+'°と '+v.q+'°、右にひらいているのが '+v.p+'°と ∠x です。<br>'+v.a+'°＋'+v.q+'°＝'+v.p+'°＋∠x だから、∠x＝'+v.x+'°。');
+  const mk=(phis,u)=>{const w=zig3(phis);const m=zigMarks(w,u);return {w,f:zigFig(phis,{marks:m}),hf:zigFig(phis,{aux:[1,2],marks:m})};};
+  const hint='平行線をひいて、錯角を順にうつしていきます。または「左にひらいた角の和＝右にひらいた角の和」を使います。';
+  function prob(phis,u,wrong){
+    const o=mk(phis,u),w=o.w;
+    const ans=w[u];
+    const exps={x:`左にひらいた角：${w.a}°と${w.q}°、右にひらいた角：${w.p}°と∠x。${w.a}＋${w.q}＝${w.p}＋x より x＝${w.x}°。`,
+                p:`左にひらいた角：${w.a}°と${w.q}°、右にひらいた角：∠xと${w.x}°。${w.a}＋${w.q}＝x＋${w.x} より x＝${w.p}°。`,
+                a:`左にひらいた角：∠xと${w.q}°、右にひらいた角：${w.p}°と${w.x}°。x＋${w.q}＝${w.p}＋${w.x} より x＝${w.a}°。`};
+    return PB(o.f,'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',ans,wrong,hint,exps[u],null,o.hf);
+  }
+  group(S,'練習','',[
+    prob([60,135,50],'x',[45,55,95]),
+    prob([75,120,65],'x',[55,75,135])
+  ],{note:'例題のそっくり問題（2問）'});
+  group(S,'確認','k',[
+    prob([72,125,55],'p',[97,117,137]),
+    prob([55,130,65],'a',[45,65,85])
+  ],{note:'力だめし（2問）'});
+})();
+
+/* ========== 応用4　多角形の内角の和 ========== */
+(function(){
+  const S=newSec('o4','応用4　多角形の内角の和');
+  exampleBlock(S,'例題','多角形の内角の和を考えましょう。n角形の内角の和は、どんな式で表せるでしょうか。',[
+    {t:'<b>四角形</b>：1つの頂点から対角線をひくと、三角形が<b>2個</b>できます。内角の和は 180°×2＝<b>360°</b>。',f:polyFig(4,{diag:true,center:'三角形 2個'})},
+    {t:'<b>五角形</b>：三角形が<b>3個</b>。内角の和は 180°×3＝<b>540°</b>。',f:polyFig(5,{diag:true,center:'三角形 3個'})},
+    {t:'<b>六角形</b>：三角形が<b>4個</b>。内角の和は 180°×4＝<b>720°</b>。',f:polyFig(6,{diag:true,center:'三角形 4個'})},
+    {t:'<b>七角形</b>：三角形が<b>5個</b>。<br>角の数より2少ない数の三角形ができるので、<b>n角形では (n−2) 個</b>です。<br><b>n角形の内角の和＝180°×(n−2)</b>',f:polyFig(7,{diag:true,center:'三角形 5個'})}
+  ]);
+  boxHtml(S,'<b>【重要】</b>n角形の内角の和＝<b>180°×(n−2)</b>');
+  const h='180°×(n−2) に n をあてはめます。';
+  group(S,'練習','',[
+    PB(null,'九角形の内角の和は？',1260,[1080,1440,1620],h,'180°×(9−2)＝180°×7＝1260°。'),
+    PB(null,'十二角形の内角の和は？',1800,[1620,1980,2160],h,'180°×(12−2)＝180°×10＝1800°。')
+  ],{note:'例題のそっくり問題（2問）'});
+  group(S,'確認','k',[
+    PB(null,'十角形の内角の和は？',1440,[1260,1620,1800],h,'180°×(10−2)＝180°×8＝1440°。'),
+    PB(null,'六角形ABCDEFで、∠B＝105°、∠C＝107°、∠D＝110°、∠E＝130°、∠F＝130°のとき、∠Aは？',138,[118,148,228],'六角形の内角の和は 180°×(6−2)＝720° です。','六角形の内角の和は720°。∠A＝720°−(105°＋107°＋110°＋130°＋130°)＝720°−582°＝138°。')
+  ],{note:'力だめし（2問）'});
+  chk(720-(105+107+110+130+130),138,'hexagon A');
+})();
+
+/* ========== 応用5　内角の和から何角形か ========== */
+(function(){
+  const S=newSec('o5','応用5　内角の和から何角形かを求める');
+  exampleBlock(S,'例題','内角の和が900°になる多角形は何角形ですか。',[
+    {t:'n角形の内角の和は 180°×(n−2) です。これが900°になるので、方程式をつくります。<br><b>180×(n−2)＝900</b>'},
+    {t:'両辺を180でわって、n−2＝900÷180＝5。<br>だから n＝5＋2＝<b>7</b>。<br>答え <b>七角形</b>'}
+  ]);
+  const h='180×(n−2)＝（内角の和）の方程式をつくります。';
+  const F=v=>v;
+  group(S,'練習','',[
+    PB(null,'内角の和が1800°になる多角形は何角形ですか。','十二角形',['十角形','十一角形','十三角形'],h,'180×(n−2)＝1800 より n−2＝10、n＝12。十二角形。',F),
+    PB(null,'内角の和が1080°になる多角形は何角形ですか。','八角形',['六角形','七角形','九角形'],h,'180×(n−2)＝1080 より n−2＝6、n＝8。八角形。',F)
+  ],{note:'例題のそっくり問題（2問）'});
+  group(S,'確認','k',[
+    PB(null,'内角の和が1440°になる多角形は何角形ですか。','十角形',['八角形','九角形','十一角形'],h,'180×(n−2)＝1440 より n−2＝8、n＝10。十角形。',F),
+    PB(null,'内角の和が2160°になる多角形は何角形ですか。','十四角形',['十二角形','十三角形','十六角形'],h,'180×(n−2)＝2160 より n−2＝12、n＝14。十四角形。',F)
+  ],{note:'力だめし（2問）'});
+})();
+
+/* ========== 応用6　外角の和・正多角形 ========== */
+(function(){
+  const S=newSec('o6','応用6　外角の和と、正多角形の1つの角');
+  boxHtml(S,'<b>【重要】</b>多角形の<b>外角の和</b>は、何角形でも<b>360°</b>です。<br>（多角形のまわりを1周して、もとの向きにもどるとき、向きを変えた角度の合計が360°になるからです）','blue');
+  exampleBlock(S,'例題','正十角形の1つの内角は何度ですか。',[
+    {t:'正十角形は、10個の外角がすべて等しくなります。外角の和は360°なので、<b>1つの外角＝360°÷10＝36°</b>。',f:polyFig(10,{ext:true,lExt:'36°'})},
+    {t:'内角と外角をあわせると一直線（180°）です。<br><b>1つの内角＝180°−36°＝144°</b><br>答え <b>144°</b>',f:polyFig(10,{ext:true,lExt:'36°',lInt:'144°'})}
+  ]);
+  boxHtml(S,'<b>【コツ】</b>正n角形の1つの内角は、<b>外角 360°÷n</b>を先に求めて、<b>180°−外角</b>で求めます。');
+  const h='まず1つの外角（360°÷n）を求めます。';
+  group(S,'練習','',[
+    PB(null,'正二十角形の1つの内角は？',162,[150,160,168],h,'外角＝360°÷20＝18°。内角＝180°−18°＝162°。'),
+    PB(null,'正十五角形の1つの内角は？',156,[144,150,165],h,'外角＝360°÷15＝24°。内角＝180°−24°＝156°。')
+  ],{note:'例題のそっくり問題（2問）'});
+  group(S,'確認','k',[
+    PB(null,'正十二角形の1つの内角は？',150,[144,135,160],h,'外角＝360°÷12＝30°。内角＝180°−30°＝150°。'),
+    PB(null,'1つの外角が24°の正多角形は、正何角形ですか。','正十五角形',['正十二角形','正十四角形','正十六角形'],'外角の和は360°です。360÷24 を計算します。','360°÷24°＝15。正十五角形。',v=>v)
+  ],{note:'力だめし（2問）'});
+})();
+
+/* ========== 応用7〜9　二等分線 ========== */
+(function(){
+  const S=newSec('o7','応用7　角の二等分線の交点（その1）');
+  const ex=bisFig(70,60,{lA:'50°',lX:'x'});
+  exampleBlock(S,'例題','△ABCで、点Pは∠Bの二等分線と∠Cの二等分線の交点です。∠A＝50°のとき、∠xは何度ですか。',[
+    {t:'PはBPが∠B、CPが∠Cの二等分線の交点です。∠A＝50°、∠x＝∠BPC を求めます。<b>a＋b を考える</b>のがポイントです。',f:ex},
+    {t:'二等分線なので、∠ABP＝∠PBC＝<span style="color:#1971c2">a</span>、∠ACP＝∠PCB＝<span style="color:#e8590c">b</span> とおきます。',f:bisFig(70,60,{lA:'50°',lX:'x',mk:true})},
+    {t:'<b>△ABC</b>の内角の和：50°＋2a＋2b＝180°<br>2(a＋b)＝130° より <b>a＋b＝65°</b>',f:bisFig(70,60,{lA:'50°',mk:true})},
+    {t:'<b>△PBC</b>の内角の和：∠x＋a＋b＝180°<br>∠x＝180°−(a＋b)＝180°−65°＝<b>115°</b><br>答え <b>115°</b>',f:bisFig(70,60,{lA:'50°',lX:'115°',mk:true})}
+  ]);
+  boxHtml(S,'<b>【重要】</b>∠Bと∠Cの二等分線の交点Pでは、∠BPC＝90°＋∠A÷2 です。（テストでは、a＋b を使って求めましょう）');
+  const h='a＋b を考えます。△ABCから a＋b を求め、△PBCに使います。';
+  const e=(A,x)=>`△ABCで、${A}°＋2(a＋b)＝180° より a＋b＝${(180-A)/2}°。△PBCで、∠x＝180°−${(180-A)/2}°＝${x}°。`;
+  group(S,'練習','',[
+    PB(bisFig(65,45,{lA:'70°',lX:'x'}),'∠<i>x</i> は？（∠A＝70°）',125,[55,115,145],h,e(70,125)),
+    PB(bisFig(78,60,{lA:'42°',lX:'x'}),'∠<i>x</i> は？（∠A＝42°）',111,[69,101,121],h,e(42,111))
+  ],{note:'例題のそっくり問題（2問）'});
+  group(S,'確認','k',[
+    PB(bisFig(56,60,{lA:'64°',lX:'x'}),'∠<i>x</i> は？（∠A＝64°）',122,[58,116,128],h,e(64,122)),
+    PB(bisFig(40,52,{lA:'88°',lX:'x'}),'∠<i>x</i> は？（∠A＝88°）',134,[46,124,136],h,e(88,134))
+  ],{note:'力だめし（2問）'});
+
+  const S2=newSec('o8','応用8　角の二等分線の交点（その2：∠xから∠Aを求める）');
+  exampleBlock(S2,'例題','△ABCで、点Pは∠Bの二等分線と∠Cの二等分線の交点です。∠BPC＝118°のとき、∠Aは何度ですか。',[
+    {t:'今度は∠BPCが分かっていて、∠Aを求めます。やはり ∠ABP＝∠PBC＝a、∠ACP＝∠PCB＝b とおきます。',f:bisFig(64,60,{lA:'x',cA:'find',lX:'118°',cX:'given',mk:true})},
+    {t:'<b>△PBC</b>の内角の和：118°＋a＋b＝180° より <b>a＋b＝62°</b>',f:bisFig(64,60,{lX:'118°',cX:'given',mk:true})},
+    {t:'<b>△ABC</b>の内角の和：∠A＋2a＋2b＝180°<br>∠A＝180°−2(a＋b)＝180°−124°＝<b>56°</b><br>答え <b>56°</b>',f:bisFig(64,60,{lA:'56°',lX:'118°',cX:'given',mk:true})}
+  ]);
+  const h2='まず △PBC から a＋b を求め、次に △ABC を使います。';
+  const e2=(x,A)=>`△PBCで、${x}°＋a＋b＝180° より a＋b＝${180-x}°。△ABCで、∠A＝180°−2×${180-x}°＝${A}°。`;
+  group(S2,'練習','',[
+    PB(bisFig(84,84,{lA:'x',cA:'find',lX:'96°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝96°）',12,[24,48,84],h2,e2(96,12)),
+    PB(bisFig(48,48,{lA:'x',cA:'find',lX:'132°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝132°）',84,[42,48,96],h2,e2(132,84))
+  ],{note:'例題のそっくり問題（2問）'});
+  group(S2,'確認','k',[
+    PB(bisFig(52,60,{lA:'x',cA:'find',lX:'124°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝124°）',68,[34,56,112],h2,e2(124,68)),
+    PB(bisFig(40,40,{lA:'x',cA:'find',lX:'140°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝140°）',100,[50,80,120],h2,e2(140,100))
+  ],{note:'力だめし（2問）'});
+
+  const S3=newSec('o9','応用9　外角の二等分線がつくる角');
+  exampleBlock(S3,'例題','△ABCで、辺BCをCの方へのばした点をDとします。点Pは∠ABCの二等分線と∠ACDの二等分線の交点です。∠A＝78°のとき、∠xは何度ですか。',[
+    {t:'∠ABP＝∠PBC＝<span style="color:#1971c2">a</span>、∠ACP＝∠PCD＝<span style="color:#e8590c">b</span> とおきます。外角を使う問題です。',f:extBisFig(50,52,{lA:'78°',lX:'x',mk:true})},
+    {t:'<b>△ABC</b>で、∠ACD は外角なので ∠ACD＝∠A＋∠B。<br>2b＝78°＋2a より <b>b−a＝39°</b>',f:extBisFig(50,52,{lA:'78°',mk:true})},
+    {t:'<b>△PBC</b>で、∠PCD は外角なので ∠PCD＝∠PBC＋∠x。<br>b＝a＋∠x より <b>∠x＝b−a＝39°</b><br>答え <b>39°</b>',f:extBisFig(50,52,{lA:'78°',lX:'39°',mk:true})}
+  ]);
+  boxHtml(S3,'<b>【重要】</b>∠Bの二等分線と∠Cの外角の二等分線の交点Pでは、∠BPC＝∠A÷2 です。');
+  const h3='外角を2回使います。△ABCと△PBCです。';
+  const e3=(A,x)=>`△ABCの外角から 2b＝${A}°＋2a。△PBCの外角から b＝a＋∠x。だから ∠x＝(b−a)＝${A}°÷2＝${x}°。`;
+  group(S3,'練習','',[
+    PB(extBisFig(58,60,{lA:'62°',lX:'x'}),'∠<i>x</i> は？（∠A＝62°）',31,[62,59,124],h3,e3(62,31)),
+    PB(extBisFig(60,78,{lA:'42°',lX:'x'}),'∠<i>x</i> は？（∠A＝42°）',21,[42,84,63],h3,e3(42,21))
+  ],{note:'例題のそっくり問題（2問）'});
+  group(S3,'確認','k',[
+    PB(extBisFig(64,60,{lA:'56°',lX:'x'}),'∠<i>x</i> は？（∠A＝56°）',28,[56,112,34],h3,e3(56,28)),
+    PB(extBisFig(50,46,{lA:'84°',lX:'x'}),'∠<i>x</i> は？（∠A＝84°）',42,[84,48,21],h3,e3(84,42))
+  ],{note:'力だめし（2問）'});
+})();
+
+/* ========== 応用10　星形の角の和 ========== */
+(function(){
+  const S=newSec('o10','応用10　星形の角の和');
+  const tips={a:{l:'a'},b:{l:'b'},c:{l:'c'},d:{l:'d'},e:{l:'e'}};
+  const tipsC={a:{l:'a'},b:{l:'b',c:'orange'},c:{l:'c',c:'mid'},d:{l:'d',c:'orange'},e:{l:'e',c:'mid'}};
+  exampleBlock(S,'例題','星形の先の5つの角 a, b, c, d, e の和は何度ですか。',[
+    {t:'星形の先の角a、b、c、d、eの和を求めます。ここでも、<b>外角＝となりあわない2つの内角の和</b>を使います。',f:starFig({tips:tips})},
+    {t:'ACとBEの交点をFとします。<b>△CEF</b>で、∠AFE（<span style="color:#7048e8">p</span>）は外角なので<br><span style="color:#7048e8">p</span>＝<span style="color:#1971c2">c</span>＋<span style="color:#1971c2">e</span>',f:starFig({tips:tipsC,fg:true,lF:'p'})},
+    {t:'ADとBEの交点をGとします。<b>△BDG</b>で、∠AGB（<span style="color:#0b7285">q</span>）は外角なので<br><span style="color:#0b7285">q</span>＝<span style="color:#e8590c">b</span>＋<span style="color:#e8590c">d</span>',f:starFig({tips:tipsC,fg:true,lF:'p',lG:'q'})},
+    {t:'<b>△AFG</b>の内角の和は180°です。<br>a＋q＋p＝180°、p＝c＋e、q＝b＋d だから<br>a＋(b＋d)＋(c＋e)＝180°<br>よって <b>a＋b＋c＋d＋e＝180°</b><br>答え <b>180°</b>',f:starFig({tips:tips,fg:true,lF:'p',lG:'q'})}
+  ]);
+  boxHtml(S,'<b>【重要】</b>星形（5つの先）の角の和は、いつも<b>180°</b>です。');
+  const T=(a,b,c,d,e,u)=>{const v={a,b,c,d,e},t={};['a','b','c','d','e'].forEach(k=>{t[k]=(k===u)?{l:'x',c:'find'}:{l:v[k]+'°'};});return starFig({tips:t});};
+  const h='星形の先の5つの角の和は180°です。';
+  group(S,'練習','',[
+    PB(starFig({tips:tips}),'星形の先の角 a, b, c, d, e の和は？',180,[90,360,540],'三角形を使って考えた、あの和です。','星形の先の5つの角の和は、いつも180°。'),
+    PB(T(40,30,36,42,32,'e'),'∠<i>x</i>（∠e）は？ ※ 図は形のイメージです',32,[28,36,148],h,'a＋b＋c＋d＋e＝180° だから x＝180°−(40°＋30°＋36°＋42°)＝180°−148°＝32°。')
+  ],{note:'例題のそっくり問題（2問）'});
+  group(S,'確認','k',[
+    PB(T(35,40,38,37,30,'e'),'∠<i>x</i>（∠e）は？ ※ 図は形のイメージです',30,[20,40,150],h,'x＝180°−(35°＋40°＋38°＋37°)＝180°−150°＝30°。'),
+    PB(T(28,45,33,39,35,'d'),'∠<i>x</i>（∠d）は？ ※ 図は形のイメージです',39,[31,49,141],h,'x＝180°−(28°＋45°＋33°＋35°)＝180°−141°＝39°。')
+  ],{note:'力だめし（2問）'});
+  chk(180-(40+30+36+42),32,'star e1');chk(180-(35+40+38+37),30,'star e2');chk(180-(28+45+33+35),39,'star e3');
+})();
+
+/* ========== 応用 総合確認 ========== */
+(function(){
+  const S=newSec('fin2','応用 総合確認（入試問題風）','<p>目標時間は8分です。全問正解（やり直しなし）で花吹雪が出ます。</p>');
+  group(S,'総合確認','k',[
+    PB(eqFig({lx:'x'}),'△ABCは正三角形です。<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？（Bで、mと辺BCが12°）',48,[12,60,72],'正三角形の1つの角は60°です。点Cを通って m に平行な線をひいてみましょう。','Cを通って m に平行な線をひくと、12°の錯角が12°。∠ACBは60°だから、残りは60°−12°＝48°。これが l との同位角（錯角）になり、x＝48°。',null,eqFig({lx:'x',aux:true})),
+    PB(bisFig(56,48,{lA:'76°',lX:'x'}),'点Pは∠Bの二等分線と∠Cの二等分線の交点です。∠A＝76°のとき、∠xは？',128,[52,104,138],'a＋b を考えます。','△ABCで 76°＋2(a＋b)＝180° より a＋b＝52°。△PBCで ∠x＝180°−52°＝128°。'),
+    PB(T2(),'星形の先の角で、a＝38°、b＝32°、c＝40°、e＝35°のとき、∠d（∠x）は？ ※ 図は形のイメージです',35,[25,45,145],'星形の先の5つの角の和は180°です。','x＝180°−(38°＋32°＋40°＋35°)＝180°−145°＝35°。'),
+    PB(null,'1つの外角が24°の正多角形に、対角線は1つの頂点から何本ひけますか。',12,[10,13,15],'まず何角形かを求めます（外角の和は360°）。','360°÷24°＝15 より正十五角形。1つの頂点からひける対角線は、15−3＝12本。',v=>v+'本')
+  ],{timer:8,note:'4問・時間つき'});
+  function T2(){return starFig({tips:{a:{l:'38°'},b:{l:'32°'},c:{l:'40°'},d:{l:'x',c:'find'},e:{l:'35°'}}});}
+  chk(180-(38+32+40+35),35,'star final');
+})();
+
 </script>
 </body>
 </html>

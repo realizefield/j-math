@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>平行線と角 確認テスト | GAMBA 中学数学</title>
+<style>
+:root{--red:#e03131;--green:#2f9e44;--blue:#1971c2;--bg:#f4f7fb;--ink:#222;--mut:#666;--line:#d9e0ea;--main:#1c7ed6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;font-size:17px;line-height:1.85}
+header{background:linear-gradient(135deg,#1c7ed6,#12b886);color:#fff;padding:28px 16px;text-align:center}
+header h1{margin:0;font-size:28px}
+header p{margin:6px 0 0;opacity:.95}
+main{max-width:980px;margin:0 auto;padding:16px}
+section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin:22px 0;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+h2{margin:0 0 12px;font-size:23px;border-left:8px solid var(--main);padding-left:12px}
+h3{margin:18px 0 8px;font-size:19px}
+.index{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:16px 0}
+.index a{display:block;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;box-shadow:0 2px 6px rgba(0,0,0,.05);transition:.15s}
+.index a:hover{transform:translateY(-2px);border-color:var(--main)}
+.index b{display:block;color:var(--main);font-size:14px}
+.box{background:#fff9db;border:2px solid #fcc419;border-radius:12px;padding:12px 16px;margin:12px 0}
+.box.blue{background:#e7f5ff;border-color:#74c0fc}
+.fig svg{width:100%;height:auto;max-width:380px;background:#fff;border:1px solid var(--line);border-radius:10px}
+.row{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.row>.col{flex:1 1 300px}
+.btn{font:inherit;cursor:pointer;border:none;border-radius:10px;padding:8px 16px;background:var(--main);color:#fff;margin:4px 4px 4px 0}
+.btn.ghost{background:#e9ecef;color:#333}
+.btn.small{font-size:14px;padding:4px 12px;background:#f08c00}
+.btn.sel{background:#0b7285}
+.btn:disabled{opacity:.6;cursor:default}
+input[type=range]{width:100%;max-width:380px}
+.step{display:flex;flex-wrap:wrap;gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0;background:#fcfdff;animation:fi .35s}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.step .stxt{flex:1 1 280px}
+.step .sfig{flex:1 1 260px}
+.step .sfig svg{width:100%;max-width:340px;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+.badge{display:inline-block;background:var(--main);color:#fff;border-radius:999px;padding:0 12px;font-size:14px;margin-right:8px}
+.q{font-weight:700;background:#f1f3f5;border-radius:8px;padding:8px 12px}
+.sub{margin-top:22px;padding-top:6px;border-top:2px dashed var(--line)}
+.sub h3 span{background:#fd7e14;color:#fff;border-radius:6px;padding:1px 10px;font-size:15px;margin-right:8px}
+.sub.k h3 span{background:#7048e8}
+.prob{display:flex;flex-wrap:wrap;gap:14px;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.prob .pfig{flex:1 1 260px}
+.prob .pfig svg{width:100%;max-width:340px;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+.prob .pbody{flex:1 1 280px}
+.pq{font-weight:700;margin:0 0 6px}
+.choices button{display:block;width:100%;max-width:340px;text-align:left;font:inherit;background:#fff;border:2px solid #adb5bd;border-radius:10px;padding:6px 14px;margin:6px 0;cursor:pointer}
+.choices button:hover:not(:disabled){border-color:var(--main);background:#e7f5ff}
+.choices button.ok{background:#d3f9d8;border-color:var(--green)}
+.choices button.ng{background:#ffe3e3;border-color:var(--red);opacity:.7}
+.hint{color:#e67700;font-size:16px;margin-top:4px}
+.okt{color:var(--green)}.ngt{color:var(--red)}
+.sum{margin-top:10px;padding:12px 16px;border-radius:12px;background:#f3f0ff;font-weight:700}
+.tbl td,.tbl th{border:1px solid var(--line);padding:4px 10px}
+canvas#cf{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;display:none;z-index:99}
+.mini{display:flex;flex-wrap:wrap;gap:12px}
+.mini div{flex:1 1 200px;text-align:center;font-size:15px}
+.mini svg{width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
+footer{text-align:center;color:var(--mut);font-size:14px;padding:20px}
+
+.bar{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 14px;margin:8px 0;box-shadow:0 2px 8px rgba(0,0,0,.08);font-size:17px}
+.bar.hurry b{color:var(--red)}
+.btn.big{font-size:19px;padding:12px 28px}
+.btn.lnk{display:inline-block;text-decoration:none}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:16px 0;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+.qcard.good{border-color:#69db7c}.qcard.bad{border-color:#ffa8a8}
+.qhead{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.qno{background:var(--main);color:#fff;border-radius:8px;padding:0 12px;font-weight:700}
+.tag{font-size:13px;border-radius:999px;padding:0 10px;color:#fff}.tag.k1{background:#2f9e44}.tag.k2{background:#7048e8}
+.mk{font-weight:700}.good .mk{color:var(--green)}.bad .mk{color:var(--red)}
+.choices button.sel{background:#d0ebff;border-color:var(--main);font-weight:700}
+.warn{color:#c92a2a;font-weight:700;min-height:1.5em}
+.resbox{border-radius:16px;padding:20px;margin:16px 0;text-align:center}
+.resbox.pass{background:#ebfbee;border:3px solid #51cf66}.resbox.fail{background:#fff5f5;border:3px solid #ffa8a8}
+.score{font-size:26px;margin:4px 0}.score b{font-size:44px}
+.verdict{font-size:20px;font-weight:700}
+.expl{background:#fff9db;border-radius:8px;padding:8px 12px}
+</style>
+</head>
+<body>
+<header><h1>平行線と角　確認テスト</h1><p>中学数学 2年　図形　21問・25分</p></header>
+<main id="app"></main>
+<footer>江原予備校 GAMBA</footer>
+<canvas id="cf"></canvas>
+<script>
+
+/* ========== 図を描く道具 ========== */
+const COL={given:'#e03131',find:'#2f9e44',mid:'#1971c2'};
+const RAD=Math.PI/180;
+function pol(c,r,deg){const a=deg*RAD;return [c[0]+r*Math.cos(a),c[1]-r*Math.sin(a)];}
+function sec(c,r,a1,a2,col,lab,lr,fs){
+  const p1=pol(c,r,a1),p2=pol(c,r,a2),lg=(a2-a1)>180?1:0;
+  const f=v=>v.toFixed(1);
+  const p=`<path d="M${f(c[0])},${f(c[1])} L${f(p1[0])},${f(p1[1])} A${r},${r} 0 ${lg} 0 ${f(p2[0])},${f(p2[1])} Z" fill="${col}" fill-opacity=".28" stroke="${col}" stroke-width="1.6"/>`;
+  let t='';
+  if(lab){const q=pol(c,lr,(a1+a2)/2);
+    t=`<text x="${f(q[0])}" y="${f(q[1])}" text-anchor="middle" dominant-baseline="central" font-size="${fs||14}" font-weight="700" fill="${col}" stroke="#fff" stroke-width="3.5" paint-order="stroke">${lab}</text>`;}
+  return [p,t];
+}
+function chev(x,y){return `<path d="M${x-5},${y-6} L${x+2},${y} L${x-5},${y+6}" fill="none" stroke="#333" stroke-width="2" />`;}
+function bounds(base,th,reg){return [[base,th],[th,base+180],[base+180,th+180],[th+180,base+360]][reg];}
+
+/* 2直線 l, m と、それを横切る直線 */
+function figPar(s){
+  const th=s.theta,de=s.delta||0;
+  const cot=Math.cos(th*RAD)/Math.sin(th*RAD);
+  const P=[180+50*cot,70],Q=[180-50*cot,170];
+  const d=[Math.cos(th*RAD),-Math.sin(th*RAD)];
+  const top=[P[0]+48*d[0],P[1]+48*d[1]],bot=[Q[0]-48*d[0],Q[1]-48*d[1]];
+  const L1=Q[0]-8,L2=352-Q[0],dm=[Math.cos(de*RAD),-Math.sin(de*RAD)];
+  const mL=[Q[0]-L1*dm[0],Q[1]-L1*dm[1]],mR=[Q[0]+L2*dm[0],Q[1]+L2*dm[1]];
+  let paths='',labs='';
+  (s.marks||[]).forEach(mk=>{
+    const base=mk.at==='P'?0:de;
+    const [a1,a2]=bounds(base,th,mk.reg);
+    const c=COL[mk.c||'given'];
+    const o=sec(mk.at==='P'?P:Q,26,a1,a2,c,mk.l,(a2-a1)<50?50:43,(mk.l&&mk.l.length>5)?11.5:14);
+    paths+=o[0];labs+=o[1];
+  });
+  let o=`<svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg">`+paths;
+  o+=`<line x1="8" y1="70" x2="352" y2="70" stroke="#333" stroke-width="2"/>`;
+  o+=`<line x1="${mL[0].toFixed(1)}" y1="${mL[1].toFixed(1)}" x2="${mR[0].toFixed(1)}" y2="${mR[1].toFixed(1)}" stroke="#333" stroke-width="2"/>`;
+  o+=`<line x1="${bot[0].toFixed(1)}" y1="${bot[1].toFixed(1)}" x2="${top[0].toFixed(1)}" y2="${top[1].toFixed(1)}" stroke="#555" stroke-width="2"/>`;
+  if(s.arrows&&de===0){o+=chev(318,70)+chev(318,170);}
+  o+=`<text x="346" y="58" text-anchor="end" font-size="16" font-style="italic" fill="#333">l</text>`;
+  o+=`<text x="${(mR[0]-4).toFixed(1)}" y="${(mR[1]-10).toFixed(1)}" text-anchor="end" font-size="16" font-style="italic" fill="#333">m</text>`;
+  o+=`<text x="${(top[0]+10).toFixed(1)}" y="${(top[1]+2).toFixed(1)}" font-size="15" font-style="italic" fill="#555">n</text>`;
+  o+=labs+`</svg>`;
+  return o;
+}
+
+/* くの字に折れた線（l∥m にはさまれる） */
+function figKink(s){
+  const a=s.a,b=s.b,V=[240,120],l=s.l||{};
+  const A=[V[0]-60*Math.cos(a*RAD)/Math.sin(a*RAD),60];
+  const B=[V[0]-60*Math.cos(b*RAD)/Math.sin(b*RAD),180];
+  const parts=s.parts||['x'];
+  let paths='',labs='';
+  const add=o=>{paths+=o[0];labs+=o[1];};
+  add(sec(A,26,-a,0,'#e03131',l.a,(a<50?52:44),14));
+  add(sec(B,26,0,b,'#1971c2',l.b,(b<50?52:44),14));
+  if(parts.includes('x')) add(sec(V,32,180-a,180+b,'#2f9e44',l.x,52,15));
+  if(parts.includes('a2')) add(sec(V,32,180-a,180,'#e03131',l.a2,(a<50?58:50),14));
+  if(parts.includes('b2')) add(sec(V,32,180,180+b,'#1971c2',l.b2,(b<50?58:50),14));
+  let o=`<svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg">`+paths;
+  o+=`<line x1="8" y1="60" x2="352" y2="60" stroke="#333" stroke-width="2"/><line x1="8" y1="180" x2="352" y2="180" stroke="#333" stroke-width="2"/>`;
+  if(s.aux) o+=`<line x1="8" y1="120" x2="352" y2="120" stroke="#7048e8" stroke-width="2" stroke-dasharray="7 5"/><text x="346" y="110" text-anchor="end" font-size="13" fill="#7048e8">補助線</text>`;
+  o+=`<polyline points="${A[0].toFixed(1)},60 240,120 ${B[0].toFixed(1)},180" fill="none" stroke="#555" stroke-width="2.5"/>`;
+  o+=chev(325,60)+chev(325,180);
+  o+=`<text x="346" y="48" text-anchor="end" font-size="16" font-style="italic" fill="#333">l</text><text x="346" y="170" text-anchor="end" font-size="16" font-style="italic" fill="#333">m</text>`;
+  o+=labs+`</svg>`;
+  return o;
+}
+const _ERR=[],ALLP=[],ALLR=[];
+function renderFig(s){const r=s.k==='kink'?figKink(s):(s.k==='g'?figG(s):figPar(s));ALLR.push(r);return r;}
+const par=(th,marks,o)=>Object.assign({k:'par',theta:th,marks},o||{});
+const M=(at,reg,l,c)=>({at,reg,l,c});
+const kink=(a,b,l,o)=>Object.assign({k:'kink',a,b,l},o||{});
+
+/* ========== 花吹雪 ========== */
+function confetti(){
+  const cv=document.getElementById('cf'),ctx=cv.getContext('2d');
+  cv.width=innerWidth;cv.height=innerHeight;cv.style.display='block';
+  const cols=['#ff6b6b','#ffd43b','#51cf66','#339af0','#cc5de8','#ff922b','#f783ac'];
+  const ps=Array.from({length:190},()=>({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.6,vx:(Math.random()-.5)*3,vy:2+Math.random()*4,s:7+Math.random()*9,r:Math.random()*6,vr:(Math.random()-.5)*.3,c:cols[Math.floor(Math.random()*cols.length)]}));
+  let f=0;
+  (function step(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ps.forEach(p=>{p.x+=p.vx+Math.sin(f/18+p.r);p.y+=p.vy;p.r+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);ctx.restore();});
+    f++;
+    if(f<280)requestAnimationFrame(step);else{ctx.clearRect(0,0,cv.width,cv.height);cv.style.display='none';}
+  })();
+}
+
+
+function chk(a,b,msg){if(Math.abs(a-b)>0.01)_ERR.push(msg+' geom='+a+' formula='+b);}
+COL.orange='#e8590c';COL.purple='#7048e8';COL.teal='#0b7285';
+
+/* ---------- ベクトルの道具 ---------- */
+const rot=(v,d)=>{const c=Math.cos(d*RAD),s=Math.sin(d*RAD);return [v[0]*c-v[1]*s,v[0]*s+v[1]*c];};
+const vadd=(p,v,t)=>{t=(t===undefined)?1:t;return [p[0]+v[0]*t,p[1]+v[1]*t];};
+const vsub=(a,b)=>[a[0]-b[0],a[1]-b[1]];
+const vnorm=v=>{const l=Math.hypot(v[0],v[1]);return [v[0]/l,v[1]/l];};
+const vdir=d=>[Math.cos(d*RAD),Math.sin(d*RAD)];
+function isect(p,u,q,w){const det=-u[0]*w[1]+u[1]*w[0];const dx=q[0]-p[0],dy=q[1]-p[1];const t=(-dx*w[1]+dy*w[0])/det;return vadd(p,u,t);}
+/* 数学座標（y上向き）→ 画面座標に収める */
+function fitPts(pts,o){
+  o=o||{};const W=360,H=240,m=o.m||36;
+  const ns=Object.keys(pts);let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  ns.forEach(n=>{const p=pts[n];x0=Math.min(x0,p[0]);x1=Math.max(x1,p[0]);y0=Math.min(y0,p[1]);y1=Math.max(y1,p[1]);});
+  const bw=(x1-x0)||1,bh=(y1-y0)||1,sc=Math.min((W-2*m)/bw,(H-2*m)/bh);
+  const ox=(W-bw*sc)/2,oy=(H-bh*sc)/2,out={};
+  ns.forEach(n=>{const p=pts[n];out[n]=[ox+(p[0]-x0)*sc,oy+(y1-p[1])*sc];});
+  return out;
+}
+/* 3点で決まる角（vの角、a側とb側の半直線のあいだの小さいほう） */
+function angInfo(P,g){
+  const v=P[g.v],a=P[g.a],b=P[g.b];
+  const A1=Math.atan2(-(a[1]-v[1]),a[0]-v[0])/RAD,B1=Math.atan2(-(b[1]-v[1]),b[0]-v[0])/RAD;
+  let d=((B1-A1)%360+360)%360,a1,a2;
+  if(d<=180){a1=A1;a2=A1+d;}else{a1=B1;a2=B1+(360-d);d=360-d;}
+  return {a1,a2,d};
+}
+function gval(s,id){return angInfo(s.pts,s.angs.find(x=>x.id===id)).d;}
+function gv3(P,v,a,b){return angInfo(P,{v,a,b}).d;}
+
+/* 汎用の図 */
+function figG(s){
+  const P=s.pts;let paths='',labs='',body='',extra='';
+  const inb=(n)=>{const p=P[n];if(!p||p[0]<2||p[0]>358||p[1]<2||p[1]>238)_ERR.push('out of box: '+n+' '+JSON.stringify(p));};
+  (s.hl||[]).forEach(h=>{body+=`<line x1="8" y1="${h.y.toFixed(1)}" x2="352" y2="${h.y.toFixed(1)}" stroke="#333" stroke-width="2"/>`+chev(322,h.y)+`<text x="346" y="${(h.y-9).toFixed(1)}" text-anchor="end" font-size="16" font-style="italic" fill="#333">${h.n||''}</text>`;});
+  (s.segs||[]).forEach(e=>{const a=P[e[0]],b=P[e[1]],o=e[2]||{};inb(e[0]);inb(e[1]);body+=`<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${o.col||'#444'}" stroke-width="${o.w||2.4}"${o.dash?' stroke-dasharray="6 5"':''}/>`;});
+  (s.angs||[]).forEach(g=>{
+    inb(g.v);
+    const i=angInfo(P,g),col=COL[g.c||'given'],r=g.r||22;
+    let lab=g.l;if(lab==='auto')lab=Math.round(i.d)+'°';
+    const o=sec(P[g.v],r,i.a1,i.a2,col,lab,r+(i.d<45?30:19),(lab&&lab.length>5)?11.5:13.5);
+    paths+=o[0];labs+=o[1];
+  });
+  if(s.letters){const ns=s.letters;let cx=0,cy=0;ns.forEach(n=>{cx+=P[n][0];cy+=P[n][1];});cx/=ns.length;cy/=ns.length;
+    ns.forEach(n=>{const u=vnorm([P[n][0]-cx,P[n][1]-cy]);extra+=`<text x="${(P[n][0]+u[0]*14).toFixed(1)}" y="${(P[n][1]+u[1]*14).toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-size="16" font-weight="700" fill="#333">${(s.names&&s.names[n])||n}</text>`;});}
+  (s.txt||[]).forEach(t=>{const p=Array.isArray(t.p)?t.p:P[t.p];extra+=`<text x="${(p[0]+(t.dx||0)).toFixed(1)}" y="${(p[1]+(t.dy||0)).toFixed(1)}" text-anchor="${t.a||'middle'}" dominant-baseline="central" font-size="${t.s||14}" font-weight="700" fill="${t.c||'#333'}">${t.t}</text>`;});
+  return `<svg viewBox="0 0 360 240" xmlns="http://www.w3.org/2000/svg">${paths}${body}${extra}${labs}</svg>`;
+}
+/* 底辺BCが水平な三角形（B,Cの内角から） */
+function triPts(B_,C_){
+  const A_=180-B_-C_,t=Math.sin(C_*RAD)/Math.sin(A_*RAD);
+  return {B:[0,0],C:[1,0],A:[t*Math.cos(B_*RAD),t*Math.sin(B_*RAD)]};
+}
+
+/* ---------- 三角形の外角 ---------- */
+function extTri(A_,B_,o){
+  o=o||{};const C_=180-A_-B_,p0=triPts(B_,C_);
+  p0.D=[1.6,0];p0.E=vadd(p0.C,vnorm(vsub(p0.A,p0.B)),0.7);
+  const P=fitPts(p0);
+  chk(gv3(P,'C','A','D'),A_+B_,'extTri exterior');
+  const segs=[['A','B'],['B','C'],['C','A'],['C','D']];
+  if(o.aux)segs.push(['C','E',{dash:true,col:'#7048e8'}]);
+  const angs=[];
+  if(o.lA)angs.push({v:'A',a:'B',b:'C',l:o.lA,c:o.cA||'given'});
+  if(o.lB)angs.push({v:'B',a:'A',b:'C',l:o.lB,c:o.cB||'mid'});
+  if(o.lX)angs.push({v:'C',a:'A',b:'D',l:o.lX,c:o.cX||'find',r:26});
+  if(o.lE1)angs.push({v:'C',a:'E',b:'D',l:o.lE1,c:'mid',r:30});
+  if(o.lE2)angs.push({v:'C',a:'A',b:'E',l:o.lE2,c:'given',r:30});
+  const txt=[{p:'D',t:'D',dx:4,dy:14}];
+  if(o.aux)txt.push({p:'E',t:'E',dx:8,dy:-8});
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C'],txt};
+}
+
+/* ---------- へこんだ形（矢じり） ---------- */
+function arrowFig(a,b,c,o){
+  o=o||{};
+  const A=[0,0],B=vadd(A,vdir(-90-a/2),o.LB||1),C=vadd(A,vdir(-90+a/2),o.LC||1);
+  const side=(F,T1,T2,ang)=>{const u=vnorm(vsub(T1,F)),w=vnorm(vsub(T2,F));const cr=u[0]*w[1]-u[1]*w[0];return rot(u,(cr>0?1:-1)*ang);};
+  const D=isect(B,side(B,A,C,b),C,side(C,A,B,c));
+  const E=vadd(D,vnorm(vsub(D,A)),0.45);
+  const P=fitPts({A,B,C,D,E});
+  chk(gv3(P,'D','B','C'),a+b+c,'arrow x=a+b+c');
+  chk(gv3(P,'B','A','D'),b,'arrow b');chk(gv3(P,'C','A','D'),c,'arrow c');
+  const segs=[['A','B'],['A','C'],['B','D'],['C','D']];
+  if(o.aux)segs.push(['A','E',{dash:true,col:'#7048e8'}]);
+  const angs=[];
+  if(o.lA)angs.push({v:'A',a:'B',b:'C',l:o.lA,c:o.cA||'given'});
+  if(o.lB)angs.push({v:'B',a:'A',b:'D',l:o.lB,c:o.cB||'mid',r:24});
+  if(o.lC)angs.push({v:'C',a:'A',b:'D',l:o.lC,c:o.cC||'orange',r:24});
+  if(o.lX)angs.push({v:'D',a:'B',b:'C',l:o.lX,c:o.cX||'find',r:24});
+  if(o.lP)angs.push({v:'D',a:'B',b:'E',l:o.lP,c:'purple',r:24});
+  if(o.lQ)angs.push({v:'D',a:'E',b:'C',l:o.lQ,c:'teal',r:30});
+  const txt=[{p:'A',t:'A',dy:-13},{p:'B',t:'B',dx:-12,dy:6},{p:'C',t:'C',dx:12,dy:6},{p:'D',t:'D',dy:-14}];
+  if(o.aux)txt.push({p:'E',t:'E',dy:12});
+  return {k:'g',pts:P,segs,angs,txt};
+}
+
+/* ---------- 平行線ではさまれた折れ線 ---------- */
+function zigFig(phis,o){
+  o=o||{};
+  const n=phis.length,Yt=34,Yb=206,gap=(Yb-Yt)/n,V=[[0,Yt]];
+  for(let i=0;i<n;i++){const cot=Math.cos(phis[i]*RAD)/Math.sin(phis[i]*RAD);V.push([V[i][0]-gap*cot,V[i][1]+gap]);}
+  let mn=1e9,mx=-1e9;V.forEach(v=>{mn=Math.min(mn,v[0]);mx=Math.max(mx,v[0]);});
+  const sh=180-(mn+mx)/2,P={};
+  if(mx-mn>230)_ERR.push('zig too wide '+JSON.stringify(phis));
+  V.forEach((v,i)=>{P['V'+i]=[v[0]+sh,v[1]];P['L'+i]=[v[0]+sh-52,v[1]];P['R'+i]=[v[0]+sh+52,v[1]];});
+  const segs=[];
+  for(let i=0;i<n;i++)segs.push(['V'+i,'V'+(i+1)]);
+  (o.aux||[]).forEach(i=>segs.push(['L'+i,'R'+i,{dash:true,col:'#7048e8',w:1.8}]));
+  const angs=[];
+  (o.marks||[]).forEach(mk=>{
+    let g;
+    if(mk.k==='top')g=mk.side==='R'?{v:'V0',a:'V1',b:'R0'}:{v:'V0',a:'L0',b:'V1'};
+    else if(mk.k==='bot')g=mk.side==='L'?{v:'V'+n,a:'V'+(n-1),b:'L'+n}:{v:'V'+n,a:'V'+(n-1),b:'R'+n};
+    else if(mk.k==='bend')g={v:'V'+mk.i,a:'V'+(mk.i-1),b:'V'+(mk.i+1)};
+    else g={v:mk.v,a:mk.a,b:mk.b};
+    g.l=mk.l;g.c=mk.c||'given';g.id=mk.id;g.r=mk.r||20;
+    angs.push(g);
+  });
+  return {k:'g',pts:P,segs,angs,hl:[{y:Yt,n:'l'},{y:Yb,n:'m'}]};
+}
+/* 折れ線(3本)の角を数式で */
+function zig3(phis){
+  const a=phis[0],p=180-Math.abs(phis[0]-phis[1]),q=180-Math.abs(phis[1]-phis[2]),x=phis[2];
+  const chkS=zigFig(phis,{marks:[{k:'top',side:'L',id:'a'},{k:'bend',i:1,id:'p'},{k:'bend',i:2,id:'q'},{k:'bot',side:'R',id:'x'}]});
+  chk(gval(chkS,'a'),a,'zig a');chk(gval(chkS,'p'),p,'zig p');chk(gval(chkS,'q'),q,'zig q');chk(gval(chkS,'x'),x,'zig x');
+  chk(a-p+q,x,'zig formula');
+  return {a,p,q,x};
+}
+function zigMarks(v,u){
+  const L=(k,val)=>({l:u===k?'x':val+'°',c:u===k?'find':'given'});
+  return [Object.assign({k:'top',side:'L'},L('a',v.a)),Object.assign({k:'bend',i:1},L('p',v.p)),Object.assign({k:'bend',i:2},L('q',v.q)),Object.assign({k:'bot',side:'R'},L('x',v.x))];
+}
+
+/* ---------- 多角形 ---------- */
+function polyFig(n,o){
+  o=o||{};const p0={};
+  for(let i=0;i<n;i++)p0['V'+i]=vdir(90+360*i/n);
+  if(o.ext)p0.X=vadd(p0.V1,vsub(p0.V1,p0.V0),0.6);
+  const P=fitPts(p0,{m:o.ext?44:38});
+  const segs=[];
+  for(let i=0;i<n;i++)segs.push(['V'+i,'V'+((i+1)%n)]);
+  if(o.diag)for(let i=2;i<n-1;i++)segs.push(['V0','V'+i,{dash:true,col:'#7048e8',w:1.8}]);
+  const angs=[];
+  if(o.ext){
+    chk(gv3(P,'V1','X','V2'),360/n,'polygon exterior=360/n');
+    chk(gv3(P,'V1','V0','V2'),180-360/n,'polygon interior');
+    if(o.lInt)angs.push({v:'V1',a:'V0',b:'V2',l:o.lInt,c:'given',r:20});
+    if(o.lExt)angs.push({v:'V1',a:'X',b:'V2',l:o.lExt,c:'find',r:24});
+    segs.push(['V1','X']);
+  }
+  const txt=o.center?[{p:[180,120],t:o.center,s:15,c:'#7048e8'}]:[];
+  return {k:'g',pts:P,segs,angs,txt};
+}
+
+/* ---------- 二等分線 ---------- */
+function bisFig(B_,C_,o){
+  o=o||{};const A_=180-B_-C_,p0=triPts(B_,C_);
+  p0.P=isect(p0.B,vdir(B_/2),p0.C,vdir(180-C_/2));
+  const P=fitPts(p0);
+  chk(gv3(P,'P','B','C'),90+A_/2,'incenter x=90+A/2');
+  const segs=[['A','B'],['B','C'],['C','A'],['B','P'],['C','P']];
+  const angs=[];
+  if(o.lA)angs.push({v:'A',a:'B',b:'C',l:o.lA,c:o.cA||'given'});
+  if(o.lX)angs.push({v:'P',a:'B',b:'C',l:o.lX,c:o.cX||'find',r:20});
+  if(o.mk){
+    angs.push({v:'B',a:'A',b:'P',l:'a',c:'mid',r:30},{v:'B',a:'P',b:'C',l:'a',c:'mid',r:36});
+    angs.push({v:'C',a:'A',b:'P',l:'b',c:'orange',r:30},{v:'C',a:'P',b:'B',l:'b',c:'orange',r:36});
+  }
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P']};
+}
+function extBisFig(B_,C_,o){
+  o=o||{};const A_=180-B_-C_,p0=triPts(B_,C_);
+  p0.D=[1.5,0];
+  p0.P=isect(p0.B,vdir(B_/2),p0.C,vdir((180-C_)/2));
+  const P=fitPts(p0);
+  chk(gv3(P,'P','B','C'),A_/2,'ext-bisector x=A/2');
+  const segs=[['A','B'],['B','C'],['C','A'],['C','D'],['B','P'],['C','P']];
+  const angs=[];
+  if(o.lA)angs.push({v:'A',a:'B',b:'C',l:o.lA,c:o.cA||'given'});
+  if(o.lX)angs.push({v:'P',a:'B',b:'C',l:o.lX,c:o.cX||'find',r:20});
+  if(o.mk){
+    angs.push({v:'B',a:'A',b:'P',l:'a',c:'mid',r:30},{v:'B',a:'P',b:'C',l:'a',c:'mid',r:36});
+    angs.push({v:'C',a:'A',b:'P',l:'b',c:'orange',r:26},{v:'C',a:'P',b:'D',l:'b',c:'orange',r:32});
+  }
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P'],txt:[{p:'D',t:'D',dx:4,dy:14}]};
+}
+
+/* ---------- 正三角形をはさむ問題 ---------- */
+function eqFig(o){
+  o=o||{};
+  const B=[0,0],C=vdir(12),A=rot(C,60),yl=0.62;
+  const Pp=isect(A,vsub(C,A),[0,yl],[1,0]);
+  const p0={A,B,C,P:Pp,Pl:[Pp[0]-0.35,Pp[1]],Br:[0.45,0],Cl:[C[0]-0.45,C[1]],Lm:[0,yl]};
+  const P=fitPts(p0,{m:40});
+  chk(gv3(P,'P','A','Pl'),48,'eq x=48');chk(gv3(P,'B','C','Br'),12,'eq 12');
+  const segs=[['A','B'],['B','C'],['C','A']];
+  if(o.aux)segs.push(['C','Cl',{dash:true,col:'#7048e8'}]);
+  const angs=[{v:'B',a:'C',b:'Br',l:'12°',c:'given',r:26}];
+  if(o.lx)angs.push({v:'P',a:'A',b:'Pl',l:o.lx,c:o.cx||'find',r:20});
+  if(o.aux){angs.push({v:'C',a:'B',b:'Cl',l:'12°',c:'mid',r:26},{v:'C',a:'A',b:'Cl',l:'48°',c:'orange',r:34});}
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C'],hl:[{y:P.Lm[1],n:'l'},{y:P.B[1],n:'m'}]};
+}
+
+/* ---------- 星形 ---------- */
+function starFig(o){
+  o=o||{};
+  const base={A:[0.05,1.05],E:[0.9,0.25],D:[0.65,-0.8],C:[-0.5,-0.85],B:[-1.0,0.35]};
+  const F=isect(base.A,vsub(base.C,base.A),base.B,vsub(base.E,base.B));
+  const G=isect(base.A,vsub(base.D,base.A),base.B,vsub(base.E,base.B));
+  const P=fitPts(Object.assign({},base,{F,G}),{m:30});
+  const tip={a:['A','D','C'],b:['B','D','E'],c:['C','E','A'],d:['D','A','B'],e:['E','B','C']};
+  const s=gv3(P,'A','D','C')+gv3(P,'B','D','E')+gv3(P,'C','E','A')+gv3(P,'D','A','B')+gv3(P,'E','B','C');
+  chk(s,180,'star sum');
+  chk(gv3(P,'F','A','E'),gv3(P,'C','E','A')+gv3(P,'E','B','C'),'star c+e');
+  chk(gv3(P,'G','A','B'),gv3(P,'B','D','E')+gv3(P,'D','A','B'),'star b+d');
+  const segs=[['A','D'],['D','B'],['B','E'],['E','C'],['C','A']];
+  const angs=[];
+  const T=o.tips||{};
+  Object.keys(tip).forEach(k=>{if(T[k])angs.push({v:tip[k][0],a:tip[k][1],b:tip[k][2],l:T[k].l,c:T[k].c||'given',r:18});});
+  if(o.lF)angs.push({v:'F',a:'A',b:'E',l:o.lF,c:'purple',r:16});
+  if(o.lG)angs.push({v:'G',a:'A',b:'B',l:o.lG,c:'teal',r:16});
+  const txt=[{p:'A',t:'A',dy:-13},{p:'B',t:'B',dx:-12},{p:'C',t:'C',dx:-10,dy:10},{p:'D',t:'D',dx:10,dy:10},{p:'E',t:'E',dx:12}];
+  if(o.fg){txt.push({p:'F',t:'F',dx:-9,dy:-8,c:'#7048e8'},{p:'G',t:'G',dx:9,dy:-8,c:'#0b7285'});}
+  return {k:'g',pts:P,segs,angs,txt};
+}
+
+
+
+/* ====================================================================
+   確認テスト本体
+   ==================================================================== */
+const TOTAL_SEC=25*60, PASS=17;
+const YES=['平行といえる','平行といえない','これだけでは決められない'];
+const starT=(v,u)=>{const t={};['a','b','c','d','e'].forEach(k=>{t[k]=(k===u)?{l:'x',c:'find'}:{l:v[k]+'°'};});return starFig({tips:t});};
+const zk=(phis,u)=>{const w=zig3(phis);return {w,f:zigFig(phis,{marks:zigMarks(w,u)})};};
+const Z=zk([58,122,48],'p');
+chk(Z.w.p,116,'test zig p');
+
+/* ---- 角の場所（同位角・対頂角・錯角の3パターン）---- */
+COL.gray='#868e96';
+const LET=['a','b','c','d','e','f','g','h'];
+const figLet=(th,roles)=>{const m=[];LET.forEach((L,i)=>m.push(M(i<4?'P':'Q',i%4,L,roles[L]||'gray')));return par(th,m,{arrows:true});};
+const prA=(a,b)=>par(62,[M(a[0],a[1],'ア','given'),M(b[0],b[1],'イ','mid')],{arrows:true});
+const fq='<span style="color:#e03131">ア</span>と<span style="color:#1971c2">イ</span>の角は、何という角の関係ですか。';
+const R4=['同位角','錯角','対頂角','同側内角'];
+const vL=L=>((LET.indexOf(L)%4)%2===0)?62:118;
+const vP=a=>(a[1]%2===0)?62:118;
+const fw=(a,b,ans,exp)=>{chk(vP(a),vP(b),'place fw '+a+b);return {cat:'基本',f:prA(a,b),q:fq,c:ans,w:R4.filter(x=>x!==ans),exp:exp};};
+const rv=(t,rel,ans,wr,exp)=>{chk(vL(t),vL(ans),'place rv '+t+ans);const r={};r[t]='given';return {cat:'基本',f:figLet(62,r),q:'<span style="color:#e03131">∠'+t+'</span> の<b>'+rel+'</b>は、どれですか。',c:'∠'+ans,w:wr.map(x=>'∠'+x),exp:exp};};
+const PLACE=[
+ rv('d','同位角','h',['b','f','g'],'∠d は上の交点の右下。下の交点で右下にある角は ∠h。（同位角は同じ場所）'),
+ fw(['P',1],['Q',1],'同位角','アとイは、どちらも<b>左上</b>。同じ場所にあるので同位角。'),
+ rv('a','対頂角','c',['b','e','g'],'∠a は上の交点の右上。向かい合う（左下）の角は ∠c。（対頂角は向かい合う角）'),
+ fw(['Q',3],['Q',1],'対頂角','アとイは、同じ交点で<b>向かい合っている</b>角（右下と左上）。対頂角。'),
+ rv('c','錯角','e',['a','f','g'],'∠c は内側の左下。内側で反対側（右上）にある角は ∠e。（錯角はＺの形）'),
+ fw(['P',3],['Q',1],'錯角','アは内側の右下、イは内側の左上で、<b>内側の反対側</b>（Ｚの形）。錯角。')
+];
+/* 各問題：f=図, q=問題文, c=正解, w=まちがいの選択肢, exp=解説, cat=分野 */
+const QS0=[
+ {cat:'基本',f:par(72,[M('P',0,'72°','given'),M('Q',3,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',c:'108°',w:['72°','98°','118°'],exp:'72°の同位角（下の交点の右上）は72°。∠x はそれと並んで一直線なので 180°−72°＝108°。'},
+ {cat:'基本',f:par(64,[M('P',2,'64°','given'),M('Q',1,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',c:'116°',w:['64°','106°','126°'],exp:'2つの角は同側内角。足して180°なので 180°−64°＝116°。'},
+ {cat:'基本',f:par(112,[M('P',1,'68°','given'),M('Q',0,'x','find')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',c:'112°',w:['68°','78°','102°'],exp:'68°の対頂角（上の交点の右下）は68°。それと ∠x は同側内角なので 180°−68°＝112°。（または、68°と並んで一直線の角112°の錯角が ∠x、と考えても同じです）'},
+ {cat:'基本',f:par(110,[M('P',3,'(2x+10)°','given'),M('Q',1,'(x+40)°','mid')],{arrows:true}),q:'<i>l</i>∥<i>m</i> のとき、<i>x</i> の値は？',c:'30',w:['20','40','50'],exp:'2つの角は錯角で等しいので 2x+10＝x+40。x＝30。'},
+ {cat:'基本',f:par(62,[M('P',0,'62°','given'),M('Q',0,'70°','mid')],{delta:-8}),q:'62°と70°の角は同位角です。<i>l</i> と <i>m</i> は平行といえますか？',c:'平行といえない',w:['平行といえる','これだけでは決められない'],exp:'同位角が等しくない（62°と70°）ので、平行とはいえない。'},
+ {cat:'基本',f:kink(36,52,{a:'36°',b:'52°',x:'x'}),q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？',c:'88°',w:['78°','92°','98°'],exp:'折れた点を通る補助線をひくと、錯角で36°と52°が移る。x＝36°＋52°＝88°。'},
+ {cat:'応用',f:extTri(58,47,{lA:'58°',lB:'47°',lX:'x'}),q:'∠<i>x</i> は？（辺BCをのばした外角）',c:'105°',w:['75°','95°','111°'],exp:'外角＝となりあわない2つの内角の和。x＝58°＋47°＝105°。'},
+ {cat:'応用',f:arrowFig(46,28,35,{lA:'46°',lB:'28°',lC:'35°',lX:'x'}),q:'∠<i>x</i> は？（へこんだ形）',c:'109°',w:['81°','99°','119°'],exp:'へこんだ角＝3つの角の和。x＝46°＋28°＋35°＝109°。'},
+ {cat:'応用',f:Z.f,q:'<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？（折れ線）',c:'116°',w:['106°','126°','74°'],exp:'左にひらいた角の和＝右にひらいた角の和。58°＋106°＝∠x＋48° だから x＝116°。'},
+ {cat:'応用',f:null,q:'十一角形の内角の和は？',c:'1620°',w:['1440°','1800°','1980°'],exp:'180°×(11−2)＝180°×9＝1620°。'},
+ {cat:'応用',f:null,q:'内角の和が1980°になる多角形は何角形ですか。',c:'十三角形',w:['十一角形','十二角形','十四角形'],exp:'180×(n−2)＝1980 より n−2＝11、n＝13。十三角形。'},
+ {cat:'応用',f:null,q:'正十八角形の1つの内角は？',c:'160°',w:['150°','162°','170°'],exp:'外角＝360°÷18＝20°。内角＝180°−20°＝160°。'},
+ {cat:'応用',f:bisFig(70,52,{lA:'58°',lX:'x'}),q:'点Pは∠Bの二等分線と∠Cの二等分線の交点です。∠xは？',c:'119°',w:['61°','109°','129°'],exp:'△ABCで 58°＋2(a＋b)＝180° より a＋b＝61°。△PBCで ∠x＝180°−61°＝119°。'},
+ {cat:'応用',f:extBisFig(72,42,{lA:'66°',lX:'x'}),q:'点Pは∠Bの二等分線と、∠Cの外角（∠ACD）の二等分線の交点です。∠xは？',c:'33°',w:['24°','57°','66°'],exp:'外角を2回使うと、∠x＝∠A÷2＝66°÷2＝33°。'},
+ {cat:'応用',f:starT({a:36,b:34,c:40,d:0,e:33},'d'),q:'星形の先の角の和は180°です。∠xは？ ※ 図は形のイメージです',c:'37°',w:['27°','47°','143°'],exp:'x＝180°−(36°＋34°＋40°＋33°)＝180°−143°＝37°。'}
+];
+const QS=PLACE.concat(QS0);
+chk(180-(36+34+40+33),37,'test star');chk(36+52,88,'test kink');chk(58+47,105,'test ext');chk(46+28+35,109,'test arrow');
+chk(58+106,116+48,'test zig eq');chk(180*9,1620,'poly11');chk(180*11,1980,'poly n');chk(180-360/18,160,'poly18');chk(180-(180-58)/2,119,'bis');chk(66/2,33,'extbis');
+chk(180-64,116,'q2');chk(180-72,108,'q1');chk(2*30+10,30+40,'q4');
+QS.forEach((o,i)=>{if(o.w.indexOf(o.c)>=0)_ERR.push('answer in wrong list '+i);if(new Set(o.w.concat([o.c])).size!==o.w.length+1)_ERR.push('dup choices '+i);});
+
+/* ---------- 画面 ---------- */
+const $=id=>document.getElementById(id);
+let order=[],picked=[],left=TOTAL_SEC,timer=null,warned=false,started=0;
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function fmt(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+
+function showIntro(){
+  clearInterval(timer);
+  $('app').innerHTML=`<section>
+    <h2>平行線と角　確認テスト</h2>
+    <p>これまで学んだ「平行線と角」の力だめしです。基本編と応用編から出題します。</p>
+    <div class="box"><b>テストのルール</b><ul style="margin:6px 0 0">
+      <li>問題数：<b>${QS.length}問</b>（4択・3択）</li>
+      <li>制限時間：<b>${TOTAL_SEC/60}分</b></li>
+      <li>合格：<b>${PASS}問以上</b>正解（80%）</li>
+      <li>答えは、提出するまで何度でも変えられます。</li>
+      <li>解説は、提出したあとに見られます。</li>
+    </ul></div>
+    <p style="font-size:15px;color:#666">※ 図は角度に合わせて描いていますが、分度器で測らず、性質を使って求めましょう。</p>
+    <button class="btn big" id="go">テストを始める ▶</button>
+    <p><a href="heikosen-to-kaku.html">← 教材にもどる</a></p>
+  </section>`;
+  $('go').onclick=startTest;
+}
+
+function startTest(){
+  order=QS.map((q,i)=>({i,ch:shuffle(q.w.concat([q.c]))}));
+  picked=QS.map(()=>null);left=TOTAL_SEC;warned=false;started=Date.now();
+  let h=`<div class="bar" id="bar"><span>残り <b id="tm">${fmt(left)}</b></span><span id="cnt">回答 0/${QS.length}</span><button class="btn" id="sub">提出する</button></div><div id="qs">`;
+  order.forEach((o,n)=>{
+    const q=QS[o.i];
+    h+=`<section class="qcard" id="q${n}"><div class="qhead"><span class="qno">問${n+1}</span><span class="tag ${q.cat==='基本'?'k1':'k2'}">${q.cat}編</span></div>
+      <div class="prob">${q.f?'<div class="pfig">'+renderFig(q.f)+'</div>':''}<div class="pbody"><p class="pq">${q.q}</p><div class="choices" data-n="${n}">`+
+      o.ch.map((c,k)=>`<button data-k="${k}">${c}</button>`).join('')+`</div></div></div></section>`;
+  });
+  h+='</div><p id="warn" class="warn"></p>';
+  $('app').innerHTML=h;
+  document.querySelectorAll('.choices').forEach(box=>{
+    box.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+      const n=+box.dataset.n,k=+b.dataset.k;
+      picked[n]=k;
+      box.querySelectorAll('button').forEach(x=>x.classList.toggle('sel',x===b));
+      $('cnt').textContent='回答 '+picked.filter(x=>x!==null).length+'/'+QS.length;
+      $('warn').textContent='';$('sub').textContent='提出する';warned=false;
+    });
+  });
+  $('sub').onclick=()=>{
+    const un=picked.filter(x=>x===null).length;
+    if(un>0&&!warned){warned=true;$('warn').textContent='まだ答えていない問題が '+un+' 問あります。このまま提出する場合は、もう一度「提出する」を押してください。';$('sub').textContent='このまま提出する';return;}
+    finish(false);
+  };
+  window.scrollTo({top:0});
+  clearInterval(timer);
+  timer=setInterval(()=>{left--;const t=$('tm');if(t)t.textContent=fmt(Math.max(left,0));if(left<=60&&t)t.parentNode.classList.add('hurry');if(left<=0)finish(true);},1000);
+}
+
+function finish(timeup){
+  clearInterval(timer);
+  const used=Math.min(TOTAL_SEC,Math.round((Date.now()-started)/1000));
+  let score=0,sc={'基本':[0,0],'応用':[0,0]};
+  const rows=order.map((o,n)=>{
+    const q=QS[o.i],sel=picked[n]===null?null:o.ch[picked[n]],ok=(sel===q.c);
+    if(ok)score++;sc[q.cat][1]++;if(ok)sc[q.cat][0]++;
+    return {n,q,sel,ok};
+  });
+  const pass=score>=PASS;
+  let h=`<section class="resbox ${pass?'pass':'fail'}"><h2>${timeup?'時間切れです　':''}結果</h2>
+    <p class="score"><b>${score}</b> / ${QS.length} 問正解</p>
+    <p>基本編 ${sc['基本'][0]}/${sc['基本'][1]}　応用編 ${sc['応用'][0]}/${sc['応用'][1]}　（かかった時間 ${Math.floor(used/60)}分${used%60}秒）</p>
+    <p class="verdict">${pass?'🎉 合格！おめでとうございます！':'あと'+(PASS-score)+'問で合格です。解説を読んで、もう一度挑戦しましょう。'}</p>
+    <button class="btn big" id="again">もう一度挑戦する</button> <a class="btn ghost lnk" href="heikosen-to-kaku.html">教材にもどる</a></section>
+    <h3>解説</h3>`;
+  rows.forEach(r=>{
+    h+=`<section class="qcard ${r.ok?'good':'bad'}"><div class="qhead"><span class="qno">問${r.n+1}</span><span class="mk">${r.ok?'◯ 正解':(r.sel===null?'× 未回答':'× 不正解')}</span></div>
+      <div class="prob">${r.q.f?'<div class="pfig">'+renderFig(r.q.f)+'</div>':''}<div class="pbody"><p class="pq">${r.q.q}</p>
+      <p>あなたの答え：<b class="${r.ok?'okt':'ngt'}">${r.sel===null?'（なし）':r.sel}</b>${r.ok?'':'　／　正解：<b class="okt">'+r.q.c+'</b>'}</p>
+      <p class="expl">${r.q.exp}</p></div></div></section>`;
+  });
+  $('app').innerHTML=h;
+  $('again').onclick=startTest;
+  window.scrollTo({top:0});
+  if(pass)confetti();
+}
+showIntro();
+
+</script>
+</body>
+</html>
