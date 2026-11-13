@@ -682,6 +682,7 @@ function polyFig(n,o){
   o=o||{};const p0={};
   for(let i=0;i<n;i++)p0['V'+i]=vdir(90+360*i/n);
   if(o.ext)p0.X=vadd(p0.V1,vsub(p0.V1,p0.V0),0.6);
+  if(o.all)for(let i=0;i<n;i++)p0['X'+i]=vadd(p0['V'+i],vsub(p0['V'+i],p0['V'+((i+n-1)%n)]),0.55);
   const P=fitPts(p0,{m:o.ext?44:38});
   const segs=[];
   for(let i=0;i<n;i++)segs.push(['V'+i,'V'+((i+1)%n)]);
@@ -694,8 +695,28 @@ function polyFig(n,o){
     if(o.lExt)angs.push({v:'V1',a:'X',b:'V2',l:o.lExt,c:'find',r:24});
     segs.push(['V1','X']);
   }
+  if(o.all){
+    const LB='abcdefghij';
+    for(let i=0;i<n;i++){
+      segs.push(['V'+i,'X'+i]);
+      angs.push({v:'V'+i,a:'X'+i,b:'V'+((i+1)%n),l:LB[i],c:'orange',r:17,lr:30});
+    }
+  }
   const txt=o.center?[{p:[180,120],t:o.center,s:15,c:'#7048e8'}]:[];
   return {k:'g',pts:P,segs,angs,txt};
+}
+/* 外角を1点に集めた図（n角形の各辺と平行な半直線） */
+function gatherFig(n){
+  const V=[];for(let i=0;i<n;i++)V.push(vdir(90+360*i/n));
+  const p0={O:[0,0]};
+  for(let i=0;i<n;i++){const d=vsub(V[i],V[(i+n-1)%n]);const L=Math.hypot(d[0],d[1]);p0['R'+i]=[d[0]/L*1.2,d[1]/L*1.2];}
+  const P=fitPts(p0,{m:30});
+  const segs=[],angs=[];const LB='abcdefghij';
+  for(let i=0;i<n;i++){
+    segs.push(['O','R'+i]);
+    angs.push({v:'O',a:'R'+i,b:'R'+((i+1)%n),l:LB[i],c:'orange',r:26+((i%2)?6:0),lr:44});
+  }
+  return {k:'g',pts:P,segs,angs,letters:[]};
 }
 
 /* ---------- 二等分線 ---------- */
@@ -910,8 +931,18 @@ function boxHtml(el,html,cls){el.insertAdjacentHTML('beforeend',`<div class="box
 /* ========== 応用6　外角の和・正多角形 ========== */
 (function(){
   const S=newSec('o6','応用6　外角の和と、正多角形の1つの角');
-  boxHtml(S,'<b>【重要】</b>多角形の<b>外角の和</b>は、何角形でも<b>360°</b>です。<br>（多角形のまわりを1周して、もとの向きにもどるとき、向きを変えた角度の合計が360°になるからです）','blue');
-  exampleBlock(S,'例題','正十角形の1つの内角は何度ですか。',[
+  S.insertAdjacentHTML('beforeend','<h3>まず確かめよう：なぜ外角の和は360°？</h3>');
+  const why=document.createElement('div');S.appendChild(why);
+  exampleBlock(why,'説明','五角形を例に、「多角形の外角の和は360°」になる理由を考えましょう。（外角は、辺をのばしてできる角です。図の a〜e が5つの外角です）',[
+    {t:'どの頂点でも、<b>内角＋外角＝180°</b>（一直線）です。頂点は5つあるので、<b>内角と外角をぜんぶ合わせる</b>と、<br>180°×5＝<b>900°</b>',f:polyFig(5,{all:true})},
+    {t:'五角形の<b>内角の和</b>は、180°×(5−2)＝<b>540°</b>です。（応用4）',f:polyFig(5,{all:true})},
+    {t:'900° は「内角の和＋外角の和」なので、<br><b>外角の和＝900°−540°＝360°</b>',f:polyFig(5,{all:true})},
+    {t:'n角形でも同じです。<br>外角の和＝180°×n −180°×(n−2)＝180°×n −180°×n ＋360°＝<b>360°</b><br>つまり <b>nがいくつでも、外角の和は360°</b> です。',f:polyFig(5,{all:true})},
+    {t:'<b>図でも確かめられます。</b>五角形のすべての外角を、各辺と平行な線を使って<b>1つの点のまわりに集める</b>と、ちょうど<b>1周（360°）</b>になります。',f:gatherFig(5)}
+  ]);
+  boxHtml(S,'<b>【重要】</b>多角形の<b>外角の和</b>は、何角形でも<b>360°</b>です。<br>（理由：内角と外角の和は 180°×n、内角の和は 180°×(n−2) なので、その差が 360° になります）','blue');
+  const exm=document.createElement('div');S.appendChild(exm);
+  exampleBlock(exm,'例題','正十角形の1つの内角は何度ですか。',[
     {t:'正十角形は、10個の外角がすべて等しくなります。外角の和は360°なので、<b>1つの外角＝360°÷10＝36°</b>。',f:polyFig(10,{ext:true,lExt:'36°'})},
     {t:'内角と外角をあわせると一直線（180°）です。<br><b>1つの内角＝180°−36°＝144°</b><br>答え <b>144°</b>',f:polyFig(10,{ext:true,lExt:'36°',lInt:'144°'})}
   ]);
