@@ -1113,6 +1113,34 @@ function boxHtml(el,html,cls){el.insertAdjacentHTML('beforeend',`<div class="box
     document.getElementById('nsl').oninput=draw;draw();
   })();
   boxHtml(S,'<b>【重要】</b>小さな三角形ができたら、<b>対頂角</b>を使って、<b>b＋c＝●＋×</b> と置きかえます。すると、ふつうの<b>n角形の内角の和 180°×(n−2)</b>になります。<br>・三角形がもと → 180°　・四角形がもと → 360°　・五角形がもと → 540°　・六角形がもと → 720°','blue');
+
+  /* ---- うごかして確かめよう②：四角形・五角形・六角形のくいこんだ形 ---- */
+  (function(){
+    const LL={4:{v0:'a',v1:'f',E:'e',B:'b',C:'c',D:'d'},5:{v0:'b',v1:'a',v2:'g',E:'f',B:'c',C:'d',D:'e'},6:{v0:'a',v1:'b',v2:'c',v3:'d',E:'e',B:'f',C:'g',D:'h'}};
+    const NM={4:'四角形がもと',5:'五角形がもと',6:'六角形がもと'};
+    let n=4;
+    const box=document.createElement('div');box.className='box';
+    box.innerHTML='<b>うごかして確かめよう②</b>　小さな三角形の位置（点C・D）を動かしても、角の和は変わりません。<div id="n2btn" style="margin:6px 0"></div><div class="row"><div class="col fig" id="n2fig"></div><div class="col"><p style="margin:0">小さな三角形：<input type="range" id="n2sl" min="35" max="85" value="55" style="width:60%;vertical-align:middle"></p><div id="n2read" style="margin-top:8px"></div></div></div>';
+    S.appendChild(box);
+    function draw(){
+      const t=+document.getElementById('n2sl').value/100,L=LL[n];
+      const f=notchFig(n,{L,aux:true,tc:t,td:t}),P=f.pts,nm=[];
+      for(let i=0;i<=n-3;i++)nm.push('v'+i);
+      const prev=i=>i===0?'B':'v'+(i-1),next=i=>i===n-3?'E':'v'+(i+1);
+      const val={};
+      nm.forEach((k,i)=>{val[L[k]]=gv3(P,k,prev(i),next(i));});
+      val[L.B]=gv3(P,'B','v0','D');val[L.E]=gv3(P,nm[n-3],'E','C');
+      val[L.E]=gv3(P,'E',nm[n-3],'C');val[L.C]=gv3(P,'C','D','E');val[L.D]=gv3(P,'D','C','B');
+      const keys=Object.keys(val).sort(),r=Math.round;
+      const tot=keys.reduce((a,k)=>a+val[k],0),bul=gv3(P,'B','E','D'),xx=gv3(P,'E','B','C');
+      document.getElementById('n2fig').innerHTML=figG(f);
+      document.getElementById('n2btn').innerHTML=[4,5,6].map(k=>`<button class="btn ${k===n?'sel':'ghost'}" data-n="${k}">${NM[k]}</button>`).join('');
+      document.querySelectorAll('#n2btn [data-n]').forEach(b=>b.onclick=()=>{n=+b.dataset.n;draw();});
+      document.getElementById('n2read').innerHTML=keys.map(k=>k+'＝'+r(val[k])+'°').join('　')+
+        '<br><span style="color:#7048e8">●</span>＝'+r(bul)+'°　<span style="color:#0b7285">×</span>＝'+r(xx)+'°<br>'+L.C+'＋'+L.D+'＝'+r(val[L.C]+val[L.D])+'°　●＋×＝'+r(bul+xx)+'°（同じ）<br><b>角の和＝'+r(tot)+'°</b>＝180°×('+n+'−2)';
+    }
+    document.getElementById('n2sl').oninput=draw;draw();
+  })();
   const h='小さな三角形の2つの角を、対頂角を使って●と×に置きかえます。すると、ふつうの多角形になります。';
   const L4={v0:'a',v1:'f',E:'e',B:'b',C:'c',D:'d'};
   const L5={v0:'b',v1:'a',v2:'g',E:'f',B:'c',C:'d',D:'e'};
