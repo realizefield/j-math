@@ -1081,6 +1081,37 @@ function boxHtml(el,html,cls){el.insertAdjacentHTML('beforeend',`<div class="box
     {t:'点Bと点Eを結びます。2つの辺が交わる点をXとすると、<b>△XCD</b>と<b>△XBE</b>は<b>対頂角</b>（∠CXD＝∠BXE）をもちます。<br>だから、残りの2つの角の和も等しく、<br><b>b＋c＝<span style="color:#7048e8">●</span>＋<span style="color:#0b7285">×</span></b>',f:notchFig(3,{L:{v0:'a',E:'e',B:'d'},aux:true})},
     {t:'△ABE の内角を見ると、a、<b>d＋●</b>、<b>e＋×</b> です。<br>a＋(d＋●)＋(e＋×)＝<b>180°</b><br>●＋×＝b＋c なので、<br><b>a＋b＋c＋d＋e＝180°</b>　答え <b>180°</b>',f:notchFig(3,{L:LT,aux:true})}
   ]);
+
+  /* ---- うごかして確かめよう：星形 ⇄ くいこんだ三角形 ---- */
+  (function(){
+    const B0=[-1.0,0.35],E0=[1.0,0.35],A0=[0,1.1],C0=[-0.55,-0.85],D0=[0.55,-0.85];
+    const Q=isect(D0,vsub(B0,D0),C0,vsub(E0,C0));
+    /* B がAC上にきたときの倍率（そのとき E もAD上） */
+    const Bq=vsub(B0,Q),Cd=vsub(C0,A0);
+    const Pend=isect(Q,Bq,A0,Cd),lamEnd=(Pend[0]-Q[0])/Bq[0];
+    const mk=l=>({B:vadd(Q,Bq,l),E:vadd(Q,vsub(E0,Q),l)});
+    const ext={A:A0,C:C0,D:D0,B0,E0,B1:mk(lamEnd).B,E1:mk(lamEnd).E};
+    const F=fitPts(ext,{m:34});
+    const sc=(F.D[0]-F.A[0])/(D0[0]-A0[0]);
+    const T=p=>[F.A[0]+(p[0]-A0[0])*sc,F.A[1]-(p[1]-A0[1])*sc];
+    const box=document.createElement('div');box.className='box';box.innerHTML=
+      '<b>うごかして確かめよう</b>　つまみを動かすと、星形の横の線 BE が平行に下がっていきます。<div class="row"><div class="col fig" id="nfig"></div><div class="col"><p style="margin:0">星形<input type="range" id="nsl" min="0" max="100" value="0" style="width:55%;vertical-align:middle">三角形</p><div id="nread" style="margin-top:8px"></div></div></div>';
+    S.appendChild(box);
+    function draw(){
+      const t=+document.getElementById('nsl').value/100,l=1+(lamEnd-1)*t,m=mk(l);
+      const P={A:T(A0),C:T(C0),D:T(D0),B:T(m.B),E:T(m.E)};
+      const v={a:gv3(P,'A','C','D'),b:gv3(P,'B','D','E'),c:gv3(P,'C','A','E'),d:gv3(P,'D','A','B'),e:gv3(P,'E','B','C')};
+      chk(v.a+v.b+v.c+v.d+v.e,180,'drag star sum');
+      const sp={k:'g',pts:P,segs:[['A','D'],['D','B'],['B','E'],['E','C'],['C','A']],
+        angs:[{v:'A',a:'C',b:'D',l:'a',c:'given',r:18},{v:'B',a:'D',b:'E',l:'b',c:'orange',r:18},{v:'C',a:'A',b:'E',l:'c',c:'mid',r:18},{v:'D',a:'A',b:'B',l:'d',c:'orange',r:18},{v:'E',a:'B',b:'C',l:'e',c:'mid',r:18}],
+        txt:[{p:'A',t:'A',dy:-13},{p:'B',t:'B',dx:-12},{p:'C',t:'C',dx:-10,dy:10},{p:'D',t:'D',dx:10,dy:10},{p:'E',t:'E',dx:12}]};
+      document.getElementById('nfig').innerHTML=figG(sp);
+      const r=x=>Math.round(x);
+      document.getElementById('nread').innerHTML=
+        'a＝'+r(v.a)+'°　b＝'+r(v.b)+'°　c＝'+r(v.c)+'°　d＝'+r(v.d)+'°　e＝'+r(v.e)+'°<br><b>a＋b＋c＋d＋e＝'+r(v.a+v.b+v.c+v.d+v.e)+'°</b><br><span style="font-size:15px">'+(t<0.02?'ふつうの星形です。':(t>0.98?'BがAC上、EがAD上にきました。上の例題とそっくりの形です。':'BEが下がっても、角 a〜e の大きさは変わりません。'))+'</span>';
+    }
+    document.getElementById('nsl').oninput=draw;draw();
+  })();
   boxHtml(S,'<b>【重要】</b>小さな三角形ができたら、<b>対頂角</b>を使って、<b>b＋c＝●＋×</b> と置きかえます。すると、ふつうの<b>n角形の内角の和 180°×(n−2)</b>になります。<br>・三角形がもと → 180°　・四角形がもと → 360°　・五角形がもと → 540°　・六角形がもと → 720°','blue');
   const h='小さな三角形の2つの角を、対頂角を使って●と×に置きかえます。すると、ふつうの多角形になります。';
   const L4={v0:'a',v1:'f',E:'e',B:'b',C:'c',D:'d'};
