@@ -583,7 +583,7 @@ function figG(s){
     inb(g.v);
     const i=angInfo(P,g),col=COL[g.c||'given'],r=g.r||22;
     let lab=g.l;if(lab==='auto')lab=Math.round(i.d)+'°';
-    const o=sec(P[g.v],r,i.a1,i.a2,col,lab,r+(i.d<45?30:19),(lab&&lab.length>5)?11.5:13.5);
+    const o=sec(P[g.v],r,i.a1,i.a2,col,lab,g.lr||(r+(i.d<45?30:19)),(lab&&lab.length>5)?11.5:13.5);
     paths+=o[0];labs+=o[1];
   });
   if(s.letters){const ns=s.letters;let cx=0,cy=0;ns.forEach(n=>{cx+=P[n][0];cy+=P[n][1];});cx/=ns.length;cy/=ns.length;
@@ -709,10 +709,10 @@ function bisFig(B_,C_,o){
   if(o.lA)angs.push({v:'A',a:'B',b:'C',l:o.lA,c:o.cA||'given'});
   if(o.lX)angs.push({v:'P',a:'B',b:'C',l:o.lX,c:o.cX||'find',r:20});
   if(o.mk){
-    angs.push({v:'B',a:'A',b:'P',l:'a',c:'mid',r:30},{v:'B',a:'P',b:'C',l:'a',c:'mid',r:36});
-    angs.push({v:'C',a:'A',b:'P',l:'b',c:'orange',r:30},{v:'C',a:'P',b:'B',l:'b',c:'orange',r:36});
+    angs.push({v:'B',a:'A',b:'P',l:'a',c:'mid',r:22,lr:46},{v:'B',a:'P',b:'C',l:'a',c:'mid',r:22,lr:46});
+    angs.push({v:'C',a:'A',b:'P',l:'b',c:'orange',r:22,lr:46},{v:'C',a:'P',b:'B',l:'b',c:'orange',r:22,lr:46});
   }
-  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P']};
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P'],bisNote:o.mk?'in':null};
 }
 function extBisFig(B_,C_,o){
   o=o||{};const A_=180-B_-C_,p0=triPts(B_,C_);
@@ -728,7 +728,7 @@ function extBisFig(B_,C_,o){
     angs.push({v:'B',a:'A',b:'P',l:'a',c:'mid',r:30},{v:'B',a:'P',b:'C',l:'a',c:'mid',r:36});
     angs.push({v:'C',a:'A',b:'P',l:'b',c:'orange',r:26},{v:'C',a:'P',b:'D',l:'b',c:'orange',r:32});
   }
-  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P'],txt:[{p:'D',t:'D',dx:4,dy:14}]};
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P'],txt:[{p:'D',t:'D',dx:4,dy:14}],bisNote:o.mk?'ext':null};
 }
 
 /* ---------- 正三角形をはさむ問題 ---------- */
@@ -774,7 +774,7 @@ function starFig(o){
 let _cc=0;
 const dg=v=>v+'°';
 function CH(c,w,fmt){fmt=fmt||dg;const o=w.map(fmt),cc=fmt(c),pos=_cc++%4;o.splice(pos,0,cc);return {ch:o,an:pos};}
-function PB(f,q,c,w,hint,exp,fmt,hf){const r=CH(c,w,fmt);return {f,q,ch:r.ch,an:r.an,hint,exp,hf};}
+function PB(f,q,c,w,hint,exp,fmt,hf){const r=CH(c,w,fmt);if(f&&f.bisNote)q+='<br><span style="font-size:15px;font-weight:400">図の <b>a</b>・<b>b</b> は、二等分された角です（∠ABP＝∠PBC＝<b>a</b>、'+(f.bisNote==='ext'?'∠ACP＝∠PCD＝<b>b</b>':'∠ACP＝∠PCB＝<b>b</b>')+'）。</span>';return {f,q,ch:r.ch,an:r.an,hint,exp,hf};}
 function newSec(id,title,intro){const s=document.createElement('section');s.id=id;s.innerHTML=`<h2>${title}</h2>`+(intro||'');document.querySelector('main').appendChild(s);return s;}
 function boxHtml(el,html,cls){el.insertAdjacentHTML('beforeend',`<div class="box ${cls||''}">${html}</div>`);}
 
@@ -930,9 +930,9 @@ function boxHtml(el,html,cls){el.insertAdjacentHTML('beforeend',`<div class="box
 /* ========== 応用7〜9　二等分線 ========== */
 (function(){
   const S=newSec('o7','応用7　角の二等分線の交点（その1）');
-  const ex=bisFig(70,60,{lA:'50°',lX:'x'});
+  const ex=bisFig(70,60,{lA:'50°',lX:'x',mk:true});
   exampleBlock(S,'例題','△ABCで、点Pは∠Bの二等分線と∠Cの二等分線の交点です。∠A＝50°のとき、∠xは何度ですか。',[
-    {t:'PはBPが∠B、CPが∠Cの二等分線の交点です。∠A＝50°、∠x＝∠BPC を求めます。<b>a＋b を考える</b>のがポイントです。',f:ex},
+    {t:'PはBPが∠B、CPが∠Cの二等分線の交点です。∠A＝50°、∠x＝∠BPC を求めます。<b>a＋b を考える</b>のがポイントです。図の <b>a</b>・<b>b</b> は、二等分された角です（次のstepで説明します）。',f:ex},
     {t:'二等分線なので、∠ABP＝∠PBC＝<span style="color:#1971c2">a</span>、∠ACP＝∠PCB＝<span style="color:#e8590c">b</span> とおきます。',f:bisFig(70,60,{lA:'50°',lX:'x',mk:true})},
     {t:'<b>△ABC</b>の内角の和：50°＋2a＋2b＝180°<br>2(a＋b)＝130° より <b>a＋b＝65°</b>',f:bisFig(70,60,{lA:'50°',mk:true})},
     {t:'<b>△PBC</b>の内角の和：∠x＋a＋b＝180°<br>∠x＝180°−(a＋b)＝180°−65°＝<b>115°</b><br>答え <b>115°</b>',f:bisFig(70,60,{lA:'50°',lX:'115°',mk:true})}
@@ -941,12 +941,12 @@ function boxHtml(el,html,cls){el.insertAdjacentHTML('beforeend',`<div class="box
   const h='a＋b を考えます。△ABCから a＋b を求め、△PBCに使います。';
   const e=(A,x)=>`△ABCで、${A}°＋2(a＋b)＝180° より a＋b＝${(180-A)/2}°。△PBCで、∠x＝180°−${(180-A)/2}°＝${x}°。`;
   group(S,'練習','',[
-    PB(bisFig(65,45,{lA:'70°',lX:'x'}),'∠<i>x</i> は？（∠A＝70°）',125,[55,115,145],h,e(70,125)),
-    PB(bisFig(78,60,{lA:'42°',lX:'x'}),'∠<i>x</i> は？（∠A＝42°）',111,[69,101,121],h,e(42,111))
+    PB(bisFig(65,45,{mk:true,lA:'70°',lX:'x'}),'∠<i>x</i> は？（∠A＝70°）',125,[55,115,145],h,e(70,125)),
+    PB(bisFig(78,60,{mk:true,lA:'42°',lX:'x'}),'∠<i>x</i> は？（∠A＝42°）',111,[69,101,121],h,e(42,111))
   ],{note:'例題のそっくり問題（2問）'});
   group(S,'確認','k',[
-    PB(bisFig(56,60,{lA:'64°',lX:'x'}),'∠<i>x</i> は？（∠A＝64°）',122,[58,116,128],h,e(64,122)),
-    PB(bisFig(40,52,{lA:'88°',lX:'x'}),'∠<i>x</i> は？（∠A＝88°）',134,[46,124,136],h,e(88,134))
+    PB(bisFig(56,60,{mk:true,lA:'64°',lX:'x'}),'∠<i>x</i> は？（∠A＝64°）',122,[58,116,128],h,e(64,122)),
+    PB(bisFig(40,52,{mk:true,lA:'88°',lX:'x'}),'∠<i>x</i> は？（∠A＝88°）',134,[46,124,136],h,e(88,134))
   ],{note:'力だめし（2問）'});
 
   const S2=newSec('o8','応用8　角の二等分線の交点（その2：∠xから∠Aを求める）');
@@ -958,12 +958,12 @@ function boxHtml(el,html,cls){el.insertAdjacentHTML('beforeend',`<div class="box
   const h2='まず △PBC から a＋b を求め、次に △ABC を使います。';
   const e2=(x,A)=>`△PBCで、${x}°＋a＋b＝180° より a＋b＝${180-x}°。△ABCで、∠A＝180°−2×${180-x}°＝${A}°。`;
   group(S2,'練習','',[
-    PB(bisFig(84,84,{lA:'x',cA:'find',lX:'96°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝96°）',12,[24,48,84],h2,e2(96,12)),
-    PB(bisFig(48,48,{lA:'x',cA:'find',lX:'132°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝132°）',84,[42,48,96],h2,e2(132,84))
+    PB(bisFig(72,72,{mk:true,lA:'x',cA:'find',lX:'108°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝108°）',36,[18,54,72],h2,e2(108,36)),
+    PB(bisFig(48,48,{mk:true,lA:'x',cA:'find',lX:'132°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝132°）',84,[42,48,96],h2,e2(132,84))
   ],{note:'例題のそっくり問題（2問）'});
   group(S2,'確認','k',[
-    PB(bisFig(52,60,{lA:'x',cA:'find',lX:'124°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝124°）',68,[34,56,112],h2,e2(124,68)),
-    PB(bisFig(40,40,{lA:'x',cA:'find',lX:'140°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝140°）',100,[50,80,120],h2,e2(140,100))
+    PB(bisFig(52,60,{mk:true,lA:'x',cA:'find',lX:'124°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝124°）',68,[34,56,112],h2,e2(124,68)),
+    PB(bisFig(40,40,{mk:true,lA:'x',cA:'find',lX:'140°',cX:'given'}),'∠<i>x</i>（∠A）は？（∠BPC＝140°）',100,[50,80,120],h2,e2(140,100))
   ],{note:'力だめし（2問）'});
 
   const S3=newSec('o9','応用9　外角の二等分線がつくる角');
@@ -976,12 +976,12 @@ function boxHtml(el,html,cls){el.insertAdjacentHTML('beforeend',`<div class="box
   const h3='外角を2回使います。△ABCと△PBCです。';
   const e3=(A,x)=>`△ABCの外角から 2b＝${A}°＋2a。△PBCの外角から b＝a＋∠x。だから ∠x＝(b−a)＝${A}°÷2＝${x}°。`;
   group(S3,'練習','',[
-    PB(extBisFig(58,60,{lA:'62°',lX:'x'}),'∠<i>x</i> は？（∠A＝62°）',31,[62,59,124],h3,e3(62,31)),
-    PB(extBisFig(60,78,{lA:'42°',lX:'x'}),'∠<i>x</i> は？（∠A＝42°）',21,[42,84,63],h3,e3(42,21))
+    PB(extBisFig(58,60,{mk:true,lA:'62°',lX:'x'}),'∠<i>x</i> は？（∠A＝62°）',31,[62,59,124],h3,e3(62,31)),
+    PB(extBisFig(60,78,{mk:true,lA:'42°',lX:'x'}),'∠<i>x</i> は？（∠A＝42°）',21,[42,84,63],h3,e3(42,21))
   ],{note:'例題のそっくり問題（2問）'});
   group(S3,'確認','k',[
-    PB(extBisFig(64,60,{lA:'56°',lX:'x'}),'∠<i>x</i> は？（∠A＝56°）',28,[56,112,34],h3,e3(56,28)),
-    PB(extBisFig(50,46,{lA:'84°',lX:'x'}),'∠<i>x</i> は？（∠A＝84°）',42,[84,48,21],h3,e3(84,42))
+    PB(extBisFig(64,60,{mk:true,lA:'56°',lX:'x'}),'∠<i>x</i> は？（∠A＝56°）',28,[56,112,34],h3,e3(56,28)),
+    PB(extBisFig(50,46,{mk:true,lA:'84°',lX:'x'}),'∠<i>x</i> は？（∠A＝84°）',42,[84,48,21],h3,e3(84,42))
   ],{note:'力だめし（2問）'});
 })();
 
@@ -1015,7 +1015,7 @@ function boxHtml(el,html,cls){el.insertAdjacentHTML('beforeend',`<div class="box
   const S=newSec('fin2','応用 総合確認（入試問題風）','<p>目標時間は8分です。全問正解（やり直しなし）で花吹雪が出ます。</p>');
   group(S,'総合確認','k',[
     PB(eqFig({lx:'x'}),'△ABCは正三角形です。<i>l</i>∥<i>m</i> のとき、∠<i>x</i> は？（Bで、mと辺BCが12°）',48,[12,60,72],'正三角形の1つの角は60°です。点Cを通って m に平行な線をひいてみましょう。','Cを通って m に平行な線をひくと、12°の錯角が12°。∠ACBは60°だから、残りは60°−12°＝48°。これが l との同位角（錯角）になり、x＝48°。',null,eqFig({lx:'x',aux:true})),
-    PB(bisFig(56,48,{lA:'76°',lX:'x'}),'点Pは∠Bの二等分線と∠Cの二等分線の交点です。∠A＝76°のとき、∠xは？',128,[52,104,138],'a＋b を考えます。','△ABCで 76°＋2(a＋b)＝180° より a＋b＝52°。△PBCで ∠x＝180°−52°＝128°。'),
+    PB(bisFig(56,48,{mk:true,lA:'76°',lX:'x'}),'点Pは∠Bの二等分線と∠Cの二等分線の交点です。∠A＝76°のとき、∠xは？',128,[52,104,138],'a＋b を考えます。','△ABCで 76°＋2(a＋b)＝180° より a＋b＝52°。△PBCで ∠x＝180°−52°＝128°。'),
     PB(T2(),'星形の先の角で、a＝38°、b＝32°、c＝40°、e＝35°のとき、∠d（∠x）は？ ※ 図は形のイメージです',35,[25,45,145],'星形の先の5つの角の和は180°です。','x＝180°−(38°＋32°＋40°＋35°)＝180°−145°＝35°。'),
     PB(null,'1つの外角が24°の正多角形に、対角線は1つの頂点から何本ひけますか。',12,[10,13,15],'まず何角形かを求めます（外角の和は360°）。','360°÷24°＝15 より正十五角形。1つの頂点からひける対角線は、15−3＝12本。',v=>v+'本')
   ],{timer:8,note:'4問・時間つき'});

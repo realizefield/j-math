@@ -215,7 +215,7 @@ function figG(s){
     inb(g.v);
     const i=angInfo(P,g),col=COL[g.c||'given'],r=g.r||22;
     let lab=g.l;if(lab==='auto')lab=Math.round(i.d)+'°';
-    const o=sec(P[g.v],r,i.a1,i.a2,col,lab,r+(i.d<45?30:19),(lab&&lab.length>5)?11.5:13.5);
+    const o=sec(P[g.v],r,i.a1,i.a2,col,lab,g.lr||(r+(i.d<45?30:19)),(lab&&lab.length>5)?11.5:13.5);
     paths+=o[0];labs+=o[1];
   });
   if(s.letters){const ns=s.letters;let cx=0,cy=0;ns.forEach(n=>{cx+=P[n][0];cy+=P[n][1];});cx/=ns.length;cy/=ns.length;
@@ -341,10 +341,10 @@ function bisFig(B_,C_,o){
   if(o.lA)angs.push({v:'A',a:'B',b:'C',l:o.lA,c:o.cA||'given'});
   if(o.lX)angs.push({v:'P',a:'B',b:'C',l:o.lX,c:o.cX||'find',r:20});
   if(o.mk){
-    angs.push({v:'B',a:'A',b:'P',l:'a',c:'mid',r:30},{v:'B',a:'P',b:'C',l:'a',c:'mid',r:36});
-    angs.push({v:'C',a:'A',b:'P',l:'b',c:'orange',r:30},{v:'C',a:'P',b:'B',l:'b',c:'orange',r:36});
+    angs.push({v:'B',a:'A',b:'P',l:'a',c:'mid',r:22,lr:46},{v:'B',a:'P',b:'C',l:'a',c:'mid',r:22,lr:46});
+    angs.push({v:'C',a:'A',b:'P',l:'b',c:'orange',r:22,lr:46},{v:'C',a:'P',b:'B',l:'b',c:'orange',r:22,lr:46});
   }
-  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P']};
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P'],bisNote:o.mk?'in':null};
 }
 function extBisFig(B_,C_,o){
   o=o||{};const A_=180-B_-C_,p0=triPts(B_,C_);
@@ -360,7 +360,7 @@ function extBisFig(B_,C_,o){
     angs.push({v:'B',a:'A',b:'P',l:'a',c:'mid',r:30},{v:'B',a:'P',b:'C',l:'a',c:'mid',r:36});
     angs.push({v:'C',a:'A',b:'P',l:'b',c:'orange',r:26},{v:'C',a:'P',b:'D',l:'b',c:'orange',r:32});
   }
-  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P'],txt:[{p:'D',t:'D',dx:4,dy:14}]};
+  return {k:'g',pts:P,segs,angs,letters:['A','B','C','P'],txt:[{p:'D',t:'D',dx:4,dy:14}],bisNote:o.mk?'ext':null};
 }
 
 /* ---------- 正三角形をはさむ問題 ---------- */
@@ -447,8 +447,8 @@ const QS0=[
  {cat:'応用',f:null,q:'十一角形の内角の和は？',c:'1620°',w:['1440°','1800°','1980°'],exp:'180°×(11−2)＝180°×9＝1620°。'},
  {cat:'応用',f:null,q:'内角の和が1980°になる多角形は何角形ですか。',c:'十三角形',w:['十一角形','十二角形','十四角形'],exp:'180×(n−2)＝1980 より n−2＝11、n＝13。十三角形。'},
  {cat:'応用',f:null,q:'正十八角形の1つの内角は？',c:'160°',w:['150°','162°','170°'],exp:'外角＝360°÷18＝20°。内角＝180°−20°＝160°。'},
- {cat:'応用',f:bisFig(70,52,{lA:'58°',lX:'x'}),q:'点Pは∠Bの二等分線と∠Cの二等分線の交点です。∠xは？',c:'119°',w:['61°','109°','129°'],exp:'△ABCで 58°＋2(a＋b)＝180° より a＋b＝61°。△PBCで ∠x＝180°−61°＝119°。'},
- {cat:'応用',f:extBisFig(72,42,{lA:'66°',lX:'x'}),q:'点Pは∠Bの二等分線と、∠Cの外角（∠ACD）の二等分線の交点です。∠xは？',c:'33°',w:['24°','57°','66°'],exp:'外角を2回使うと、∠x＝∠A÷2＝66°÷2＝33°。'},
+ {cat:'応用',f:bisFig(70,52,{lA:'58°',lX:'x',mk:true}),q:'点Pは∠Bの二等分線と∠Cの二等分線の交点です。∠xは？<br><span style="font-size:15px;font-weight:400">図の <b>a</b>・<b>b</b> は、二等分された角です（∠ABP＝∠PBC＝<b>a</b>、∠ACP＝∠PCB＝<b>b</b>）。</span>',c:'119°',w:['61°','109°','129°'],exp:'△ABCで 58°＋2(a＋b)＝180° より a＋b＝61°。△PBCで ∠x＝180°−61°＝119°。'},
+ {cat:'応用',f:extBisFig(72,42,{lA:'66°',lX:'x',mk:true}),q:'点Pは∠Bの二等分線と、∠Cの外角（∠ACD）の二等分線の交点です。∠xは？<br><span style="font-size:15px;font-weight:400">図の <b>a</b>・<b>b</b> は、二等分された角です（∠ABP＝∠PBC＝<b>a</b>、∠ACP＝∠PCD＝<b>b</b>）。</span>',c:'33°',w:['24°','57°','66°'],exp:'外角を2回使うと、∠x＝∠A÷2＝66°÷2＝33°。'},
  {cat:'応用',f:starT({a:36,b:34,c:40,d:0,e:33},'d'),q:'星形の先の角の和は180°です。∠xは？ ※ 図は形のイメージです',c:'37°',w:['27°','47°','143°'],exp:'x＝180°−(36°＋34°＋40°＋33°)＝180°−143°＝37°。'}
 ];
 const QS=PLACE.concat(QS0);
