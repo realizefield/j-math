@@ -311,6 +311,7 @@ details[open] .answer-summary .toggle-icon { transform: rotate(90deg); }
       document.getElementById('btn-next').style.display = 'inline-block';
     // 進捗をlocalStorageに保存
     localStorage.setItem('gamba_prog_MA07', 'pass');
+    try{var _ck='gamba_cnt_'+'MA07';localStorage.setItem(_ck,(+localStorage.getItem(_ck)||0)+1);}catch(e){}
       sendToGAS(correct, total);
     }
     resultArea.scrollIntoView({behavior:'smooth', block:'nearest'});

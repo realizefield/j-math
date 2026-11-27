@@ -147,6 +147,7 @@ function judge(){
     launchConfetti();
     document.getElementById('btn-next').style.display='inline-block';
     localStorage.setItem('gamba_prog_'+UNIT,'pass');
+    try{var _ck='gamba_cnt_'+UNIT;localStorage.setItem(_ck,(+localStorage.getItem(_ck)||0)+1);}catch(e){}
   }
   ra.scrollIntoView({behavior:'smooth',block:'nearest'});
 }

@@ -23,6 +23,7 @@ function setStatus(unitCode, status){
 /* ── 合格登録（check.htmlの満点時に呼ばれる） ── */
 function markPassed(unitCode){
   setStatus(unitCode, 'pass');
+  try{var k='gamba_cnt_'+unitCode;localStorage.setItem(k,(+localStorage.getItem(k)||0)+1);}catch(e){}
   console.log('[GAMBA] ' + unitCode + ' 合格登録しました');
 }
 

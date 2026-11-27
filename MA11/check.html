@@ -311,6 +311,7 @@ details[open] .answer-summary .toggle-icon { transform: rotate(90deg); }
       document.getElementById('btn-next').style.display = 'inline-block';
     // 進捗をlocalStorageに保存
     localStorage.setItem('gamba_prog_MA11', 'pass');
+    try{var _ck='gamba_cnt_'+'MA11';localStorage.setItem(_ck,(+localStorage.getItem(_ck)||0)+1);}catch(e){}
       const studyMins = Math.round((Date.now()-startTime)/60000);
       fetch(GAS_URL, {
         method:'POST', mode:'no-cors',
